@@ -2,19 +2,27 @@
   
 import React from "react";
 import { useLang } from "@/context/LangContext";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const TopHeader: React.FC = () => {
   const { lang, setLang } = useLang();
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const selectLang = (val: 'ar' | 'en') => {
     setLang(val);
-    // Compute locale-prefixed path and navigate
-    const base = pathname.replace(/^\/(en|ar)(?=\/|$)/, '') || '/';
-    const next = `/${val}${base}`;
-    router.push(next);
+    // Compute locale-prefixed path and navigate, preserving query and hash
+    let base = (pathname || '/').replace(/^\/(en|ar)(?=\/|$)/, '') || '/';
+    // Ensure trailing slash per next.config
+    if (!base.endsWith('/')) base = base + '/';
+    let next = `/${val}${base}`;
+    const query = searchParams?.toString();
+    if (query) next += `?${query}`;
+    if (typeof window !== 'undefined' && window.location.hash) {
+      next += window.location.hash;
+    }
+    router.push(next, { scroll: false });
   };
 
   return (
@@ -25,15 +33,15 @@ const TopHeader: React.FC = () => {
             <div className="col-lg-6 col-sm-8">
               <ul className="header-content-left">
                 <li>
-                  <a href="mailto:hello@pisa.com">
+                  <a href="mailto:support@eazycyber.sa">
                     <i className="bx bx-envelope"></i>
-                    Email: hello@pisa.com
+                    Email: support@eazycyber.sa
                   </a>
                 </li>
 
                 <li>
                   <i className="bx bx-location-plus"></i>
-                  658 Lane Drive St. California
+                  KSA , Riyadh
                 </li>
               </ul>
             </div>

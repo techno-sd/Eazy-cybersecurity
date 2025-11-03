@@ -1,8 +1,13 @@
 "use client";
   
 import React from "react"; 
+import { useLang } from "@/context/LangContext";
+import { getMessages } from "@/i18n";
 
 const Features: React.FC = () => {
+  const { lang } = useLang();
+  const t = getMessages(lang);
+
   return (
     <>
       <div className="container pt-100">
@@ -10,11 +15,10 @@ const Features: React.FC = () => {
           <div className="col-lg-4 col-sm-6">
             <div className="single-features">
               <h3>
-                <i className="bx bx-check-shield"></i> Security
+                <i className="bx bx-check-shield"></i> {t.features.security_title}
               </h3>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore.
+                {t.features.security_desc}
               </p>
               <span className="bx bx-check-shield"></span>
             </div>
@@ -23,11 +27,10 @@ const Features: React.FC = () => {
           <div className="col-lg-4 col-sm-6">
             <div className="single-features">
               <h3>
-                <i className="bx bx-lock"></i> Privacy
+                <i className="bx bx-lock"></i> {t.features.privacy_title}
               </h3>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore.
+                {t.features.privacy_desc}
               </p>
               <span className="bx bx-lock"></span>
             </div>
@@ -36,11 +39,10 @@ const Features: React.FC = () => {
           <div className="col-lg-4 col-sm-6 offset-sm-3 offset-lg-0">
             <div className="single-features mb-0">
               <h3>
-                <i className="bx bx-certification"></i> Industry Certified
+                <i className="bx bx-certification"></i> {t.features.certified_title}
               </h3>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore.
+                {t.features.certified_desc}
               </p>
               <span className="bx bx-certification"></span>
             </div>

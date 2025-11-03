@@ -8896,4 +8896,14 @@ Cyber Defenses Area CSS
   gap: 12px;
 }
 
+/* RTL dropdown alignment for Arabic */
+html[dir="rtl"] .navbar .dropdown-menu {
+  right: 0;
+  left: auto;
+  text-align: right;
+}
+html[dir="rtl"] .navbar .dropdown-menu .nav-link {
+  text-align: right;
+}
+
 /* Home End 7, 8, 9 *//*# sourceMappingURL=style.css.map */

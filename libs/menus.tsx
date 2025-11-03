@@ -5,87 +5,48 @@ export const menus = [
     link: "/",
   },
   {
-    label: "About",
-    link: "/about/",
+    label: "About Us",
+    link: "#",
+    submenu: [
+      { label: "Vision", link: "/about/vision/" },
+      { label: "Mission", link: "/about/mission/" },
+      { label: "Core Values", link: "/about/core-values/" },
+      { label: "Our Team", link: "/about/team/" }
+    ],
   },
   {
     label: "Services",
-    link: "/services/",
-  },
-  {
-    label: "Pages",
     link: "#",
     submenu: [
-      {
-        label: "Projects",
-        link: "/projects/",
-      },
-      {
-        label: "Pricing",
-        link: "/pricing/",
-      },
-      {
-        label: "Testimonials",
-        link: "/testimonials/",
-      },
-      {
-        label: "Team",
-        link: "/team/",
-      },
-      {
-        label: "Faq",
-        link: "/faq/",
-      },
-      {
-        label: "Sign In",
-        link: "/sign-in/",
-      },
-      {
-        label: "Sign Up",
-        link: "/sign-up/",
-      },
-      {
-        label: "Coming Soon",
-        link: "/coming-soon/",
-      },
-      {
-        label: "404 Error Page",
-        link: "/404/",
-      },
-      {
-        label: "Terms & Conditions",
-        link: "/terms-conditions/",
-      },
-      {
-        label: "Privacy Policy",
-        link: "/privacy-policy/",
-      },
+      { label: "AI Solutions", link: "/services/ai/" },
+      { label: "Cybersecurity Services", link: "/services/cybersecurity/" },
+      { label: "Big Data & Analytics", link: "/services/big-data-analytics/" },
+      { label: "Cloud Computing & Hosting", link: "/services/cloud-hosting/" },
+      { label: "SME-EAZY Program", link: "/services/sme-eazy-program/" }
     ],
+  },
+  {
+    label: "Industries",
+    link: "#",
+    submenu: [
+      { label: "Government & Public Sector", link: "/industries/government-public/" },
+      { label: "Banking & Financial Services", link: "/industries/banking-financial/" },
+      { label: "Energy & Telecom", link: "/industries/energy-telecom/" },
+      { label: "Healthcare", link: "/industries/healthcare/" },
+      { label: "Education & Universities", link: "/industries/education-universities/" },
+      { label: "SMEs & Startups", link: "/industries/smes-startups/" }
+    ],
+  },
+  {
+    label: "Projects",
+    link: "/projects/",
   },
   {
     label: "Blog",
-    link: "#",
-    submenu: [
-      {
-        label: "Blog Grid",
-        link: "/blog/",
-      },
-      {
-        label: "Blog Left Sidebar",
-        link: "/blog/with-left-sidebar/",
-      },
-      {
-        label: "Blog Right Sidebar",
-        link: "/blog/with-right-sidebar/",
-      },
-      {
-        label: "Blog Details",
-        link: "/blog/details/",
-      },
-    ],
+    link: "/blog/",
   },
   {
-    label: "Contact",
+    label: "Contact Us",
     link: "/contact/",
   },
 ];

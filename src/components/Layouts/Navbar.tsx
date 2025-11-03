@@ -45,7 +45,7 @@ const Navbar: React.FC = () => {
           <div id="navbar" className="navbar-area">
             <div className="main-nav">
               <div className="container-fluid">
-                <nav className="navbar navbar-expand-md navbar-light">
+                <nav className="navbar navbar-expand-md navbar-light" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
                   <Link href="/" className="navbar-brand">
                     <Image
                       src="/img/logo.png"

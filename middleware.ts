@@ -29,9 +29,12 @@ export function middleware(req: NextRequest) {
 
   const pathLocale = getLocaleFromPath(pathname);
 
-  // If path already has locale, sync cookie and continue
+  // If path already has locale, sync cookie and REWRITE to underlying route
   if (pathLocale) {
-    const res = NextResponse.next();
+    const base = stripLocale(pathname);
+    const url = req.nextUrl.clone();
+    url.pathname = base;
+    const res = NextResponse.rewrite(url);
     if (cookies.get('lang')?.value !== pathLocale) {
       res.cookies.set('lang', pathLocale, { path: '/', maxAge: 60 * 60 * 24 * 365 });
     }

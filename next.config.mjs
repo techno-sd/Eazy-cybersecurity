@@ -12,6 +12,20 @@ const nextConfig = {
     defaultLocale: "en",
     localeDetection: true,
   },
+  async rewrites() {
+    return [
+      {
+        source: "/:locale(en|ar)",
+        destination: "/",
+        locale: false,
+      },
+      {
+        source: "/:locale(en|ar)/:path*",
+        destination: "/:path*",
+        locale: false,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
