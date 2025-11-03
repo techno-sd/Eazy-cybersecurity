@@ -8869,4 +8869,31 @@ Cyber Defenses Area CSS
   color: #000000;
 }
 
+/* Language Toggle (Top Header) */
+.top-header-area .lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #0066cc;
+  border-radius: 999px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.top-header-area .lang-toggle button {
+  padding: 6px 12px;
+  border: 0;
+  background: transparent;
+  color: #0e0129;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+.top-header-area .lang-toggle button.active {
+  background: linear-gradient(136.1deg, #0066cc 1.84%, #3399ff 100%);
+  color: #ffffff;
+}
+.top-header-area .header-content-right {
+  gap: 12px;
+}
+
 /* Home End 7, 8, 9 *//*# sourceMappingURL=style.css.map */
