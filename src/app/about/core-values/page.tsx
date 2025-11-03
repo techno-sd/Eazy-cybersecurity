@@ -1,6 +1,7 @@
 import Navbar from "@/components/Layouts/Navbar";
 import PageBanner from "@/components/Common/PageBanner";
 import Footer from "@/components/Layouts/Footer";
+import CoreValues from "@/components/About/CoreValues/CoreValues";
 import { cookies } from "next/headers";
 import { getMessages } from "@/i18n";
 
@@ -17,12 +18,11 @@ export default function Page() {
         activePageText={t.about["Core Values"]}
       />
 
-      <div className="container ptb-100">
-        <h2 style={{ textAlign: cookieLang === 'ar' ? 'right' : 'left', direction: cookieLang === 'ar' ? 'rtl' : 'ltr' }}>{t.about["Core Values"]}</h2>
-        <p style={{ textAlign: cookieLang === 'ar' ? 'right' : 'left', direction: cookieLang === 'ar' ? 'rtl' : 'ltr' }}>
-          {/* Placeholder content */}
-        </p>
-      </div>
+      <CoreValues 
+        lang={cookieLang}
+        coreValuesTitle={t.about["Core Values"]}
+        coreValues={t.about["core_values"]}
+      />
 
       <Footer />
     </>

@@ -38,7 +38,27 @@
         "Vision": "Vision",
         "Mission": "Mission",
         "Core Values": "Core Values",
-        "Our Team": "Our Team"
+        "Our Team": "Our Team",
+        "vision_content": "To be the first choice in the Kingdom and the region for delivering innovative digital and security solutions that empower organizations to adapt and achieve digital sustainability.",
+        "mission_content": "To empower organizations to build secure and intelligent infrastructures using the latest technologies in AI, big data, and cybersecurity—aligned with the Kingdom's Vision 2030 digital transformation strategy.",
+        "core_values": [
+          {
+            "title": "Integrity & Transparency",
+            "description": "Trust is the foundation of every partnership."
+          },
+          {
+            "title": "Continuous Innovation",
+            "description": "Creative solutions for tomorrow's challenges."
+          },
+          {
+            "title": "Security First",
+            "description": "Safeguarding digital assets against threats."
+          },
+          {
+            "title": "Customer-Centric",
+            "description": "Tailored solutions for every organization."
+          }
+        ]
       },
   "features": {
     "security_title": "Security",
