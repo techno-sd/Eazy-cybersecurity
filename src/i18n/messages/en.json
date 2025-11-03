@@ -1,0 +1,38 @@
+{
+  "hero": {
+    "title": "Your Trusted Partner in Building a Secure and Smart Digital Future Aligned with Saudi Vision 2030",
+    "welcome": "Eazy Cyber Agent is a Saudi company specializing in cybersecurity and digital solutions. We provide integrated services in artificial intelligence, big data, and cloud computing. Our mission is to support both public and private sectors in driving digital transformation and achieving Vision 2030 goals toward a knowledge-based, innovative economy."
+  },
+  "buttons": {
+    "contact": "Contact Us",
+    "about": "About Us",
+    "quote": "Get A Quote"
+  },
+  "menu": {
+    "Home": "Home",
+    "About": "About",
+    "Services": "Services",
+    "Services Style 1": "Services Style 1",
+    "Services Style 2": "Services Style 2",
+    "Services Style 3": "Services Style 3",
+    "Service Details": "Service Details",
+    "Pages": "Pages",
+    "Projects": "Projects",
+    "Pricing": "Pricing",
+    "Testimonials": "Testimonials",
+    "Team": "Team",
+    "Faq": "FAQ",
+    "Sign In": "Sign In",
+    "Sign Up": "Sign Up",
+    "Coming Soon": "Coming Soon",
+    "404 Error Page": "404 Error Page",
+    "Terms & Conditions": "Terms & Conditions",
+    "Privacy Policy": "Privacy Policy",
+    "Blog": "Blog",
+    "Blog Grid": "Blog Grid",
+    "Blog Left Sidebar": "Blog Left Sidebar",
+    "Blog Right Sidebar": "Blog Right Sidebar",
+    "Blog Details": "Blog Details",
+    "Contact": "Contact"
+  }
+}

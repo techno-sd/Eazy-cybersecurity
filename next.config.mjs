@@ -7,6 +7,11 @@ const nextConfig = {
     unoptimized: true,
   },
   optimizeFonts: false,
+  i18n: {
+    locales: ["en", "ar"],
+    defaultLocale: "en",
+    localeDetection: true,
+  },
 };
 
 export default nextConfig;

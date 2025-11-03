@@ -1,12 +1,17 @@
 "use client";
   
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLang } from "@/context/LangContext";
+import { getMessages } from "@/i18n";
 import FsLightbox from "fslightbox-react";
 import Link from "next/link";
 import Features from "./Features";
 
 const MainBanner: React.FC = () => {
   const [toggler, setToggler] = useState(false);
+  const { lang } = useLang();
+  const isAR = lang === 'ar';
+  const t = getMessages(lang);
   return (
     <>
       <FsLightbox
@@ -23,24 +28,17 @@ const MainBanner: React.FC = () => {
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-9">
-              <div className="banner-text">
-                <span>
-                  All Research up to Blockchain Interoperability is completed
-                </span>
-                <h1>Modern Information Protect from Hackers</h1>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
-                  architecto laborum eaque! Deserunt maxime, minus quas
-                  molestiae reiciendis esse natus nisi iure.
-                </p>
+              <div className="banner-text" style={{ direction: isAR ? 'rtl' : 'ltr', textAlign: isAR ? 'right' : 'left' }}>
+                <h1>{t.hero.title}</h1>
+                <p>{t.hero.welcome}</p>
 
                 <div className="banner-btn">
                   <Link href="/contact" className="default-btn">
-                    Booking Now
+                    {t.buttons.contact}
                   </Link>
                   
                   <Link href="/about" className="default-btn active">
-                    About Us
+                    {t.buttons.about}
                   </Link>
                 </div>
               </div>

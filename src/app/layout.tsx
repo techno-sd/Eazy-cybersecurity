@@ -11,6 +11,8 @@ import "../../styles/style.css";
 import "../../styles/responsive.css";
 
 import type { Metadata } from "next";
+import Providers from "./providers";
+import { cookies } from "next/headers";
 import { Rubik, Barlow_Condensed } from "next/font/google";
 
 // For all body text font
@@ -39,10 +41,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = cookies();
+  const cookieLang = cookieStore.get("lang")?.value;
+  const lang = cookieLang === "ar" ? "ar" : "en";
   return (
-    <html lang="en">
+    <html lang={lang} dir={lang === "ar" ? "rtl" : "ltr"}>
       <body className={`${rubik.variable} ${barlow_condensed.variable}`}>
-        {children}
+        <Providers initialLang={lang}>
+          {children}
+        </Providers>
       </body>
     </html>
   );

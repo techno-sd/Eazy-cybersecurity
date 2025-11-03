@@ -1,24 +1,21 @@
 "use client";
   
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useLang } from "@/context/LangContext";
+import { usePathname, useRouter } from "next/navigation";
 
 const TopHeader: React.FC = () => {
-  const [lang, setLang] = useState<'ar' | 'en'>(() => {
-    if (typeof window === 'undefined') return 'en';
-    return (localStorage.getItem('lang') as 'ar' | 'en') || 'en';
-  });
+  const { lang, setLang } = useLang();
+  const router = useRouter();
+  const pathname = usePathname();
 
-  useEffect(() => {
-    if (typeof document !== 'undefined') {
-      document.documentElement.lang = lang;
-      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-    }
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('lang', lang);
-    }
-  }, [lang]);
-
-  const selectLang = (val: 'ar' | 'en') => setLang(val);
+  const selectLang = (val: 'ar' | 'en') => {
+    setLang(val);
+    // Compute locale-prefixed path and navigate
+    const base = pathname.replace(/^\/(en|ar)(?=\/|$)/, '') || '/';
+    const next = `/${val}${base}`;
+    router.push(next);
+  };
 
   return (
     <>

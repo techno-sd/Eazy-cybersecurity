@@ -1,34 +1,16 @@
 // removed duplicate export
 export const menus = [
   {
-    label: "Services",
-    link: "#",
-    submenu: [
-      {
-        label: "Services Style 1",
-        link: "/services/",
-      },
-      {
-        label: "Services Style 2",
-        link: "/services/2/",
-      },
-      {
-        label: "Services Style 3",
-        link: "/services/3/",
-      },
-      {
-        label: "Service Details",
-        link: "/services/details/",
-      },
-    ],
-  },
-  {
     label: "Home",
     link: "/",
   },
   {
     label: "About",
     link: "/about/",
+  },
+  {
+    label: "Services",
+    link: "/services/",
   },
   {
     label: "Pages",

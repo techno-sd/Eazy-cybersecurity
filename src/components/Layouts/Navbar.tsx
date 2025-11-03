@@ -6,9 +6,13 @@ import TopHeader from "./TopHeader";
 import Image from "next/image";
 import MenuItem from "./MenuItem";
 import { menus } from "../../../libs/menus";
+import { useLang } from "@/context/LangContext";
+import { getMessages } from "@/i18n";
 
 const Navbar: React.FC = () => {
   const [menu, setMenu] = useState(true);
+  const { lang } = useLang();
+  const t = getMessages(lang);
   const toggleNavbar = () => {
     setMenu(!menu);
   };
@@ -77,7 +81,7 @@ const Navbar: React.FC = () => {
                   <div className="others-option">
                     <div className="get-quote">
                       <Link href="/contact" className="default-btn">
-                        Get A Quote
+                        {t.buttons.quote}
                       </Link>
                     </div>
                   </div>
