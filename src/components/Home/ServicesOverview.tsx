@@ -58,7 +58,7 @@ const ServicesOverview: React.FC = () => {
                 <i className={service.icon}></i>
                 <h3>{(t.home.services_overview as any)[service.titleKey]}</h3>
                 <p>{(t.home.services_overview as any)[service.descKey]}</p>
-                <Link href={service.link} style={{ color: '#607EAC', fontWeight: '600' }}>
+                <Link href={service.link} style={{ color: '#0A4D8C', fontWeight: '600' }}>
                   {t.home.about_preview.button} <i className={`bx ${isArabic ? 'bx-left-arrow-alt' : 'bx-right-arrow-alt'}`}></i>
                 </Link>
               </div>

@@ -40,7 +40,7 @@ This files table contents are outlined below>>>>>
 Default Style
 ============================*/
   
-$main-color: #607EAC;
+$main-color: #0A4D8C;
 $body-color: #212121;
 $heading-color: #0e0129;
 $white-color: #ffffff;
@@ -1065,7 +1065,7 @@ Features Area Style
 		right: 0;
 		width: 0%;
 		height: 100%;
-		background-image: linear-gradient(to bottom right, #d2044d, #ff5e68);
+		background-image: linear-gradient(to bottom right, #0A4D8C, #607EAC);
 		z-index: -1;
 		transition: $transition;
 	}
@@ -1190,7 +1190,7 @@ Security Area Style
 	}
 }
 .single-security {
-	background-color: #fef4f8;
+	background-color: #f5f8fb;
 	padding: 30px;
 	margin-bottom: 30px;
 	transition: $transition;
@@ -1200,7 +1200,7 @@ Security Area Style
 		width: 50px;
 		height: 50px;
 		line-height: 50px;
-		background-image: linear-gradient(to bottom right, #d2044d, #ff5e68);
+		background-image: linear-gradient(to bottom right, #0A4D8C, #607EAC);
 		display: inline-block;
 		text-align: center;
 		border-radius: 50%;
@@ -1433,7 +1433,7 @@ Electronic Area Style
 			right: 0;
 			width: 0;
 			height: 100%;
-			background-image: linear-gradient(to bottom right, #d2044d, #ff5e68);
+			background-image: linear-gradient(to bottom right, #0A4D8C, #607EAC);
 			transition: $transition;
 			z-index: -1;
 		}

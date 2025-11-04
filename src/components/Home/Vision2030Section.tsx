@@ -13,10 +13,22 @@ const Vision2030Section: React.FC = () => {
 
   return (
     <section className="security-area pt-100 pb-100" style={{
-      background: 'linear-gradient(135deg, rgba(216, 6, 80, 0.05) 0%, rgba(0, 0, 0, 0.02) 100%)',
-      position: 'relative'
+      background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.06) 0%, rgba(96, 126, 172, 0.04) 100%)',
+      position: 'relative',
+      overflow: 'hidden'
     }}>
-      <div className="container">
+      {/* Decorative Background Pattern */}
+      <div style={{
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        right: '0',
+        bottom: '0',
+        backgroundImage: 'radial-gradient(circle at 80% 20%, rgba(10, 77, 140, 0.05) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(96, 126, 172, 0.04) 0%, transparent 50%)',
+        opacity: '0.7'
+      }}></div>
+
+      <div className="container" style={{ position: 'relative', zIndex: 2 }}>
         <div className="row align-items-center" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
           {/* Content Column */}
           <div className="col-lg-6 col-md-12">

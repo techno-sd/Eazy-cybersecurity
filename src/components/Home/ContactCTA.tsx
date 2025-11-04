@@ -30,7 +30,7 @@ const ContactCTA: React.FC = () => {
 
   return (
     <section className="security-area pt-100 pb-100" style={{
-      background: 'linear-gradient(135deg, rgba(216, 6, 80, 0.06) 0%, rgba(0, 0, 0, 0.03) 100%)',
+      background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.05) 0%, rgba(96, 126, 172, 0.03) 100%)',
       position: 'relative',
       overflow: 'hidden'
     }}>
@@ -41,8 +41,8 @@ const ContactCTA: React.FC = () => {
         left: '0',
         right: '0',
         bottom: '0',
-        backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(216, 6, 80, 0.04) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(216, 6, 80, 0.03) 0%, transparent 50%)',
-        opacity: '0.7'
+        backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(10, 77, 140, 0.06) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(96, 126, 172, 0.04) 0%, transparent 50%)',
+        opacity: '0.8'
       }}></div>
 
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
@@ -70,12 +70,12 @@ const ContactCTA: React.FC = () => {
                     padding: '30px 20px',
                     background: '#fff',
                     borderRadius: '10px',
-                    border: '1px solid rgba(216, 6, 80, 0.1)',
+                    border: '1px solid rgba(10, 77, 140, 0.15)',
                     marginBottom: '20px',
                     transition: 'all 0.3s ease',
                     boxShadow: '0 5px 20px rgba(0,0,0,0.08)'
                   }}>
-                    <i className={benefit.icon} style={{ fontSize: '40px', color: '#607EAC', marginBottom: '15px', display: 'block' }}></i>
+                    <i className={benefit.icon} style={{ fontSize: '40px', color: '#0A4D8C', marginBottom: '15px', display: 'block' }}></i>
                     <h4 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '10px', color: '#222' }}>
                       {(t.home.contact_cta as any)[benefit.titleKey]}
                     </h4>
@@ -100,8 +100,8 @@ const ContactCTA: React.FC = () => {
 
               <Link href="/services" className="default-btn" style={{
                 backgroundColor: 'transparent',
-                color: '#607EAC',
-                border: '2px solid #607EAC',
+                color: '#0A4D8C',
+                border: '2px solid #0A4D8C',
                 display: 'inline-block',
                 marginBottom: '15px'
               }}>
@@ -109,21 +109,21 @@ const ContactCTA: React.FC = () => {
               </Link>
 
               {/* Trust Indicators */}
-              <div style={{ marginTop: '40px', paddingTop: '30px', borderTop: '1px solid rgba(216, 6, 80, 0.15)' }}>
+              <div style={{ marginTop: '40px', paddingTop: '30px', borderTop: '1px solid rgba(10, 77, 140, 0.2)' }}>
                 <p style={{ fontSize: '14px', color: '#666', marginBottom: '15px' }}>
                   {isArabic ? 'موثوق به من قبل المؤسسات الرائدة في المملكة' : 'Trusted by Leading Organizations Across Saudi Arabia'}
                 </p>
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', gap: '30px', color: '#666' }}>
                   <span style={{ fontSize: '14px' }}>
-                    <i className="bx bx-check-shield" style={{ fontSize: '18px', marginRight: isArabic ? '0' : '8px', marginLeft: isArabic ? '8px' : '0', color: '#607EAC' }}></i>
+                    <i className="bx bx-check-shield" style={{ fontSize: '18px', marginRight: isArabic ? '0' : '8px', marginLeft: isArabic ? '8px' : '0', color: '#0A4D8C' }}></i>
                     {isArabic ? 'متوافق مع NCA' : 'NCA Compliant'}
                   </span>
                   <span style={{ fontSize: '14px' }}>
-                    <i className="bx bx-certification" style={{ fontSize: '18px', marginRight: isArabic ? '0' : '8px', marginLeft: isArabic ? '8px' : '0', color: '#607EAC' }}></i>
+                    <i className="bx bx-certification" style={{ fontSize: '18px', marginRight: isArabic ? '0' : '8px', marginLeft: isArabic ? '8px' : '0', color: '#0A4D8C' }}></i>
                     {isArabic ? 'معتمد ISO 27001' : 'ISO 27001 Certified'}
                   </span>
                   <span style={{ fontSize: '14px' }}>
-                    <i className="bx bx-support" style={{ fontSize: '18px', marginRight: isArabic ? '0' : '8px', marginLeft: isArabic ? '8px' : '0', color: '#607EAC' }}></i>
+                    <i className="bx bx-support" style={{ fontSize: '18px', marginRight: isArabic ? '0' : '8px', marginLeft: isArabic ? '8px' : '0', color: '#0A4D8C' }}></i>
                     {isArabic ? 'دعم 24/7' : '24/7 Support'}
                   </span>
                 </div>
