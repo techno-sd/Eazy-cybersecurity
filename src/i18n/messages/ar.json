@@ -11,6 +11,10 @@
   "menu": {
     "Home": "الرئيسية",
     "About Us": "من نحن",
+    "Vision & Mission": "الرؤية والرسالة",
+    "Core Values": "قيمنا",
+    "Our Team": "فريقنا",
+    "Why Choose Us": "لماذا نحن",
     "Services": "الخدمات",
     "AI Solutions": "حلول الذكاء الاصطناعي",
     "Cybersecurity Services": "خدمات الأمن السيبراني",
@@ -19,7 +23,6 @@
     "SME-EAZY Program": "برنامج SME-EAZY",
     "Industries": "القطاعات",
     "Vision 2030 Alignment": "رؤيتنا 2030",
-    "Why Choose Us": "لماذا تختارنا",
     "Government & Public Sector": "الجهات الحكومية والقطاع العام",
     "Banking & Financial Services": "الخدمات المصرفية والمالية",
     "Energy & Telecom": "الطاقة والاتصالات",
@@ -27,8 +30,8 @@
     "Education & Universities": "التعليم والجامعات",
     "SMEs & Startups": "الشركات الصغيرة والناشئة",
     "Case Studies / Projects": "دراسات حالة / المشاريع",
-  "Blog / News": "المدونة / الأخبار",
-  "Blog": "المدونة",
+    "Blog / News": "المدونة / الأخبار",
+    "Blog": "المدونة",
     "Contact Us": "اتصل بنا",
     "Services Style 1": "الخدمات - النمط 1",
     "Services Style 2": "الخدمات - النمط 2",
@@ -44,12 +47,51 @@
     "Why Choose Us": "لماذا نحن",
     "page_title": "من نحن",
     "hero_title": "من نحن",
+    "hero_tagline": "نحو مستقبل رقمي آمن وذكي",
     "hero_content": "Eazy Cyber Agent شركة سعودية متخصصة في الأمن السيبراني والحلول الرقمية، تقدم خدمات متكاملة في الذكاء الاصطناعي، البيانات الضخمة، والحوسبة السحابية. نعمل مع القطاعين العام والخاص لتعزيز التحول الرقمي وتحقيق مستهدفات رؤية المملكة 2030 في بناء اقتصاد قائم على المعرفة والابتكار.",
     "vision_heading": "الرؤية",
     "mission_heading": "الرسالة",
     "core_values_heading": "قيمنا",
     "team_heading": "الفريق",
     "team_content": "فريقنا يجمع بين الخبرة التقنية والالتزام بالجودة، يضم نخبة من المتخصصين في الأمن السيبراني، الذكاء الاصطناعي، وتحليل البيانات، يحملون شهادات عالمية ويعملون بروح واحدة لتحقيق رؤية الشركة.",
+    "team_members": [
+      {
+        "name": "محمد القحطاني",
+        "name_en": "Mohammed Al-Qahtani",
+        "position": "CEO",
+        "tagline": "قيادة الابتكار الرقمي والأمن السيبراني",
+        "tagline_en": "Leading digital innovation and cybersecurity"
+      },
+      {
+        "name": "Sara Al-Dosari",
+        "name_en": "Sara Al-Dosari",
+        "position": "CTO",
+        "tagline": "Leading technical excellence in AI & Cloud",
+        "tagline_en": "Leading technical excellence in AI & Cloud"
+      },
+      {
+        "name": "Faisal Al-Harbi",
+        "name_en": "Faisal Al-Harbi",
+        "position": "CISO",
+        "tagline": "حماية البنية التحتية الوطنية من التهديدات",
+        "tagline_en": "Protecting national infrastructure from threats"
+      },
+      {
+        "name": "Lina Al-Fahad",
+        "name_en": "Lina Al-Fahad",
+        "position": "Data Scientist",
+        "tagline": "الذكاء الاصطناعي في خدمة القرار الذكي",
+        "tagline_en": "AI-powered intelligent decision making"
+      }
+    ],
+    "why_choose_heading": "لماذا نحن",
+    "why_choose_highlights": [
+      "خبرة وشهادات عالمية (CISA, ISO 27001, CDPSE).",
+      "التزام بمعايير الهيئة الوطنية للأمن السيبراني.",
+      "حلول عربية محلية تدعم التحول الرقمي الوطني.",
+      "أسعار مرنة ودعم فني على مدار الساعة."
+    ],
+    "why_choose_button": "اعرف المزيد",
     "cta_heading": "انضم إلينا في بناء مستقبل رقمي آمن وذكي.",
     "cta_services": "استكشف خدماتنا",
     "cta_contact": "اتصل بنا",

@@ -49,8 +49,8 @@ const AISolutionsComplete: React.FC = () => {
                   <div key={index} className="col-lg-6 col-sm-6">
                     <div className={`single-security ${index >= 2 ? 'mb-0 mb-rs-need' : ''}`}>
                       <i className={feature.icon}></i>
-                      <h3>{t.aiSolutions[feature.titleKey]}</h3>
-                      <p>{t.aiSolutions[feature.descKey]}</p>
+                      <h3>{(t.aiSolutions as any)[feature.titleKey]}</h3>
+                      <p>{(t.aiSolutions as any)[feature.descKey]}</p>
                     </div>
                   </div>
                 ))}

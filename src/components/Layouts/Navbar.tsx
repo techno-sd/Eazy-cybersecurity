@@ -2,20 +2,39 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import TopHeader from "./TopHeader";
 import Image from "next/image";
 import MenuItem from "./MenuItem";
 import { menus } from "../../../libs/menus";
 import { useLang } from "@/context/LangContext";
 import { getMessages } from "@/i18n";
+import { ScrollSpyProvider } from "@/context/ScrollSpyContext";
+import { useScrollSpy as useScrollSpyHook } from "@/hooks/useScrollSpy";
 
 const Navbar: React.FC = () => {
   const [menu, setMenu] = useState(true);
   const { lang } = useLang();
   const t = getMessages(lang);
+  const pathname = usePathname();
   const toggleNavbar = () => {
     setMenu(!menu);
   };
+
+  // Define section IDs for services page
+  const serviceSectionIds = ["ai", "cybersecurity", "bigdata", "cloud", "sme"];
+
+  // Only enable scroll spy on services page
+  const normalize = (p: string) => (p || "/").replace(/^\/(en|ar)(?=\/|$)/, "") || "/";
+  const currentPath = normalize(pathname || "/");
+  const isServicesPage = currentPath === "/services" || currentPath === "/services/";
+
+  // Use scroll spy hook only on services page
+  const activeSection = useScrollSpyHook({
+    sectionIds: isServicesPage ? serviceSectionIds : [],
+    offset: 200,
+    throttleMs: 100,
+  });
 
   useEffect(() => {
     let elementId = document.getElementById("navbar");
@@ -36,7 +55,7 @@ const Navbar: React.FC = () => {
     : "navbar-toggler navbar-toggler-right";
 
   return (
-    <>
+    <ScrollSpyProvider activeSection={activeSection}>
       <header className="header-area fixed-top">
         {/* TopHeader */}
         <TopHeader />
@@ -91,7 +110,7 @@ const Navbar: React.FC = () => {
           </div>
         </div>
       </header>
-    </>
+    </ScrollSpyProvider>
   );
 };
 

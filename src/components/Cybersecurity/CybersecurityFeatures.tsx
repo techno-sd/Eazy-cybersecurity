@@ -54,8 +54,8 @@ const CybersecurityFeatures: React.FC = () => {
                   <div key={index} className="col-lg-6 col-sm-6">
                     <div className={`single-security ${index >= 2 ? 'mb-0' : ''} ${index === 2 ? 'mb-rs-need' : ''}`}>
                       <i className={feature.icon}></i>
-                      <h3>{t.cybersecurity[feature.titleKey]}</h3>
-                      <p>{t.cybersecurity[feature.descKey]}</p>
+                      <h3>{(t.cybersecurity as any)[feature.titleKey]}</h3>
+                      <p>{(t.cybersecurity as any)[feature.descKey]}</p>
                     </div>
                   </div>
                 ))}

@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface VisionProps {
   lang: string;
@@ -13,10 +14,14 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
 
   return (
     <>
-      {/* Hero / Introduction Section */}
+      {/* Hero / Introduction Section with Tagline */}
       <section id="introduction" className="security-area pb-70 pt-100">
         <div className="container">
           <div className="section-title" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
+            <span className="sub-title" style={{ fontSize: '18px', color: '#d80650' }}>
+              <i className="bx bx-trending-up"></i>
+              {t.about.hero_tagline}
+            </span>
             <h2>{t.about.hero_title}</h2>
             <p style={{ fontSize: '16px', lineHeight: '1.8' }}>
               {t.about.hero_content}
@@ -34,7 +39,7 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
               {t.about.vision_heading}
             </span>
             <h2>{t.about.vision_heading}</h2>
-            <p>
+            <p style={{ fontSize: '16px', lineHeight: '1.8' }}>
               {t.about.vision_content}
             </p>
           </div>
@@ -50,7 +55,7 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
               {t.about.mission_heading}
             </span>
             <h2>{t.about.mission_heading}</h2>
-            <p>
+            <p style={{ fontSize: '16px', lineHeight: '1.8' }}>
               {t.about.mission_content}
             </p>
           </div>
@@ -96,9 +101,68 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
               {t.about.team_heading}
             </span>
             <h2>{t.about.team_heading}</h2>
-            <p>
+            <p style={{ fontSize: '16px', lineHeight: '1.8' }}>
               {t.about.team_content}
             </p>
+          </div>
+
+          <div className="row" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
+            {t.about.team_members.map((member: any, index: number) => (
+              <div key={index} className="col-lg-3 col-sm-6">
+                <div className="single-team" style={{ textAlign: isArabic ? 'right' : 'left', marginBottom: '30px' }}>
+                  <div className="team-img" style={{ marginBottom: '20px' }}>
+                    <Image
+                      src={`/img/team/team-${index + 1}.jpg`}
+                      alt={isArabic ? member.name : member.name_en}
+                      width={300}
+                      height={300}
+                      style={{ objectFit: 'cover', borderRadius: '8px', width: '100%', height: 'auto' }}
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = '/img/team/placeholder.jpg';
+                      }}
+                    />
+                  </div>
+                  <div className="team-content">
+                    <h3 style={{ fontSize: '20px', marginBottom: '5px' }}>{isArabic ? member.name : member.name_en}</h3>
+                    <span style={{ color: '#d80650', fontWeight: '600', display: 'block', marginBottom: '10px' }}>{member.position}</span>
+                    <p style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                      {isArabic ? member.tagline : member.tagline_en}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us Teaser Section */}
+      <section id="why-choose" className="security-area pb-70">
+        <div className="container">
+          <div className="section-title" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
+            <span className="sub-title">
+              <i className="bx bx-check-circle"></i>
+              {t.about.why_choose_heading}
+            </span>
+            <h2>{t.about.why_choose_heading}</h2>
+          </div>
+
+          <div className="row" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
+            {t.about.why_choose_highlights.map((highlight: string, index: number) => (
+              <div key={index} className="col-lg-6 col-sm-12">
+                <div className="single-security" style={{ textAlign: isArabic ? 'right' : 'left', marginBottom: '20px' }}>
+                  <i className="bx bx-check"></i>
+                  <p>{highlight}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: '30px' }}>
+            <Link href="/about/team" className="default-btn">
+              {t.about.why_choose_button} <i className={`bx ${isArabic ? 'bx-left-arrow-alt' : 'bx-right-arrow-alt'}`}></i>
+            </Link>
           </div>
         </div>
       </section>
@@ -109,7 +173,7 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
           <div className="section-title" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: 'center' }}>
             <h2>{t.about.cta_heading}</h2>
             <div style={{ marginTop: '30px', display: 'flex', gap: '15px', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link href="/services/ai" className="default-btn">
+              <Link href="/services" className="default-btn">
                 {t.about.cta_services}
               </Link>
               <Link href="/contact" className="default-btn">

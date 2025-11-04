@@ -10054,3 +10054,278 @@ Cyber Defenses Area CSS
 	}
 }
 /* Core Values Page Styles End */
+
+/* Vision 2030 Alignment Page Styles */
+.vision-2030-area {
+	padding: 80px 0;
+	background-color: $white-color;
+	position: relative;
+	z-index: 1;
+
+	.vision-2030-image {
+		width: 100%;
+		height: auto;
+		border-radius: 10px;
+		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+		margin-bottom: 30px;
+		transition: $transition;
+
+		&:hover {
+			box-shadow: 0 20px 60px rgba(216, 6, 80, 0.2);
+			transform: translateY(-5px);
+		}
+	}
+
+	.vision-2030-content {
+		max-width: 900px;
+	}
+
+	.vision-2030-title {
+		font-size: 45px;
+		font-weight: 700;
+		margin-bottom: 30px;
+		color: $heading-color;
+		position: relative;
+
+		&::before {
+			content: "";
+			position: absolute;
+			left: 0;
+			bottom: -12px;
+			width: 80px;
+			height: 3px;
+			background-image: linear-gradient(to right, #d2044d, #ff5e68);
+		}
+	}
+
+	.rtl {
+		direction: rtl;
+		text-align: right;
+
+		.vision-2030-title {
+			&::before {
+				left: auto;
+				right: 0;
+			}
+		}
+
+		.vision-2030-description {
+			text-align: right;
+		}
+
+		.vision-2030-list {
+			.vision-2030-card {
+				text-align: center;
+			}
+
+			.vision-2030-text {
+				text-align: center;
+			}
+		}
+
+		.vision-2030-item {
+			&::before {
+				left: -8px;
+				right: auto;
+			}
+		}
+	}
+
+	.vision-2030-description {
+		font-size: 16px;
+		line-height: 1.8;
+		color: $body-color;
+		margin-bottom: 40px;
+		margin-top: 40px;
+		text-align: left;
+
+		&:last-of-type {
+			margin-bottom: 35px;
+		}
+	}
+
+	.vision-2030-list {
+		list-style: none;
+		padding: 0;
+		margin: 35px 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+		gap: 25px;
+
+		li {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		.vision-2030-card {
+			background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+			padding: 35px 25px;
+			border-radius: 15px;
+			position: relative;
+			transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+			border: 2px solid #e8e8e8;
+			box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 20px;
+			height: 100%;
+			min-height: 180px;
+			text-align: center;
+			overflow: hidden;
+
+			&::before {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: linear-gradient(135deg, rgba(216, 6, 80, 0.05) 0%, rgba(255, 94, 104, 0.05) 100%);
+				opacity: 0;
+				transition: all 0.5s ease;
+				z-index: 0;
+			}
+
+			&:hover {
+				background: linear-gradient(135deg, #ffffff 0%, #fff5f7 100%);
+				box-shadow: 0 20px 50px rgba(216, 6, 80, 0.2);
+				transform: translateY(-12px) scale(1.02);
+				border-color: $main-color;
+
+				&::before {
+					opacity: 1;
+				}
+
+				.vision-2030-icon {
+					background: linear-gradient(135deg, #d2044d, #ff5e68);
+					color: $white-color;
+					transform: scale(1.15) rotate(360deg);
+					box-shadow: 0 15px 35px rgba(216, 6, 80, 0.4);
+				}
+
+				.vision-2030-text {
+					color: $heading-color;
+				}
+			}
+		}
+
+		.vision-2030-icon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-shrink: 0;
+			width: 65px;
+			height: 65px;
+			min-width: 65px;
+			background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%);
+			border-radius: 50%;
+			color: $main-color;
+			font-size: 32px;
+			transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+			font-weight: 700;
+			position: relative;
+			z-index: 1;
+			box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+
+			i {
+				width: auto;
+				height: auto;
+				background: none;
+				border-radius: 0;
+				text-align: center;
+				position: relative;
+				top: 0;
+				left: 0;
+				transition: all 0.5s ease;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 32px;
+				color: $main-color;
+				font-weight: 700;
+			}
+		}
+
+		.vision-2030-text {
+			font-size: 15px;
+			line-height: 1.7;
+			color: #6c6c6c;
+			font-weight: 500;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			position: relative;
+			z-index: 1;
+			transition: all 0.5s ease;
+		}
+	}
+
+	// Counter for each card
+	.vision-2030-item {
+		position: relative;
+
+		&::before {
+			content: attr(data-count);
+			position: absolute;
+			top: -8px;
+			right: -8px;
+			width: 35px;
+			height: 35px;
+			background-image: $main-gradient-color;
+			border-radius: 50%;
+			color: $white-color;
+			font-size: 14px;
+			font-weight: 700;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			line-height: 35px;
+			text-align: center;
+			box-shadow: 0 5px 15px rgba(216, 6, 80, 0.3);
+			z-index: 2;
+		}
+	}
+
+	.vision-2030-cta {
+		margin-top: 50px;
+		text-align: left;
+
+		.default-btn {
+			background-image: $main-gradient-color;
+			padding: 16px 40px;
+			font-weight: 600;
+			border-radius: 5px;
+			display: inline-block;
+
+			&:hover {
+				box-shadow: 0 10px 30px rgba(216, 6, 80, 0.3);
+				transform: translateY(-2px);
+			}
+		}
+	}
+
+	// Decorative shapes
+	.shape-top-left {
+		position: absolute;
+		top: -50px;
+		left: 0;
+		opacity: 0.1;
+		z-index: -1;
+	}
+
+	.shape-bottom-right {
+		position: absolute;
+		bottom: -50px;
+		right: 0;
+		opacity: 0.1;
+		z-index: -1;
+	}
+}
+
+/* Vision 2030 Alignment Page Styles End */

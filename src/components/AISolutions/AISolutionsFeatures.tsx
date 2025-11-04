@@ -51,8 +51,8 @@ const AISolutionsFeatures: React.FC = () => {
                 {features.map((feature, index) => (
                   <li key={index}>
                     <i className={feature.icon}></i>
-                    <h3>{t.aiSolutions[feature.titleKey]}</h3>
-                    <p>{t.aiSolutions[feature.descKey]}</p>
+                    <h3>{(t.aiSolutions as any)[feature.titleKey]}</h3>
+                    <p>{(t.aiSolutions as any)[feature.descKey]}</p>
                   </li>
                 ))}
               </ul>

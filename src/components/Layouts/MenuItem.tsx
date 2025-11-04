@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLang } from "@/context/LangContext";
 import { getMessages } from "@/i18n";
+import { useScrollSpy } from "@/context/ScrollSpyContext";
 
 interface MenuItemProps {
   label: string;
@@ -23,6 +24,37 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu }) => {
   const translate = (k: string) => (t.menu as any)[k] ?? (t as any).about?.[k] ?? k;
   const tLabel = translate(label);
   const isAR = lang === 'ar';
+  const { activeSection } = useScrollSpy();
+
+  // Extract hash from link (e.g., "/services#ai" -> "ai")
+  const extractHash = (url: string): string => {
+    const hashIndex = url.indexOf("#");
+    return hashIndex !== -1 ? url.substring(hashIndex + 1) : "";
+  };
+
+  // Handle smooth scroll for anchor links
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    const hash = extractHash(href);
+    if (hash) {
+      const targetPath = href.split("#")[0];
+      const currentPath = normalize(pathname || "/");
+
+      // Only handle smooth scroll if we're on the same page
+      if (currentPath === normalize(targetPath)) {
+        e.preventDefault();
+        const element = document.getElementById(hash);
+        if (element) {
+          const offsetTop = element.offsetTop - 100; // Offset for fixed header
+          window.scrollTo({
+            top: offsetTop,
+            behavior: "smooth",
+          });
+          // Update URL hash without scrolling
+          window.history.pushState(null, "", href);
+        }
+      }
+    }
+  };
 
   if (submenu) {
     return (
@@ -30,7 +62,11 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu }) => {
         <Link
           href={link}
           className="nav-link"
-          onClick={(e) => e.preventDefault()}
+          onClick={(e) => {
+            if (link === "#") {
+              e.preventDefault();
+            }
+          }}
         >
           {tLabel} <i className="bx bx-chevron-down"></i>
         </Link>
@@ -42,13 +78,22 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu }) => {
         >
           {submenu.map((subItem) => {
             const subTarget = normalize(subItem.link);
-            const isActive = current === subTarget || current.startsWith(subTarget);
+            const hash = extractHash(subItem.link);
+
+            // Check if this submenu item is active based on:
+            // 1. URL path match OR
+            // 2. Scroll spy detection (hash matches activeSection)
+            const isPathActive = current === subTarget || current.startsWith(subTarget);
+            const isScrollActive = hash && activeSection === hash;
+            const isSubActive = isPathActive || isScrollActive;
+
             const subLabel = translate(subItem.label);
             return (
-              <li className={`nav-item ${isActive ? "active" : ""}`} key={subItem.label}>
+              <li className={`nav-item ${isSubActive ? "active" : ""}`} key={subItem.label}>
                 <Link
                   href={subItem.link}
-                  className={`nav-link ${isActive ? "active" : ""}`}
+                  className={`nav-link ${isSubActive ? "active" : ""}`}
+                  onClick={(e) => handleClick(e, subItem.link)}
                 >
                   {subLabel}
                 </Link>
@@ -62,7 +107,11 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu }) => {
 
   return (
     <li className="nav-item" key={label}>
-      <Link href={link} className={`nav-link ${isActive ? "active" : ""}`}>
+      <Link
+        href={link}
+        className={`nav-link ${isActive ? "active" : ""}`}
+        onClick={(e) => handleClick(e, link)}
+      >
         {tLabel}
       </Link>
     </li>

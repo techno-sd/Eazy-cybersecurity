@@ -11,6 +11,10 @@
   "menu": {
     "Home": "Home",
     "About Us": "About Us",
+    "Vision & Mission": "Vision & Mission",
+    "Core Values": "Core Values",
+    "Our Team": "Our Team",
+    "Why Choose Us": "Why Choose Us",
     "Services": "Services",
     "AI Solutions": "AI Solutions",
     "Cybersecurity Services": "Cybersecurity Services",
@@ -19,7 +23,6 @@
     "SME-EAZY Program": "SME-EAZY Program",
     "Industries": "Industries",
     "Vision 2030 Alignment": "Vision 2030 Alignment",
-    "Why Choose Us": "Why Choose Us",
     "Government & Public Sector": "Government & Public Sector",
     "Banking & Financial Services": "Banking & Financial Services",
     "Energy & Telecom": "Energy & Telecom",
@@ -27,8 +30,8 @@
     "Education & Universities": "Education & Universities",
     "SMEs & Startups": "SMEs & Startups",
     "Case Studies / Projects": "Case Studies / Projects",
-  "Blog / News": "Blog / News",
-  "Blog": "Blog",
+    "Blog / News": "Blog / News",
+    "Blog": "Blog",
     "Contact Us": "Contact Us",
     "Services Style 1": "Services Style 1",
     "Services Style 2": "Services Style 2",
@@ -44,12 +47,51 @@
         "Why Choose Us": "Why Choose Us",
         "page_title": "About Us",
         "hero_title": "About Us",
+        "hero_tagline": "Empowering a Secure and Smart Digital Future",
         "hero_content": "Eazy Cyber Agent is a Saudi company specializing in cybersecurity and digital solutions. We provide integrated services in artificial intelligence, big data, and cloud computing. Our mission is to support both public and private sectors in driving digital transformation and achieving Vision 2030 goals toward a knowledge-based, innovative economy.",
         "vision_heading": "Vision",
         "mission_heading": "Mission",
         "core_values_heading": "Core Values",
         "team_heading": "Our Team",
         "team_content": "Our team combines deep technical expertise with a commitment to excellence. It includes certified professionals in cybersecurity, AI, and data analytics, all working together to realize the company's vision.",
+        "team_members": [
+          {
+            "name": "محمد القحطاني",
+            "name_en": "Mohammed Al-Qahtani",
+            "position": "CEO",
+            "tagline": "قيادة الابتكار الرقمي والأمن السيبراني",
+            "tagline_en": "Leading digital innovation and cybersecurity"
+          },
+          {
+            "name": "Sara Al-Dosari",
+            "name_en": "Sara Al-Dosari",
+            "position": "CTO",
+            "tagline": "Leading technical excellence in AI & Cloud",
+            "tagline_en": "Leading technical excellence in AI & Cloud"
+          },
+          {
+            "name": "Faisal Al-Harbi",
+            "name_en": "Faisal Al-Harbi",
+            "position": "CISO",
+            "tagline": "حماية البنية التحتية الوطنية من التهديدات",
+            "tagline_en": "Protecting national infrastructure from threats"
+          },
+          {
+            "name": "Lina Al-Fahad",
+            "name_en": "Lina Al-Fahad",
+            "position": "Data Scientist",
+            "tagline": "الذكاء الاصطناعي في خدمة القرار الذكي",
+            "tagline_en": "AI-powered intelligent decision making"
+          }
+        ],
+        "why_choose_heading": "Why Choose Us",
+        "why_choose_highlights": [
+          "Global certifications (CISA, ISO 27001, CDPSE).",
+          "Full compliance with NCA standards.",
+          "Localized Arabic solutions for national transformation.",
+          "Flexible pricing and 24/7 technical support."
+        ],
+        "why_choose_button": "Learn More",
         "cta_heading": "Join us in building a secure and intelligent digital future.",
         "cta_services": "Explore Our Services",
         "cta_contact": "Contact Us",

@@ -54,8 +54,8 @@ const SMEEazyFeatures: React.FC = () => {
                   <div key={index} className="col-lg-6 col-sm-6">
                     <div className={`single-security ${index >= 2 ? 'mb-0' : ''} ${index === 2 ? 'mb-rs-need' : ''}`}>
                       <i className={feature.icon}></i>
-                      <h3>{t.smeEazy[feature.titleKey]}</h3>
-                      <p>{t.smeEazy[feature.descKey]}</p>
+                      <h3>{(t.smeEazy as any)[feature.titleKey]}</h3>
+                      <p>{(t.smeEazy as any)[feature.descKey]}</p>
                     </div>
                   </div>
                 ))}

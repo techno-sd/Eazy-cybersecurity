@@ -6,13 +6,12 @@ export const menus = [
   },
   {
     label: "About Us",
-    link: "#",
+    link: "/about/",
     submenu: [
-      { label: "About Us", link: "/about/about-us/" },
-      { label: "Vision", link: "/about/about-us#vision" },
-      { label: "Mission", link: "/about/about-us#mission" },
-      { label: "Core Values", link: "/about/about-us#values" },
-      { label: "Team", link: "/about/about-us#team" }
+      { label: "Vision & Mission", link: "/about#vision-mission" },
+      { label: "Core Values", link: "/about#values" },
+      { label: "Our Team", link: "/about#team" },
+      { label: "Why Choose Us", link: "/about#why-us" }
     ],
   },
   {
@@ -33,10 +32,6 @@ export const menus = [
   {
     label: "Vision 2030 Alignment",
     link: "/vision-2030/",
-  },
-  {
-    label: "Why Choose Us",
-    link: "/about/team/",
   },
   {
     label: "Blog",
