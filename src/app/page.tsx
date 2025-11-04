@@ -1,6 +1,6 @@
 import Navbar from "../components/Layouts/Navbar";
 import MainBanner from "../components/Home/MainBanner";
-import Partner from "../components/Common/Partner";
+// import Partner from "../components/Common/Partner";
 import Vision2030Section from "../components/Home/Vision2030Section";
 import IndustriesPreview from "../components/Home/IndustriesPreview";
 import ServicesIntro from "../components/Home/ServicesIntro";
@@ -26,7 +26,7 @@ export default function Home() {
 
       <MainBanner />
 
-      <Partner />
+      {/* Partner section removed */}
 
       <Vision2030Section />
 
