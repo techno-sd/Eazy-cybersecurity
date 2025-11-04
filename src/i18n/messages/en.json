@@ -6,43 +6,43 @@
   "home": {
     "about_preview": {
       "title": "About Us",
-      "intro": "Eazy Cyber Agent is a Saudi company specializing in cybersecurity and digital solutions. We provide integrated services in AI, big data, and cloud computing.",
+      "intro": "Eazy Cyber Agent is a leading Saudi company at the forefront of cybersecurity and digital transformation. We deliver cutting-edge solutions in artificial intelligence, big data analytics, and secure cloud computing to help organizations thrive in the digital age.",
       "vision_card": "Vision",
-    "vision_text": "To be the first choice in Saudi Arabia and the region for delivering innovative digital and security solutions that empower organizations to adapt and achieve digital sustainability.",
+      "vision_text": "Leading Saudi Arabia's digital transformation as the premier provider of innovative security and technology solutions",
       "mission_card": "Mission",
-      "mission_text": "Empowering organizations with secure, intelligent solutions",
+      "mission_text": "Empowering organizations with world-class cybersecurity, AI, and data-driven solutions",
       "values_card": "Core Values",
-      "values_text": "Integrity, Innovation, Security First",
+      "values_text": "Integrity, Innovation, Excellence, Security First",
       "button": "Learn More"
     },
     "services_overview": {
       "title": "Our Services",
-      "subtitle": "Comprehensive cybersecurity and digital transformation solutions",
+      "subtitle": "Comprehensive cybersecurity and digital transformation solutions tailored for Saudi organizations",
       "ai_title": "AI Solutions",
-      "ai_desc": "Intelligent automation and predictive analytics for business growth",
+      "ai_desc": "Advanced AI-powered automation, intelligent chatbots, and predictive analytics to drive business growth and operational excellence",
       "cybersecurity_title": "Cybersecurity Services",
-      "cybersecurity_desc": "Comprehensive protection compliant with NCA & ISO 27001",
+      "cybersecurity_desc": "End-to-end security solutions including penetration testing, SOC services, and full compliance with NCA, ISO 27001, and SAMA regulations",
       "bigdata_title": "Big Data & Analytics",
-      "bigdata_desc": "Transform data into actionable insights for decision-making",
+      "bigdata_desc": "Transform vast data into strategic insights with smart dashboards, data warehousing, and advanced fraud detection capabilities",
       "cloud_title": "Cloud Computing & Hosting",
-      "cloud_desc": "Secure, compliant cloud infrastructure for Saudi organizations",
+      "cloud_desc": "Enterprise-grade cloud infrastructure with Saudi-compliant hosting, disaster recovery, and robust data encryption",
       "button": "View All Services"
     },
     "industries_preview": {
       "title": "Industries We Serve",
-      "tagline": "Empowering Saudi industries through innovation, data, and cybersecurity",
-      "government": "Government",
-      "finance": "Finance",
-      "energy": "Energy",
+      "tagline": "Empowering Saudi Arabia's key sectors with world-class cybersecurity, AI innovation, and digital transformation solutions",
+      "government": "Government & Public Sector",
+      "finance": "Banking & Finance",
+      "energy": "Energy & Telecom",
       "healthcare": "Healthcare",
       "education": "Education",
-      "smes": "SMEs",
-      "button": "Explore More"
+      "smes": "SMEs & Startups",
+      "button": "Explore Industries"
     },
     "vision2030": {
-      "title": "Our Vision 2030 Commitment",
-      "content": "We believe cybersecurity and digital innovation are pillars of Saudi Vision 2030. Our solutions focus on enabling digital transformation, protecting critical infrastructure, and supporting national talent.",
-      "button": "Learn More"
+      "title": "Aligned with Saudi Vision 2030",
+      "content": "As a proud Saudi company, we are committed to advancing the Kingdom's Vision 2030 goals. Our solutions drive digital transformation across government and private sectors, protect critical national infrastructure, foster innovation in startups and SMEs, and develop local talent through comprehensive training programs. Together, we're building a secure, smart, and sustainable digital future for Saudi Arabia.",
+      "button": "Our Vision 2030 Impact"
     },
     "blog_preview": {
       "title": "Latest Insights",
