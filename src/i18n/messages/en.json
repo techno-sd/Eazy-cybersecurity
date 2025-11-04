@@ -18,6 +18,8 @@
     "Cloud Computing & Hosting": "Cloud Computing & Hosting",
     "SME-EAZY Program": "SME-EAZY Program",
     "Industries": "Industries",
+    "Vision 2030 Alignment": "Vision 2030 Alignment",
+    "Why Choose Us": "Why Choose Us",
     "Government & Public Sector": "Government & Public Sector",
     "Banking & Financial Services": "Banking & Financial Services",
     "Energy & Telecom": "Energy & Telecom",
@@ -31,19 +33,26 @@
     "Services Style 1": "Services Style 1",
     "Services Style 2": "Services Style 2",
     "Services Style 3": "Services Style 3",
-    "Service Details": "Service Details",
-    "Projects": "Projects"
+    "Service Details": "Service Details"
   },
       "about": {
         "Vision": "Vision",
         "Mission": "Mission",
         "Core Values": "Core Values",
         "Our Team": "Our Team",
+        "Team": "Team",
         "Why Choose Us": "Why Choose Us",
         "page_title": "About Us",
+        "hero_title": "About Us",
+        "hero_content": "Eazy Cyber Agent is a Saudi company specializing in cybersecurity and digital solutions. We provide integrated services in artificial intelligence, big data, and cloud computing. Our mission is to support both public and private sectors in driving digital transformation and achieving Vision 2030 goals toward a knowledge-based, innovative economy.",
         "vision_heading": "Vision",
         "mission_heading": "Mission",
         "core_values_heading": "Core Values",
+        "team_heading": "Our Team",
+        "team_content": "Our team combines deep technical expertise with a commitment to excellence. It includes certified professionals in cybersecurity, AI, and data analytics, all working together to realize the company's vision.",
+        "cta_heading": "Join us in building a secure and intelligent digital future.",
+        "cta_services": "Explore Our Services",
+        "cta_contact": "Contact Us",
         "vision_content": "To be the first choice in Saudi Arabia and the region for delivering innovative digital and security solutions that empower organizations to adapt and achieve digital sustainability.",
         "mission_content": "To empower organizations to build secure and intelligent infrastructures using the latest technologies in AI, big data, and cybersecurity—aligned with the Kingdom's Vision 2030 digital transformation strategy.",
         "core_values": [
@@ -158,5 +167,25 @@
         "description": "SMEs & startups."
       }
     ]
+  },
+  "whyChooseUs": {
+    "page_title": "Why Choose Us",
+    "hero_title": "Why Choose Eazy Cyber Agent?",
+    "hero_content": "We are not just a service provider; we are your strategic partner in securing your digital assets and achieving your business goals. Our commitment to excellence, local expertise, and international standards makes us the ideal choice for organizations across Saudi Arabia.",
+    "main_section_title": "What Sets Us Apart",
+    "main_points": [
+      "Certified professionals (CISSP, CEH, CISM, ISO 27001 Lead Auditor)",
+      "Full compliance with NCA-ECC, SAMA, and NDMO regulations",
+      "Tailored solutions designed for the Saudi market",
+      "24/7 support in Arabic and English"
+    ],
+    "strengths_title": "Our Strengths",
+    "strengths_content": "Our team brings together decades of combined experience in cybersecurity, AI, and data analytics. We stay ahead of emerging threats and leverage cutting-edge technologies to protect your organization. As a Saudi company, we understand the unique regulatory and cultural context of doing business in the Kingdom, and we are proud contributors to Vision 2030's digital transformation objectives.",
+    "certifications_title": "Certifications & Standards",
+    "certifications_content": "We hold and maintain industry-leading certifications and adhere to the highest international standards, including ISO 27001, NCA-ECC, and SAMA cybersecurity frameworks. Our team is certified by globally recognized bodies, ensuring you receive world-class expertise backed by proven methodologies.",
+    "commitment_title": "Customer-Centric Commitment",
+    "commitment_content": "Your success is our success. We work closely with you to understand your needs, design solutions that fit your environment, and provide ongoing support to ensure long-term security and resilience.",
+    "cta_services": "Explore Our Services",
+    "cta_contact": "Get in Touch"
   }
 }

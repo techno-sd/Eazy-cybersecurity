@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 
 interface VisionProps {
   lang: string;
@@ -12,8 +13,20 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
 
   return (
     <>
+      {/* Hero / Introduction Section */}
+      <section id="introduction" className="security-area pb-70 pt-100">
+        <div className="container">
+          <div className="section-title" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
+            <h2>{t.about.hero_title}</h2>
+            <p style={{ fontSize: '16px', lineHeight: '1.8' }}>
+              {t.about.hero_content}
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Vision Section */}
-      <section className="security-area pb-70 pt-100">
+      <section id="vision" className="security-area pb-70">
         <div className="container">
           <div className="section-title" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
             <span className="sub-title">
@@ -29,7 +42,7 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
       </section>
 
       {/* Mission Section */}
-      <section className="security-area pb-70">
+      <section id="mission" className="security-area pb-70">
         <div className="container">
           <div className="section-title" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
             <span className="sub-title">
@@ -45,7 +58,7 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
       </section>
 
       {/* Core Values Section */}
-      <section className="security-area pb-70">
+      <section id="values" className="security-area pb-70">
         <div className="container">
           <div className="section-title" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
             <span className="sub-title">
@@ -53,11 +66,6 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
               {t.about.core_values_heading}
             </span>
             <h2>{t.about.core_values_heading}</h2>
-            <p>
-              {isArabic
-                ? 'نؤمن بأربع قيم أساسية تشكل جوهر عملنا وتوجه علاقاتنا مع عملائنا وشركائنا.'
-                : 'We believe in four core values that form the essence of our work and guide our relationships with clients and partners.'}
-            </p>
           </div>
 
           <div className="row" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
@@ -75,6 +83,39 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <section id="team" className="security-area pb-70">
+        <div className="container">
+          <div className="section-title" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
+            <span className="sub-title">
+              <i className="bx bx-group"></i>
+              {t.about.team_heading}
+            </span>
+            <h2>{t.about.team_heading}</h2>
+            <p>
+              {t.about.team_content}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action Section */}
+      <section className="security-area pb-100">
+        <div className="container">
+          <div className="section-title" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: 'center' }}>
+            <h2>{t.about.cta_heading}</h2>
+            <div style={{ marginTop: '30px', display: 'flex', gap: '15px', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <Link href="/services/ai" className="default-btn">
+                {t.about.cta_services}
+              </Link>
+              <Link href="/contact" className="default-btn">
+                {t.about.cta_contact}
+              </Link>
+            </div>
           </div>
         </div>
       </section>
