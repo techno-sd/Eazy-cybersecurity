@@ -2,8 +2,8 @@ import Navbar from "../components/Layouts/Navbar";
 import MainBanner from "../components/Home/MainBanner";
 import Partner from "../components/Common/Partner";
 import Vision2030Section from "../components/Home/Vision2030Section";
-import ServicesOverview from "../components/Home/ServicesOverview";
 import IndustriesPreview from "../components/Home/IndustriesPreview";
+import ServicesIntro from "../components/Home/ServicesIntro";
 import AIServicesSection from "../components/Home/AIServicesSection";
 import CybersecuritySection from "../components/Home/CybersecuritySection";
 import BigDataSection from "../components/Home/BigDataSection";
@@ -16,6 +16,7 @@ import SMEEazySection from "../components/Home/SMEEazySection";
 import Testimonials from "../components/Common/Testimonials";
 // import CyberSecurityOperation from "../components/Home/CyberSecurityOperation";
 import LatesNews from "../components/Common/LatesNews";
+import ContactCTA from "../components/Home/ContactCTA";
 import Footer from "../components/Layouts/Footer";
 
 export default function Home() {
@@ -31,7 +32,7 @@ export default function Home() {
 
       <IndustriesPreview />
 
-      <ServicesOverview />
+      <ServicesIntro />
 
       <AIServicesSection />
 
@@ -56,6 +57,8 @@ export default function Home() {
   {/* <CyberSecurityOperation /> */}
 
       <LatesNews />
+
+      <ContactCTA />
 
       <Footer />
     </>

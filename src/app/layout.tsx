@@ -32,8 +32,8 @@ const barlow_condensed = Barlow_Condensed({
 });
 
 export const metadata: Metadata = {
-  title: "Pisa - Cyber Security Services Company React Next Template",
-  description: "Cyber Security Services Company React Next Template",
+  title: "Eazy Cyber Agent - Cybersecurity & Digital Transformation Solutions",
+  description: "Eazy Cyber Agent - Leading Saudi cybersecurity company providing AI solutions, big data analytics, cloud computing, and digital transformation services aligned with Vision 2030",
 };
 
 export default function RootLayout({

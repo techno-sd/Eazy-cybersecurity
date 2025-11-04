@@ -51,7 +51,13 @@
     "contact_cta": {
       "title": "Let's Secure Your Digital Future",
       "content": "Partner with Eazy Cyber Agent to build a secure, smart, and compliant digital future.",
-      "button": "Contact Us"
+      "button": "Contact Us",
+      "benefit1_title": "Enterprise Security",
+      "benefit1_desc": "Comprehensive protection for your organization with world-class cybersecurity solutions",
+      "benefit2_title": "Rapid Response",
+      "benefit2_desc": "24/7 support and incident response team ready to protect your assets",
+      "benefit3_title": "Proven Compliance",
+      "benefit3_desc": "NCA and ISO 27001 certified solutions ensuring regulatory adherence"
     }
   },
   "buttons": {

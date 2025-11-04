@@ -18,7 +18,7 @@ export default function Page() {
       <section className="terms-conditions-area ptb-100">
         <div className="container">
           <div className="single-privacy">
-            <h3 className="mt-0">Welcome To Pisa Terms Conditions</h3>
+            <h3 className="mt-0">Welcome To Eazy Cyber Agent Terms Conditions</h3>
 
             <ul>
               <li>

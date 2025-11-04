@@ -44,13 +44,7 @@ const MainBanner: React.FC = () => {
               </div>
             </div>
 
-            <div className="col-lg-3">
-              <div className="video-btn-animat one">
-                <div onClick={() => setToggler(!toggler)} className="video-btn">
-                  <i className="bx bx-play"></i>
-                </div>
-              </div>
-            </div>
+            {/* Video icon/button removed as requested */}
           </div>
         </div>
 

@@ -62,6 +62,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu }) => {
         <Link
           href={link}
           className="nav-link"
+          style={{ color: isActive ? '#d80650' : '#333' }}
           onClick={(e) => {
             if (link === "#") {
               e.preventDefault();
@@ -93,6 +94,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu }) => {
                 <Link
                   href={subItem.link}
                   className={`nav-link ${isSubActive ? "active" : ""}`}
+                  style={{ color: isSubActive ? '#d80650' : '#333' }}
                   onClick={(e) => handleClick(e, subItem.link)}
                 >
                   {subLabel}
@@ -110,6 +112,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu }) => {
       <Link
         href={link}
         className={`nav-link ${isActive ? "active" : ""}`}
+        style={{ color: isActive ? '#d80650' : '#333' }}
         onClick={(e) => handleClick(e, link)}
       >
         {tLabel}

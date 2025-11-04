@@ -1,170 +1,174 @@
 "use client";
-  
+
 import React from "react";
 import Link from "next/link";
+import { useLang } from "@/context/LangContext";
+import { getMessages } from "@/i18n";
 
 const Footer: React.FC = () => {
+  const { lang } = useLang();
+  const t = getMessages(lang);
+  const isArabic = lang === "ar";
   const currentYear = new Date().getFullYear();
+
   return (
     <>
       <footer className="footer-top-area pt-100 pb-70 jarallax">
         <div className="container">
-          <div className="row">
+          <div className="row" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
+            {/* Contact Us Column */}
             <div className="col-lg-3 col-md-6">
-              <div className="single-widget contact">
-                <h3>Contact Us</h3>
+              <div className="single-widget contact" style={{ textAlign: isArabic ? 'right' : 'left' }}>
+                <h3>{isArabic ? 'اتصل بنا' : 'Contact Us'}</h3>
 
-                <ul className="contact-info">
+                <ul className="contact-info" style={{ textAlign: isArabic ? 'right' : 'left' }}>
                   <li>
                     <i className="bx bx-phone-call"></i>
-                    <span>Hotline:</span>
+                    <span>{isArabic ? 'الهاتف:' : 'Hotline:'}</span>
                     <a href="tel:+966563664008">+966 56 366 4008</a>
                   </li>
 
                   <li>
                     <i className="bx bx-envelope"></i>
-                    <span>Email:</span>
+                    <span>{isArabic ? 'البريد الإلكتروني:' : 'Email:'}</span>
                     <a href="mailto:support@eazycyber.sa">support@eazycyber.sa</a>
                   </li>
 
                   <li>
                     <i className="bx bx-location-plus"></i>
-                    <span>Address:</span>
-                    Riyadh, Kingdom of Saudi Arabia
+                    <span>{isArabic ? 'العنوان:' : 'Address:'}</span>
+                    {isArabic ? 'الرياض، المملكة العربية السعودية' : 'Riyadh, Kingdom of Saudi Arabia'}
                   </li>
                 </ul>
               </div>
             </div>
 
+            {/* Services Column */}
             <div className="col-lg-3 col-md-6">
-              <div className="single-widget">
-                <h3>Services Link</h3>
+              <div className="single-widget" style={{ textAlign: isArabic ? 'right' : 'left' }}>
+                <h3>{isArabic ? 'خدماتنا' : 'Our Services'}</h3>
 
                 <ul>
                   <li>
-                    <Link href="/services/details">
+                    <Link href="/services#ai">
                       <i className="bx bx-chevrons-right"></i>
-                      Web Site Protection
+                      {isArabic ? 'حلول الذكاء الاصطناعي' : 'AI Solutions'}
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/details">
+                    <Link href="/services#cybersecurity">
                       <i className="bx bx-chevrons-right"></i>
-                      Hosting & Server Guard
+                      {isArabic ? 'خدمات الأمن السيبراني' : 'Cybersecurity Services'}
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/details">
+                    <Link href="/services#bigdata">
                       <i className="bx bx-chevrons-right"></i>
-                      Web Administrator
+                      {isArabic ? 'البيانات الضخمة والتحليلات' : 'Big Data & Analytics'}
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/details">
+                    <Link href="/services#cloud">
                       <i className="bx bx-chevrons-right"></i>
-                      Conducting Training
+                      {isArabic ? 'الحوسبة السحابية' : 'Cloud Computing'}
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/details">
+                    <Link href="/services#sme">
                       <i className="bx bx-chevrons-right"></i>
-                      GRPS Smart Protection
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/services/details">
-                      <i className="bx bx-chevrons-right"></i>
-                      Security App
+                      {isArabic ? 'برنامج SME-EAZY' : 'SME-EAZY Program'}
                     </Link>
                   </li>
                 </ul>
               </div>
             </div>
 
+            {/* Industries Column */}
             <div className="col-lg-3 col-md-6">
-              <div className="single-widget">
-                <h3>Support & Help</h3>
+              <div className="single-widget" style={{ textAlign: isArabic ? 'right' : 'left' }}>
+                <h3>{isArabic ? 'القطاعات' : 'Industries'}</h3>
 
                 <ul>
                   <li>
-                    <Link href="/contact">
+                    <Link href="/industries#government">
                       <i className="bx bx-chevrons-right"></i>
-                      Support Forum
+                      {isArabic ? 'القطاع الحكومي' : 'Government & Public Sector'}
                     </Link>
                   </li>
                   <li>
-                    <Link href="/faq">
+                    <Link href="/industries#finance">
                       <i className="bx bx-chevrons-right"></i>
-                      FAQ Questions
+                      {isArabic ? 'البنوك والمالية' : 'Banking & Finance'}
                     </Link>
                   </li>
                   <li>
-                    <Link href="/contact">
+                    <Link href="/industries#energy">
                       <i className="bx bx-chevrons-right"></i>
-                      24/7 Support for Help
+                      {isArabic ? 'الطاقة والاتصالات' : 'Energy & Telecom'}
                     </Link>
                   </li>
                   <li>
-                    <Link href="/contact">
+                    <Link href="/industries#healthcare">
                       <i className="bx bx-chevrons-right"></i>
-                      Counseling
+                      {isArabic ? 'الرعاية الصحية' : 'Healthcare'}
                     </Link>
                   </li>
                   <li>
-                    <Link href="/contact">
+                    <Link href="/industries#education">
                       <i className="bx bx-chevrons-right"></i>
-                      Protection
+                      {isArabic ? 'التعليم' : 'Education'}
                     </Link>
                   </li>
                   <li>
-                    <Link href="/contact">
+                    <Link href="/industries#smes">
                       <i className="bx bx-chevrons-right"></i>
-                      Securihty
+                      {isArabic ? 'الشركات الصغيرة' : 'SMEs & Startups'}
                     </Link>
                   </li>
                 </ul>
               </div>
             </div>
 
+            {/* Quick Links Column */}
             <div className="col-lg-3 col-md-6">
-              <div className="single-widget">
-                <h3>Quick Links</h3>
+              <div className="single-widget" style={{ textAlign: isArabic ? 'right' : 'left' }}>
+                <h3>{isArabic ? 'روابط سريعة' : 'Quick Links'}</h3>
 
                 <ul>
                   <li>
-                    <Link href="/contact">
+                    <Link href="/about">
                       <i className="bx bx-chevrons-right"></i>
-                      Security
+                      {isArabic ? 'من نحن' : 'About Us'}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/vision-2030">
+                      <i className="bx bx-chevrons-right"></i>
+                      {isArabic ? 'رؤية 2030' : 'Vision 2030'}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/why-choose-us">
+                      <i className="bx bx-chevrons-right"></i>
+                      {isArabic ? 'لماذا نحن' : 'Why Choose Us'}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/blog">
+                      <i className="bx bx-chevrons-right"></i>
+                      {isArabic ? 'المدونة' : 'Blog'}
                     </Link>
                   </li>
                   <li>
                     <Link href="/contact">
                       <i className="bx bx-chevrons-right"></i>
-                      Protection
+                      {isArabic ? 'اتصل بنا' : 'Contact Us'}
                     </Link>
                   </li>
                   <li>
                     <Link href="/contact">
                       <i className="bx bx-chevrons-right"></i>
-                      Antivirus Packages
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/contact">
-                      <i className="bx bx-chevrons-right"></i>
-                      Security App
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/contact">
-                      <i className="bx bx-chevrons-right"></i>
-                      Website Security
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/contact">
-                      <i className="bx bx-chevrons-right"></i>
-                      Digital Security
+                      {isArabic ? 'دعم 24/7' : '24/7 Support'}
                     </Link>
                   </li>
                 </ul>
@@ -178,9 +182,11 @@ const Footer: React.FC = () => {
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-12">
-              <div className="copy-right" style={{ textAlign: 'center' }}>
+              <div className="copy-right" style={{ textAlign: 'center', direction: isArabic ? 'rtl' : 'ltr' }}>
                 <p>
-                  Copyright &copy;{currentYear} Eazy Cyber Agent
+                  {isArabic
+                    ? `جميع الحقوق محفوظة © ${currentYear} Eazy Cyber Agent`
+                    : `Copyright © ${currentYear} Eazy Cyber Agent`}
                 </p>
               </div>
             </div>

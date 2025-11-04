@@ -61,8 +61,14 @@ const Navbar: React.FC = () => {
         <TopHeader />
 
         <div className="nav-area">
-          <div id="navbar" className="navbar-area">
-            <div className="main-nav">
+          <div id="navbar" className="navbar-area" style={{
+            backgroundColor: '#ffffff',
+            borderBottom: '1px solid #e8e8e8'
+          }}>
+            <div className="main-nav" style={{
+              backgroundColor: '#ffffff',
+              borderBottom: 'none'
+            }}>
               <div className="container-fluid">
                 <nav className="navbar navbar-expand-md navbar-light" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
                   <Link href="/" className="navbar-brand">

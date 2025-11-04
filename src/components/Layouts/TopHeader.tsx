@@ -27,44 +27,56 @@ const TopHeader: React.FC = () => {
 
   return (
     <>
-      <div className="top-header-area">
+      <div className="top-header-area" style={{
+        backgroundColor: '#ffffff',
+        borderBottom: '1px solid #e8e8e8'
+      }}>
         <div className="container-fluid">
           <div className="row align-items-center">
             <div className="col-lg-6 col-sm-8">
-              <ul className="header-content-left">
-                <li>
-                  <a href="mailto:support@eazycyber.sa">
-                    <i className="bx bx-envelope"></i>
+              <ul className="header-content-left" style={{ color: '#666' }}>
+                <li style={{ color: '#666' }}>
+                  <a href="mailto:support@eazycyber.sa" style={{ color: '#666' }}>
+                    <i className="bx bx-envelope" style={{ color: '#d80650' }}></i>
                     Email: support@eazycyber.sa
                   </a>
                 </li>
 
-                <li>
-                  <i className="bx bx-location-plus"></i>
+                <li style={{ color: '#666' }}>
+                  <i className="bx bx-location-plus" style={{ color: '#d80650' }}></i>
                   KSA , Riyadh
                 </li>
               </ul>
             </div>
 
             <div className="col-lg-6 col-sm-4">
-              <ul className="header-content-right" style={{ display: 'flex', alignItems: 'center', gap: 12, justifyContent: 'flex-end' }}>
+              <ul
+                className="header-content-right"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 12,
+                  justifyContent: lang === 'ar' ? 'flex-start' : 'flex-end',
+                  float: lang === 'ar' ? 'left' : 'right',
+                }}
+              >
                 <li>
-                  <a href="https://www.facebook.com/" target="_blank">
+                  <a href="https://www.facebook.com/" target="_blank" style={{ color: '#666' }}>
                     <i className="bx bxl-facebook"></i>
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.twitter.com/" target="_blank">
+                  <a href="https://www.twitter.com/" target="_blank" style={{ color: '#666' }}>
                     <i className="bx bxl-twitter"></i>
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.linkedin.com/" target="_blank">
+                  <a href="https://www.linkedin.com/" target="_blank" style={{ color: '#666' }}>
                     <i className="bx bxl-linkedin"></i>
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.instagram.com/" target="_blank">
+                  <a href="https://www.instagram.com/" target="_blank" style={{ color: '#666' }}>
                     <i className="bx bxl-instagram"></i>
                   </a>
                 </li>

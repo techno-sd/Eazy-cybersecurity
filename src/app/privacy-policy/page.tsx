@@ -18,7 +18,7 @@ export default function PrivacyPolicy() {
       <section className="terms-conditions ptb-100">
         <div className="container">
           <div className="single-privacy">
-            <h3 className="mt-0">Welcome To Pisa Privacy Policy</h3>
+            <h3 className="mt-0">Welcome To Eazy Cyber Agent Privacy Policy</h3>
             <p>
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry standard dummy text
