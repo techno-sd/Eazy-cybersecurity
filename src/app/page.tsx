@@ -1,7 +1,9 @@
 import Navbar from "../components/Layouts/Navbar";
 import MainBanner from "../components/Home/MainBanner";
 import Partner from "../components/Common/Partner";
-import WebsiteSecurity from "../components/Home/WebsiteSecurity";
+import Vision2030Section from "../components/Home/Vision2030Section";
+import ServicesOverview from "../components/Home/ServicesOverview";
+import IndustriesPreview from "../components/Home/IndustriesPreview";
 import SecurityApproach from "../components/Home/SecurityApproach";
 import HighPerformanceSolutions from "../components/Home/HighPerformanceSolutions";
 import ElectronicProtection from "../components/Home/ElectronicProtection";
@@ -20,7 +22,11 @@ export default function Home() {
 
       <Partner />
 
-      <WebsiteSecurity />
+      <Vision2030Section />
+
+      <ServicesOverview />
+
+      <IndustriesPreview />
 
       <SecurityApproach />
 

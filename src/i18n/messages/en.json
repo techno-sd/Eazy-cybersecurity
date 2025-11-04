@@ -3,6 +3,57 @@
     "title": "Your Trusted Partner in Building a Secure and Smart Digital Future Aligned with Saudi Vision 2030",
     "welcome": "Eazy Cyber Agent is a Saudi company specializing in cybersecurity and digital solutions. We provide integrated services in artificial intelligence, big data, and cloud computing. Our mission is to support both public and private sectors in driving digital transformation and achieving Vision 2030 goals toward a knowledge-based, innovative economy."
   },
+  "home": {
+    "about_preview": {
+      "title": "About Us",
+      "intro": "Eazy Cyber Agent is a Saudi company specializing in cybersecurity and digital solutions. We provide integrated services in AI, big data, and cloud computing.",
+      "vision_card": "Vision",
+    "vision_text": "To be the first choice in Saudi Arabia and the region for delivering innovative digital and security solutions that empower organizations to adapt and achieve digital sustainability.",
+      "mission_card": "Mission",
+      "mission_text": "Empowering organizations with secure, intelligent solutions",
+      "values_card": "Core Values",
+      "values_text": "Integrity, Innovation, Security First",
+      "button": "Learn More"
+    },
+    "services_overview": {
+      "title": "Our Services",
+      "subtitle": "Comprehensive cybersecurity and digital transformation solutions",
+      "ai_title": "AI Solutions",
+      "ai_desc": "Intelligent automation and predictive analytics for business growth",
+      "cybersecurity_title": "Cybersecurity Services",
+      "cybersecurity_desc": "Comprehensive protection compliant with NCA & ISO 27001",
+      "bigdata_title": "Big Data & Analytics",
+      "bigdata_desc": "Transform data into actionable insights for decision-making",
+      "cloud_title": "Cloud Computing & Hosting",
+      "cloud_desc": "Secure, compliant cloud infrastructure for Saudi organizations",
+      "button": "View All Services"
+    },
+    "industries_preview": {
+      "title": "Industries We Serve",
+      "tagline": "Empowering Saudi industries through innovation, data, and cybersecurity",
+      "government": "Government",
+      "finance": "Finance",
+      "energy": "Energy",
+      "healthcare": "Healthcare",
+      "education": "Education",
+      "smes": "SMEs",
+      "button": "Explore More"
+    },
+    "vision2030": {
+      "title": "Our Vision 2030 Commitment",
+      "content": "We believe cybersecurity and digital innovation are pillars of Saudi Vision 2030. Our solutions focus on enabling digital transformation, protecting critical infrastructure, and supporting national talent.",
+      "button": "Learn More"
+    },
+    "blog_preview": {
+      "title": "Latest Insights",
+      "button": "Read More"
+    },
+    "contact_cta": {
+      "title": "Let's Secure Your Digital Future",
+      "content": "Partner with Eazy Cyber Agent to build a secure, smart, and compliant digital future.",
+      "button": "Contact Us"
+    }
+  },
   "buttons": {
     "contact": "Contact Us",
     "about": "About Us",
@@ -56,33 +107,14 @@
         "team_content": "Our team combines deep technical expertise with a commitment to excellence. It includes certified professionals in cybersecurity, AI, and data analytics, all working together to realize the company's vision.",
         "team_members": [
           {
-            "name": "محمد القحطاني",
-            "name_en": "Mohammed Al-Qahtani",
-            "position": "CEO",
+            "name": "م. مازن المطيري",
+            "name_en": "Eng. Mazin Al Motairy",
+            "position": "CEO of Eazy cyber Agent",
             "tagline": "قيادة الابتكار الرقمي والأمن السيبراني",
-            "tagline_en": "Leading digital innovation and cybersecurity"
-          },
-          {
-            "name": "Sara Al-Dosari",
-            "name_en": "Sara Al-Dosari",
-            "position": "CTO",
-            "tagline": "Leading technical excellence in AI & Cloud",
-            "tagline_en": "Leading technical excellence in AI & Cloud"
-          },
-          {
-            "name": "Faisal Al-Harbi",
-            "name_en": "Faisal Al-Harbi",
-            "position": "CISO",
-            "tagline": "حماية البنية التحتية الوطنية من التهديدات",
-            "tagline_en": "Protecting national infrastructure from threats"
-          },
-          {
-            "name": "Lina Al-Fahad",
-            "name_en": "Lina Al-Fahad",
-            "position": "Data Scientist",
-            "tagline": "الذكاء الاصطناعي في خدمة القرار الذكي",
-            "tagline_en": "AI-powered intelligent decision making"
+            "tagline_en": "Leading digital innovation and cybersecurity",
+            "image": "/img/team/CEO.jpg"
           }
+          
         ],
         "why_choose_heading": "Why Choose Us",
         "why_choose_highlights": [
@@ -117,12 +149,18 @@
         ]
       },
   "features": {
-    "security_title": "Security",
-    "security_desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
-    "privacy_title": "Privacy",
-    "privacy_desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
-    "certified_title": "Industry Certified",
-    "certified_desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore."
+    "security_title": "Vision",
+    "security_desc": "To be the first choice in Saudi Arabia and the region for delivering innovative digital and security solutions that empower organizations to adapt and achieve digital sustainability.",
+  "privacy_title": "Mission",
+  "privacy_desc": "To empower organizations to build secure and intelligent infrastructures using the latest technologies in AI, big data, and cybersecurity—aligned with the Kingdom’s Vision 2030 digital transformation strategy.",
+    "certified_title": "Core Values",
+    "certified_desc": "Our core values guide every engagement and decision.",
+    "certified_points": [
+      "Integrity & Transparency – Trust is the foundation of every partnership.",
+      "Continuous Innovation – Creative solutions for tomorrow’s challenges.",
+      "Security First – Safeguarding digital assets against threats.",
+      "Customer-Centric – Tailored solutions for every organization."
+    ]
   },
   "aiSolutions": {
     "section_title": "AI Solutions",
@@ -183,32 +221,36 @@
   "industries": {
     "page_title": "Industries We Serve",
     "section_title": "Industries We Serve",
+    "hero_subtitle": "Empowering sectors through innovation, security, and digital transformation.",
     "industries_list": [
       {
         "title": "Government & Public Sector",
-        "description": "Government & public sector."
+        "description": "Securing national digital infrastructure, enabling e-government services, and supporting Vision 2030 initiatives with AI-driven automation and compliance solutions."
       },
       {
         "title": "Banking & Financial Services",
-        "description": "Banking & financial services."
+        "description": "Protecting financial transactions, detecting fraud with advanced analytics, ensuring regulatory compliance (SAMA, NCA), and delivering secure cloud-based banking solutions."
       },
       {
         "title": "Energy & Telecommunications",
-        "description": "Energy & telecommunications."
+        "description": "Safeguarding critical infrastructure from cyber threats, monitoring OT/IT systems, and supporting smart grid and 5G rollouts with AI and IoT security."
       },
       {
         "title": "Healthcare & Hospitals",
-        "description": "Healthcare & hospitals."
+        "description": "Protecting patient data, ensuring HIPAA and local regulation compliance, securing telemedicine platforms, and enabling AI-powered diagnostics and analytics."
       },
       {
         "title": "Education & Universities",
-        "description": "Education & universities."
+        "description": "Securing online learning platforms, protecting student records, enabling safe digital collaboration, and supporting research initiatives with data analytics and cloud infrastructure."
       },
       {
         "title": "SMEs & Startups",
-        "description": "SMEs & startups."
+        "description": "Providing affordable, scalable cybersecurity and cloud solutions tailored for growing businesses, with a focus on agility, innovation, and alignment with entrepreneurship goals in Vision 2030."
       }
-    ]
+    ],
+    "vision2030_heading": "Aligned with Saudi Vision 2030",
+    "vision2030_content": "Aligned with Saudi Vision 2030, Eazy Cyber Agent supports national transformation through cybersecurity, AI, and cloud innovation across every industry.",
+    "vision2030_button": "Learn More"
   },
   "whyChooseUs": {
     "page_title": "Why Choose Us",

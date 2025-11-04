@@ -1045,7 +1045,7 @@ Features Area Style
 }
 .single-features {
 	background-color: #140f14;
-	padding: 30px;
+	padding: 24px;
 	position: relative;
 	z-index: 1;
 	&::before {
@@ -1072,12 +1072,12 @@ Features Area Style
 	h3 {
 		color: $main-color;
 		position: relative;
-		padding-left: 45px;
+		padding-left: 40px;
 		margin-bottom: 20px;
 		transition: $transition;
 		i {
 			color: $main-color;
-			font-size: 40px;
+			font-size: 32px;
 			line-height: 1;
 			position: absolute;
 			top: -4px;
@@ -1088,6 +1088,7 @@ Features Area Style
 	p {
 		color: $white-color;
 		margin-bottom: 0;
+		line-height: 1.8;
 	}
 	span {
 		position: absolute;
@@ -1110,6 +1111,23 @@ Features Area Style
 			width: 100%;
 		}
 	}
+}
+
+// Force white text for Core Values card
+.single-features.values-card {
+	h3 {
+		color: $white-color;
+		i { color: $white-color; }
+	}
+	p { color: $white-color; }
+	ul { margin-top: 8px; }
+	li { color: $white-color; }
+    // Keep text white on hover as well
+    &:hover {
+        h3 { color: $white-color; }
+        p { color: $white-color; }
+        li { color: $white-color; }
+    }
 }
 
 /*

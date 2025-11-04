@@ -310,8 +310,8 @@ const TeamCard: React.FC = () => {
               <div className="single-team">
                 <div className="image">
                   <Image
-                    src="/img/team/team8.jpg"
-                    alt="image"
+                    src="/img/team/CEO.jpg"
+                    alt="Eng. Mazin Al Motairy - CEO of Eazy cyber Agent"
                     width={355}
                     height={455}
                   />
@@ -341,8 +341,8 @@ const TeamCard: React.FC = () => {
                 </div>
 
                 <div className="content">
-                  <h3>Thomas Olsen</h3>
-                  <span>Founder & CEO</span>
+                  <h3>Eng. Mazin Al Motairy</h3>
+                  <span>CEO of Eazy cyber Agent</span>
                 </div>
               </div>
             </div>

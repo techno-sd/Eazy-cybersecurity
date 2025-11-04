@@ -30,30 +30,20 @@ const SecurityApproach: React.FC = () => {
                 </p>
 
                 <ul>
-                  <li>
-                    <i className="flaticon-cyber"></i>
-                    <h3>Secure by Design</h3>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut suspendisse ultrices
-                    </p>
-                  </li>
-                  <li>
-                    <i className="flaticon-cyber-security"></i>
-                    <h3>Compliant by Design</h3>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut suspendisse ultrices
-                    </p>
-                  </li>
-                  <li>
-                    <i className="flaticon-profile"></i>
-                    <h3>Continuous Monitoring</h3>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut suspendisse ultrices
-                    </p>
-                  </li>
+                  {[1,2,3].map((_, idx) => (
+                    <li key={idx}>
+                      <i className={[
+                        "flaticon-cyber",
+                        "flaticon-cyber-security",
+                        "flaticon-profile"
+                      ][idx]}></i>
+                      <h3>{typeof window !== 'undefined' && document.documentElement.lang === 'ar' ? 'الرؤية' : 'Vision'}</h3>
+                      <p>{typeof window !== 'undefined' && document.documentElement.lang === 'ar'
+                        ? 'أن نكون الخيار الأول في المملكة والمنطقة لتقديم حلول رقمية وأمنية مبتكرة تُمكّن المؤسسات من مواكبة التغيرات وتحقيق الاستدامة الرقمية.'
+                        : 'To be the first choice in Saudi Arabia and the region for delivering innovative digital and security solutions that empower organizations to adapt and achieve digital sustainability.'}
+                      </p>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>

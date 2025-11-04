@@ -112,7 +112,7 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
                 <div className="single-team" style={{ textAlign: isArabic ? 'right' : 'left', marginBottom: '30px' }}>
                   <div className="team-img" style={{ marginBottom: '20px' }}>
                     <Image
-                      src={`/img/team/team-${index + 1}.jpg`}
+                      src={member.image ? member.image : `/img/team/team-${index + 1}.jpg`}
                       alt={isArabic ? member.name : member.name_en}
                       width={300}
                       height={300}
