@@ -17,13 +17,13 @@ export const menus = [
   },
   {
     label: "Services",
-    link: "#",
+    link: "/services/",
     submenu: [
-      { label: "AI Solutions", link: "/services/ai/" },
-      { label: "Cybersecurity Services", link: "/services/cybersecurity/" },
-      { label: "Big Data & Analytics", link: "/services/big-data-analytics/" },
-      { label: "Cloud Computing & Hosting", link: "/services/cloud-hosting/" },
-      { label: "SME-EAZY Program", link: "/services/sme-eazy-program/" }
+      { label: "AI Solutions", link: "/services#ai" },
+      { label: "Cybersecurity Services", link: "/services#cybersecurity" },
+      { label: "Big Data & Analytics", link: "/services#bigdata" },
+      { label: "Cloud Computing & Hosting", link: "/services#cloud" },
+      { label: "SME-EAZY Program", link: "/services#sme" }
     ],
   },
   {

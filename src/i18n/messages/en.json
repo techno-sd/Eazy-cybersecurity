@@ -187,5 +187,70 @@
     "commitment_content": "Your success is our success. We work closely with you to understand your needs, design solutions that fit your environment, and provide ongoing support to ensure long-term security and resilience.",
     "cta_services": "Explore Our Services",
     "cta_contact": "Get in Touch"
+  },
+  "services": {
+    "page_title": "Services",
+    "hero_title": "Our Services",
+    "hero_content": "Empowering organizations through innovation in AI, cybersecurity, big data, and cloud solutions.",
+    "overview_title": "What We Offer",
+    "service_cards": [
+      {
+        "title": "AI Solutions",
+        "summary": "Intelligent automation and predictive analytics for business growth.",
+        "anchor": "#ai"
+      },
+      {
+        "title": "Cybersecurity Services",
+        "summary": "Comprehensive protection compliant with NCA & ISO 27001 standards.",
+        "anchor": "#cybersecurity"
+      },
+      {
+        "title": "Big Data & Analytics",
+        "summary": "Transform data into actionable insights for decision-making.",
+        "anchor": "#bigdata"
+      },
+      {
+        "title": "Cloud Computing & Hosting",
+        "summary": "Secure, compliant cloud infrastructure for Saudi organizations.",
+        "anchor": "#cloud"
+      },
+      {
+        "title": "SME-EAZY Program",
+        "summary": "Affordable cybersecurity solutions for small and medium enterprises.",
+        "anchor": "#sme"
+      }
+    ],
+    "ai_services": [
+      "AI chatbots for customer support.",
+      "Predictive analytics for data-driven decisions.",
+      "Intelligent systems for real-time cyber threat detection."
+    ],
+    "cybersecurity_services": [
+      "Penetration testing & vulnerability assessment.",
+      "Risk management and compliance with NCA & ISO 27001.",
+      "Security Operations Centers (SOC) and incident response.",
+      "Phishing simulation and cybersecurity awareness training."
+    ],
+    "bigdata_services": [
+      "Data warehouse creation and management.",
+      "Smart dashboards for decision-makers.",
+      "Fraud detection through advanced analytics.",
+      "Data governance aligned with Saudi data protection laws."
+    ],
+    "cloud_services": [
+      "Secure hosting compliant with Saudi regulations.",
+      "Backup and disaster recovery solutions.",
+      "Data encryption and virtual firewalls.",
+      "Identity and access management (IAM)."
+    ],
+    "sme_highlights": [
+      "Affordable cybersecurity packages.",
+      "Layered defense: technical, operational, and human.",
+      "Risk management tools and awareness workshops.",
+      "Fully aligned with Vision 2030 entrepreneurship goals."
+    ],
+    "cta_title": "Protect your digital future today.",
+    "cta_consultation": "Request Consultation",
+    "cta_industries": "Explore Industries We Serve"
   }
 }
