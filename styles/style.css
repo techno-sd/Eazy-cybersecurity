@@ -8906,4 +8906,281 @@ html[dir="rtl"] .navbar .dropdown-menu .nav-link {
   text-align: right;
 }
 
+/*================================================
+AI Solutions Area Styles
+=================================================*/
+.ai-solutions-area {
+  position: relative;
+  z-index: 1;
+}
+
+.ai-solutions-area .section-title {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 50px;
+}
+
+.ai-solutions-area .section-title h2 {
+  margin-bottom: 15px;
+  font-size: 36px;
+  line-height: 1.3;
+}
+
+.ai-solutions-area .section-title p {
+  font-size: 16px;
+  color: #666666;
+  margin-bottom: 0;
+}
+
+.ai-solutions-img {
+  margin-bottom: 30px;
+}
+
+.ai-solutions-img img {
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.ai-solutions-content {
+  padding-left: 30px;
+}
+
+.ai-solutions-content p {
+  font-size: 17px;
+  line-height: 1.8;
+  color: #666666;
+}
+
+html[dir="rtl"] .ai-solutions-content {
+  padding-left: 0;
+  padding-right: 30px;
+}
+
+.single-ai-solution-box {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 40px 30px;
+  margin-bottom: 30px;
+  transition: all 0.5s;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.single-ai-solution-box .icon {
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  background: linear-gradient(136.1deg, #0066cc 1.84%, #3399ff 100%);
+  border-radius: 50%;
+  margin: 0 auto 25px;
+  transition: all 0.5s;
+  position: relative;
+}
+
+.single-ai-solution-box .icon i {
+  font-size: 40px;
+  color: #ffffff;
+  line-height: 80px;
+}
+
+.single-ai-solution-box h3 {
+  font-size: 22px;
+  margin-bottom: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.single-ai-solution-box p {
+  margin-bottom: 0;
+  color: #666666;
+  line-height: 1.8;
+}
+
+.single-ai-solution-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.single-ai-solution-box:hover .icon {
+  background: linear-gradient(136.1deg, #d80650 1.84%, #ff1a6b 100%);
+  transform: scale(1.1);
+}
+
+/* RTL Support for AI Solutions */
+html[dir="rtl"] .single-ai-solution-box {
+  text-align: center;
+}
+
+/* Responsive Styles */
+@media only screen and (max-width: 767px) {
+  .ai-solutions-area .section-title h2 {
+    font-size: 28px;
+  }
+
+  .single-ai-solution-box {
+    padding: 30px 20px;
+  }
+
+  .single-ai-solution-box .icon {
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+  }
+
+  .single-ai-solution-box .icon i {
+    font-size: 35px;
+    line-height: 70px;
+  }
+
+  .single-ai-solution-box h3 {
+    font-size: 20px;
+  }
+}
+
+/*================================================
+Cybersecurity Features Area Styles
+=================================================*/
+.cybersecurity-features-area {
+  position: relative;
+  z-index: 1;
+}
+
+.cybersecurity-features-area .section-title {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 50px;
+}
+
+.cybersecurity-features-area .section-title h2 {
+  margin-bottom: 15px;
+  font-size: 36px;
+  line-height: 1.3;
+}
+
+.cybersecurity-features-area .section-title p {
+  font-size: 16px;
+  color: #666666;
+  margin-bottom: 0;
+}
+
+.cybersecurity-img {
+  margin-bottom: 30px;
+}
+
+.cybersecurity-img img {
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.cybersecurity-content {
+  padding-left: 30px;
+}
+
+.cybersecurity-content p {
+  font-size: 17px;
+  line-height: 1.8;
+  color: #666666;
+}
+
+html[dir="rtl"] .cybersecurity-content {
+  padding-left: 0;
+  padding-right: 30px;
+}
+
+.single-cybersecurity-box {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 40px 30px;
+  margin-bottom: 30px;
+  transition: all 0.5s;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-left: 4px solid transparent;
+}
+
+.single-cybersecurity-box .icon {
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  background: linear-gradient(136.1deg, #d80650 1.84%, #ff1a6b 100%);
+  border-radius: 50%;
+  margin: 0 auto 25px;
+  transition: all 0.5s;
+  position: relative;
+}
+
+.single-cybersecurity-box .icon i {
+  font-size: 40px;
+  color: #ffffff;
+  line-height: 80px;
+}
+
+.single-cybersecurity-box h3 {
+  font-size: 22px;
+  margin-bottom: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.single-cybersecurity-box p {
+  margin-bottom: 0;
+  color: #666666;
+  line-height: 1.8;
+}
+
+.single-cybersecurity-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border-left-color: #d80650;
+}
+
+.single-cybersecurity-box:hover .icon {
+  background: linear-gradient(136.1deg, #0066cc 1.84%, #3399ff 100%);
+  transform: scale(1.1);
+}
+
+/* RTL Support for Cybersecurity */
+html[dir="rtl"] .single-cybersecurity-box {
+  text-align: center;
+  border-left: none;
+  border-right: 4px solid transparent;
+}
+
+html[dir="rtl"] .single-cybersecurity-box:hover {
+  border-left-color: transparent;
+  border-right-color: #d80650;
+}
+
+/* Responsive Styles */
+@media only screen and (max-width: 767px) {
+  .cybersecurity-features-area .section-title h2 {
+    font-size: 28px;
+  }
+
+  .single-cybersecurity-box {
+    padding: 30px 20px;
+  }
+
+  .single-cybersecurity-box .icon {
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+  }
+
+  .single-cybersecurity-box .icon i {
+    font-size: 35px;
+    line-height: 70px;
+  }
+
+  .single-cybersecurity-box h3 {
+    font-size: 20px;
+  }
+}
+
 /* Home End 7, 8, 9 *//*# sourceMappingURL=style.css.map */

@@ -18,19 +18,19 @@ const Footer: React.FC = () => {
                   <li>
                     <i className="bx bx-phone-call"></i>
                     <span>Hotline:</span>
-                    <a href="tel:Phone:+892-569-756">Phone: +892-569-756</a>
+                    <a href="tel:+966563664008">+966 56 366 4008</a>
                   </li>
 
                   <li>
                     <i className="bx bx-envelope"></i>
                     <span>Email:</span>
-                    <a href="mailto:hello@pisa.com">hello@pisa.com</a>
+                    <a href="mailto:support@eazycyber.sa">support@eazycyber.sa</a>
                   </li>
 
                   <li>
                     <i className="bx bx-location-plus"></i>
                     <span>Address:</span>
-                    658 Lane Drive st Riverside. California
+                    Riyadh, Kingdom of Saudi Arabia
                   </li>
                 </ul>
               </div>
@@ -177,27 +177,11 @@ const Footer: React.FC = () => {
       <footer className="footer-bottom-area">
         <div className="container">
           <div className="row align-items-center">
-            <div className="col-lg-6">
-              <div className="copy-right">
+            <div className="col-lg-12">
+              <div className="copy-right" style={{ textAlign: 'center' }}>
                 <p>
-                  Copyright &copy;{currentYear} Pisa. Designed{" "}
-                  <a href="https://envytheme.com/" target="blank">
-                    EnvyTheme
-                  </a>
+                  Copyright &copy;{currentYear} Eazy Cyber Agent
                 </p>
-              </div>
-            </div>
-
-            <div className="col-lg-6">
-              <div className="condition-privacy">
-                <ul>
-                  <li>
-                    <Link href="/terms-conditions">Terms & Condition</Link>
-                  </li>
-                  <li>
-                    <Link href="/privacy-policy">Privacy Policy</Link>
-                  </li>
-                </ul>
               </div>
             </div>
           </div>

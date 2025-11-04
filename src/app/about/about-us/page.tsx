@@ -8,20 +8,20 @@ import { getMessages } from "@/i18n";
 export default function Page() {
   const cookieLang = cookies().get("lang")?.value === "ar" ? "ar" : "en";
   const t = getMessages(cookieLang);
+
   return (
     <>
       <Navbar />
       <PageBanner
-        pageTitle={t.about["Vision"]}
+        pageTitle={t.about.page_title}
         homePageUrl="/"
         homePageText={t.menu["Home"]}
-        activePageText={t.about["Vision"]}
+        activePageText={t.about.vision_heading}
       />
 
-      <Vision 
+      <Vision
         lang={cookieLang}
-        visionTitle={t.about["Vision"]}
-        visionContent={t.about["vision_content"]}
+        t={t}
       />
 
       <Footer />

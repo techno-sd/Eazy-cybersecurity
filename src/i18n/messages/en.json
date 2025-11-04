@@ -39,7 +39,12 @@
         "Mission": "Mission",
         "Core Values": "Core Values",
         "Our Team": "Our Team",
-        "vision_content": "To be the first choice in the Kingdom and the region for delivering innovative digital and security solutions that empower organizations to adapt and achieve digital sustainability.",
+        "Why Choose Us": "Why Choose Us",
+        "page_title": "About Us",
+        "vision_heading": "Vision",
+        "mission_heading": "Mission",
+        "core_values_heading": "Core Values",
+        "vision_content": "To be the first choice in Saudi Arabia and the region for delivering innovative digital and security solutions that empower organizations to adapt and achieve digital sustainability.",
         "mission_content": "To empower organizations to build secure and intelligent infrastructures using the latest technologies in AI, big data, and cybersecurity—aligned with the Kingdom's Vision 2030 digital transformation strategy.",
         "core_values": [
           {
@@ -67,5 +72,91 @@
     "privacy_desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
     "certified_title": "Industry Certified",
     "certified_desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore."
+  },
+  "aiSolutions": {
+    "section_title": "AI Solutions",
+    "section_subtitle": "Empower your organization with cutting-edge artificial intelligence technologies for exceptional results",
+    "chatbot_title": "AI Chatbots for Customer Support",
+    "chatbot_desc": "Intelligent AI-powered chatbots that provide instant 24/7 support and enhance customer experience.",
+    "predictive_title": "Predictive Analytics for Data-Driven Decisions",
+    "predictive_desc": "Leverage the power of data with advanced analytics that help you make strategic decisions based on accurate insights.",
+    "threat_title": "Intelligent Systems for Real-Time Cyber Threat Detection",
+    "threat_desc": "Advanced AI-powered protection that detects and responds to threats in real-time, safeguarding your digital assets."
+  },
+  "cybersecurity": {
+    "section_title": "Cybersecurity Services",
+    "section_subtitle": "Comprehensive protection for your digital assets with advanced security solutions compliant with global standards",
+    "pentest_title": "Penetration Testing & Vulnerability Assessment",
+    "pentest_desc": "Penetration testing & vulnerability assessment.",
+    "compliance_title": "Risk Management and Compliance with NCA & ISO 27001",
+    "compliance_desc": "Risk management and compliance with NCA & ISO 27001.",
+    "soc_title": "Security Operations Centers (SOC) and Incident Response",
+    "soc_desc": "Security Operations Centers (SOC) and incident response.",
+    "training_title": "Phishing Simulation and Cybersecurity Awareness Training",
+    "training_desc": "Phishing simulation and cybersecurity awareness training."
+  },
+  "bigData": {
+    "section_title": "Big Data & Analytics",
+    "warehouse_title": "Data Warehouse Creation and Management",
+    "warehouse_desc": "Data warehouse creation and management.",
+    "dashboard_title": "Smart Dashboards for Decision-Makers",
+    "dashboard_desc": "Smart dashboards for decision-makers.",
+    "fraud_title": "Fraud Detection Through Advanced Analytics",
+    "fraud_desc": "Fraud detection through advanced analytics.",
+    "governance_title": "Data Governance Aligned with Saudi Data Protection Laws",
+    "governance_desc": "Data governance aligned with Saudi data protection laws."
+  },
+  "cloudHosting": {
+    "section_title": "Cloud Computing & Hosting",
+    "hosting_title": "Secure Hosting Compliant with Saudi Regulations",
+    "hosting_desc": "Secure hosting compliant with Saudi regulations.",
+    "backup_title": "Backup and Disaster Recovery Solutions",
+    "backup_desc": "Backup and disaster recovery solutions.",
+    "encryption_title": "Data Encryption and Virtual Firewalls",
+    "encryption_desc": "Data encryption and virtual firewalls.",
+    "iam_title": "Identity and Access Management (IAM)",
+    "iam_desc": "Identity and access management (IAM)."
+  },
+  "smeEazy": {
+    "section_title": "SME-EAZY Program",
+    "section_subtitle": "The SME-EAZY program is designed to support small and medium enterprises with multi-layered protection, hands-on cybersecurity training, and cost-effective solutions.",
+    "packages_title": "Affordable Cybersecurity Packages",
+    "packages_desc": "Affordable cybersecurity packages.",
+    "layered_title": "Layered Defense: Technical, Operational, and Human",
+    "layered_desc": "Layered defense: technical, operational, and human.",
+    "risk_title": "Risk Management Tools and Awareness Workshops",
+    "risk_desc": "Risk management tools and awareness workshops.",
+    "vision_title": "Fully Aligned with Vision 2030 Entrepreneurship Goals",
+    "vision_desc": "Fully aligned with Vision 2030 entrepreneurship goals."
+  },
+  "industries": {
+    "page_title": "Industries We Serve",
+    "section_title": "Industries We Serve",
+    "industries_list": [
+      {
+        "title": "Government & Public Sector",
+        "description": "Government & public sector."
+      },
+      {
+        "title": "Banking & Financial Services",
+        "description": "Banking & financial services."
+      },
+      {
+        "title": "Energy & Telecommunications",
+        "description": "Energy & telecommunications."
+      },
+      {
+        "title": "Healthcare & Hospitals",
+        "description": "Healthcare & hospitals."
+      },
+      {
+        "title": "Education & Universities",
+        "description": "Education & universities."
+      },
+      {
+        "title": "SMEs & Startups",
+        "description": "SMEs & startups."
+      }
+    ]
   }
 }

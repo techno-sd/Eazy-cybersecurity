@@ -8,10 +8,12 @@ export const menus = [
     label: "About Us",
     link: "#",
     submenu: [
+      { label: "About Us", link: "/about/about-us/" },
       { label: "Vision", link: "/about/vision/" },
       { label: "Mission", link: "/about/mission/" },
       { label: "Core Values", link: "/about/core-values/" },
-      { label: "Our Team", link: "/about/team/" }
+      { label: "Team", link: "/about/our-team/" },
+      { label: "Why Choose Us", link: "/about/team/" }
     ],
   },
   {
@@ -27,15 +29,7 @@ export const menus = [
   },
   {
     label: "Industries",
-    link: "#",
-    submenu: [
-      { label: "Government & Public Sector", link: "/industries/government-public/" },
-      { label: "Banking & Financial Services", link: "/industries/banking-financial/" },
-      { label: "Energy & Telecom", link: "/industries/energy-telecom/" },
-      { label: "Healthcare", link: "/industries/healthcare/" },
-      { label: "Education & Universities", link: "/industries/education-universities/" },
-      { label: "SMEs & Startups", link: "/industries/smes-startups/" }
-    ],
+    link: "/industries/",
   },
   {
     label: "Projects",

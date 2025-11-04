@@ -11,14 +11,14 @@ export default function Page() {
     <>
       <Navbar />
       <PageBanner
-        pageTitle={t.about["Our Team"]}
+        pageTitle={t.about["Why Choose Us"]}
         homePageUrl="/"
         homePageText={t.menu["Home"]}
-        activePageText={t.about["Our Team"]}
+        activePageText={t.about["Why Choose Us"]}
       />
 
       <div className="container ptb-100">
-        <h2 style={{ textAlign: cookieLang === 'ar' ? 'right' : 'left', direction: cookieLang === 'ar' ? 'rtl' : 'ltr' }}>{t.about["Our Team"]}</h2>
+        <h2 style={{ textAlign: cookieLang === 'ar' ? 'right' : 'left', direction: cookieLang === 'ar' ? 'rtl' : 'ltr' }}>{t.about["Why Choose Us"]}</h2>
         <p style={{ textAlign: cookieLang === 'ar' ? 'right' : 'left', direction: cookieLang === 'ar' ? 'rtl' : 'ltr' }}>
           {/* Placeholder content */}
         </p>
