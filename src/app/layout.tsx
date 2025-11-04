@@ -43,7 +43,7 @@ export default function RootLayout({
 }>) {
   const cookieStore = cookies();
   const cookieLang = cookieStore.get("lang")?.value;
-  const lang = cookieLang === "ar" ? "ar" : "en";
+  const lang = cookieLang === "en" ? "en" : "ar";
   return (
     <html lang={lang} dir={lang === "ar" ? "rtl" : "ltr"}>
       <body className={`${rubik.variable} ${barlow_condensed.variable}`}>

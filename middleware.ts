@@ -41,14 +41,14 @@ export function middleware(req: NextRequest) {
     return res;
   }
 
-  // No locale in path: choose from cookie or Accept-Language
+  // No locale in path: choose from cookie or Accept-Language (default: Arabic)
   const cookieLang = cookies.get('lang')?.value;
-  let locale: 'en' | 'ar' = cookieLang === 'ar' ? 'ar' : 'en';
+  let locale: 'en' | 'ar' = cookieLang === 'en' ? 'en' : 'ar';
 
   if (!cookieLang) {
-    // Simple Accept-Language sniff
+    // Simple Accept-Language sniff (default to Arabic if not English)
     const accept = req.headers.get('accept-language') || '';
-    if (/\bar\b/i.test(accept)) locale = 'ar';
+    if (/\ben\b/i.test(accept) && !/\bar\b/i.test(accept)) locale = 'en';
   }
 
   const url = req.nextUrl.clone();

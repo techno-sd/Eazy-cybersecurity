@@ -1429,6 +1429,16 @@ Client Area Style
   height: 100%;
   background-color: #010e19;
   opacity: 0.82;
+}
+.client-area::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #010e19;
+  opacity: 0.82;
   z-index: -1;
 }
 

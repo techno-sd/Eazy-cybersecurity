@@ -27,7 +27,7 @@ function getInitialLang(): Lang {
     const ls = window.localStorage.getItem("lang");
     if (ls === "ar" || ls === "en") return ls as Lang;
   }
-  return "en";
+  return "ar";
 }
 
 export const LangProvider: React.FC<React.PropsWithChildren<{ initialLang?: Lang }>> = ({ children, initialLang }) => {
