@@ -18,7 +18,7 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
       <section id="introduction" className="security-area pb-70 pt-100">
         <div className="container">
           <div className="section-title" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
-            <span className="sub-title" style={{ fontSize: '18px', color: '#d80650' }}>
+            <span className="sub-title" style={{ fontSize: '18px', color: '#607EAC' }}>
               <i className="bx bx-trending-up"></i>
               {t.about.hero_tagline}
             </span>
@@ -125,7 +125,7 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
                   </div>
                   <div className="team-content">
                     <h3 style={{ fontSize: '20px', marginBottom: '5px' }}>{isArabic ? member.name : member.name_en}</h3>
-                    <span style={{ color: '#d80650', fontWeight: '600', display: 'block', marginBottom: '10px' }}>{member.position}</span>
+                    <span style={{ color: '#607EAC', fontWeight: '600', display: 'block', marginBottom: '10px' }}>{member.position}</span>
                     <p style={{ fontSize: '14px', lineHeight: '1.6' }}>
                       {isArabic ? member.tagline : member.tagline_en}
                     </p>

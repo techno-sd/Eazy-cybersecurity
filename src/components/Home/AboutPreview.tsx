@@ -47,7 +47,7 @@ const AboutPreview: React.FC<AboutPreviewProps> = ({ lang, t }) => {
               <div className="row" style={{ marginBottom: '30px' }}>
                 <div className="col-lg-4 col-sm-4 col-6">
                   <div className="single-security" style={{ textAlign: 'center', padding: '20px 10px' }}>
-                    <i className="bx bx-bullseye" style={{ fontSize: '40px', color: '#d80650' }}></i>
+                    <i className="bx bx-bullseye" style={{ fontSize: '40px', color: '#607EAC' }}></i>
                     <h4 style={{ fontSize: '16px', marginTop: '10px', marginBottom: '5px' }}>
                       {t.home.about_preview.vision_card}
                     </h4>
@@ -59,7 +59,7 @@ const AboutPreview: React.FC<AboutPreviewProps> = ({ lang, t }) => {
 
                 <div className="col-lg-4 col-sm-4 col-6">
                   <div className="single-security" style={{ textAlign: 'center', padding: '20px 10px' }}>
-                    <i className="bx bx-rocket" style={{ fontSize: '40px', color: '#d80650' }}></i>
+                    <i className="bx bx-rocket" style={{ fontSize: '40px', color: '#607EAC' }}></i>
                     <h4 style={{ fontSize: '16px', marginTop: '10px', marginBottom: '5px' }}>
                       {t.home.about_preview.mission_card}
                     </h4>
@@ -71,7 +71,7 @@ const AboutPreview: React.FC<AboutPreviewProps> = ({ lang, t }) => {
 
                 <div className="col-lg-4 col-sm-4 col-12">
                   <div className="single-security" style={{ textAlign: 'center', padding: '20px 10px' }}>
-                    <i className="bx bx-star" style={{ fontSize: '40px', color: '#d80650' }}></i>
+                    <i className="bx bx-star" style={{ fontSize: '40px', color: '#607EAC' }}></i>
                     <h4 style={{ fontSize: '16px', marginTop: '10px', marginBottom: '5px' }}>
                       {t.home.about_preview.values_card}
                     </h4>

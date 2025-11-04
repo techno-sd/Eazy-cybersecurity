@@ -86,7 +86,7 @@ const testimonials = {
 };
 
 const TestimonialsCard: React.FC = () => {
-  const { lang } = useLang ? useLang() : { lang: 'en' };
+  const { lang } = useLang();
   const t = lang === 'ar' ? testimonials.ar : testimonials.en;
   const sectionTitle = lang === 'ar' ? 'آراء عملائنا' : "What Client’s Say About Us";
   const sectionDesc = lang === 'ar'
@@ -122,46 +122,6 @@ const TestimonialsCard: React.FC = () => {
                 </div>
               </div>
             ))}
-
-            {/* Pagination */}
-            <div className="col-lg-12">
-              <div className="page-navigation-area">
-                <ul className="pagination">
-                  <li className="page-item">
-                    <Link href="#" className="page-link page-links">
-                      <i className="bx bx-chevrons-left"></i>
-                    </Link>
-                  </li>
-                  <li className="page-item active">
-                    <Link href="#" className="page-link">
-                      1
-                    </Link>
-                  </li>
-                  <li className="page-item">
-                    <Link href="#" className="page-link">
-                      2
-                    </Link>
-                  </li>
-                  <li className="page-item">
-                    <Link href="#" className="page-link">
-                      3
-                    </Link>
-                  </li>
-                  <li className="page-item">
-                    <Link href="#" className="page-link">
-                      <i className="bx bx-chevrons-right"></i>
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
-
 
             {/* Pagination */}
             <div className="col-lg-12">

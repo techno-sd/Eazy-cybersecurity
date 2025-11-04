@@ -88,7 +88,7 @@ const testimonials = {
 };
 
 const Testimonials: React.FC = () => {
-  const { lang } = useLang ? useLang() : { lang: 'en' };
+  const { lang } = useLang();
   const t = lang === 'ar' ? testimonials.ar : testimonials.en;
   const sectionTitle = lang === 'ar' ? 'آراء عملائنا' : "What Client’s Say About Us";
   const sectionDesc = lang === 'ar'

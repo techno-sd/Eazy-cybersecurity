@@ -7,8 +7,8 @@ import "swiper/css";
 import "swiper/css/bundle";
 
 // Global Style
-import "../../styles/style.css";
-import "../../styles/responsive.css";
+import "../../styles/style.scss";
+import "../../styles/responsive.scss";
 
 import type { Metadata } from "next";
 import Providers from "./providers";

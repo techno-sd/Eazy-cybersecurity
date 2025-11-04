@@ -75,7 +75,7 @@ const ContactCTA: React.FC = () => {
                     transition: 'all 0.3s ease',
                     boxShadow: '0 5px 20px rgba(0,0,0,0.08)'
                   }}>
-                    <i className={benefit.icon} style={{ fontSize: '40px', color: '#d80650', marginBottom: '15px', display: 'block' }}></i>
+                    <i className={benefit.icon} style={{ fontSize: '40px', color: '#607EAC', marginBottom: '15px', display: 'block' }}></i>
                     <h4 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '10px', color: '#222' }}>
                       {(t.home.contact_cta as any)[benefit.titleKey]}
                     </h4>
@@ -100,8 +100,8 @@ const ContactCTA: React.FC = () => {
 
               <Link href="/services" className="default-btn" style={{
                 backgroundColor: 'transparent',
-                color: '#d80650',
-                border: '2px solid #d80650',
+                color: '#607EAC',
+                border: '2px solid #607EAC',
                 display: 'inline-block',
                 marginBottom: '15px'
               }}>
@@ -115,15 +115,15 @@ const ContactCTA: React.FC = () => {
                 </p>
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', gap: '30px', color: '#666' }}>
                   <span style={{ fontSize: '14px' }}>
-                    <i className="bx bx-check-shield" style={{ fontSize: '18px', marginRight: isArabic ? '0' : '8px', marginLeft: isArabic ? '8px' : '0', color: '#d80650' }}></i>
+                    <i className="bx bx-check-shield" style={{ fontSize: '18px', marginRight: isArabic ? '0' : '8px', marginLeft: isArabic ? '8px' : '0', color: '#607EAC' }}></i>
                     {isArabic ? 'متوافق مع NCA' : 'NCA Compliant'}
                   </span>
                   <span style={{ fontSize: '14px' }}>
-                    <i className="bx bx-certification" style={{ fontSize: '18px', marginRight: isArabic ? '0' : '8px', marginLeft: isArabic ? '8px' : '0', color: '#d80650' }}></i>
+                    <i className="bx bx-certification" style={{ fontSize: '18px', marginRight: isArabic ? '0' : '8px', marginLeft: isArabic ? '8px' : '0', color: '#607EAC' }}></i>
                     {isArabic ? 'معتمد ISO 27001' : 'ISO 27001 Certified'}
                   </span>
                   <span style={{ fontSize: '14px' }}>
-                    <i className="bx bx-support" style={{ fontSize: '18px', marginRight: isArabic ? '0' : '8px', marginLeft: isArabic ? '8px' : '0', color: '#d80650' }}></i>
+                    <i className="bx bx-support" style={{ fontSize: '18px', marginRight: isArabic ? '0' : '8px', marginLeft: isArabic ? '8px' : '0', color: '#607EAC' }}></i>
                     {isArabic ? 'دعم 24/7' : '24/7 Support'}
                   </span>
                 </div>

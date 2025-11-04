@@ -88,7 +88,7 @@ const BlogPreview: React.FC<BlogPreviewProps> = ({ lang, t }) => {
                   <p style={{ fontSize: '14px', lineHeight: '1.7', marginBottom: '15px', color: '#666' }}>
                     {post.excerpt}
                   </p>
-                  <Link href="/blog/details" style={{ color: '#d80650', fontWeight: '600', fontSize: '14px' }}>
+                  <Link href="/blog/details" style={{ color: '#607EAC', fontWeight: '600', fontSize: '14px' }}>
                     {t.home.blog_preview.button} <i className={`bx ${isArabic ? 'bx-left-arrow-alt' : 'bx-right-arrow-alt'}`}></i>
                   </Link>
                 </div>

@@ -37,13 +37,13 @@ const TopHeader: React.FC = () => {
               <ul className="header-content-left" style={{ color: '#666' }}>
                 <li style={{ color: '#666' }}>
                   <a href="mailto:support@eazycyber.sa" style={{ color: '#666' }}>
-                    <i className="bx bx-envelope" style={{ color: '#d80650' }}></i>
+                    <i className="bx bx-envelope" style={{ color: '#607EAC' }}></i>
                     Email: support@eazycyber.sa
                   </a>
                 </li>
 
                 <li style={{ color: '#666' }}>
-                  <i className="bx bx-location-plus" style={{ color: '#d80650' }}></i>
+                  <i className="bx bx-location-plus" style={{ color: '#607EAC' }}></i>
                   KSA , Riyadh
                 </li>
               </ul>
