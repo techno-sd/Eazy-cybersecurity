@@ -28,22 +28,22 @@ const TopHeader: React.FC = () => {
   return (
     <>
       <div className="top-header-area" style={{
-        backgroundColor: '#ffffff',
-        borderBottom: '1px solid #e8e8e8'
+        backgroundColor: '#0A4D8C',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
       }}>
         <div className="container-fluid">
           <div className="row align-items-center">
             <div className="col-lg-6 col-sm-8">
-              <ul className="header-content-left" style={{ color: '#666' }}>
-                <li style={{ color: '#666' }}>
-                  <a href="mailto:support@eazycyber.sa" style={{ color: '#666' }}>
-                    <i className="bx bx-envelope" style={{ color: '#0A4D8C' }}></i>
+              <ul className="header-content-left" style={{ color: '#ffffff' }}>
+                <li style={{ color: '#ffffff' }}>
+                  <a href="mailto:support@eazycyber.sa" style={{ color: '#ffffff' }}>
+                    <i className="bx bx-envelope" style={{ color: '#ffffff' }}></i>
                     Email: support@eazycyber.sa
                   </a>
                 </li>
 
-                <li style={{ color: '#666' }}>
-                  <i className="bx bx-location-plus" style={{ color: '#0A4D8C' }}></i>
+                <li style={{ color: '#ffffff' }}>
+                  <i className="bx bx-location-plus" style={{ color: '#ffffff' }}></i>
                   KSA , Riyadh
                 </li>
               </ul>
@@ -61,22 +61,22 @@ const TopHeader: React.FC = () => {
                 }}
               >
                 <li>
-                  <a href="https://www.facebook.com/" target="_blank" style={{ color: '#666' }}>
+                  <a href="https://www.facebook.com/" target="_blank" style={{ color: '#ffffff' }}>
                     <i className="bx bxl-facebook"></i>
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.twitter.com/" target="_blank" style={{ color: '#666' }}>
+                  <a href="https://www.twitter.com/" target="_blank" style={{ color: '#ffffff' }}>
                     <i className="bx bxl-twitter"></i>
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.linkedin.com/" target="_blank" style={{ color: '#666' }}>
+                  <a href="https://www.linkedin.com/" target="_blank" style={{ color: '#ffffff' }}>
                     <i className="bx bxl-linkedin"></i>
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.instagram.com/" target="_blank" style={{ color: '#666' }}>
+                  <a href="https://www.instagram.com/" target="_blank" style={{ color: '#ffffff' }}>
                     <i className="bx bxl-instagram"></i>
                   </a>
                 </li>
