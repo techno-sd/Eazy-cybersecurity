@@ -30,7 +30,7 @@ export const menus = [
     link: "/industries/",
   },
   {
-    label: "Vision 2030",
+    label: "Vision 2030 Alignment",
     link: "/vision-2030/",
   },
   {

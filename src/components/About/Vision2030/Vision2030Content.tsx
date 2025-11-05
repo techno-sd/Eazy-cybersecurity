@@ -89,9 +89,6 @@ const Vision2030Content: React.FC<Vision2030Props> = ({ lang }) => {
                   {currentContent.points.map((point, index) => (
                     <li key={index} className="vision-2030-item">
                       <div className="vision-2030-card">
-                        <span className="vision-2030-icon">
-                          <i className={point.icon}></i>
-                        </span>
                         <span className="vision-2030-text">{point.text}</span>
                       </div>
                     </li>

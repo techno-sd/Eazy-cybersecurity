@@ -1,0 +1,422 @@
+/*
+========================================
+Vision 2030 Page - Enhanced Colors
+Platform Brand Alignment
+========================================
+*/
+
+// Platform Brand Colors (matching your design system)
+$vision-primary: #0A4D8C;      // Platform primary blue
+$vision-primary-dark: #073D6C;
+$vision-primary-light: #2575C0;
+$vision-accent: #D80650;       // Platform gradient color (pink/red)
+$vision-accent-light: #FE5D68;
+$vision-white: #FFFFFF;
+$vision-dark: #0e0129;         // Platform heading color
+
+// Enhanced Vision 2030 Area
+.vision-2030-area {
+	padding: 100px 0;
+	background: linear-gradient(135deg, #f7f9fc 0%, #ffffff 100%);
+	position: relative;
+	z-index: 1;
+	overflow: hidden;
+
+	// Background decoration with platform colors
+	&::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-image:
+			radial-gradient(circle at 20% 50%, rgba(10, 77, 140, 0.04) 0%, transparent 50%),
+			radial-gradient(circle at 80% 80%, rgba(216, 6, 80, 0.04) 0%, transparent 50%);
+		pointer-events: none;
+		z-index: -1;
+	}
+
+	.vision-2030-image {
+		width: 100%;
+		height: auto;
+		border-radius: 16px;
+		box-shadow: 0 15px 50px rgba(10, 77, 140, 0.15);
+		margin-bottom: 30px;
+		transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+		&:hover {
+			box-shadow: 0 25px 70px rgba(10, 77, 140, 0.25);
+			transform: translateY(-8px);
+		}
+
+		@media only screen and (max-width: 767px) {
+			margin-bottom: 40px;
+		}
+	}
+
+	.vision-2030-content {
+		max-width: 900px;
+	}
+
+	// Title with Vision 2030 brand styling
+	.vision-2030-title {
+		font-size: clamp(32px, 6vw, 48px);
+		font-weight: 800;
+		margin-bottom: 20px;
+		color: $vision-dark;
+		position: relative;
+		line-height: 1.2;
+
+		// Platform brand accent
+		&::before {
+			content: "";
+			position: absolute;
+			left: 0;
+			bottom: -10px;
+			width: 80px;
+			height: 4px;
+			background: linear-gradient(90deg, $vision-primary 0%, $vision-accent 100%);
+			border-radius: 2px;
+		}
+
+		@media only screen and (max-width: 767px) {
+			font-size: 28px;
+			margin-bottom: 20px;
+		}
+	}
+
+	// Subtitle
+	.vision-2030-subtitle {
+		font-size: clamp(18px, 3vw, 22px);
+		font-weight: 600;
+		color: $vision-primary;
+		margin-bottom: 20px;
+		margin-top: 25px;
+	}
+
+	// RTL Support
+	&.rtl {
+		.vision-2030-title {
+			&::before {
+				left: auto;
+				right: 0;
+			}
+		}
+
+		.vision-2030-description {
+			text-align: right;
+		}
+
+		.vision-2030-list {
+			.vision-2030-card {
+				text-align: center;
+			}
+
+			.vision-2030-text {
+				text-align: center;
+			}
+		}
+
+		.vision-2030-cta {
+			text-align: right;
+		}
+	}
+
+	.vision-2030-description {
+		font-size: 17px;
+		line-height: 1.8;
+		color: #555555;
+		margin-bottom: 40px;
+		text-align: left;
+
+		&:last-of-type {
+			margin-bottom: 35px;
+		}
+
+		@media only screen and (max-width: 767px) {
+			font-size: 15px;
+			margin-bottom: 30px;
+		}
+	}
+
+	// Enhanced Card Grid
+	.vision-2030-list {
+		list-style: none;
+		padding: 0;
+		margin: 40px 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+		gap: 20px;
+
+		li {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+
+		@media only screen and (max-width: 767px) {
+			grid-template-columns: 1fr;
+			gap: 16px;
+			margin: 30px 0;
+		}
+
+		// Enhanced Cards with platform colors
+		.vision-2030-card {
+			background: linear-gradient(135deg, #ffffff 0%, #f7f9fc 100%);
+			padding: 30px 25px;
+			border-radius: 16px;
+			position: relative;
+			transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+			border: 2px solid rgba(10, 77, 140, 0.1);
+			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+			overflow: hidden;
+
+			// Hover gradient overlay
+			&::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: linear-gradient(135deg, rgba(10, 77, 140, 0.03) 0%, rgba(216, 6, 80, 0.03) 100%);
+				opacity: 0;
+				transition: opacity 0.4s ease;
+				pointer-events: none;
+			}
+
+			&:hover {
+				transform: translateY(-8px);
+				border-color: rgba(10, 77, 140, 0.3);
+				box-shadow: 0 12px 35px rgba(10, 77, 140, 0.15);
+
+				&::before {
+					opacity: 1;
+				}
+
+				.vision-2030-icon {
+					background: linear-gradient(135deg, $vision-accent 0%, $vision-accent-light 100%);
+					color: $vision-white;
+					transform: scale(1.1) rotate(5deg);
+					box-shadow: 0 10px 25px rgba(216, 6, 80, 0.3);
+				}
+
+				.vision-2030-text {
+					color: $vision-dark;
+				}
+			}
+
+			@media only screen and (max-width: 767px) {
+				padding: 25px 20px;
+			}
+		}
+
+		// Icon styling with platform brand colors
+		.vision-2030-icon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-shrink: 0;
+			width: 70px;
+			height: 70px;
+			min-width: 70px;
+			background: linear-gradient(135deg, rgba(10, 77, 140, 0.1) 0%, rgba(10, 77, 140, 0.15) 100%);
+			border-radius: 50%;
+			color: $vision-primary;
+			font-size: 32px;
+			margin-bottom: 20px;
+			transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+			position: relative;
+			z-index: 1;
+
+			i {
+				font-size: 32px;
+				font-weight: 700;
+			}
+
+			@media only screen and (max-width: 767px) {
+				width: 60px;
+				height: 60px;
+				min-width: 60px;
+				font-size: 28px;
+				margin-bottom: 15px;
+
+				i {
+					font-size: 28px;
+				}
+			}
+		}
+
+		.vision-2030-text {
+			font-size: 16px;
+			line-height: 1.6;
+			color: #666666;
+			font-weight: 500;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			position: relative;
+			z-index: 1;
+			transition: all 0.3s ease;
+
+			@media only screen and (max-width: 767px) {
+				font-size: 14px;
+			}
+		}
+	}
+
+	// CTA Button with platform brand colors
+	.vision-2030-cta {
+		margin-top: 50px;
+		text-align: left;
+
+		.default-btn {
+			background: linear-gradient(135deg, $vision-primary 0%, $vision-primary-dark 100%);
+			padding: 16px 40px;
+			font-weight: 600;
+			border-radius: 8px;
+			display: inline-block;
+			color: $vision-white;
+			text-decoration: none;
+			transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+			box-shadow: 0 6px 20px rgba(10, 77, 140, 0.25);
+			border: none;
+			position: relative;
+			overflow: hidden;
+
+			&::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: linear-gradient(135deg, $vision-accent 0%, $vision-accent-light 100%);
+				opacity: 0;
+				transition: opacity 0.3s ease;
+			}
+
+			&::after {
+				content: '';
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				width: 0;
+				height: 0;
+				border-radius: 50%;
+				background: rgba(255, 255, 255, 0.3);
+				transform: translate(-50%, -50%);
+				transition: width 0.6s, height 0.6s;
+			}
+
+			&:hover {
+				transform: translateY(-3px);
+				box-shadow: 0 12px 30px rgba(10, 77, 140, 0.35);
+
+				&::before {
+					opacity: 1;
+				}
+
+				&::after {
+					width: 300px;
+					height: 300px;
+				}
+			}
+
+			&:active {
+				transform: translateY(-1px);
+			}
+
+			span {
+				position: relative;
+				z-index: 1;
+			}
+
+			@media only screen and (max-width: 767px) {
+				padding: 14px 32px;
+				font-size: 15px;
+				width: 100%;
+				text-align: center;
+			}
+		}
+
+		@media only screen and (max-width: 767px) {
+			margin-top: 40px;
+			text-align: center;
+		}
+	}
+
+	// Background shapes
+	.vision-2030-background {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+		overflow: hidden;
+		pointer-events: none;
+	}
+
+	.vision-2030-shape-1 {
+		position: absolute;
+		top: 10%;
+		right: 5%;
+		width: 400px;
+		height: 400px;
+		background: radial-gradient(circle, rgba(10, 77, 140, 0.08) 0%, transparent 70%);
+		border-radius: 50%;
+		animation: float 20s ease-in-out infinite;
+
+		@media only screen and (max-width: 991px) {
+			width: 250px;
+			height: 250px;
+		}
+	}
+
+	.vision-2030-shape-2 {
+		position: absolute;
+		bottom: 10%;
+		left: 5%;
+		width: 300px;
+		height: 300px;
+		background: radial-gradient(circle, rgba(216, 6, 80, 0.08) 0%, transparent 70%);
+		border-radius: 50%;
+		animation: float 15s ease-in-out infinite reverse;
+
+		@media only screen and (max-width: 991px) {
+			width: 200px;
+			height: 200px;
+		}
+	}
+}
+
+// Animation
+@keyframes float {
+	0%, 100% {
+		transform: translateY(0) rotate(0deg);
+	}
+	50% {
+		transform: translateY(-30px) rotate(5deg);
+	}
+}
+
+// Mobile responsiveness
+@media only screen and (max-width: 767px) {
+	.vision-2030-area {
+		padding: 60px 0;
+
+		.row {
+			flex-direction: column-reverse;
+
+			&.rtl {
+				flex-direction: column-reverse;
+			}
+		}
+	}
+}

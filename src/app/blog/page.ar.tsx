@@ -1,27 +1,22 @@
-"use client";
 import React from "react";
 import Navbar from "../../components/Layouts/Navbar";
 import PageBanner from "../../components/Common/PageBanner";
 import Footer from "../../components/Layouts/Footer";
 import BlogGrid from "../../components/Blog/BlogGrid";
-import { useLang } from "@/context/LangContext";
-import { getMessages } from "@/i18n";
 
 export default function Page() {
-  const { lang } = useLang();
-  const t = getMessages(lang);
   return (
     <>
       <Navbar />
 
       <PageBanner
-        pageTitle={lang === 'ar' ? 'المدونة' : 'Blog Grid'}
+        pageTitle="المدونة"
         homePageUrl="/"
-        homePageText={lang === 'ar' ? 'الرئيسية' : 'Home'}
-        activePageText={lang === 'ar' ? 'المدونة' : 'Blog Grid'}
+        homePageText="الرئيسية"
+        activePageText="المدونة"
       />
 
-      <BlogGrid />
+      <BlogGrid lang="ar" />
 
       <Footer />
     </>
