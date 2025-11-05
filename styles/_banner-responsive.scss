@@ -1,0 +1,66 @@
+/*
+========================================
+Banner Button Responsive Fix
+Mobile RTL/LTR Support
+========================================
+*/
+
+// ========================================
+// MOBILE: Stack buttons vertically (max-width: 575px)
+// ========================================
+@media only screen and (max-width: 575px) {
+    .banner-area {
+        .banner-text {
+            .banner-btn {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 12px !important;
+                align-items: flex-start !important;
+
+                // RTL support
+                [dir="rtl"] & {
+                    align-items: flex-start !important;
+                }
+
+                .default-btn {
+                    margin: 0 !important;
+                    width: 100% !important;
+                    max-width: 250px !important;
+                    display: flex !important;
+                    justify-content: center !important;
+
+                    &.active {
+                        margin: 0 !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// ========================================
+// TABLET & DESKTOP: Horizontal layout (min-width: 768px)
+// ========================================
+@media only screen and (min-width: 768px) {
+    .banner-area {
+        .banner-text {
+            .banner-btn {
+                display: flex !important;
+                flex-direction: row !important;
+                flex-wrap: wrap;
+                gap: 15px !important;
+                align-items: center !important;
+
+                .default-btn {
+                    width: auto !important;
+                    max-width: none !important;
+                    margin: 0 !important;
+
+                    &.active {
+                        margin: 0 !important;
+                    }
+                }
+            }
+        }
+    }
+}

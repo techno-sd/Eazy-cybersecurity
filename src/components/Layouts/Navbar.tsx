@@ -80,20 +80,42 @@ const Navbar: React.FC = () => {
                     />
                   </Link>
 
-                  <button
-                    onClick={toggleNavbar}
-                    className={classTwo}
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                  >
-                    <span className="icon-bar top-bar"></span>
-                    <span className="icon-bar middle-bar"></span>
-                    <span className="icon-bar bottom-bar"></span>
-                  </button>
+                  {/* Mobile: Button + Menu Icon Container */}
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    order: lang === 'ar' ? 3 : 0,
+                  }}>
+                    {/* Mobile Quote Button */}
+                    <Link
+                      href="/contact"
+                      className="default-btn d-md-none"
+                      style={{
+                        padding: '8px 16px',
+                        fontSize: '14px',
+                        minWidth: 'auto',
+                      }}
+                    >
+                      {t.buttons.quote}
+                    </Link>
+
+                    {/* Hamburger Menu Icon */}
+                    <button
+                      onClick={toggleNavbar}
+                      className={classTwo}
+                      type="button"
+                      data-toggle="collapse"
+                      data-target="#navbarSupportedContent"
+                      aria-controls="navbarSupportedContent"
+                      aria-expanded="false"
+                      aria-label="Toggle navigation"
+                    >
+                      <span className="icon-bar top-bar"></span>
+                      <span className="icon-bar middle-bar"></span>
+                      <span className="icon-bar bottom-bar"></span>
+                    </button>
+                  </div>
 
                   <div className={classOne} id="navbarSupportedContent">
                     <ul className="navbar-nav m-auto">
@@ -103,7 +125,8 @@ const Navbar: React.FC = () => {
                     </ul>
                   </div>
 
-                  <div className="others-option">
+                  {/* Desktop Quote Button */}
+                  <div className="others-option d-none d-md-block">
                     <div className="get-quote">
                       <Link href="/contact" className="default-btn">
                         {t.buttons.quote}

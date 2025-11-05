@@ -32,12 +32,36 @@ const MainBanner: React.FC = () => {
                 <h1>{t.hero.title}</h1>
                 <p>{t.hero.welcome}</p>
 
-                <div className="banner-btn">
-                  <Link href="/contact" className="default-btn">
+                <div
+                  className="banner-btn"
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '15px',
+                    alignItems: isAR ? 'flex-start' : 'flex-start',
+                  }}
+                >
+                  <Link
+                    href="/contact"
+                    className="default-btn"
+                    style={{
+                      margin: 0,
+                      width: '100%',
+                      maxWidth: '250px',
+                    }}
+                  >
                     {t.buttons.contact}
                   </Link>
-                  
-                  <Link href="/about" className="default-btn active">
+
+                  <Link
+                    href="/about"
+                    className="default-btn active"
+                    style={{
+                      margin: 0,
+                      width: '100%',
+                      maxWidth: '250px',
+                    }}
+                  >
                     {t.buttons.about}
                   </Link>
                 </div>
