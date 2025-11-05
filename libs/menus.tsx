@@ -28,6 +28,14 @@ export const menus = [
   {
     label: "Industries",
     link: "/industries/",
+    submenu: [
+      { label: "Government & Public Sector", link: "/industries#government" },
+      { label: "Banking & Finance", link: "/industries#banking" },
+      { label: "Energy & Telecom", link: "/industries#energy" },
+      { label: "Healthcare", link: "/industries#healthcare" },
+      { label: "Education", link: "/industries#education" },
+      { label: "SMEs & Startups", link: "/industries#smes" }
+    ],
   },
   {
     label: "Vision 2030 Alignment",

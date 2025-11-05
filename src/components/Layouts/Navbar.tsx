@@ -21,17 +21,27 @@ const Navbar: React.FC = () => {
     setMenu(!menu);
   };
 
-  // Define section IDs for services page
+  // Define section IDs for services and industries pages
   const serviceSectionIds = ["ai", "cybersecurity", "bigdata", "cloud", "sme"];
+  const industrySectionIds = ["government", "banking", "energy", "healthcare", "education", "smes"];
 
-  // Only enable scroll spy on services page
+  // Enable scroll spy on services and industries pages
   const normalize = (p: string) => (p || "/").replace(/^\/(en|ar)(?=\/|$)/, "") || "/";
   const currentPath = normalize(pathname || "/");
   const isServicesPage = currentPath === "/services" || currentPath === "/services/";
+  const isIndustriesPage = currentPath === "/industries" || currentPath === "/industries/";
 
-  // Use scroll spy hook only on services page
+  // Determine which section IDs to use
+  let sectionIds: string[] = [];
+  if (isServicesPage) {
+    sectionIds = serviceSectionIds;
+  } else if (isIndustriesPage) {
+    sectionIds = industrySectionIds;
+  }
+
+  // Use scroll spy hook
   const activeSection = useScrollSpyHook({
-    sectionIds: isServicesPage ? serviceSectionIds : [],
+    sectionIds,
     offset: 200,
     throttleMs: 100,
   });

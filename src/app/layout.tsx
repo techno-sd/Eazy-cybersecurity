@@ -12,6 +12,7 @@ import "../../styles/responsive.scss";
 import "../../styles/_banner-responsive.scss";
 import "../../styles/_navbar-mobile.scss";
 import "../../styles/_vision-2030-enhanced.scss";
+import "../../styles/_industries-enhanced.scss";
 
 import type { Metadata } from "next";
 import Providers from "./providers";
