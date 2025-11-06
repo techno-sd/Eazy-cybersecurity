@@ -55,12 +55,14 @@ const MainBanner: React.FC = () => {
 
                 <div
                   className="banner-btn"
+                  dir={isAR ? 'rtl' : 'ltr'}
                   style={{
                     display: 'flex',
-                    flexDirection: isAR ? 'row-reverse' : 'row',
+                    flexDirection: 'row',
                     gap: '15px',
-                    flexWrap: 'wrap',
+                    flexWrap: 'nowrap',
                     alignItems: 'flex-start',
+                    marginLeft: isAR ? 'auto' : '0',
                   }}
                 >
                   <Link
@@ -75,7 +77,10 @@ const MainBanner: React.FC = () => {
                       background: 'linear-gradient(135deg, #0A4D8C 0%, #607EAC 100%)',
                       color: '#fff',
                       textDecoration: 'none',
-                      borderRadius: '8px'
+                      borderRadius: '8px',
+                      whiteSpace: 'nowrap',
+                      flex: '0 1 auto',
+                      minWidth: '120px',
                     }}
                   >
                     {t.buttons.contact}
@@ -94,7 +99,10 @@ const MainBanner: React.FC = () => {
                       color: '#0A4D8C',
                       textDecoration: 'none',
                       borderRadius: '8px',
-                      border: '2px solid #fff'
+                      border: '2px solid #fff',
+                      whiteSpace: 'nowrap',
+                      flex: '0 1 auto',
+                      minWidth: '120px',
                     }}
                   >
                     {t.buttons.about}

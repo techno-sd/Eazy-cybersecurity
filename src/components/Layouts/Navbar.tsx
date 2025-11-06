@@ -92,7 +92,7 @@ const Navbar: React.FC = () => {
                     padding: '12px 0',
                   }}
                   className="d-md-none">
-                    {/* Left side - Menu Icon */}
+                    {/* Left side - Menu Icon + Logo */}
                     <div style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -120,23 +120,19 @@ const Navbar: React.FC = () => {
                         <span className="icon-bar middle-bar" style={{ transition: 'all 0.3s ease' }}></span>
                         <span className="icon-bar bottom-bar" style={{ transition: 'all 0.3s ease' }}></span>
                       </button>
+                      
+                      <Link href="/" className="navbar-brand" style={{ 
+                        margin: '0',
+                        transition: 'all 0.3s ease',
+                      }}>
+                        <Image
+                          src="/img/logo.png"
+                          alt="logo"
+                          width={100}
+                          height={39}
+                        />
+                      </Link>
                     </div>
-
-                    {/* Center - Logo (Absolutely Centered) */}
-                    <Link href="/" className="navbar-brand" style={{ 
-                      position: 'absolute',
-                      left: '50%',
-                      transform: 'translateX(-50%)',
-                      margin: '0',
-                      transition: 'all 0.3s ease',
-                    }}>
-                      <Image
-                        src="/img/logo.png"
-                        alt="logo"
-                        width={100}
-                        height={39}
-                      />
-                    </Link>
 
                     {/* Right side - Quote Button */}
                     <div style={{

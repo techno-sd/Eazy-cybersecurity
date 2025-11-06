@@ -67,27 +67,43 @@
             .banner-btn {
                 margin-bottom: 30px;
                 display: flex !important;
-                flex-direction: column !important;
+                flex-direction: row !important;
                 gap: 12px;
                 align-items: flex-start !important;
+                flex-wrap: nowrap !important;
 
-                // RTL support - buttons align to the start (right in RTL)
+                // Arabic - align right
                 [dir="rtl"] & {
-                    align-items: flex-start !important;
+                    justify-content: flex-end !important;
+                }
+
+                // English - align left
+                [dir="ltr"] & {
+                    justify-content: flex-start !important;
                 }
 
                 // Reset margin-right from default styles
                 .default-btn {
                     margin-right: 0 !important;
                     margin-left: 0 !important;
-                    width: 100%;
-                    max-width: 250px;
+                    width: auto !important;
+                    min-width: 140px;
+                    flex: 0 1 auto;
                     justify-content: center;
+                    white-space: nowrap;
 
                     &.active {
                         margin-left: 0 !important;
                         margin-right: 0 !important;
                     }
+                }
+                
+                // Also fix Link elements
+                a {
+                    width: auto !important;
+                    min-width: 140px;
+                    flex: 0 1 auto;
+                    white-space: nowrap;
                 }
             }
         }

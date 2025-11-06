@@ -6,32 +6,52 @@ Mobile RTL/LTR Support
 */
 
 // ========================================
-// MOBILE: Stack buttons vertically (max-width: 575px)
+// MOBILE: Display buttons horizontally (max-width: 575px)
 // ========================================
 @media only screen and (max-width: 575px) {
     .banner-area {
         .banner-text {
             .banner-btn {
                 display: flex !important;
-                flex-direction: column !important;
+                flex-direction: row !important;
                 gap: 12px !important;
                 align-items: flex-start !important;
+                flex-wrap: nowrap !important;
 
-                // RTL support
+                // Arabic - align right
                 [dir="rtl"] & {
-                    align-items: flex-start !important;
+                    justify-content: flex-end !important;
+                }
+
+                // English - align left
+                [dir="ltr"] & {
+                    justify-content: flex-start !important;
                 }
 
                 .default-btn {
                     margin: 0 !important;
-                    width: 100% !important;
-                    max-width: 250px !important;
-                    display: flex !important;
+                    width: auto !important;
+                    min-width: 130px !important;
+                    max-width: none !important;
+                    display: inline-flex !important;
                     justify-content: center !important;
+                    flex: 0 1 auto;
+                    white-space: nowrap;
 
                     &.active {
                         margin: 0 !important;
                     }
+                }
+                
+                a {
+                    width: auto !important;
+                    min-width: 130px !important;
+                    display: inline-flex !important;
+                    justify-content: center !important;
+                    align-items: center;
+                    flex: 0 1 auto;
+                    white-space: nowrap;
+                    padding: 12px 20px !important;
                 }
             }
         }

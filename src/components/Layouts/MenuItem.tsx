@@ -15,6 +15,7 @@ interface MenuItemProps {
 
 const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const pathname = usePathname();
   const normalize = (p: string) => (p || "/").replace(/^\/(en|ar)(?=\/|$)/, "") || "/";
   const current = normalize(pathname || "/");
@@ -58,8 +59,16 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu }) => {
   };
 
   if (submenu) {
+    // Show submenu on mobile when expanded, or on desktop when hovered
+    const showSubmenu = isExpanded || isHovered;
+
     return (
-      <li className={`nav-item ${isActive ? "active" : ""} ${isExpanded ? "expanded" : ""}`} key={label}>
+      <li 
+        className={`nav-item ${isActive ? "active" : ""} ${isExpanded ? "expanded" : ""}`} 
+        key={label}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
           <Link
             href={link}
@@ -75,7 +84,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu }) => {
           </Link>
           <button
             type="button"
-            className="expand-toggle"
+            className="expand-toggle d-md-none"
             onClick={(e) => {
               e.preventDefault();
               setIsExpanded(!isExpanded);
@@ -105,11 +114,11 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu }) => {
           dir={isAR ? 'rtl' : 'ltr'}
           style={{
             textAlign: isAR ? 'right' : undefined,
-            maxHeight: isExpanded ? '500px' : '0',
+            maxHeight: showSubmenu ? '500px' : '0',
             overflow: 'hidden',
             transition: 'all 0.3s ease',
-            opacity: isExpanded ? 1 : 0,
-            visibility: isExpanded ? 'visible' : 'hidden',
+            opacity: showSubmenu ? 1 : 0,
+            visibility: showSubmenu ? 'visible' : 'hidden',
           }}
         >
           {submenu.map((subItem) => {
