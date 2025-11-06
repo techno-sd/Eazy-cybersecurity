@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 const DigitalWorkflow: React.FC = () => {
   return (
@@ -17,9 +18,12 @@ const DigitalWorkflow: React.FC = () => {
           </div>
           <div className="col-lg-6 col-md-12">
             <div className="digital-workflow-image">
-              <img
+              <Image
                 src="/img/home-one/digital-workflow.png"
                 alt="Digital Workflow"
+                width={600}
+                height={400}
+                style={{ width: '100%', height: 'auto' }}
               />
             </div>
           </div>

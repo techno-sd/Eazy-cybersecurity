@@ -74,15 +74,17 @@ const LazyImage: React.FC<LazyImageProps> = ({
   };
 
   if (!width || !height) {
-    // Fallback for img tag when dimensions not provided
+    // Fallback for Image tag when dimensions not provided
     return (
       <div ref={ref} style={containerStyle} className={className}>
-        <img
+        <Image
           src={imageSrc || src}
           alt={alt}
-          style={imageStyle}
-          onLoad={() => setIsLoaded(true)}
+          fill
+          style={{...imageStyle, objectFit: 'cover'}}
+          onLoadingComplete={() => setIsLoaded(true)}
           className={className}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
         />
       </div>
     );
