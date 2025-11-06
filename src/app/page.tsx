@@ -2,7 +2,7 @@ import Navbar from "../components/Layouts/Navbar";
 import MainBanner from "../components/Home/MainBanner";
 // import Partner from "../components/Common/Partner";
 import Vision2030Section from "../components/Home/Vision2030Section";
-import IndustriesPreview from "../components/Home/IndustriesPreview";
+import IndustriesSection from "../components/Home/IndustriesSection";
 import ServicesIntro from "../components/Home/ServicesIntro";
 import AIServicesSection from "../components/Home/AIServicesSection";
 import CybersecuritySection from "../components/Home/CybersecuritySection";
@@ -30,7 +30,7 @@ export default function Home() {
 
       <Vision2030Section />
 
-      <IndustriesPreview />
+      <IndustriesSection />
 
       <ServicesIntro />
 
