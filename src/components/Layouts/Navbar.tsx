@@ -81,7 +81,89 @@ const Navbar: React.FC = () => {
             }}>
               <div className="container-fluid">
                 <nav className="navbar navbar-expand-md navbar-light" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
-                  <Link href="/" className="navbar-brand">
+                  {/* Mobile Layout */}
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    width: '100%',
+                    gap: '10px',
+                    position: 'relative',
+                    padding: '12px 0',
+                  }}
+                  className="d-md-none">
+                    {/* Left side - Menu Icon */}
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px',
+                    }}>
+                      <button
+                        onClick={toggleNavbar}
+                        className={classTwo}
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded={!menu}
+                        aria-label="Toggle navigation"
+                        style={{ 
+                          margin: '0',
+                          padding: '8px',
+                          border: 'none',
+                          background: 'transparent',
+                          cursor: 'pointer',
+                          transition: 'all 0.3s ease',
+                        }}
+                      >
+                        <span className="icon-bar top-bar" style={{ transition: 'all 0.3s ease' }}></span>
+                        <span className="icon-bar middle-bar" style={{ transition: 'all 0.3s ease' }}></span>
+                        <span className="icon-bar bottom-bar" style={{ transition: 'all 0.3s ease' }}></span>
+                      </button>
+                    </div>
+
+                    {/* Center - Logo (Absolutely Centered) */}
+                    <Link href="/" className="navbar-brand" style={{ 
+                      position: 'absolute',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      margin: '0',
+                      transition: 'all 0.3s ease',
+                    }}>
+                      <Image
+                        src="/img/logo.png"
+                        alt="logo"
+                        width={100}
+                        height={39}
+                      />
+                    </Link>
+
+                    {/* Right side - Quote Button */}
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px',
+                    }}>
+                      <Link
+                        href="/contact"
+                        className="default-btn"
+                        style={{
+                          padding: '10px 16px',
+                          fontSize: '12px',
+                          minWidth: 'auto',
+                          whiteSpace: 'nowrap',
+                          fontWeight: '600',
+                          transition: 'all 0.3s ease',
+                          boxShadow: '0 2px 8px rgba(10, 77, 140, 0.15)',
+                        }}
+                      >
+                        {t.buttons.quote}
+                      </Link>
+                    </div>
+                  </div>
+
+                  {/* Desktop Layout */}
+                  <Link href="/" className="navbar-brand d-none d-md-inline-block">
                     <Image
                       src="/img/logo.png"
                       alt="logo"
@@ -90,45 +172,20 @@ const Navbar: React.FC = () => {
                     />
                   </Link>
 
-                  {/* Mobile: Button + Menu Icon Container */}
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '10px',
-                    order: lang === 'ar' ? 3 : 0,
-                  }}>
-                    {/* Mobile Quote Button */}
-                    <Link
-                      href="/contact"
-                      className="default-btn d-md-none"
-                      style={{
-                        padding: '8px 16px',
-                        fontSize: '14px',
-                        minWidth: 'auto',
-                      }}
-                    >
-                      {t.buttons.quote}
-                    </Link>
-
-                    {/* Hamburger Menu Icon */}
-                    <button
-                      onClick={toggleNavbar}
-                      className={classTwo}
-                      type="button"
-                      data-toggle="collapse"
-                      data-target="#navbarSupportedContent"
-                      aria-controls="navbarSupportedContent"
-                      aria-expanded="false"
-                      aria-label="Toggle navigation"
-                    >
-                      <span className="icon-bar top-bar"></span>
-                      <span className="icon-bar middle-bar"></span>
-                      <span className="icon-bar bottom-bar"></span>
-                    </button>
-                  </div>
-
-                  <div className={classOne} id="navbarSupportedContent">
-                    <ul className="navbar-nav m-auto">
+                  <div
+                    className="collapse navbar-collapse d-none d-md-flex"
+                    id="navbarSupportedContent"
+                    style={{
+                      marginLeft: lang === 'ar' ? '0' : 'auto',
+                      marginRight: lang === 'ar' ? 'auto' : '0',
+                    }}
+                  >
+                    <ul className="navbar-nav" style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      width: lang === 'en' ? '100%' : 'auto',
+                      justifyContent: lang === 'en' ? 'flex-start' : 'flex-start',
+                    }}>
                       {menus.map((menuItem) => (
                         <MenuItem key={menuItem.label} {...menuItem} />
                       ))}
@@ -136,12 +193,40 @@ const Navbar: React.FC = () => {
                   </div>
 
                   {/* Desktop Quote Button */}
-                  <div className="others-option d-none d-md-block">
-                    <div className="get-quote">
-                      <Link href="/contact" className="default-btn">
-                        {t.buttons.quote}
-                      </Link>
-                    </div>
+                  <Link
+                    href="/contact"
+                    className="default-btn d-none d-md-block"
+                    style={{
+                      marginLeft: 'auto',
+                    }}
+                  >
+                    {t.buttons.quote}
+                  </Link>
+
+                  {/* Mobile Collapsible Menu */}
+                  <div
+                    className={`d-md-none w-100 ${menu ? '' : 'show'}`}
+                    id="navbarSupportedContent"
+                    style={{
+                      marginTop: '0',
+                      borderTop: '1px solid #e8e8e8',
+                      paddingTop: '0',
+                      paddingBottom: '0',
+                      display: menu ? 'none' : 'block',
+                      maxHeight: menu ? '0' : '100vh',
+                      overflow: 'hidden',
+                      transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+                      backgroundColor: '#ffffff',
+                      boxShadow: menu ? 'none' : '0 4px 12px rgba(0, 0, 0, 0.08)',
+                    }}
+                  >
+                    <ul className="navbar-nav w-100" style={{
+                      padding: '15px 0',
+                    }}>
+                      {menus.map((menuItem) => (
+                        <MenuItem key={menuItem.label} {...menuItem} />
+                      ))}
+                    </ul>
                   </div>
                 </nav>
               </div>

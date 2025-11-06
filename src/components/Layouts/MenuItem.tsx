@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLang } from "@/context/LangContext";
@@ -14,6 +14,7 @@ interface MenuItemProps {
 }
 
 const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
   const pathname = usePathname();
   const normalize = (p: string) => (p || "/").replace(/^\/(en|ar)(?=\/|$)/, "") || "/";
   const current = normalize(pathname || "/");
@@ -58,24 +59,58 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu }) => {
 
   if (submenu) {
     return (
-      <li className={`nav-item ${isActive ? "active" : ""}`} key={label}>
-        <Link
-          href={link}
-          className="nav-link"
-          style={{ color: isActive ? '#0A4D8C' : '#333' }}
-          onClick={(e) => {
-            if (link === "#") {
+      <li className={`nav-item ${isActive ? "active" : ""} ${isExpanded ? "expanded" : ""}`} key={label}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+          <Link
+            href={link}
+            className="nav-link"
+            style={{ color: isActive ? '#0A4D8C' : '#333', flex: 1 }}
+            onClick={(e) => {
+              if (link === "#") {
+                e.preventDefault();
+              }
+            }}
+          >
+            {tLabel}
+          </Link>
+          <button
+            type="button"
+            className="expand-toggle"
+            onClick={(e) => {
               e.preventDefault();
-            }
-          }}
-        >
-          {tLabel} <i className="bx bx-chevron-down"></i>
-        </Link>
+              setIsExpanded(!isExpanded);
+            }}
+            style={{
+              background: 'none',
+              border: 'none',
+              padding: '8px 12px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: isActive ? '#0A4D8C' : '#666',
+              fontSize: '18px',
+              transition: 'all 0.3s ease',
+              transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+            }}
+            aria-expanded={isExpanded}
+            title={isExpanded ? "Collapse" : "Expand"}
+          >
+            <i className="bx bx-chevron-down"></i>
+          </button>
+        </div>
 
         <ul
           className={`dropdown-menu${isAR ? ' rtl' : ''}`}
           dir={isAR ? 'rtl' : 'ltr'}
-          style={{ textAlign: isAR ? 'right' : undefined }}
+          style={{
+            textAlign: isAR ? 'right' : undefined,
+            maxHeight: isExpanded ? '500px' : '0',
+            overflow: 'hidden',
+            transition: 'all 0.3s ease',
+            opacity: isExpanded ? 1 : 0,
+            visibility: isExpanded ? 'visible' : 'hidden',
+          }}
         >
           {submenu.map((subItem) => {
             const subTarget = normalize(subItem.link);
@@ -95,7 +130,9 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu }) => {
                   href={subItem.link}
                   className={`nav-link ${isSubActive ? "active" : ""}`}
                   style={{ color: isSubActive ? '#0A4D8C' : '#333' }}
-                  onClick={(e) => handleClick(e, subItem.link)}
+                  onClick={(e) => {
+                    handleClick(e, subItem.link);
+                  }}
                 >
                   {subLabel}
                 </Link>

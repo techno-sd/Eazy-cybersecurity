@@ -1085,41 +1085,79 @@
         }
         .navbar-area {
             .main-nav {
-                background-color: #0e0129;
-                padding: 15px 0;
+                background-color: #ffffff;
+                padding: 12px 0;
+                border-bottom: 1px solid #e8e8e8;
 
                 nav {
                     .navbar-collapse {
-                        margin-top: 8px !important;
+                        margin-top: 12px !important;
                         max-height: 70vh;
-                        overflow-y: scroll;
-                        border-top: 1px solid #eee;
-                        padding-top: 10px;
+                        overflow-y: auto;
+                        border-top: 1px solid #e8e8e8;
+                        padding: 10px 0;
+                        background: #ffffff;
+                        animation: slideDownMenu 0.3s ease-out;
 
                         &::-webkit-scrollbar {
-                            width: 10px;
+                            width: 8px;
                         }
                         &::-webkit-scrollbar-track {
-                            background: #f1f1f1; 
+                            background: #f5f5f5; 
                         }
                         &::-webkit-scrollbar-thumb {
-                            background: #888; 
+                            background: #0A4D8C;
+                            border-radius: 4px;
                         }
                         &::-webkit-scrollbar-thumb:hover {
-                            background: #555; 
+                            background: #073a5e; 
                         }
                     }
                     .navbar-nav {
-                        padding-right: 15px;
+                        padding: 0;
+                        display: flex;
+                        flex-direction: column;
+                        
                         .nav-item {
                             padding: 0;
-                            .nav-link {
-                                padding: 5px 0;
+                            border-bottom: 1px solid #f0f0f0;
+                            position: relative;
+                            
+                            &:last-child {
+                                border-bottom: none;
                             }
-                            a {
-                                margin: 0;
+
+                            .nav-link {
+                                padding: 14px 16px;
+                                font-size: 16px;
+                                font-weight: 500;
+                                color: #333333;
+                                transition: all 0.3s ease;
+                                display: block;
+                                
+                                &:hover {
+                                    color: #0A4D8C;
+                                    background-color: #f5f8fc;
+                                }
+                                
+                                &.active {
+                                    color: #0A4D8C;
+                                    background-color: #f0f5f9;
+                                    font-weight: 600;
+                                }
+                                
                                 i {
                                     display: none;
+                                }
+                            }
+
+                            // Expand/collapse button styling
+                            .expand-toggle {
+                                flex-shrink: 0;
+                                transition: transform 0.3s ease, color 0.3s ease;
+                                
+                                &:hover {
+                                    color: #0A4D8C !important;
                                 }
                             }
 
@@ -1129,68 +1167,91 @@
                                 top: 0 !important;
                                 width: 100%;
                                 display: block;
-                                opacity: 1;
-                                visibility: visible;
-                                margin-top: 10px;
-                                padding-top: 0;
-                                padding-bottom: 0;
-                                margin-bottom: 10px;
-                                transform: scaleX(1);
+                                background: #f8f9fa;
+                                margin: 0;
+                                padding: 0;
+                                border: none;
+                                transform: none;
+                                box-shadow: none;
+                                
+                                // Closed state
+                                max-height: 0;
+                                overflow: hidden;
+                                opacity: 0;
+                                visibility: hidden;
+                                transition: all 0.3s ease;
  
                                 li {
-                                    .dropdown-menu {
-                                        left: 15px;
-                                        position: relative;
-                                        top: 0 !important;
-                                        width: 94%;
-                                        background: #f9f9f9;
-                                        display: block;
-                                        opacity: 1;
-                                        visibility: visible;
-                                        padding: 0;
+                                    border-bottom: 1px solid #f0f0f0;
+                                    
+                                    &:last-child {
+                                        border-bottom: none;
+                                    }
+                                    
+                                    a {
+                                        font-size: 14px;
+                                        color: #555555;
+                                        padding: 12px 16px 12px 30px !important;
                                         margin: 0;
-                                        -webkit-transform: scaleX(1);
-                                        -moz-transform: scaleX(1);
-                                        transform: scaleX(1);
+                                        border: none;
+                                        display: block;
+                                        transition: all 0.3s ease;
+                                        
+                                        &:hover {
+                                            color: #0A4D8C;
+                                            background-color: #f0f5f9;
+                                            padding-left: 36px !important;
+                                        }
+                                        
+                                        &.active {
+                                            color: #0A4D8C;
+                                            background-color: #e8f0f8;
+                                            font-weight: 600;
+                                        }
                                     }
 
-                                    li {
-                                        .dropdown-menu {
-                                            left: 15px;
-                                            position: relative;
-                                            top: 0 !important;
-                                            width: 92%;
-                                            background: #f9f9f9;
-                                            display: block;
-                                            opacity: 1;
-                                            visibility: visible;
-                                            padding: 0;
-                                            margin: 0;
-                                            -webkit-transform: scaleX(1);
-                                            -moz-transform: scaleX(1);
-                                            transform: scaleX(1);
+                                    .dropdown-menu {
+                                        background: #f0f5f9;
+                                        
+                                        li {
+                                            a {
+                                                padding: 10px 16px 10px 48px !important;
+                                                font-size: 13px;
+                                                color: #666666;
+                                                
+                                                &:hover {
+                                                    padding-left: 54px !important;
+                                                    background-color: #e8f0f8;
+                                                }
+                                            }
                                         }
 
-                                        li {
-                                            .dropdown-menu {
-                                                left: 15px;
-                                                position: relative;
-                                                top: 0 !important;
-                                                width: 90%;
-                                                background: #f9f9f9;
-                                                display: block;
-                                                opacity: 1;
-                                                visibility: visible;
-                                                padding: 0;
-                                                margin: 0;
-                                                -webkit-transform: scaleX(1);
-                                                -moz-transform: scaleX(1);
-                                                transform: scaleX(1);
+                                        .dropdown-menu {
+                                            background: #e8f0f8;
+                                            
+                                            li {
+                                                a {
+                                                    padding: 10px 16px 10px 66px !important;
+                                                    font-size: 12px;
+                                                    color: #777777;
+                                                    
+                                                    &:hover {
+                                                        padding-left: 72px !important;
+                                                        background-color: #dce8f3;
+                                                    }
+                                                }
                                             }
                                         }
                                     }
                                 }
-                            } 
+                            }
+                            
+                            // Expanded state - show submenu
+                            &.expanded .dropdown-menu {
+                                max-height: 500px;
+                                opacity: 1;
+                                visibility: visible;
+                            }
                         }
                     }
                 }
@@ -1198,12 +1259,19 @@
         }
         .others-option {
             position: absolute;
-            top: 9px;
+            top: 12px;
             right: 60px;
             .get-quote {
                 .default-btn {
                     padding: 10px 15px;
                     font-size: 12px;
+                    white-space: nowrap;
+                    transition: all 0.3s ease;
+                    
+                    &:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 4px 12px rgba(10, 77, 140, 0.2);
+                    }
                 }
             }
         }
@@ -1211,6 +1279,76 @@
         &.nav-area-three {
             .navbar-area {
                 .main-nav {
+                    background-color: rgba(14, 1, 41, 0.98);
+                    border-bottom-color: #2a2847;
+                    
+                    nav {
+                        .navbar-collapse {
+                            background: rgba(14, 1, 41, 0.98);
+                            border-top-color: #2a2847;
+                        }
+                        
+                        .navbar-nav {
+                            .nav-item {
+                                border-bottom-color: #2a2847;
+                                
+                                .nav-link {
+                                    color: #ffffff;
+                                    
+                                    &:hover {
+                                        background-color: rgba(10, 77, 140, 0.1);
+                                        color: #0A7FBD;
+                                    }
+                                    
+                                    &.active {
+                                        background-color: rgba(10, 77, 140, 0.15);
+                                        color: #0A7FBD;
+                                    }
+                                }
+                                
+                                .expand-toggle {
+                                    color: #ffffff;
+                                }
+
+                                .dropdown-menu {
+                                    background: rgba(42, 40, 71, 0.9);
+                                    
+                                    li {
+                                        border-bottom-color: #3a3857;
+                                        
+                                        a {
+                                            color: #cccccc;
+                                            
+                                            &:hover {
+                                                background-color: rgba(10, 77, 140, 0.1);
+                                                color: #0A7FBD;
+                                            }
+                                            
+                                            &.active {
+                                                color: #0A7FBD;
+                                                background-color: rgba(10, 77, 140, 0.2);
+                                            }
+                                        }
+
+                                        .dropdown-menu {
+                                            background: rgba(30, 28, 51, 0.95);
+                                            
+                                            li {
+                                                a {
+                                                    color: #aaaaaa;
+                                                    
+                                                    &:hover {
+                                                        background-color: rgba(10, 77, 140, 0.1);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
                     .others-option {
                         .call-us {
                             a {
@@ -1223,6 +1361,19 @@
                     }
                 }
             }
+        }
+    }
+
+    @keyframes slideDownMenu {
+        from {
+            opacity: 0;
+            max-height: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            max-height: 70vh;
+            transform: translateY(0);
         }
     }
 
