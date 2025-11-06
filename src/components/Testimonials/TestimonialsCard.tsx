@@ -144,7 +144,7 @@ const TestimonialsCard: React.FC = () => {
                     fontStyle: 'italic',
                     textAlign: lang === 'ar' ? 'right' : 'left',
                   }}>
-                    "{item.text}"
+                    &quot;{item.text}&quot;
                   </p>
 
                   {/* Star Rating */}
