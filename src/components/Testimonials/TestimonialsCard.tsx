@@ -104,20 +104,106 @@ const TestimonialsCard: React.FC = () => {
           <div className="row">
             {t.map((item, idx) => (
               <div className="col-lg-4 col-sm-6" key={idx}>
-                <div className="single-client">
-                  <i className="quotes bx bxs-quote-alt-left"></i>
-                  <p>{item.text}</p>
-                  <ul>
+                <div 
+                  className="single-client"
+                  style={{
+                    background: '#fff',
+                    borderRadius: '16px',
+                    padding: '32px 24px',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08)',
+                    transition: 'all 0.4s cubic-bezier(0.23, 1, 0.320, 1)',
+                    border: '1px solid rgba(10, 77, 140, 0.1)',
+                    position: 'relative',
+                    overflow: 'hidden',
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.boxShadow = '0 12px 32px rgba(10, 77, 140, 0.15)';
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-8px)';
+                    (e.currentTarget as HTMLElement).style.borderColor = 'rgba(10, 77, 140, 0.2)';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.08)';
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                    (e.currentTarget as HTMLElement).style.borderColor = 'rgba(10, 77, 140, 0.1)';
+                  }}
+                >
+                  {/* Quote Icon */}
+                  <i className="quotes bx bxs-quote-alt-left" style={{
+                    fontSize: '36px',
+                    color: '#0A4D8C',
+                    opacity: '0.2',
+                    marginBottom: '12px',
+                  }}></i>
+
+                  {/* Testimonial Text */}
+                  <p style={{
+                    fontSize: '15px',
+                    color: '#555',
+                    lineHeight: '1.8',
+                    marginBottom: '18px',
+                    fontStyle: 'italic',
+                    textAlign: lang === 'ar' ? 'right' : 'left',
+                  }}>
+                    "{item.text}"
+                  </p>
+
+                  {/* Star Rating */}
+                  <ul style={{
+                    display: 'flex',
+                    gap: '4px',
+                    marginBottom: '20px',
+                    listStyle: 'none',
+                    padding: 0,
+                    flexDirection: lang === 'ar' ? 'row-reverse' : 'row',
+                  }}>
                     {[...Array(5)].map((_, i) => (
-                      <li key={i}>
+                      <li key={i} style={{ color: '#FFC107', fontSize: '14px' }}>
                         <i className="bx bxs-star"></i>
                       </li>
                     ))}
                   </ul>
-                  <div className="client-img">
-                    <Image src={item.img} alt="Image" width={70} height={70} />
-                    <h3>{item.name}</h3>
-                    <span>{item.title}</span>
+
+                  {/* Divider */}
+                  <div style={{
+                    height: '1px',
+                    background: 'linear-gradient(90deg, transparent, rgba(10, 77, 140, 0.2), transparent)',
+                    marginBottom: '20px',
+                  }}></div>
+
+                  {/* Client Info */}
+                  <div className="client-img" style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '14px',
+                    flexDirection: lang === 'ar' ? 'row-reverse' : 'row',
+                  }}>
+                    <div style={{
+                      width: '60px',
+                      height: '60px',
+                      borderRadius: '50%',
+                      overflow: 'hidden',
+                      boxShadow: '0 4px 12px rgba(10, 77, 140, 0.15)',
+                      border: '2px solid rgba(10, 77, 140, 0.2)',
+                    }}>
+                      <Image src={item.img} alt="Image" width={60} height={60} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    </div>
+                    <div style={{ textAlign: lang === 'ar' ? 'right' : 'left', flex: 1 }}>
+                      <h3 style={{
+                        fontSize: '16px',
+                        fontWeight: '700',
+                        color: '#0A4D8C',
+                        marginBottom: '4px',
+                      }}>
+                        {item.name}
+                      </h3>
+                      <span style={{
+                        fontSize: '12px',
+                        color: '#999',
+                        fontWeight: '600',
+                      }}>
+                        {item.title}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
