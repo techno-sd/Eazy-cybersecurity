@@ -1,14 +1,15 @@
 import { redirect } from "next/navigation";
 
 type Params = {
-  params: {
+  params: Promise<{
     locale: string;
     segments?: string[];
-  };
+  }>;
 };
 
-export default function LocaleRedirectPage({ params }: Params) {
-  const parts = params.segments ?? [];
+export default async function LocaleRedirectPage({ params }: Params) {
+  const { segments } = await params;
+  const parts = segments ?? [];
   let path = "/" + parts.join("/");
   // Respect trailingSlash config
   if (path !== "/" && !path.endsWith("/")) path += "/";

@@ -6,12 +6,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  optimizeFonts: false,
-  i18n: {
-    locales: ["en", "ar"],
-    defaultLocale: "en",
-    localeDetection: false,
-  },
+  // Removed optimizeFonts (deprecated in Next.js 15)
+  // Removed i18n config (not supported in App Router)
   async rewrites() {
     return [
       {

@@ -17,8 +17,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Page() {
-  const cookieLang = cookies().get("lang")?.value === "ar" ? "ar" : "en";
+export default async function Page() {
+  const cookieStore = await cookies();
+  const cookieLang = cookieStore.get("lang")?.value === "ar" ? "ar" : "en";
   const t = getMessages(cookieLang);
 
   return (

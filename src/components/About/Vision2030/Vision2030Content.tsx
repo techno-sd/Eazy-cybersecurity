@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Vision2030Props {
   lang: string;
@@ -96,9 +97,9 @@ const Vision2030Content: React.FC<Vision2030Props> = ({ lang }) => {
                 </ul>
 
                 <div className="vision-2030-cta mt-5">
-                  <a href="/contact/" className="default-btn">
+                  <Link href="/contact/" className="default-btn">
                     {isArabic ? "تواصل معنا" : "Contact Us"}
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

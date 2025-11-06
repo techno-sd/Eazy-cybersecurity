@@ -41,12 +41,12 @@ export const metadata: Metadata = {
   description: "Eazy Cyber Agent - Leading Saudi cybersecurity company providing AI solutions, big data analytics, cloud computing, and digital transformation services aligned with Vision 2030",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const cookieLang = cookieStore.get("lang")?.value;
   const lang = cookieLang === "en" ? "en" : "ar";
   return (

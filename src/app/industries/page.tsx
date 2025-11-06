@@ -8,7 +8,8 @@ import { getMessages } from "@/i18n";
 import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const cookieLang = cookies().get("lang")?.value === "ar" ? "ar" : "en";
+  const cookieStore = await cookies();
+  const cookieLang = cookieStore.get("lang")?.value === "ar" ? "ar" : "en";
 
   return {
     title: cookieLang === "ar"
@@ -23,8 +24,9 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function Page() {
-  const cookieLang = cookies().get("lang")?.value === "ar" ? "ar" : "en";
+export default async function Page() {
+  const cookieStore = await cookies();
+  const cookieLang = cookieStore.get("lang")?.value === "ar" ? "ar" : "en";
   const t = getMessages(cookieLang);
 
   return (
