@@ -50,11 +50,12 @@ const CybersecuritySection: React.FC = () => {
           <div className="col-lg-6" style={{ order: isArabic ? 1 : 2 }}>
             <div className="approach-img">
               <Image
-                src="/img/cybersecurity-img.jpg"
+                src="/img/services/sec.jpg"
                 alt="Cybersecurity Services"
                 width={660}
                 height={700}
               />
+              <div className="image-overlay"></div>
             </div>
           </div>
         </div>

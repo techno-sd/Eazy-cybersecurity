@@ -66,11 +66,12 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
             <div className="col-lg-6">
               <div className="approach-img">
                 <Image
-                  src="/img/approach-img.jpg"
+                  src="/img/services/ai.jpg"
                   alt="AI Solutions"
                   width={660}
                   height={700}
                 />
+                <div className="image-overlay"></div>
               </div>
             </div>
 
@@ -143,11 +144,12 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
             <div className="col-lg-6" style={{ order: isArabic ? 1 : 2 }}>
               <div className="approach-img">
                 <Image
-                  src="/img/cybersecurity-img.jpg"
+                  src="/img/services/sec.jpg"
                   alt="Cybersecurity Services"
                   width={660}
                   height={700}
                 />
+                <div className="image-overlay"></div>
               </div>
             </div>
           </div>
@@ -161,11 +163,12 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
             <div className="col-lg-6">
               <div className="approach-img">
                 <Image
-                  src="/img/graph-img.png"
+                  src="/img/services/bigdata.jpg"
                   alt="Big Data & Analytics"
                   width={660}
                   height={700}
                 />
+                <div className="image-overlay"></div>
               </div>
             </div>
 
@@ -243,11 +246,12 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
             <div className="col-lg-6" style={{ order: isArabic ? 1 : 2 }}>
               <div className="approach-img">
                 <Image
-                  src="/img/cybersecurity-img-2.jpg"
+                  src="/img/services/hosting.jpg"
                   alt="Cloud Computing & Hosting"
                   width={660}
                   height={700}
                 />
+                <div className="image-overlay"></div>
               </div>
             </div>
           </div>
@@ -261,11 +265,12 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
             <div className="col-lg-6">
               <div className="approach-img">
                 <Image
-                  src="/img/complete-img.jpg"
+                  src="/img/services/sme.jpg"
                   alt="SME-EAZY Program"
                   width={660}
                   height={700}
                 />
+                <div className="image-overlay"></div>
               </div>
             </div>
 

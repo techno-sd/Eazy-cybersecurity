@@ -52,11 +52,12 @@ const CloudComputingSection: React.FC = () => {
           <div className="col-lg-6" style={{ order: isArabic ? 1 : 2 }}>
             <div className="approach-img">
               <Image
-                src="/img/cybersecurity-img-2.jpg"
+                src="/img/services/hosting.jpg"
                 alt="Cloud Computing & Hosting"
                 width={660}
                 height={700}
               />
+              <div className="image-overlay"></div>
             </div>
           </div>
         </div>

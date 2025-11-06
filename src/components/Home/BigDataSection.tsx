@@ -18,11 +18,12 @@ const BigDataSection: React.FC = () => {
           <div className="col-lg-6">
             <div className="approach-img">
               <Image
-                src="/img/graph-img.png"
+                src="/img/services/bigdata.jpg"
                 alt="Big Data & Analytics"
                 width={660}
                 height={700}
               />
+              <div className="image-overlay"></div>
             </div>
           </div>
 

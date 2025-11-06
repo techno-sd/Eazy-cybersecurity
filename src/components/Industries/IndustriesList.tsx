@@ -41,7 +41,7 @@ const IndustriesList: React.FC<IndustriesListProps> = ({ lang, t }) => {
     {
       id: "healthcare",
       icon: "bx bx-plus-medical",
-      image: "/img/industries/healthcare.jpg",
+      image: "/img/industries/med.jpg",
       gradient: "linear-gradient(135deg, #0A4D8C 0%, #073D6C 100%)",
       iconBg: "rgba(10, 77, 140, 0.1)",
       iconColor: "#0A4D8C",
@@ -49,7 +49,7 @@ const IndustriesList: React.FC<IndustriesListProps> = ({ lang, t }) => {
     {
       id: "education",
       icon: "bx bx-book-open",
-      image: "/img/industries/education.jpg",
+      image: "/img/industries/edu.jpg",
       gradient: "linear-gradient(135deg, #0A4D8C 0%, #073D6C 100%)",
       iconBg: "rgba(10, 77, 140, 0.1)",
       iconColor: "#0A4D8C",

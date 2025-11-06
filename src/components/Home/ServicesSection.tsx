@@ -18,11 +18,12 @@ const ServicesSection: React.FC = () => {
           <div className="col-lg-6">
             <div className="approach-img">
               <Image
-                src="/img/approach-img.jpg"
+                src="/img/services/ai.jpg"
                 alt="Our Services"
                 width={660}
                 height={700}
               />
+              <div className="image-overlay"></div>
             </div>
           </div>
 

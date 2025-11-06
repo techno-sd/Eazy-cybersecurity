@@ -18,11 +18,12 @@ const SMEEazySection: React.FC = () => {
           <div className="col-lg-6">
             <div className="approach-img">
               <Image
-                src="/img/complete-img.jpg"
+                src="/img/services/sme.jpg"
                 alt="SME-EAZY Program"
                 width={660}
                 height={700}
               />
+              <div className="image-overlay"></div>
             </div>
           </div>
 
