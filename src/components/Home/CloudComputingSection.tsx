@@ -12,52 +12,60 @@ const CloudComputingSection: React.FC = () => {
   const isArabic = lang === "ar";
 
   return (
-    <section className="approach-area pb-100">
+    <section className="approach-area pb-100" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)', direction: isArabic ? 'rtl' : 'ltr' }}>
       <div className="container">
         <div className="row align-items-center">
           <div className="col-lg-6" style={{ order: isArabic ? 2 : 1 }}>
             <div className="approach-content" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
-              <h2>{t.cloudHosting.section_title}</h2>
-              <p style={{ fontSize: '16px', lineHeight: '1.8', marginBottom: '30px' }}>
+              <span style={{ display: 'block', width: '60px', height: '4px', background: 'linear-gradient(90deg, #0A4D8C, #607EAC)', borderRadius: '2px', marginBottom: '20px', [isArabic ? 'marginLeft' : 'marginRight']: 'auto' }}></span>
+              <h2 className="gradient-text" style={{ fontSize: '36px', fontWeight: '700', marginBottom: '15px' }}>
+                {t.cloudHosting.section_title}
+              </h2>
+              <p style={{ fontSize: '16px', lineHeight: '1.8', marginBottom: '30px', color: '#666' }}>
                 {isArabic
                   ? 'بنية تحتية سحابية آمنة وقابلة للتوسع مصممة للمؤسسات السعودية مع امتثال تنظيمي كامل.'
                   : 'Secure, scalable cloud infrastructure designed for Saudi organizations with full regulatory compliance.'}
               </p>
 
-              <ul>
-                <li>
-                  <i className="flaticon-cyber-security"></i>
-                  <h3>{t.cloudHosting.hosting_title}</h3>
-                  <p>{t.cloudHosting.hosting_desc}</p>
+              <ul className="modern-list">
+                <li style={{ marginBottom: '25px' }}>
+                  <div style={{ flex: 1 }}>
+                    <h3 style={{ marginBottom: '8px', fontSize: '18px', fontWeight: '600', color: '#0e0129' }}>{t.cloudHosting.hosting_title}</h3>
+                    <p style={{ marginBottom: '0', fontSize: '14px', color: '#666' }}>{t.cloudHosting.hosting_desc}</p>
+                  </div>
                 </li>
-                <li>
-                  <i className="flaticon-database"></i>
-                  <h3>{t.cloudHosting.backup_title}</h3>
-                  <p>{t.cloudHosting.backup_desc}</p>
+                <li style={{ marginBottom: '25px' }}>
+                  <div style={{ flex: 1 }}>
+                    <h3 style={{ marginBottom: '8px', fontSize: '18px', fontWeight: '600', color: '#0e0129' }}>{t.cloudHosting.backup_title}</h3>
+                    <p style={{ marginBottom: '0', fontSize: '14px', color: '#666' }}>{t.cloudHosting.backup_desc}</p>
+                  </div>
                 </li>
-                <li>
-                  <i className="flaticon-password"></i>
-                  <h3>{t.cloudHosting.encryption_title}</h3>
-                  <p>{t.cloudHosting.encryption_desc}</p>
+                <li style={{ marginBottom: '25px' }}>
+                  <div style={{ flex: 1 }}>
+                    <h3 style={{ marginBottom: '8px', fontSize: '18px', fontWeight: '600', color: '#0e0129' }}>{t.cloudHosting.encryption_title}</h3>
+                    <p style={{ marginBottom: '0', fontSize: '14px', color: '#666' }}>{t.cloudHosting.encryption_desc}</p>
+                  </div>
                 </li>
-                <li>
-                  <i className="flaticon-profile"></i>
-                  <h3>{t.cloudHosting.iam_title}</h3>
-                  <p>{t.cloudHosting.iam_desc}</p>
+                <li style={{ marginBottom: '0' }}>
+                  <div style={{ flex: 1 }}>
+                    <h3 style={{ marginBottom: '8px', fontSize: '18px', fontWeight: '600', color: '#0e0129' }}>{t.cloudHosting.iam_title}</h3>
+                    <p style={{ marginBottom: '0', fontSize: '14px', color: '#666' }}>{t.cloudHosting.iam_desc}</p>
+                  </div>
                 </li>
               </ul>
             </div>
           </div>
 
           <div className="col-lg-6" style={{ order: isArabic ? 1 : 2 }}>
-            <div className="approach-img">
+            <div className="approach-img hover-lift" style={{ borderRadius: '12px', overflow: 'hidden', boxShadow: '0 12px 40px rgba(10, 77, 140, 0.15)' }}>
               <Image
                 src="/img/services/hosting.jpg"
                 alt="Cloud Computing & Hosting"
                 width={660}
                 height={700}
+                style={{ transition: 'transform 0.4s ease' }}
               />
-              <div className="image-overlay"></div>
+              <div className="image-overlay" style={{ background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.1) 0%, rgba(96, 126, 172, 0.1) 100%)' }}></div>
             </div>
           </div>
         </div>

@@ -12,6 +12,7 @@ const MainBanner: React.FC = () => {
   const { lang } = useLang();
   const isAR = lang === 'ar';
   const t = getMessages(lang);
+  
   return (
     <>
       <FsLightbox
@@ -22,32 +23,59 @@ const MainBanner: React.FC = () => {
       <div 
         className="banner-area"
         style={{
-          backgroundImage: `url(/img/home-one/home1-banner.jpg)`
+          backgroundImage: `url(/img/home-one/home1-banner.jpg)`,
+          direction: isAR ? 'rtl' : 'ltr'
         }}
       >
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-9">
-              <div className="banner-text" style={{ direction: isAR ? 'rtl' : 'ltr', textAlign: isAR ? 'right' : 'left' }}>
-                <h1>{t.hero.title}</h1>
-                <p>{t.hero.welcome}</p>
+              <div className="banner-text" style={{ 
+                direction: isAR ? 'rtl' : 'ltr', 
+                textAlign: isAR ? 'right' : 'left',
+                animation: 'fadeInUp 0.8s ease 0.2s forwards'
+              }}>
+                <h1 style={{ 
+                  fontSize: '3.5rem', 
+                  fontWeight: 'bold', 
+                  color: '#fff',
+                  lineHeight: '1.2',
+                  marginBottom: '20px'
+                }}>
+                  {t.hero.title}
+                </h1>
+                <p style={{ 
+                  fontSize: '1.1rem', 
+                  color: '#f0f0f0',
+                  marginBottom: '30px',
+                  lineHeight: '1.8'
+                }}>
+                  {t.hero.welcome}
+                </p>
 
                 <div
                   className="banner-btn"
                   style={{
                     display: 'flex',
-                    flexDirection: 'column',
+                    flexDirection: isAR ? 'row-reverse' : 'row',
                     gap: '15px',
-                    alignItems: isAR ? 'flex-start' : 'flex-start',
+                    flexWrap: 'wrap',
+                    alignItems: 'flex-start',
                   }}
                 >
                   <Link
                     href="/contact"
-                    className="default-btn"
+                    className="btn-gradient"
                     style={{
-                      margin: 0,
-                      width: '100%',
-                      maxWidth: '250px',
+                      padding: '14px 32px',
+                      fontSize: '16px',
+                      fontWeight: '600',
+                      display: 'inline-block',
+                      marginBottom: '0',
+                      background: 'linear-gradient(135deg, #0A4D8C 0%, #607EAC 100%)',
+                      color: '#fff',
+                      textDecoration: 'none',
+                      borderRadius: '8px'
                     }}
                   >
                     {t.buttons.contact}
@@ -55,11 +83,18 @@ const MainBanner: React.FC = () => {
 
                   <Link
                     href="/about"
-                    className="default-btn active"
+                    className="btn-modern"
                     style={{
-                      margin: 0,
-                      width: '100%',
-                      maxWidth: '250px',
+                      padding: '14px 32px',
+                      fontSize: '16px',
+                      fontWeight: '600',
+                      display: 'inline-block',
+                      marginBottom: '0',
+                      background: '#fff',
+                      color: '#0A4D8C',
+                      textDecoration: 'none',
+                      borderRadius: '8px',
+                      border: '2px solid #fff'
                     }}
                   >
                     {t.buttons.about}
@@ -67,8 +102,6 @@ const MainBanner: React.FC = () => {
                 </div>
               </div>
             </div>
-
-            {/* Video icon/button removed as requested */}
           </div>
         </div>
 

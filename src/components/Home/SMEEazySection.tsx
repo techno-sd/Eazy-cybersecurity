@@ -12,48 +12,56 @@ const SMEEazySection: React.FC = () => {
   const isArabic = lang === "ar";
 
   return (
-    <section className="approach-area pb-100">
+    <section className="approach-area pb-100" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)', direction: isArabic ? 'rtl' : 'ltr' }}>
       <div className="container">
         <div className="row align-items-center">
           <div className="col-lg-6">
-            <div className="approach-img">
+            <div className="approach-img hover-lift" style={{ borderRadius: '12px', overflow: 'hidden', boxShadow: '0 12px 40px rgba(10, 77, 140, 0.15)' }}>
               <Image
                 src="/img/services/sme.jpg"
                 alt="SME-EAZY Program"
                 width={660}
                 height={700}
+                style={{ transition: 'transform 0.4s ease' }}
               />
-              <div className="image-overlay"></div>
+              <div className="image-overlay" style={{ background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.1) 0%, rgba(96, 126, 172, 0.1) 100%)' }}></div>
             </div>
           </div>
 
           <div className="col-lg-6">
             <div className="approach-content" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
-              <h2>{t.smeEazy.section_title}</h2>
-              <p style={{ fontSize: '16px', lineHeight: '1.8', marginBottom: '30px' }}>
+              <span style={{ display: 'block', width: '60px', height: '4px', background: 'linear-gradient(90deg, #0A4D8C, #607EAC)', borderRadius: '2px', marginBottom: '20px', [isArabic ? 'marginLeft' : 'marginRight']: 'auto' }}></span>
+              <h2 className="gradient-text" style={{ fontSize: '36px', fontWeight: '700', marginBottom: '15px' }}>
+                {t.smeEazy.section_title}
+              </h2>
+              <p style={{ fontSize: '16px', lineHeight: '1.8', marginBottom: '30px', color: '#666' }}>
                 {t.smeEazy.section_subtitle}
               </p>
 
-              <ul>
-                <li>
-                  <i className="flaticon-cyber-security"></i>
-                  <h3>{t.smeEazy.packages_title}</h3>
-                  <p>{t.smeEazy.packages_desc}</p>
+              <ul className="modern-list">
+                <li style={{ marginBottom: '25px' }}>
+                  <div style={{ flex: 1 }}>
+                    <h3 style={{ marginBottom: '8px', fontSize: '18px', fontWeight: '600', color: '#0e0129' }}>{t.smeEazy.packages_title}</h3>
+                    <p style={{ marginBottom: '0', fontSize: '14px', color: '#666' }}>{t.smeEazy.packages_desc}</p>
+                  </div>
                 </li>
-                <li>
-                  <i className="flaticon-password"></i>
-                  <h3>{t.smeEazy.layered_title}</h3>
-                  <p>{t.smeEazy.layered_desc}</p>
+                <li style={{ marginBottom: '25px' }}>
+                  <div style={{ flex: 1 }}>
+                    <h3 style={{ marginBottom: '8px', fontSize: '18px', fontWeight: '600', color: '#0e0129' }}>{t.smeEazy.layered_title}</h3>
+                    <p style={{ marginBottom: '0', fontSize: '14px', color: '#666' }}>{t.smeEazy.layered_desc}</p>
+                  </div>
                 </li>
-                <li>
-                  <i className="flaticon-profile"></i>
-                  <h3>{t.smeEazy.risk_title}</h3>
-                  <p>{t.smeEazy.risk_desc}</p>
+                <li style={{ marginBottom: '25px' }}>
+                  <div style={{ flex: 1 }}>
+                    <h3 style={{ marginBottom: '8px', fontSize: '18px', fontWeight: '600', color: '#0e0129' }}>{t.smeEazy.risk_title}</h3>
+                    <p style={{ marginBottom: '0', fontSize: '14px', color: '#666' }}>{t.smeEazy.risk_desc}</p>
+                  </div>
                 </li>
-                <li>
-                  <i className="flaticon-cyber"></i>
-                  <h3>{t.smeEazy.vision_title}</h3>
-                  <p>{t.smeEazy.vision_desc}</p>
+                <li style={{ marginBottom: '0' }}>
+                  <div style={{ flex: 1 }}>
+                    <h3 style={{ marginBottom: '8px', fontSize: '18px', fontWeight: '600', color: '#0e0129' }}>{t.smeEazy.vision_title}</h3>
+                    <p style={{ marginBottom: '0', fontSize: '14px', color: '#666' }}>{t.smeEazy.vision_desc}</p>
+                  </div>
                 </li>
               </ul>
             </div>

@@ -40,7 +40,7 @@ const IndustriesSection: React.FC = () => {
   ];
 
   return (
-    <section className="pt-100 pb-70" style={{ background: "#f8f9fa" }}>
+    <section className="pt-100 pb-70" style={{ background: "linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)", direction: isArabic ? "rtl" : "ltr" }}>
       <div className="container">
         {/* Section Title */}
         <div
@@ -49,13 +49,27 @@ const IndustriesSection: React.FC = () => {
             direction: isArabic ? "rtl" : "ltr",
             textAlign: "center",
             marginBottom: "60px",
+            animation: "fadeInUp 0.8s ease"
           }}
         >
-          <span className="sub-title">
+          <span style={{ display: 'block', width: '60px', height: '4px', background: 'linear-gradient(90deg, #0A4D8C, #607EAC)', borderRadius: '2px', margin: '0 auto 20px 0' }}></span>
+          <span className="sub-title" style={{ 
+            display: 'inline-flex', 
+            alignItems: 'center', 
+            gap: '8px',
+            color: '#0A4D8C',
+            fontWeight: '600',
+            fontSize: '16px',
+            marginBottom: '12px'
+          }}>
             <i className="bx bx-briefcase"></i>
             {t.home.industries_preview.title}
           </span>
-          <h2 style={{ fontSize: "42px", fontWeight: "700", marginBottom: "20px" }}>
+          <h2 className="gradient-text" style={{ 
+            fontSize: "42px", 
+            fontWeight: "700", 
+            marginBottom: "20px"
+          }}>
             {t.home.industries_preview.title}
           </h2>
           <p
@@ -78,8 +92,8 @@ const IndustriesSection: React.FC = () => {
             const isEven = index % 2 === 0;
 
             return (
-              <div key={index} className="col-12" data-aos="fade-up" data-aos-delay={index * 100}>
-                <div className="industry-card-horizontal">
+              <div key={index} className="col-12 reveal-animation" data-aos="fade-up" data-aos-delay={index * 100} style={{ animationDelay: `${index * 0.1}s` }}>
+                <div className="industry-card-horizontal hover-lift">
                   <div className="row g-0 align-items-center">
                     {/* Image Section */}
                     <div
@@ -107,10 +121,10 @@ const IndustriesSection: React.FC = () => {
                           style={{ background: industryData.gradient }}
                         />
                         <div
-                          className="industry-icon-badge-horizontal"
+                          className="industry-icon-badge-horizontal icon-circle"
                           style={{
-                            background: industryData.iconBg,
-                            color: industryData.iconColor,
+                            background: 'linear-gradient(135deg, #0A4D8C, #607EAC)',
+                            color: '#fff',
                           }}
                         >
                           <i className={industryData.icon}></i>
