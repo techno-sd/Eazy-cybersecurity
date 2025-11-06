@@ -16,7 +16,7 @@ export default function Page() {
         activePageText="المدونة"
       />
 
-      <BlogGrid lang="ar" />
+      <BlogGrid />
 
       <Footer />
     </>
