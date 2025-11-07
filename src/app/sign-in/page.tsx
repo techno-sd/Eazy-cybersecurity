@@ -7,6 +7,9 @@ import { cookies } from "next/headers";
 import { getMessages } from "@/i18n";
 import type { Metadata } from "next";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function generateMetadata(): Promise<Metadata> {
   const cookieStore = await cookies();
   const lang = (cookieStore.get("NEXT_LOCALE")?.value || 'en') as 'ar' | 'en';
