@@ -10,15 +10,17 @@ import { getMessages } from "@/i18n";
 export default function Page() {
   const { lang } = useLang();
   const t = getMessages(lang);
+  const isArabic = lang === 'ar';
+  
   return (
     <>
       <Navbar />
 
       <PageBanner
-        pageTitle={lang === 'ar' ? 'المدونة' : 'Blog Grid'}
+        pageTitle={isArabic ? 'المدونة' : 'Our Blog'}
         homePageUrl="/"
-        homePageText={lang === 'ar' ? 'الرئيسية' : 'Home'}
-        activePageText={lang === 'ar' ? 'المدونة' : 'Blog Grid'}
+        homePageText={isArabic ? 'الرئيسية' : 'Home'}
+        activePageText={isArabic ? 'المدونة' : 'Blog'}
       />
 
       <BlogGrid />

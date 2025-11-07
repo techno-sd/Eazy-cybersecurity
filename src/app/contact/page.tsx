@@ -4,17 +4,41 @@ import PageBanner from "../../components/Common/PageBanner";
 import ContactInfo from "../../components/Contact/ContactInfo";
 import ContactForm from "../../components/Contact/ContactForm";
 import Footer from "../../components/Layouts/Footer";
+import { cookies } from "next/headers";
+import { getMessages } from "@/i18n";
+import type { Metadata } from "next";
 
-export default function Page() {
+export async function generateMetadata(): Promise<Metadata> {
+  const cookieStore = await cookies();
+  const cookieLang = cookieStore.get("lang")?.value === "ar" ? "ar" : "en";
+
+  return {
+    title: cookieLang === "ar"
+      ? "Eazy Cyber Agent | اتصل بنا – نحن هنا لمساعدتك"
+      : "Eazy Cyber Agent | Contact Us – We're Here to Help",
+    description: cookieLang === "ar"
+      ? "تواصل مع فريق خبراء Eazy Cyber Agent للحصول على استشارات الأمن السيبراني وحلول الذكاء الاصطناعي والبيانات الضخمة. نحن موجودون في الرياض، المملكة العربية السعودية."
+      : "Get in touch with Eazy Cyber Agent's expert team for cybersecurity consulting, AI solutions, and big data analytics. Based in Riyadh, Saudi Arabia.",
+    keywords: cookieLang === "ar"
+      ? "اتصل بنا, الأمن السيبراني, استشارات, الرياض, السعودية, دعم تقني"
+      : "contact us, cybersecurity, consulting, Riyadh, Saudi Arabia, technical support",
+  };
+}
+
+export default async function Page() {
+  const cookieStore = await cookies();
+  const cookieLang = cookieStore.get("lang")?.value === "ar" ? "ar" : "en";
+  const t = getMessages(cookieLang);
+
   return (
     <>
       <Navbar />
 
       <PageBanner
-        pageTitle="Contact"
+        pageTitle={cookieLang === "ar" ? "اتصل بنا" : "Contact Us"}
         homePageUrl="/"
-        homePageText="Home"
-        activePageText="Contact"
+        homePageText={t.menu["Home"]}
+        activePageText={cookieLang === "ar" ? "اتصل بنا" : "Contact Us"}
       />
 
       <ContactInfo />

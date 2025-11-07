@@ -1,0 +1,75 @@
+/* Vision 2030 Page Enhanced Styles */
+
+// Image Hover Effect
+.vision-image-hover {
+  &:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 25px 70px rgba(10, 77, 140, 0.25) !important;
+  }
+}
+
+// CTA Button Hover
+.vision-cta-button {
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(10, 77, 140, 0.35) !important;
+    
+    i {
+      transform: translateX(5px);
+      transition: transform 0.3s ease;
+    }
+  }
+}
+
+// RTL Arrow Animation
+[dir="rtl"] {
+  .vision-cta-button {
+    &:hover {
+      i {
+        transform: translateX(-5px);
+      }
+    }
+  }
+}
+
+// Point Card Hover Effects
+.vision-point-card {
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(10, 77, 140, 0.15);
+    border-color: rgba(10, 77, 140, 0.3) !important;
+  }
+}
+
+// Stats Card Hover Effects
+.vision-stat-card {
+  &:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 15px 40px rgba(10, 77, 140, 0.15);
+    background: linear-gradient(135deg, rgba(10, 77, 140, 0.08), rgba(96, 126, 172, 0.08)) !important;
+    border-color: rgba(10, 77, 140, 0.2) !important;
+  }
+}
+
+// Responsive Adjustments
+@media only screen and (max-width: 992px) {
+  .vision-2030-area {
+    .row.align-items-center.mb-5 {
+      .col-lg-6:first-child {
+        margin-bottom: 40px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .vision-point-card,
+  .vision-stat-card {
+    margin-bottom: 20px;
+  }
+  
+  .vision-cta-button {
+    width: 100%;
+    justify-content: center !important;
+  }
+}
