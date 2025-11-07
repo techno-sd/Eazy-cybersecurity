@@ -22,9 +22,7 @@ const CloudComputingSection: React.FC = () => {
                 {t.cloudHosting.section_title}
               </h2>
               <p style={{ fontSize: '16px', lineHeight: '1.8', marginBottom: '30px', color: '#666' }}>
-                {isArabic
-                  ? 'بنية تحتية سحابية آمنة وقابلة للتوسع مصممة للمؤسسات السعودية مع امتثال تنظيمي كامل.'
-                  : 'Secure, scalable cloud infrastructure designed for Saudi organizations with full regulatory compliance.'}
+                {t.cloudHosting.section_subtitle}
               </p>
 
               <ul className="modern-list">
