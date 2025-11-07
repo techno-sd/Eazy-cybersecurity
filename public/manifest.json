@@ -1,0 +1,18 @@
+{
+  "name": "Eazy Cyber Agent",
+  "short_name": "Eazy",
+  "description": "Advanced cybersecurity and digital transformation solutions",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#0A4D8C",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}

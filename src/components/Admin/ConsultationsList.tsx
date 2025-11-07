@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useMemo, memo, useCallback } from "react";
+import { useAdminLang } from "@/hooks/useAdminLang";
 
 interface Consultation {
   id: number;
@@ -27,29 +28,9 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [filterPriority, setFilterPriority] = useState<string>('all');
+  const [filterService, setFilterService] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [lang, setLang] = useState<'en' | 'ar'>('en');
-  const isArabic = lang === 'ar';
-
-  // Load language preference from localStorage
-  useEffect(() => {
-    const savedLang = localStorage.getItem('admin_lang') as 'en' | 'ar' || 'en';
-    setLang(savedLang);
-
-    // Listen for language changes
-    const handleStorageChange = () => {
-      const newLang = localStorage.getItem('admin_lang') as 'en' | 'ar' || 'en';
-      setLang(newLang);
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-    const interval = setInterval(handleStorageChange, 100);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      clearInterval(interval);
-    };
-  }, []);
+  const { lang, isArabic } = useAdminLang();
 
   const translations = {
     en: {
@@ -60,6 +41,7 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
       searchPlaceholder: "Search consultations...",
       allStatuses: "All Statuses",
       allPriorities: "All Priorities",
+      allServices: "All Services",
       name: "Name",
       contact: "Contact",
       service: "Service",
@@ -97,6 +79,7 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
       searchPlaceholder: "بحث في الاستشارات...",
       allStatuses: "كل الحالات",
       allPriorities: "كل الأولويات",
+      allServices: "كل الخدمات",
       name: "الاسم",
       contact: "معلومات الاتصال",
       service: "الخدمة",
@@ -183,25 +166,27 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
     }).format(date);
   };
 
-  const filteredConsultations = consultations.filter((consultation) => {
+  const filteredConsultations = useMemo(() => consultations.filter((consultation) => {
     const matchesStatus = filterStatus === 'all' || consultation.status === filterStatus;
     const matchesPriority = filterPriority === 'all' || consultation.priority === filterPriority;
+    const matchesService = filterService === 'all' || consultation.service_type === filterService;
     const matchesSearch =
       !searchTerm ||
       consultation.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       consultation.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
       consultation.company?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      consultation.service_type?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       consultation.message.toLowerCase().includes(searchTerm.toLowerCase());
 
-    return matchesStatus && matchesPriority && matchesSearch;
-  });
+    return matchesStatus && matchesPriority && matchesService && matchesSearch;
+  }), [consultations, filterStatus, filterPriority, filterService, searchTerm]);
 
-  const stats = {
+  const stats = useMemo(() => ({
     total: consultations.length,
     new: consultations.filter((c) => c.status === 'new').length,
     in_progress: consultations.filter((c) => c.status === 'in_progress').length,
     completed: consultations.filter((c) => c.status === 'completed').length,
-  };
+  }), [consultations]);
 
   return (
     <div style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
@@ -293,6 +278,30 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
           <option value="high">{t.priorityHigh}</option>
           <option value="medium">{t.priorityMedium}</option>
           <option value="low">{t.priorityLow}</option>
+        </select>
+
+        <select
+          value={filterService}
+          onChange={(e) => setFilterService(e.target.value)}
+          style={{
+            padding: '10px 16px',
+            border: '1px solid #e5e7eb',
+            borderRadius: '8px',
+            fontSize: '14px',
+            fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+            minWidth: '180px',
+          }}
+        >
+          <option value="all">{t.allServices}</option>
+          <option value="ai-solutions">{isArabic ? 'حلول الذكاء الاصطناعي' : 'AI Solutions'}</option>
+          <option value="cybersecurity">{isArabic ? 'خدمات الأمن السيبراني' : 'Cybersecurity'}</option>
+          <option value="big-data">{isArabic ? 'البيانات الضخمة' : 'Big Data & Analytics'}</option>
+          <option value="cloud-computing">{isArabic ? 'الحوسبة السحابية' : 'Cloud Computing'}</option>
+          <option value="sme-eazy">{isArabic ? 'برنامج SME-EAZY' : 'SME-EAZY'}</option>
+          <option value="digital-transformation">{isArabic ? 'التحول الرقمي' : 'Digital Transformation'}</option>
+          <option value="vision-2030">{isArabic ? 'رؤية 2030' : 'Vision 2030'}</option>
+          <option value="security-training">{isArabic ? 'التدريب الأمني' : 'Security Training'}</option>
+          <option value="other">{isArabic ? 'أخرى' : 'Other'}</option>
         </select>
       </div>
 
@@ -650,4 +659,4 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
   );
 };
 
-export default ConsultationsList;
+export default memo(ConsultationsList);

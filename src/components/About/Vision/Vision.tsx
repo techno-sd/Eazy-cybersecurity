@@ -266,27 +266,6 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
               marginBottom: '60px'
             }}
           >
-            <span
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '10px 24px',
-                background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.1), rgba(96, 126, 172, 0.1))',
-                borderRadius: '50px',
-                color: '#0A4D8C',
-                fontWeight: '600',
-                fontSize: '14px',
-                marginBottom: '20px',
-                border: '2px solid rgba(10, 77, 140, 0.2)',
-                textTransform: 'uppercase',
-                letterSpacing: '1px'
-              }}
-            >
-              <i className="bx bx-star" style={{ fontSize: '18px' }}></i>
-              {t.about.core_values_heading}
-            </span>
-            
             <h2
               style={{
                 fontSize: '42px',
@@ -381,27 +360,6 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
               marginBottom: '60px'
             }}
           >
-            <span
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '10px 24px',
-                background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.1), rgba(96, 126, 172, 0.1))',
-                borderRadius: '50px',
-                color: '#0A4D8C',
-                fontWeight: '600',
-                fontSize: '14px',
-                marginBottom: '20px',
-                border: '2px solid rgba(10, 77, 140, 0.2)',
-                textTransform: 'uppercase',
-                letterSpacing: '1px'
-              }}
-            >
-              <i className="bx bx-group" style={{ fontSize: '18px' }}></i>
-              {t.about.team_heading}
-            </span>
-            
             <h2
               style={{
                 fontSize: '42px',
@@ -535,27 +493,6 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
               marginBottom: '60px'
             }}
           >
-            <span
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '10px 24px',
-                background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.1), rgba(96, 126, 172, 0.1))',
-                borderRadius: '50px',
-                color: '#0A4D8C',
-                fontWeight: '600',
-                fontSize: '14px',
-                marginBottom: '20px',
-                border: '2px solid rgba(10, 77, 140, 0.2)',
-                textTransform: 'uppercase',
-                letterSpacing: '1px'
-              }}
-            >
-              <i className="bx bx-check-circle" style={{ fontSize: '18px' }}></i>
-              {t.about.why_choose_heading}
-            </span>
-            
             <h2
               style={{
                 fontSize: '42px',
@@ -572,76 +509,57 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
           </div>
 
           <div className="row g-4" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
-            {t.about.why_choose_highlights.map((highlight: string, index: number) => (
-              <div key={index} className="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay={index * 100}>
-                <div 
-                  style={{
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: '20px',
-                    background: '#fff',
-                    padding: '30px',
-                    borderRadius: '16px',
-                    border: '2px solid rgba(10, 77, 140, 0.1)',
-                    transition: 'all 0.3s ease',
-                    flexDirection: isArabic ? 'row-reverse' : 'row'
-                  }}
-                  className="why-choose-item"
-                >
+            {t.about.why_choose_highlights.map((highlight: string, index: number) => {
+              const icons = ['bx bx-shield', 'bx bx-star', 'bx bx-rocket', 'bx bx-trophy', 'bx bx-brain', 'bx bx-hand-right'];
+              const colors = ['#0A4D8C', '#607EAC', '#0A4D8C', '#607EAC', '#0A4D8C', '#607EAC'];
+              
+              return (
+                <div key={index} className="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay={index * 100}>
                   <div 
                     style={{
-                      minWidth: '50px',
-                      width: '50px',
-                      height: '50px',
-                      background: 'linear-gradient(135deg, #0A4D8C, #607EAC)',
-                      borderRadius: '12px',
                       display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      boxShadow: '0 8px 20px rgba(10, 77, 140, 0.3)'
+                      alignItems: 'flex-start',
+                      gap: '20px',
+                      background: '#fff',
+                      padding: '30px',
+                      borderRadius: '16px',
+                      border: `2px solid ${colors[index]}20`,
+                      transition: 'all 0.3s ease',
+                      flexDirection: isArabic ? 'row-reverse' : 'row'
                     }}
+                    className="why-choose-item"
                   >
-                    <i className="bx bx-check" style={{ fontSize: '28px', color: '#fff' }}></i>
+                    <div 
+                      style={{
+                        minWidth: '50px',
+                        width: '50px',
+                        height: '50px',
+                        background: `linear-gradient(135deg, ${colors[index]}, ${colors[index]}99)`,
+                        borderRadius: '12px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        boxShadow: `0 8px 20px ${colors[index]}40`
+                      }}
+                    >
+                      <i className={icons[index]} style={{ fontSize: '28px', color: '#fff' }}></i>
+                    </div>
+                    <p 
+                      style={{
+                        fontSize: '16px',
+                        lineHeight: '1.7',
+                        color: '#555',
+                        marginBottom: '0',
+                        flex: 1,
+                        textAlign: isArabic ? 'right' : 'left'
+                      }}
+                    >
+                      {highlight}
+                    </p>
                   </div>
-                  <p 
-                    style={{
-                      fontSize: '16px',
-                      lineHeight: '1.7',
-                      color: '#555',
-                      marginBottom: '0',
-                      flex: 1,
-                      textAlign: isArabic ? 'right' : 'left'
-                    }}
-                  >
-                    {highlight}
-                  </p>
                 </div>
-              </div>
-            ))}
-          </div>
-
-          <div style={{ textAlign: 'center', marginTop: '50px' }}>
-            <Link 
-              href="/about/team"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '10px',
-                padding: '16px 36px',
-                background: 'linear-gradient(135deg, #0A4D8C, #607EAC)',
-                color: '#fff',
-                borderRadius: '12px',
-                fontWeight: '600',
-                fontSize: '16px',
-                textDecoration: 'none',
-                transition: 'all 0.3s ease',
-                boxShadow: '0 8px 25px rgba(10, 77, 140, 0.3)'
-              }}
-              className="about-cta-btn"
-            >
-              {t.about.why_choose_button}
-              <i className={`bx ${isArabic ? 'bx-left-arrow-alt' : 'bx-right-arrow-alt'}`} style={{ fontSize: '20px' }}></i>
-            </Link>
+              );
+            })}
           </div>
         </div>
       </section>

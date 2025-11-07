@@ -1,6 +1,6 @@
 "use client";
-  
-import React from "react";
+
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useLang } from "@/context/LangContext";
@@ -8,10 +8,62 @@ import { getMessages } from "@/i18n";
 import HorizontalScrollCarousel from "./HorizontalScrollCarousel";
 import BlogCard from "./BlogCard";
 
+interface BlogPost {
+  id: number;
+  title: string;
+  title_ar: string;
+  slug: string;
+  content: string;
+  content_ar: string;
+  featured_image: string | null;
+  category: string;
+  views: number;
+  created_at: string;
+}
+
 const LatesNews: React.FC = () => {
   const { lang } = useLang();
   const t = getMessages(lang);
   const isArabic = lang === "ar";
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBlogPosts = async () => {
+      try {
+        const response = await fetch('/api/blog/public?limit=6');
+        const data = await response.json();
+
+        if (data.success) {
+          setBlogPosts(data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching blog posts:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogPosts();
+  }, []);
+
+  // Helper function to extract plain text from HTML content
+  const extractDescription = (content: string, maxLength: number = 150): string => {
+    const plainText = content.replace(/<[^>]+>/g, '');
+    return plainText.length > maxLength
+      ? plainText.substring(0, maxLength) + '...'
+      : plainText;
+  };
+
+  // Helper function to format date
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat(isArabic ? 'ar-SA' : 'en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    }).format(date);
+  };
 
   return (
     <>
@@ -27,57 +79,90 @@ const LatesNews: React.FC = () => {
               {isArabic ? 'آخر الأخبار من المدونة' : 'Latest News From Blog'}
             </h2>
             <p style={{ fontSize: '18px', maxWidth: '700px', margin: '0 auto', lineHeight: '1.8', color: '#666' }}>
-              {isArabic 
+              {isArabic
                 ? 'ابق على اطلاع بأحدث المقالات والأخبار حول الأمن السيبراني والحلول الرقمية المتقدمة.'
                 : 'Stay up to date with the latest articles and news on cybersecurity and digital transformation.'}
             </p>
           </div>
 
-          <HorizontalScrollCarousel 
-            cardWidth={420}
-            gap={24}
-            showArrows={true}
-          >
-            <BlogCard
-              image="/img/blog/blog1.jpg"
-              alt="Blog 1"
-              category={isArabic ? 'أمن سيبراني' : 'Cybersecurity'}
-              date={isArabic ? '٢٠ يونيو ٢٠٢٤' : 'Jun 20 2024'}
-              title={isArabic ? 'تحسين إدارة تكنولوجيا المعلومات' : 'Secure Managed IT'}
-              description={
-                isArabic
-                  ? 'خدمات إدارة تكنولوجيا المعلومات الآمنة والموثوقة لضمان استمرارية الأعمال.'
-                  : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolorer'
-              }
-              isArabic={isArabic}
-            />
-            <BlogCard
-              image="/img/blog/blog2.jpg"
-              alt="Blog 2"
-              category={isArabic ? 'أمن السحابة' : 'Cloud Security'}
-              date={isArabic ? '٢١ يونيو ٢٠٢٤' : 'Jun 21 2024'}
-              title={isArabic ? 'أمان السحابة المتقدم' : 'Cloud Security'}
-              description={
-                isArabic
-                  ? 'حلول أمان شاملة للبيئات السحابية مع ضمانات الامتثال التنظيمي.'
-                  : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolorer'
-              }
-              isArabic={isArabic}
-            />
-            <BlogCard
-              image="/img/blog/blog3.jpg"
-              alt="Blog 3"
-              category={isArabic ? 'حماية الويب' : 'Web Protection'}
-              date={isArabic ? '٢٢ يونيو ٢٠٢٤' : 'Jun 22 2024'}
-              title={isArabic ? 'إدارة الويب الآمنة' : 'Secure Managed Web'}
-              description={
-                isArabic
-                  ? 'خدمات حماية متكاملة لتطبيقات الويب مع مراقبة ٢٤/٧.'
-                  : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolorer'
-              }
-              isArabic={isArabic}
-            />
-          </HorizontalScrollCarousel>
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '60px 0' }}>
+              <div style={{
+                display: 'inline-block',
+                width: '50px',
+                height: '50px',
+                border: '4px solid rgba(10, 77, 140, 0.2)',
+                borderTopColor: '#0A4D8C',
+                borderRadius: '50%',
+                animation: 'spin 1s linear infinite'
+              }}></div>
+              <style jsx>{`
+                @keyframes spin {
+                  0% { transform: rotate(0deg); }
+                  100% { transform: rotate(360deg); }
+                }
+              `}</style>
+            </div>
+          ) : blogPosts.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '60px 0', color: '#666' }}>
+              <i className="bx bx-news" style={{ fontSize: '64px', color: '#0A4D8C', opacity: 0.3, marginBottom: '20px' }}></i>
+              <p style={{ fontSize: '18px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                {isArabic ? 'لا توجد مقالات منشورة حالياً' : 'No published posts yet'}
+              </p>
+              <Link
+                href="/blog"
+                className="default-btn"
+                style={{
+                  display: 'inline-block',
+                  marginTop: '20px',
+                  padding: '12px 30px'
+                }}
+              >
+                {isArabic ? 'عرض المدونة' : 'View Blog'}
+              </Link>
+            </div>
+          ) : (
+            <HorizontalScrollCarousel
+              cardWidth={420}
+              gap={24}
+              showArrows={true}
+            >
+              {blogPosts.map((post) => (
+                <BlogCard
+                  key={post.id}
+                  image={post.featured_image || '/img/blog/default.jpg'}
+                  alt={isArabic ? post.title_ar : post.title}
+                  category={post.category}
+                  date={formatDate(post.created_at)}
+                  title={isArabic ? post.title_ar : post.title}
+                  description={extractDescription(isArabic ? post.content_ar : post.content)}
+                  slug={post.slug}
+                  isArabic={isArabic}
+                />
+              ))}
+            </HorizontalScrollCarousel>
+          )}
+
+          {/* View All Button */}
+          {!loading && blogPosts.length > 0 && (
+            <div style={{ textAlign: 'center', marginTop: '50px' }}>
+              <Link
+                href="/blog"
+                className="default-btn"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  padding: '14px 35px',
+                  fontSize: '16px',
+                  fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit'
+                }}
+              >
+                {isArabic ? 'عرض جميع المقالات' : 'View All Posts'}
+                <i className={`bx ${isArabic ? 'bx-left-arrow-alt' : 'bx-right-arrow-alt'}`}></i>
+              </Link>
+            </div>
+          )}
         </div>
       </section>
     </>

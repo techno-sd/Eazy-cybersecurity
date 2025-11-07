@@ -12,6 +12,7 @@ interface BlogCardProps {
   title: string;
   description: string;
   isArabic: boolean;
+  slug?: string;
 }
 
 const BlogCard: React.FC<BlogCardProps> = ({
@@ -22,6 +23,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
   title,
   description,
   isArabic,
+  slug = 'details',
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -129,7 +131,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
           }}>
-            <Link href="/blog/details" style={{ textDecoration: 'none' }}>
+            <Link href={`/blog/${slug}`} style={{ textDecoration: 'none' }}>
               {title}
             </Link>
           </h3>
@@ -151,7 +153,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
 
           {/* Read More Button */}
           <Link
-            href="/blog/details"
+            href={`/blog/${slug}`}
             style={{
               display: 'inline-flex',
               alignItems: 'center',

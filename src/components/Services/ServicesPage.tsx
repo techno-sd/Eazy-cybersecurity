@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import ServiceConsultationCTA from "@/components/Consultation/ServiceConsultationCTA";
 
 interface ServicesPageProps {
   lang: string;
@@ -81,6 +82,7 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
         </div>
       </section>
 
+
       {/* Section 2: Cybersecurity Services */}
       <section id="cybersecurity" className="approach-area pb-100" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)' }}>
         <div className="container">
@@ -140,6 +142,7 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
           </div>
         </div>
       </section>
+
 
       {/* Section 3: Big Data & Analytics */}
       <section id="bigdata" className="approach-area pb-100" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)' }}>
@@ -201,6 +204,7 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
         </div>
       </section>
 
+
       {/* Section 4: Cloud Computing & Hosting */}
       <section id="cloud" className="approach-area pb-100" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)' }}>
         <div className="container">
@@ -260,6 +264,7 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
           </div>
         </div>
       </section>
+
 
       {/* Section 5: SME-EAZY Program */}
       <section id="sme" className="approach-area pb-100" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)' }}>
@@ -321,6 +326,7 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
         </div>
       </section>
 
+
       {/* CTA Section */}
       <section id="cta" className="security-area pb-100 pt-100">
         <div className="container">
@@ -336,6 +342,13 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
               </Link>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Final CTA for last service */}
+      <section className="pb-0 pt-0">
+        <div className="container">
+          <ServiceConsultationCTA serviceType="sme-eazy" lang={lang} />
         </div>
       </section>
     </>

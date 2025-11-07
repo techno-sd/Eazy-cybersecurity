@@ -9,12 +9,6 @@ import { useLang } from "@/context/LangContext";
 const testimonials = {
   en: [
     {
-      text: "Eazy Cyber Agent provided us with world-class cybersecurity solutions tailored for the Saudi market. Their team is highly professional and responsive.",
-      name: "Fahad Al Saud",
-      title: "IT Director, Riyadh Bank",
-      img: "/img/client-img/client1.jpg"
-    },
-    {
       text: "Their AI and cloud services helped us accelerate our digital transformation securely. We trust Eazy Cyber Agent as a strategic partner.",
       name: "Sara Al Otaibi",
       title: "CIO, Saudi Healthcare Group",
@@ -46,12 +40,6 @@ const testimonials = {
     }
   ],
   ar: [
-    {
-      text: "قدمت لنا Eazy Cyber Agent حلول أمن سيبراني عالمية مصممة خصيصاً للسوق السعودي. فريقهم محترف ومتجاوب للغاية.",
-      name: "فهد آل سعود",
-      title: "مدير تقنية المعلومات، بنك الرياض",
-      img: "/img/client-img/client1.jpg"
-    },
     {
       text: "خدمات الذكاء الاصطناعي والسحابة من Eazy Cyber Agent ساعدتنا في تسريع التحول الرقمي بأمان. نثق بهم كشريك استراتيجي.",
       name: "سارة العتيبي",

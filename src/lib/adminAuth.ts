@@ -65,10 +65,10 @@ export async function verifyAdminAuth(request: NextRequest): Promise<{
 /**
  * Middleware to protect admin routes
  */
-export async function requireAdmin(request: NextRequest) {
+export async function requireAdmin(request: NextRequest): Promise<NextResponse | { id: number; email: string; full_name: string; role: string }> {
   const auth = await verifyAdminAuth(request);
 
-  if (!auth.authenticated) {
+  if (!auth.authenticated || !auth.user) {
     return NextResponse.json(
       {
         success: false,

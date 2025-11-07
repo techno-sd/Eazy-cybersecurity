@@ -33,27 +33,26 @@ export default async function AdminPage() {
 
   const user = users[0];
 
-  // Get dashboard stats
-  const [blogStats] = await query<any[]>("SELECT COUNT(*) as total FROM blog_posts");
-  const [consultationStats] = await query<any[]>("SELECT COUNT(*) as total, SUM(CASE WHEN status = 'new' THEN 1 ELSE 0 END) as new_count FROM consultations");
-  const [contactStats] = await query<any[]>("SELECT COUNT(*) as total FROM contacts");
-  const [userStats] = await query<any[]>("SELECT COUNT(*) as total FROM users");
-
-  // Get recent consultations
-  const recentConsultations = await query<any[]>(
-    "SELECT id, name, email, service_type, status, created_at FROM consultations ORDER BY created_at DESC LIMIT 5"
-  );
-
-  // Get recent blog posts
-  const recentPosts = await query<any[]>(
-    "SELECT id, title, status, views, created_at FROM blog_posts ORDER BY created_at DESC LIMIT 5"
-  );
+  // Execute all queries in parallel for better performance
+  const [
+    [blogStats],
+    [consultationStats],
+    [userStats],
+    recentConsultations,
+    recentPosts
+  ] = await Promise.all([
+    query<any[]>("SELECT COUNT(*) as total FROM blog_posts"),
+    query<any[]>("SELECT COUNT(*) as total, SUM(CASE WHEN status = 'new' THEN 1 ELSE 0 END) as new_count FROM consultations"),
+    query<any[]>("SELECT COUNT(*) as total FROM users"),
+    query<any[]>("SELECT id, name, email, service_type, status, created_at FROM consultations ORDER BY created_at DESC LIMIT 5"),
+    query<any[]>("SELECT id, title, title_ar, status, views, created_at FROM blog_posts ORDER BY created_at DESC LIMIT 5")
+  ]);
 
   const stats = {
     blog: blogStats.total || 0,
     consultations: consultationStats.total || 0,
     newConsultations: consultationStats.new_count || 0,
-    contacts: contactStats.total || 0,
+    contacts: 0,
     users: userStats.total || 0,
   };
 

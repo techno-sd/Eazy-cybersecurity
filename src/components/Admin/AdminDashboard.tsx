@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useMemo, memo } from "react";
+import { useAdminLang } from "@/hooks/useAdminLang";
 import Link from "next/link";
 
 interface DashboardProps {
@@ -22,29 +23,7 @@ const AdminDashboard: React.FC<DashboardProps> = ({
   recentPosts,
   user,
 }) => {
-  const [lang, setLang] = useState<'en' | 'ar'>('en');
-  const isArabic = lang === 'ar';
-
-  // Load language preference from localStorage
-  useEffect(() => {
-    const savedLang = localStorage.getItem('admin_lang') as 'en' | 'ar' || 'en';
-    setLang(savedLang);
-
-    // Listen for language changes
-    const handleStorageChange = () => {
-      const newLang = localStorage.getItem('admin_lang') as 'en' | 'ar' || 'en';
-      setLang(newLang);
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-    // Also check every 100ms for changes (for same-window updates)
-    const interval = setInterval(handleStorageChange, 100);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      clearInterval(interval);
-    };
-  }, []);
+  const { lang, isArabic } = useAdminLang();
 
   const translations = {
     en: {
@@ -107,7 +86,7 @@ const AdminDashboard: React.FC<DashboardProps> = ({
 
   const t = translations[lang];
 
-  const getStatusLabel = (status: string): string => {
+  const getStatusLabel = useMemo(() => (status: string): string => {
     const statusMap: Record<string, keyof typeof translations.en> = {
       'new': 'statusNew',
       'in_progress': 'statusInProgress',
@@ -119,9 +98,9 @@ const AdminDashboard: React.FC<DashboardProps> = ({
     };
     const key = statusMap[status];
     return key ? t[key] : status;
-  };
+  }, [t]);
 
-  const statCards = [
+  const statCards = useMemo(() => [
     {
       title: t.totalBlogPosts,
       value: stats.blog,
@@ -144,13 +123,6 @@ const AdminDashboard: React.FC<DashboardProps> = ({
       color: "#607EAC",
       link: "/admin/consultations",
     },
-    {
-      title: t.contactMessages,
-      value: stats.contacts,
-      icon: "bx bx-envelope",
-      color: "#10b981",
-      link: "/admin/contacts",
-    },
     ...(user.role === "admin"
       ? [
           {
@@ -162,7 +134,7 @@ const AdminDashboard: React.FC<DashboardProps> = ({
           },
         ]
       : []),
-  ];
+  ], [t, stats, user.role]);
 
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
@@ -187,32 +159,57 @@ const AdminDashboard: React.FC<DashboardProps> = ({
   };
 
   return (
-    <div style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
+    <div
+      style={{
+        direction: isArabic ? 'rtl' : 'ltr',
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #e8f0fa 0%, #f8fafc 100%)',
+        padding: '40px 0',
+      }}
+    >
       {/* Welcome Section */}
       <div
         style={{
-          background: "linear-gradient(135deg, #0A4D8C 0%, #607EAC 100%)",
-          borderRadius: "16px",
-          padding: "30px",
-          marginBottom: "30px",
-          color: "#fff",
+          background: 'rgba(255,255,255,0.7)',
+          borderRadius: '20px',
+          padding: '36px 32px',
+          marginBottom: '36px',
+          color: '#0A4D8C',
+          boxShadow: '0 8px 32px 0 rgba(10,77,140,0.10)',
+          backdropFilter: 'blur(8px)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '28px',
         }}
       >
-        <h2 style={{ margin: "0 0 10px 0", fontSize: "28px", fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-          {t.welcomeBack}, {user.full_name}!
-        </h2>
-        <p style={{ margin: 0, opacity: 0.9, fontSize: "16px", fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-          {t.welcomeMessage}
-        </p>
+        <div style={{
+          width: 64, height: 64, borderRadius: '50%',
+          background: 'linear-gradient(135deg, #0A4D8C 60%, #607EAC 100%)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          boxShadow: '0 2px 12px #0A4D8C22',
+          flexShrink: 0,
+        }}>
+          <span style={{ color: '#fff', fontWeight: 700, fontSize: 28, fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+            {user.full_name?.[0] || 'A'}
+          </span>
+        </div>
+        <div>
+          <h2 style={{ margin: '0 0 10px 0', fontSize: '28px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit', color: '#0A4D8C' }}>
+            {t.welcomeBack}, {user.full_name}!
+          </h2>
+          <p style={{ margin: 0, opacity: 0.9, fontSize: '16px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit', color: '#607EAC' }}>
+            {t.welcomeMessage}
+          </p>
+        </div>
       </div>
 
       {/* Stats Grid */}
       <div
         style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-          gap: "20px",
-          marginBottom: "30px",
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+          gap: '24px',
+          marginBottom: '36px',
         }}
       >
         {statCards.map((stat, index) => (
@@ -220,37 +217,41 @@ const AdminDashboard: React.FC<DashboardProps> = ({
             key={index}
             href={stat.link}
             style={{
-              background: "#fff",
-              borderRadius: "12px",
-              padding: "24px",
-              textDecoration: "none",
-              border: "1px solid #e5e7eb",
-              transition: "all 0.3s ease",
-              position: "relative",
-              overflow: "hidden",
+              background: 'rgba(255,255,255,0.85)',
+              borderRadius: '18px',
+              padding: '32px 24px',
+              textDecoration: 'none',
+              border: '1.5px solid #e5e7eb',
+              transition: 'all 0.3s cubic-bezier(.4,0,.2,1)',
+              position: 'relative',
+              overflow: 'hidden',
+              boxShadow: '0 2px 16px 0 rgba(10,77,140,0.07)',
+              backdropFilter: 'blur(4px)',
+              display: 'flex', flexDirection: 'column', alignItems: 'center',
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-4px)";
-              e.currentTarget.style.boxShadow = "0 10px 30px rgba(0,0,0,0.1)";
+            onMouseEnter={e => {
+              e.currentTarget.style.transform = 'translateY(-6px) scale(1.03)';
+              e.currentTarget.style.boxShadow = '0 12px 36px 0 rgba(10,77,140,0.13)';
             }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.boxShadow = "none";
+            onMouseLeave={e => {
+              e.currentTarget.style.transform = 'translateY(0) scale(1)';
+              e.currentTarget.style.boxShadow = '0 2px 16px 0 rgba(10,77,140,0.07)';
             }}
           >
             {stat.badge && (
               <div
                 style={{
-                  position: "absolute",
-                  top: "12px",
-                  [isArabic ? 'left' : 'right']: "12px",
-                  background: "#ef4444",
-                  color: "#fff",
-                  borderRadius: "20px",
-                  padding: "4px 12px",
-                  fontSize: "11px",
-                  fontWeight: "700",
+                  position: 'absolute',
+                  top: '14px',
+                  [isArabic ? 'left' : 'right']: '14px',
+                  background: 'linear-gradient(90deg, #ef4444 60%, #f59e0b 100%)',
+                  color: '#fff',
+                  borderRadius: '20px',
+                  padding: '5px 14px',
+                  fontSize: '12px',
+                  fontWeight: '700',
                   fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                  boxShadow: '0 2px 8px #ef444422',
                 }}
               >
                 {t.new}
@@ -258,22 +259,23 @@ const AdminDashboard: React.FC<DashboardProps> = ({
             )}
             <div
               style={{
-                width: "50px",
-                height: "50px",
-                borderRadius: "12px",
-                background: `${stat.color}15`,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginBottom: "16px",
+                width: '56px',
+                height: '56px',
+                borderRadius: '14px',
+                background: `linear-gradient(135deg, ${stat.color}22, #fff 80%)`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: '18px',
+                boxShadow: `0 2px 8px ${stat.color}22`,
               }}
             >
-              <i className={stat.icon} style={{ fontSize: "24px", color: stat.color }}></i>
+              <i className={stat.icon} style={{ fontSize: '28px', color: stat.color }}></i>
             </div>
-            <div style={{ fontSize: "32px", fontWeight: "700", color: "#1a1a1a", marginBottom: "8px" }}>
+            <div style={{ fontSize: '36px', fontWeight: '800', color: '#0A4D8C', marginBottom: '8px', letterSpacing: '-1px' }}>
               {stat.value}
             </div>
-            <div style={{ fontSize: "14px", color: "#6b7280", fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>{stat.title}</div>
+            <div style={{ fontSize: '15px', color: '#607EAC', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit', fontWeight: 600 }}>{stat.title}</div>
           </Link>
         ))}
       </div>
@@ -488,29 +490,10 @@ const AdminDashboard: React.FC<DashboardProps> = ({
             <i className="bx bx-message-dots"></i>
             {t.viewConsultations}
           </Link>
-          <Link
-            href="/admin/contacts"
-            style={{
-              padding: "12px 24px",
-              background: "#f3f4f6",
-              color: "#374151",
-              borderRadius: "8px",
-              textDecoration: "none",
-              fontSize: "14px",
-              fontWeight: "600",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-              fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-            }}
-          >
-            <i className="bx bx-envelope"></i>
-            {t.viewMessages}
-          </Link>
         </div>
       </div>
     </div>
   );
 };
 
-export default AdminDashboard;
+export default memo(AdminDashboard);

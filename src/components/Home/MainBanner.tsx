@@ -53,6 +53,8 @@ const MainBanner: React.FC = () => {
                   {t.hero.welcome}
                 </p>
 
+                {/* Vision & Mission moved to FeaturedSection below hero */}
+
                 <div
                   className="banner-btn"
                   dir={isAR ? 'rtl' : 'ltr'}

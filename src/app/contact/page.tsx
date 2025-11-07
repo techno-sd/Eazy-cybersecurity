@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "../../components/Layouts/Navbar";
 import PageBanner from "../../components/Common/PageBanner";
 import ContactInfo from "../../components/Contact/ContactInfo";
-import ContactForm from "../../components/Contact/ContactForm";
+import ServiceConsultationForm from "../../components/Consultation/ServiceConsultationForm";
 import Footer from "../../components/Layouts/Footer";
 import { cookies } from "next/headers";
 import { getMessages } from "@/i18n";
@@ -25,10 +25,16 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function Page() {
+interface PageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default async function Page({ searchParams }: PageProps) {
   const cookieStore = await cookies();
   const cookieLang = cookieStore.get("lang")?.value === "ar" ? "ar" : "en";
   const t = getMessages(cookieLang);
+  const params = await searchParams;
+  const preSelectedService = typeof params.service === 'string' ? params.service : undefined;
 
   return (
     <>
@@ -43,7 +49,7 @@ export default async function Page() {
 
       <ContactInfo />
 
-      <ContactForm />
+      <ServiceConsultationForm preSelectedService={preSelectedService} />
 
       <Footer />
     </>

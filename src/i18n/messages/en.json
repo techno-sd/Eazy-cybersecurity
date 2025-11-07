@@ -1,7 +1,9 @@
 {
   "hero": {
     "title": "Your Trusted Partner in Building a Secure and Smart Digital Future Aligned with Saudi Vision 2030",
-    "welcome": "Eazy Cyber Agent is a Saudi company specializing in cybersecurity and digital solutions. We provide integrated services in artificial intelligence, big data, and cloud computing. Our mission is to support both public and private sectors in driving digital transformation and achieving Vision 2030 goals toward a knowledge-based, innovative economy."
+    "welcome": "Eazy Cyber Agent is a Saudi company specializing in cybersecurity and digital solutions. We provide integrated services in artificial intelligence, big data, and cloud computing. Our mission is to support both public and private sectors in driving digital transformation and achieving Vision 2030 goals toward a knowledge-based, innovative economy.",
+    "vision": "Vision: To be the first choice in Saudi Arabia and the region for delivering innovative digital and security solutions that empower organizations to adapt and achieve digital sustainability.",
+    "mission": "Mission: To empower organizations to build secure and intelligent infrastructures using the latest technologies in AI, big data, and cybersecurity—aligned with the Kingdom's Vision 2030 digital transformation strategy."
   },
   "home": {
     "about_preview": {
@@ -25,12 +27,12 @@
       "bigdata_title": "Big Data & Analytics",
       "bigdata_desc": "Transform vast data into strategic insights with smart dashboards, data warehousing, and advanced fraud detection capabilities",
       "cloud_title": "Cloud Computing & Hosting",
-      "cloud_desc": "Enterprise-grade cloud infrastructure with Saudi-compliant hosting, disaster recovery, and robust data encryption",
+      "cloud_desc": "Enhance your digital infrastructure with secure and scalable cloud solutions compliant with Saudi regulations",
       "button": "View All Services"
     },
     "industries_preview": {
       "title": "Industries We Serve",
-      "tagline": "Empowering Saudi Arabia's key sectors with world-class cybersecurity, AI innovation, and digital transformation solutions",
+      "tagline": "We provide integrated technology solutions designed to meet the needs of diverse industries — empowering digital transformation, enhancing efficiency, and securing digital infrastructure.",
       "government": "Government & Public Sector",
       "finance": "Banking & Finance",
       "energy": "Energy & Telecom",
@@ -53,11 +55,11 @@
       "content": "Partner with Eazy Cyber Agent to build a secure, smart, and compliant digital future.",
       "button": "Contact Us",
       "benefit1_title": "Enterprise Security",
-      "benefit1_desc": "Comprehensive protection for your organization with world-class cybersecurity solutions",
+  "benefit1_desc": "",
       "benefit2_title": "Rapid Response",
-      "benefit2_desc": "24/7 support and incident response team ready to protect your assets",
+  "benefit2_desc": "",
       "benefit3_title": "Proven Compliance",
-      "benefit3_desc": "NCA and ISO 27001 certified solutions ensuring regulatory adherence"
+  "benefit3_desc": ""
     }
   },
   "buttons": {
@@ -156,11 +158,11 @@
       },
   "features": {
     "security_title": "Vision",
-    "security_desc": "To be the first choice in Saudi Arabia and the region for delivering innovative digital and security solutions that empower organizations to adapt and achieve digital sustainability.",
+  "security_desc": "",
   "privacy_title": "Mission",
-  "privacy_desc": "To empower organizations to build secure and intelligent infrastructures using the latest technologies in AI, big data, and cybersecurity—aligned with the Kingdom’s Vision 2030 digital transformation strategy.",
+  "privacy_desc": "",
     "certified_title": "Core Values",
-    "certified_desc": "Our core values guide every engagement and decision.",
+  "certified_desc": "",
     "certified_points": [
       "Integrity & Transparency – Trust is the foundation of every partnership.",
       "Continuous Innovation – Creative solutions for tomorrow’s challenges.",
@@ -172,39 +174,39 @@
     "section_title": "AI Solutions",
     "section_subtitle": "Leverage the power of artificial intelligence to enhance customer experience, boost business efficiency, and make more accurate and effective decisions at the right time.",
     "chatbot_title": "Chatbots for Customer Service",
-    "chatbot_desc": "Provide 24/7 customer service through intelligent chatbots capable of understanding user needs and responding instantly to inquiries, raising customer satisfaction levels and reducing operational costs.",
+  "chatbot_desc": "",
     "predictive_title": "Predictive Analytics for Accurate Decision-Making",
-    "predictive_desc": "Rely on predictive analytics to extract future insights based on data, helping you with strategic planning, risk management, and making informed decisions that promote growth and sustainability.",
+  "predictive_desc": "",
     "threat_title": "Intelligent Systems for Real-Time Cyber Threat Detection",
-    "threat_desc": "Protect your digital infrastructure using advanced AI systems that monitor and detect security threats as they occur, responding automatically to maintain data security and business continuity."
+  "threat_desc": ""
   },
   "cybersecurity": {
     "section_title": "Cybersecurity Services",
     "section_subtitle": "Protect your digital assets and ensure business continuity through comprehensive cybersecurity solutions that keep pace with the latest threats and ensure compliance with the highest global standards.",
     "pentest_title": "Penetration Testing & Vulnerability Assessment",
-    "pentest_desc": "We provide advanced penetration testing to identify security vulnerabilities in systems and applications, with detailed reports and practical solutions to enhance protection levels.",
+    "pentest_desc": "Identify and address security vulnerabilities through comprehensive penetration testing and security assessments",
     "compliance_title": "Risk Management and Compliance with NCA & ISO 27001",
-    "compliance_desc": "We help you implement risk management and compliance frameworks according to National Cybersecurity Authority (NCA) standards and ISO 27001, ensuring a secure and compliant digital environment.",
+    "compliance_desc": "Ensure full compliance with Saudi NCA regulations and international ISO 27001 standards",
     "soc_title": "Security Operations Centers (SOC) and Incident Response",
-    "soc_desc": "Monitor your infrastructure 24/7 through specialized Security Operations Centers (SOC), enabling early threat detection and rapid incident response before escalation.",
+    "soc_desc": "24/7 security monitoring and rapid incident response to protect your organization",
     "training_title": "Phishing and Social Engineering Simulation Training",
-    "training_desc": "We provide interactive training programs and realistic simulations for phishing and social engineering tests, raising employee awareness and strengthening security culture within the organization."
+    "training_desc": "Train your employees to recognize and prevent social engineering attacks through realistic simulations"
   },
   "bigData": {
     "section_title": "Big Data & Analytics",
     "section_subtitle": "Transform your data into strategic insights and actionable business intelligence through our advanced data analytics solutions, helping you make precise decisions and enhance business efficiency.",
     "warehouse_title": "Data Warehouse Creation and Management",
-    "warehouse_desc": "We provide comprehensive solutions for designing, developing, and managing secure and efficient data warehouses, enabling you to collect, organize, and transform data into a powerful asset for your organization.",
+    "warehouse_desc": "Build and manage scalable data warehouses for efficient data storage and analysis",
     "dashboard_title": "Smart Dashboards for Decision-Makers",
-    "dashboard_desc": "Benefit from interactive and flexible dashboards that provide immediate and comprehensive performance insights, helping decision-makers take informed steps based on accurate data.",
+    "dashboard_desc": "Create interactive dashboards that provide real-time insights for strategic decision-making",
     "fraud_title": "Fraud Detection Through Advanced Analytics",
-    "fraud_desc": "Quickly and accurately detect suspicious patterns and abnormal activities using intelligent analytics techniques to protect your business and enhance operational reliability.",
+    "fraud_desc": "Detect and prevent fraud using advanced analytics and machine learning algorithms",
     "governance_title": "Data Governance in Compliance with Saudi Personal Data Protection Law",
-    "governance_desc": "We help you implement best practices in data governance according to Saudi Personal Data Protection Law, ensuring full compliance and protecting the privacy of your customers and users."
+    "governance_desc": "Implement comprehensive data governance frameworks aligned with Saudi regulations"
   },
   "cloudHosting": {
     "section_title": "Cloud Computing & Hosting",
-    "section_subtitle": "Elevate your digital infrastructure through secure and flexible cloud solutions that enable confident expansion and ensure full compliance with Saudi regulations to protect your data and operate your business with high efficiency.",
+    "section_subtitle": "Enhance your digital infrastructure with secure and scalable cloud solutions compliant with Saudi regulations.",
     "hosting_title": "Secure Hosting Compliant with Saudi Regulations",
     "hosting_desc": "We provide reliable local hosting services that comply with national security and privacy standards, ensuring data protection and meeting regulatory requirements in the Kingdom.",
     "backup_title": "Backup and Disaster Recovery Solutions",
@@ -233,27 +235,27 @@
     "industries_list": [
       {
         "title": "Government & Public Sector",
-        "description": "Securing national digital infrastructure, enabling e-government services, and supporting Vision 2030 initiatives with AI-driven automation and compliance solutions."
+        "description": "We support government initiatives in achieving digital transformation through smart, secure solutions that enhance service efficiency and institutional performance."
       },
       {
         "title": "Banking & Financial Services",
-        "description": "Protecting financial transactions, detecting fraud with advanced analytics, ensuring regulatory compliance (SAMA, NCA), and delivering secure cloud-based banking solutions."
+        "description": "We deliver advanced cybersecurity and data analytics solutions to ensure compliance, safeguard transactions, and enhance customer experience in the financial sector."
       },
       {
         "title": "Energy & Telecommunications",
-        "description": "Safeguarding critical infrastructure from cyber threats, monitoring OT/IT systems, and supporting smart grid and 5G rollouts with AI and IoT security."
+        "description": "We help energy and telecom organizations improve operational performance and network reliability through real-time monitoring and intelligent analytics solutions."
       },
       {
         "title": "Healthcare & Hospitals",
-        "description": "Protecting patient data, ensuring HIPAA and local regulation compliance, securing telemedicine platforms, and enabling AI-powered diagnostics and analytics."
+        "description": "We provide secure digital solutions for managing medical data, improving patient experience, and supporting healthcare institutions in their digital transformation journey."
       },
       {
         "title": "Education & Universities",
-        "description": "Securing online learning platforms, protecting student records, enabling safe digital collaboration, and supporting research initiatives with data analytics and cloud infrastructure."
+        "description": "We offer smart platforms and seamless technology integration to support e-learning, manage academic data, and foster innovation in education."
       },
       {
         "title": "SMEs & Startups",
-        "description": "Providing affordable, scalable cybersecurity and cloud solutions tailored for growing businesses, with a focus on agility, innovation, and alignment with entrepreneurship goals in Vision 2030."
+        "description": "We empower SMEs through flexible programs and affordable solutions that provide access to cybersecurity, analytics, and AI technologies for sustainable growth."
       }
     ],
     "vision2030_heading": "Aligned with Saudi Vision 2030",

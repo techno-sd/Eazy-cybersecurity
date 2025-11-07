@@ -19,12 +19,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate email format
-    const emailValidation = isValidEmail(email);
-    if (!emailValidation.valid) {
+    if (!isValidEmail(email)) {
       return NextResponse.json(
         {
           success: false,
-          message: emailValidation.message
+          message: 'Invalid email format'
         },
         { status: 400 }
       );
