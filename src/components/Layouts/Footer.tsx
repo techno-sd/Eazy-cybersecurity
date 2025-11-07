@@ -24,20 +24,19 @@ const Footer: React.FC = () => {
                 <ul className="contact-info" style={{ textAlign: isArabic ? 'right' : 'left' }}>
                   <li>
                     <i className="bx bx-phone-call"></i>
-                    <span>{isArabic ? 'الهاتف:' : 'Hotline:'}</span>
-                    <a href="tel:+966563664008">+966 56 366 4008</a>
+                    <span>{isArabic ? 'الهاتف:' : 'Phone:'}</span>
+                    <a href="tel:+966563664008" dir="ltr">+966 56 366 4008</a>
                   </li>
 
                   <li>
                     <i className="bx bx-envelope"></i>
                     <span>{isArabic ? 'البريد الإلكتروني:' : 'Email:'}</span>
-                    <a href="mailto:support@eazycyber.sa">support@eazycyber.sa</a>
+                    <a href="mailto:info@eazycyber.sa" dir="ltr">info@eazycyber.sa</a>
                   </li>
 
-                  <li>
-                    <i className="bx bx-location-plus"></i>
-                    <span>{isArabic ? 'العنوان:' : 'Address:'}</span>
-                    {isArabic ? 'الرياض، المملكة العربية السعودية' : 'Riyadh, Kingdom of Saudi Arabia'}
+                                    <li>
+                    <i className="bx bx-map"></i>
+                    {isArabic ? 'ينبع، المملكة العربية السعودية' : 'Yanbu, Kingdom of Saudi Arabia'}
                   </li>
                 </ul>
               </div>
@@ -92,19 +91,19 @@ const Footer: React.FC = () => {
                   <li>
                     <Link href="/industries#government">
                       <i className="bx bx-chevrons-right"></i>
-                      {isArabic ? 'القطاع الحكومي' : 'Government & Public Sector'}
+                      {isArabic ? 'القطاع الحكومي (التحول الرقمي الحكومي)' : 'Government Sector (Digital Government Transformation)'}
                     </Link>
                   </li>
                   <li>
                     <Link href="/industries#finance">
                       <i className="bx bx-chevrons-right"></i>
-                      {isArabic ? 'البنوك والمالية' : 'Banking & Finance'}
+                      {isArabic ? 'البنوك والخدمات المالية' : 'Banks and Financial Services'}
                     </Link>
                   </li>
                   <li>
                     <Link href="/industries#energy">
                       <i className="bx bx-chevrons-right"></i>
-                      {isArabic ? 'الطاقة والاتصالات' : 'Energy & Telecom'}
+                      {isArabic ? 'الطاقة والاتصالات' : 'Energy and Telecommunications'}
                     </Link>
                   </li>
                   <li>
@@ -116,13 +115,7 @@ const Footer: React.FC = () => {
                   <li>
                     <Link href="/industries#education">
                       <i className="bx bx-chevrons-right"></i>
-                      {isArabic ? 'التعليم' : 'Education'}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/industries#smes">
-                      <i className="bx bx-chevrons-right"></i>
-                      {isArabic ? 'الشركات الصغيرة' : 'SMEs & Startups'}
+                      {isArabic ? 'التعليم والجامعات' : 'Education and Universities'}
                     </Link>
                   </li>
                 </ul>
@@ -180,10 +173,10 @@ const Footer: React.FC = () => {
 
       <footer className="footer-bottom-area">
         <div className="container">
-          <div className="row align-items-center">
+          <div className="row align-items-center justify-content-center">
             <div className="col-lg-12">
-              <div className="copy-right" style={{ textAlign: 'center', direction: isArabic ? 'rtl' : 'ltr' }}>
-                <p>
+              <div className="copy-right" style={{ textAlign: 'center', direction: isArabic ? 'rtl' : 'ltr', width: '100%' }}>
+                <p style={{ margin: '0 auto', textAlign: 'center' }}>
                   {isArabic
                     ? `جميع الحقوق محفوظة © ${currentYear} Eazy Cyber Agent`
                     : `Copyright © ${currentYear} Eazy Cyber Agent`}

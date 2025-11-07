@@ -17,11 +17,11 @@ export async function generateMetadata(): Promise<Metadata> {
       ? "Eazy Cyber Agent | اتصل بنا – نحن هنا لمساعدتك"
       : "Eazy Cyber Agent | Contact Us – We're Here to Help",
     description: cookieLang === "ar"
-      ? "تواصل مع فريق خبراء Eazy Cyber Agent للحصول على استشارات الأمن السيبراني وحلول الذكاء الاصطناعي والبيانات الضخمة. نحن موجودون في الرياض، المملكة العربية السعودية."
-      : "Get in touch with Eazy Cyber Agent's expert team for cybersecurity consulting, AI solutions, and big data analytics. Based in Riyadh, Saudi Arabia.",
+      ? "تواصل مع فريق خبراء Eazy Cyber Agent للحصول على استشارات الأمن السيبراني وحلول الذكاء الاصطناعي والبيانات الضخمة. نحن موجودون في ينبع، المملكة العربية السعودية."
+      : "Get in touch with Eazy Cyber Agent's expert team for cybersecurity consulting, AI solutions, and big data analytics. Based in Yanbu, Saudi Arabia.",
     keywords: cookieLang === "ar"
-      ? "اتصل بنا, الأمن السيبراني, استشارات, الرياض, السعودية, دعم تقني"
-      : "contact us, cybersecurity, consulting, Riyadh, Saudi Arabia, technical support",
+      ? "اتصل بنا, الأمن السيبراني, استشارات, ينبع, السعودية, دعم تقني"
+      : "contact us, cybersecurity, consulting, Yanbu, Saudi Arabia, technical support",
   };
 }
 

@@ -1,45 +1,18 @@
-import dynamic from 'next/dynamic';
 import Navbar from "../components/Layouts/Navbar";
 import MainBanner from "../components/Home/MainBanner";
 import LazyLoad from '../components/Common/LazyLoad';
-
-// Lazy load sections for optimal performance
-const Vision2030Section = dynamic(() => import("../components/Home/Vision2030Section"), {
-  loading: () => <div style={{ height: '400px', background: '#f8f9fa' }} />,
-});
-const IndustriesSection = dynamic(() => import("../components/Home/IndustriesSection"), {
-  loading: () => <div style={{ height: '400px', background: '#f8f9fa' }} />,
-});
-const ServicesIntro = dynamic(() => import("../components/Home/ServicesIntro"), {
-  loading: () => <div style={{ height: '300px', background: '#f8f9fa' }} />,
-});
-const AIServicesSection = dynamic(() => import("../components/Home/AIServicesSection"), {
-  loading: () => <div style={{ height: '400px', background: '#f8f9fa' }} />,
-});
-const CybersecuritySection = dynamic(() => import("../components/Home/CybersecuritySection"), {
-  loading: () => <div style={{ height: '400px', background: '#f8f9fa' }} />,
-});
-const BigDataSection = dynamic(() => import("../components/Home/BigDataSection"), {
-  loading: () => <div style={{ height: '400px', background: '#f8f9fa' }} />,
-});
-const CloudComputingSection = dynamic(() => import("../components/Home/CloudComputingSection"), {
-  loading: () => <div style={{ height: '400px', background: '#f8f9fa' }} />,
-});
-const SMEEazySection = dynamic(() => import("../components/Home/SMEEazySection"), {
-  loading: () => <div style={{ height: '400px', background: '#f8f9fa' }} />,
-});
-const Testimonials = dynamic(() => import("../components/Common/Testimonials"), {
-  loading: () => <div style={{ height: '400px', background: '#f8f9fa' }} />,
-});
-const LatesNews = dynamic(() => import("../components/Common/LatesNews"), {
-  loading: () => <div style={{ height: '400px', background: '#f8f9fa' }} />,
-});
-const ContactCTA = dynamic(() => import("../components/Home/ContactCTA"), {
-  loading: () => <div style={{ height: '300px', background: '#f8f9fa' }} />,
-});
-const Footer = dynamic(() => import("../components/Layouts/Footer"), {
-  loading: () => <div style={{ height: '200px', background: '#1a1a1a' }} />,
-});
+import Vision2030Section from "../components/Home/Vision2030Section";
+import IndustriesSection from "../components/Home/IndustriesSection";
+import ServicesIntro from "../components/Home/ServicesIntro";
+import AIServicesSection from "../components/Home/AIServicesSection";
+import CybersecuritySection from "../components/Home/CybersecuritySection";
+import BigDataSection from "../components/Home/BigDataSection";
+import CloudComputingSection from "../components/Home/CloudComputingSection";
+import SMEEazySection from "../components/Home/SMEEazySection";
+import Testimonials from "../components/Common/Testimonials";
+import LatesNews from "../components/Common/LatesNews";
+import ContactCTA from "../components/Home/ContactCTA";
+import Footer from "../components/Layouts/Footer";
 
 export default function Home() {
   return (

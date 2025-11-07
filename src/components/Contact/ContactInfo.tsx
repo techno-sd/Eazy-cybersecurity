@@ -10,8 +10,8 @@ const ContactInfo: React.FC = () => {
   const content = {
     en: {
       location: "Our Location",
-      address: "Riyadh, Saudi Arabia",
-      fullAddress: "Riyadh, Kingdom of Saudi Arabia",
+      address: "Yanbu, Saudi Arabia",
+      fullAddress: "Yanbu, Kingdom of Saudi Arabia",
       email: "Email",
       phone: "Phone",
       hours: "Business Hours",
@@ -19,8 +19,8 @@ const ContactInfo: React.FC = () => {
     },
     ar: {
       location: "موقعنا",
-      address: "الرياض، المملكة العربية السعودية",
-      fullAddress: "الرياض، المملكة العربية السعودية",
+      address: "ينبع، المملكة العربية السعودية",
+      fullAddress: "ينبع، المملكة العربية السعودية",
       email: "البريد الإلكتروني",
       phone: "الهاتف",
       hours: "ساعات العمل",
@@ -124,7 +124,7 @@ const ContactInfo: React.FC = () => {
                         textDecoration: 'none',
                         fontSize: '16px'
                       }}>
-                        support@eazycyber.sa
+                        info@eazycyber.sa
                       </a>
                     </div>
                   </div>
@@ -170,44 +170,6 @@ const ContactInfo: React.FC = () => {
                     </div>
                   </div>
                 </div>
-
-                {/* Business Hours Card */}
-                <div style={{
-                  background: '#F8F9FA',
-                  borderRadius: '15px',
-                  padding: '20px',
-                  transition: 'all 0.3s ease',
-                  cursor: 'pointer',
-                  border: '2px solid transparent'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#0A4D8C';
-                  e.currentTarget.style.background = 'white';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'transparent';
-                  e.currentTarget.style.background = '#F8F9FA';
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <i className="bx bx-time" style={{
-                      fontSize: '28px',
-                      color: '#0A4D8C',
-                      marginRight: isArabic ? '0' : '15px',
-                      marginLeft: isArabic ? '15px' : '0'
-                    }}></i>
-                    <div style={{ textAlign: isArabic ? 'right' : 'left' }}>
-                      <p style={{ margin: '0', fontSize: '14px', color: '#666' }}>{currentContent.hours}</p>
-                      <p style={{
-                        color: '#0A4D8C',
-                        fontWeight: '600',
-                        margin: '5px 0 0',
-                        fontSize: '16px'
-                      }}>
-                        {currentContent.hoursText}
-                      </p>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -222,7 +184,7 @@ const ContactInfo: React.FC = () => {
                 border: '1px solid rgba(10, 77, 140, 0.1)'
               }}>
                 <iframe 
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d462565.7588224952!2d46.345651999999996!3d24.7135517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f03890d489399%3A0xba974d1c98e79fd5!2sRiyadh%20Saudi%20Arabia!5e0!3m2!1sen!2s!4v1234567890123!5m2!1sen!2s"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d232345.67891234!2d38.0!3d24.08!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15bdbe6a7b1b8d45%3A0x2e9c5f1e3c5a7b8e!2sYanbu%2C%20Saudi%20Arabia!5e0!3m2!1sen!2s!4v1234567890123!5m2!1sen!2s"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}

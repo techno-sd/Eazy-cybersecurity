@@ -17,25 +17,25 @@ const ContactForm: React.FC = () => {
 
   const content = {
     en: {
-      title: "Get In Touch",
-      subtitle: "Have a question or want to work together? We'd love to hear from you.",
+      title: "Request Consultation",
+      subtitle: "Fill out the form and our specialized team will contact you to provide the appropriate consultation for your needs.",
       namePlaceholder: "Your Name",
       emailPlaceholder: "Your Email",
       phonePlaceholder: "Phone Number",
       subjectPlaceholder: "Subject",
       messagePlaceholder: "Write your message...",
-      submitButton: "Send Message",
+      submitButton: "Submit Request",
       submitting: "Sending...",
     },
     ar: {
-      title: "تواصل معنا",
-      subtitle: "هل لديك سؤال أو ترغب في العمل معنا؟ يسعدنا سماع منك.",
+      title: "اطلب استشارة",
+      subtitle: "املأ النموذج وسيتواصل معك فريقنا المتخصص لتقديم الاستشارة المناسبة لاحتياجاتك.",
       namePlaceholder: "الاسم",
       emailPlaceholder: "البريد الإلكتروني",
       phonePlaceholder: "رقم الهاتف",
       subjectPlaceholder: "الموضوع",
       messagePlaceholder: "اكتب رسالتك...",
-      submitButton: "إرسال الرسالة",
+      submitButton: "إرسال الطلب",
       submitting: "جاري الإرسال...",
     }
   };

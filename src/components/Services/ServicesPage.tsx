@@ -26,39 +26,6 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
         </div>
       </section>
 
-      {/* Services Overview Grid */}
-      <section id="overview" className="security-area pb-70">
-        <div className="container">
-          <div className="section-title" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
-            <span className="sub-title">
-              <i className="bx bx-grid-alt"></i>
-              {t.services.overview_title}
-            </span>
-            <h2>{t.services.overview_title}</h2>
-          </div>
-
-          <div className="row" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
-            {t.services.service_cards.map((card: any, index: number) => (
-              <div key={index} className="col-lg-4 col-sm-6">
-                <a href={card.anchor} style={{ textDecoration: 'none', color: 'inherit' }}>
-                  <div className="single-security" style={{ textAlign: isArabic ? 'right' : 'left', cursor: 'pointer' }}>
-                    <i className={
-                      index === 0 ? 'bx bx-brain' :
-                      index === 1 ? 'bx bx-shield-quarter' :
-                      index === 2 ? 'bx bx-data' :
-                      index === 3 ? 'bx bx-cloud' :
-                      'bx bx-briefcase'
-                    }></i>
-                    <h3>{card.title}</h3>
-                    <p>{card.summary}</p>
-                  </div>
-                </a>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Section 1: AI Solutions */}
       <section id="ai" className="approach-area pb-100">
         <div className="container">

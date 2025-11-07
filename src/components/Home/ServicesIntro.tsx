@@ -10,7 +10,7 @@ const ServicesIntro: React.FC = () => {
   const isArabic = lang === "ar";
 
   return (
-    <section className="services-intro-area pt-100 pb-70" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)' }}>
+    <section className="services-intro-area pt-100 pb-30" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)' }}>
       <div className="container">
         <div className="section-title" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: 'center' }}>
           <span className="sub-title section-divider" style={{ display: 'block', width: '60px', height: '4px', background: 'linear-gradient(90deg, #0A4D8C, #607EAC)', borderRadius: '2px', margin: '0 auto 20px 0' }}></span>

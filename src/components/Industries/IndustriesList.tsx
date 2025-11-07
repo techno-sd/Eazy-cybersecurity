@@ -373,34 +373,6 @@ const IndustriesList: React.FC<IndustriesListProps> = ({ lang, t }) => {
                               {isArabic ? "امتثال كامل" : "Full Compliance"}
                             </span>
                           </div>
-
-                          {/* CTA Button */}
-                          <Link
-                            href="/contact"
-                            style={{
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              gap: '10px',
-                              padding: '16px 32px',
-                              background: industryData.gradient,
-                              color: '#fff',
-                              borderRadius: '12px',
-                              fontWeight: '600',
-                              fontSize: '16px',
-                              textDecoration: 'none',
-                              transition: 'all 0.3s ease',
-                              boxShadow: `0 8px 25px ${industryData.accentColor}40`
-                            }}
-                            className="industry-cta-btn"
-                          >
-                            {isArabic ? "اطلب استشارة مجانية" : "Request Free Consultation"}
-                            <i
-                              className={`bx ${
-                                isArabic ? "bx-left-arrow-alt" : "bx-right-arrow-alt"
-                              }`}
-                              style={{ fontSize: '20px' }}
-                            ></i>
-                          </Link>
                         </div>
                       </div>
                     </div>
@@ -412,45 +384,135 @@ const IndustriesList: React.FC<IndustriesListProps> = ({ lang, t }) => {
         </div>
       </section>
 
+      {/* Consultation CTA Section */}
+      <section 
+        style={{
+          padding: '80px 0',
+          background: 'linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%)',
+        }}
+      >
+        <div className="container">
+          <div style={{ direction: isArabic ? "rtl" : "ltr", textAlign: 'center' }}>
+            <div className="row justify-content-center">
+              <div className="col-lg-8" data-aos="fade-up">
+                <div style={{
+                  padding: '60px 40px',
+                  background: 'linear-gradient(135deg, #0A4D8C 0%, #073D6C 100%)',
+                  borderRadius: '20px',
+                  boxShadow: '0 20px 60px rgba(10, 77, 140, 0.2)',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}>
+                  {/* Background Pattern */}
+                  <div style={{
+                    position: 'absolute',
+                    inset: 0,
+                    backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.1) 1px, transparent 0)',
+                    backgroundSize: '30px 30px',
+                    opacity: 0.4
+                  }}></div>
+
+                  <div style={{ position: 'relative', zIndex: 1 }}>
+                    <i className="bx bx-phone-call" style={{
+                      fontSize: '48px',
+                      color: '#fff',
+                      marginBottom: '20px',
+                      display: 'block'
+                    }}></i>
+                    
+                    <h2 style={{
+                      fontSize: '32px',
+                      fontWeight: '700',
+                      color: '#fff',
+                      marginBottom: '15px',
+                      lineHeight: '1.3'
+                    }}>
+                      {isArabic 
+                        ? "هل أنت مستعد لتأمين مؤسستك؟" 
+                        : "Ready to Secure Your Organization?"}
+                    </h2>
+                    
+                    <p style={{
+                      fontSize: '17px',
+                      color: 'rgba(255, 255, 255, 0.9)',
+                      marginBottom: '30px',
+                      lineHeight: '1.8'
+                    }}>
+                      {isArabic
+                        ? "احصل على استشارة من خبرائنا واكتشف كيف يمكننا حماية مؤسستك"
+                        : "Get a consultation from our experts and discover how we can protect your organization"}
+                    </p>
+
+                    <Link
+                      href="/contact"
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '10px',
+                        padding: '18px 40px',
+                        background: '#fff',
+                        color: '#0A4D8C',
+                        borderRadius: '12px',
+                        fontWeight: '700',
+                        fontSize: '16px',
+                        textDecoration: 'none',
+                        transition: 'all 0.3s ease',
+                        boxShadow: '0 10px 35px rgba(0, 0, 0, 0.2)',
+                      }}
+                      className="consultation-cta-btn"
+                    >
+                      {isArabic ? "اطلب استشارة" : "Request Consultation"}
+                      <i
+                        className={`bx ${
+                          isArabic ? "bx-left-arrow-alt" : "bx-right-arrow-alt"
+                        }`}
+                        style={{ fontSize: '20px' }}
+                      ></i>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Enhanced Vision 2030 CTA Section */}
       <section 
         className="industries-vision-section" 
         style={{
           padding: '100px 0',
-          background: 'linear-gradient(135deg, #0A4D8C 0%, #073D6C 100%)',
+          background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)',
           position: 'relative',
           overflow: 'hidden'
         }}
       >
-        {/* Background Pattern */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.15) 1px, transparent 0)',
-          backgroundSize: '40px 40px',
-          opacity: 0.3
-        }}></div>
-
-        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+        <div className="container">
           <div style={{ direction: isArabic ? "rtl" : "ltr" }}>
-            <div className="row align-items-center g-4">
-              <div className="col-lg-8" data-aos="fade-up">
+            <div className="row align-items-center g-5">
+              <div className="col-lg-6" data-aos="fade-up">
                 <div style={{ textAlign: isArabic ? "right" : "left" }}>
+                  {/* Decorative Line */}
+                  <span style={{ 
+                    display: 'block', 
+                    width: '60px', 
+                    height: '4px', 
+                    background: 'linear-gradient(90deg, #0A4D8C, #607EAC)', 
+                    borderRadius: '2px', 
+                    marginBottom: '20px',
+                    [isArabic ? 'marginLeft' : 'marginRight']: 'auto' 
+                  }}></span>
+
                   {/* Badge */}
                   <span
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: '8px',
-                      padding: '10px 20px',
-                      background: 'rgba(255, 255, 255, 0.15)',
-                      backdropFilter: 'blur(10px)',
-                      borderRadius: '50px',
-                      color: '#fff',
+                      color: '#0A4D8C',
                       fontWeight: '600',
                       fontSize: '14px',
-                      marginBottom: '25px',
-                      border: '2px solid rgba(255, 255, 255, 0.25)',
+                      marginBottom: '15px',
                       textTransform: 'uppercase',
                       letterSpacing: '1px'
                     }}
@@ -461,10 +523,10 @@ const IndustriesList: React.FC<IndustriesListProps> = ({ lang, t }) => {
 
                   {/* Heading */}
                   <h2 
+                    className="gradient-text"
                     style={{
-                      fontSize: '38px',
+                      fontSize: '36px',
                       fontWeight: '700',
-                      color: '#fff',
                       marginBottom: '20px',
                       lineHeight: '1.3'
                     }}
@@ -475,72 +537,65 @@ const IndustriesList: React.FC<IndustriesListProps> = ({ lang, t }) => {
                   {/* Description */}
                   <p 
                     style={{
-                      fontSize: '17px',
+                      fontSize: '16px',
                       lineHeight: '1.8',
-                      color: 'rgba(255, 255, 255, 0.9)',
-                      marginBottom: '0',
-                      maxWidth: '700px'
+                      color: '#666',
+                      marginBottom: '30px'
                     }}
                   >
                     {t.industries.vision2030_content}
                   </p>
+
+                  {/* CTA Button */}
+                  <Link 
+                    href="/vision-2030"
+                    className="btn-gradient"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '14px 32px',
+                      borderRadius: '8px',
+                      textDecoration: 'none',
+                      fontSize: '16px',
+                      fontWeight: '600'
+                    }}
+                  >
+                    {t.industries.vision2030_button}
+                    <i
+                      className={`bx ${
+                        isArabic ? "bx-left-arrow-alt" : "bx-right-arrow-alt"
+                      }`}
+                    ></i>
+                  </Link>
                 </div>
               </div>
 
-              <div className="col-lg-4 text-center text-lg-end" data-aos="fade-up" data-aos-delay="100">
-                <Link 
-                  href="/vision-2030"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '10px',
-                    padding: '18px 36px',
-                    background: '#fff',
-                    color: '#0A4D8C',
-                    borderRadius: '12px',
-                    fontWeight: '700',
-                    fontSize: '16px',
-                    textDecoration: 'none',
-                    transition: 'all 0.3s ease',
-                    boxShadow: '0 10px 35px rgba(0, 0, 0, 0.2)',
-                    border: '2px solid transparent'
+              <div className="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                <div 
+                  className="modern-card"
+                  style={{ 
+                    borderRadius: '12px', 
+                    overflow: 'hidden', 
+                    boxShadow: '0 8px 32px rgba(10, 77, 140, 0.15)' 
                   }}
-                  className="vision-cta-enhanced"
                 >
-                  {t.industries.vision2030_button}
-                  <i
-                    className={`bx ${
-                      isArabic ? "bx-left-arrow-alt" : "bx-right-arrow-alt"
-                    }`}
-                    style={{ fontSize: '20px' }}
-                  ></i>
-                </Link>
+                  <Image
+                    src="/img/vision-2020.jpg"
+                    alt="Saudi Vision 2030"
+                    width={600}
+                    height={400}
+                    style={{ 
+                      width: '100%', 
+                      height: 'auto', 
+                      transition: 'transform 0.4s ease' 
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
-
-        {/* Decorative Circles */}
-        <div style={{
-          position: 'absolute',
-          top: '-100px',
-          right: '-100px',
-          width: '300px',
-          height: '300px',
-          background: 'rgba(255, 255, 255, 0.05)',
-          borderRadius: '50%',
-          zIndex: 0
-        }}></div>
-        <div style={{
-          position: 'absolute',
-          bottom: '-150px',
-          left: '-150px',
-          width: '400px',
-          height: '400px',
-          background: 'rgba(255, 255, 255, 0.03)',
-          borderRadius: '50%',
-          zIndex: 0
-        }}></div>
       </section>
     </>
   );

@@ -37,16 +37,18 @@ const TopHeader: React.FC = () => {
           <div className="row align-items-center">
             <div className="col-lg-6 col-sm-8">
               <ul className="header-content-left" style={{ color: '#ffffff' }}>
-                <li style={{ color: '#ffffff' }}>
-                  <a href="mailto:support@eazycyber.sa" style={{ color: '#ffffff' }}>
-                    <i className="bx bx-envelope" style={{ color: '#ffffff' }}></i>
-                    Email: support@eazycyber.sa
+                <li>
+                  <i className="bx bx-envelope"></i>
+                  <a href="mailto:info@eazycyber.sa" style={{ color: '#ffffff' }}>
+                    <span style={{ color: '#ffffff' }}>
+                      Email: info@eazycyber.sa
+                    </span>
                   </a>
                 </li>
 
-                <li style={{ color: '#ffffff' }}>
-                  <i className="bx bx-location-plus" style={{ color: '#ffffff' }}></i>
-                  KSA , Riyadh
+                <li>
+                  <i className="bx bxs-map"></i>
+                  KSA , Yanbu
                 </li>
               </ul>
             </div>

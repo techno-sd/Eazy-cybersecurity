@@ -12,7 +12,7 @@ const AIServicesSection: React.FC = () => {
   const isArabic = lang === "ar";
 
   return (
-    <section className="approach-area pb-100" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)', paddingTop: '100px' }}>
+    <section className="approach-area pb-100" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)', paddingTop: '50px' }}>
       <div className="container">
         <div className="row align-items-center">
           <div className="col-lg-6">

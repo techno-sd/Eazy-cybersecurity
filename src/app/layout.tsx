@@ -113,7 +113,7 @@ export const metadata: Metadata = {
     'Vision 2030',
     'cloud computing',
     'big data analytics',
-    'cyber security Riyadh',
+    'cyber security Yanbu',
     'أمن سيبراني السعودية',
     'الذكاء الاصطناعي',
     'رؤية 2030',
