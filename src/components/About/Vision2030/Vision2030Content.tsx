@@ -246,17 +246,6 @@ const Vision2030Content: React.FC<Vision2030Props> = ({ lang }) => {
                   
                   <div style={{ position: 'relative', zIndex: 1 }}>
                     <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', marginBottom: '20px', textAlign: isArabic ? 'right' : 'left', flexDirection: isArabic ? 'row-reverse' : 'row' }}>
-                      <span style={{
-                        fontSize: '36px',
-                        fontWeight: '800',
-                        background: `linear-gradient(135deg, ${point.color}, ${point.color}CC)`,
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text',
-                        lineHeight: '1'
-                      }}>
-                        {point.number}
-                      </span>
                       <div style={{ flex: 1 }}>
                         <i className={point.icon} style={{
                           fontSize: '32px',
@@ -284,41 +273,6 @@ const Vision2030Content: React.FC<Vision2030Props> = ({ lang }) => {
                       {point.text}
                     </p>
                   </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="row g-4 mt-5">
-            {currentContent.stats.map((stat, index) => (
-              <div key={index} className="col-lg-3 col-md-6 col-sm-6" data-aos="zoom-in" data-aos-delay={index * 100}>
-                <div style={{
-                  background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.05), rgba(96, 126, 172, 0.05))',
-                  borderRadius: '16px',
-                  padding: '35px 20px',
-                  textAlign: 'center',
-                  border: '2px solid rgba(10, 77, 140, 0.1)',
-                  transition: 'all 0.4s ease'
-                }} className="vision-stat-card">
-                  <h2 style={{
-                    fontSize: '42px',
-                    fontWeight: '800',
-                    background: 'linear-gradient(135deg, #0A4D8C, #607EAC)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                    marginBottom: '10px'
-                  }}>
-                    {stat.value}
-                  </h2>
-                  <p style={{
-                    fontSize: '15px',
-                    color: '#555',
-                    fontWeight: '600',
-                    marginBottom: '0'
-                  }}>
-                    {stat.label}
-                  </p>
                 </div>
               </div>
             ))}

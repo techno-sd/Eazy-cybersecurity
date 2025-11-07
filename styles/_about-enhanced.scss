@@ -1,0 +1,257 @@
+// ===============================================
+// ENHANCED ABOUT PAGE STYLING
+// Modern UI/UX with Platform Brand Colors
+// ===============================================
+
+// About Card Hover Effects
+.about-card {
+	&:hover {
+		transform: translateY(-8px);
+		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15) !important;
+	}
+}
+
+// Core Values Card Effects
+.value-card {
+	&:hover {
+		transform: translateY(-8px);
+		box-shadow: 0 15px 50px rgba(0, 0, 0, 0.12) !important;
+		
+		.value-icon {
+			transform: scale(1.1) rotate(5deg);
+		}
+	}
+}
+
+// Team Card Effects
+.team-card {
+	&:hover {
+		transform: translateY(-10px);
+		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15) !important;
+		
+		.team-img-enhanced {
+			transform: scale(1.1);
+		}
+		
+		.team-overlay {
+			opacity: 1;
+		}
+	}
+}
+
+// Why Choose Us Items
+.why-choose-item {
+	&:hover {
+		transform: translateX(8px);
+		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1) !important;
+		border-color: rgba(10, 77, 140, 0.3) !important;
+	}
+}
+
+// CTA Buttons
+.about-cta-btn {
+	&:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 12px 35px rgba(10, 77, 140, 0.4) !important;
+		gap: 15px !important;
+	}
+}
+
+.cta-btn-primary {
+	&:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3) !important;
+		background: rgba(255, 255, 255, 0.95) !important;
+		gap: 15px !important;
+	}
+}
+
+.cta-btn-secondary {
+	&:hover {
+		background: rgba(255, 255, 255, 0.1) !important;
+		border-color: rgba(255, 255, 255, 0.8) !important;
+		transform: translateY(-4px);
+		gap: 15px !important;
+	}
+}
+
+// Responsive Design
+@media only screen and (max-width: 991px) {
+	.about-hero-section {
+		padding: 80px 0 !important;
+		
+		h1[style*="font-size: 48px"] {
+			font-size: 38px !important;
+		}
+		
+		p[style*="font-size: 18px"] {
+			font-size: 17px !important;
+		}
+	}
+	
+	.about-card {
+		div[style*="padding: 50px 40px"] {
+			padding: 40px 30px !important;
+		}
+		
+		h2[style*="font-size: 32px"] {
+			font-size: 28px !important;
+		}
+	}
+	
+	.team-card {
+		div[style*="height: 280px"] {
+			height: 250px !important;
+		}
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	.about-hero-section {
+		padding: 60px 0 !important;
+		
+		h1[style*="font-size: 48px"] {
+			font-size: 32px !important;
+		}
+		
+		p[style*="font-size: 18px"] {
+			font-size: 16px !important;
+		}
+		
+		span[style*="font-size: 14px"] {
+			font-size: 13px !important;
+			padding: 8px 18px !important;
+		}
+	}
+	
+	.vision-mission-section,
+	.core-values-section,
+	.team-section,
+	.why-choose-section {
+		padding: 70px 0 !important;
+	}
+	
+	.about-card {
+		div[style*="padding: 50px 40px"] {
+			padding: 35px 25px !important;
+		}
+		
+		h2[style*="font-size: 32px"] {
+			font-size: 24px !important;
+		}
+		
+		div[style*="width: 70px"] {
+			width: 60px !important;
+			height: 60px !important;
+			
+			i {
+				font-size: 32px !important;
+			}
+		}
+	}
+	
+	.value-card {
+		div[style*="width: 80px"] {
+			width: 70px !important;
+			height: 70px !important;
+			
+			i {
+				font-size: 34px !important;
+			}
+		}
+		
+		h3[style*="font-size: 20px"] {
+			font-size: 18px !important;
+		}
+	}
+	
+	.team-card {
+		div[style*="height: 280px"] {
+			height: 220px !important;
+		}
+		
+		div[style*="padding: 25px 20px"] {
+			padding: 20px 18px !important;
+		}
+	}
+	
+	.why-choose-item {
+		div[style*="width: 50px"] {
+			min-width: 45px !important;
+			width: 45px !important;
+			height: 45px !important;
+			
+			i {
+				font-size: 24px !important;
+			}
+		}
+		
+		p[style*="font-size: 16px"] {
+			font-size: 15px !important;
+		}
+	}
+	
+	.cta-section {
+		padding: 70px 0 !important;
+		
+		h2[style*="font-size: 42px"] {
+			font-size: 30px !important;
+		}
+		
+		p[style*="font-size: 18px"] {
+			font-size: 16px !important;
+		}
+		
+		a[style*="padding: 18px 38px"] {
+			padding: 14px 28px !important;
+			font-size: 15px !important;
+		}
+	}
+	
+	.section-title {
+		h2[style*="font-size: 42px"] {
+			font-size: 32px !important;
+		}
+		
+		span[style*="font-size: 14px"] {
+			font-size: 13px !important;
+		}
+	}
+}
+
+// Accessibility
+.about-card,
+.value-card,
+.team-card,
+.why-choose-item,
+.about-cta-btn,
+.cta-btn-primary,
+.cta-btn-secondary {
+	&:focus-visible {
+		outline: 3px solid #0A4D8C;
+		outline-offset: 4px;
+	}
+}
+
+// Smooth Animations
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes scaleIn {
+	from {
+		transform: scale(0.9);
+		opacity: 0;
+	}
+	to {
+		transform: scale(1);
+		opacity: 1;
+	}
+}

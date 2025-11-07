@@ -156,11 +156,12 @@ Professional styling with shadows and effects
 				&:hover {
 					transform: translateX(8px);
 					box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-					border-color: rgba(10, 77, 140, 0.2);
+					border-color: rgba(96, 126, 172, 0.3);
 
 					i {
 						transform: rotate(10deg) scale(1.1);
-						box-shadow: 0 6px 20px rgba(10, 77, 140, 0.35);
+						background: linear-gradient(135deg, #607EAC 0%, #4A6390 100%);
+						box-shadow: 0 6px 20px rgba(96, 126, 172, 0.4);
 					}
 				}
 			}
@@ -238,7 +239,7 @@ Professional styling with shadows and effects
 
 			i:first-child {
 				transform: scale(1.1) rotate(5deg);
-				color: #D80650;
+				color: #607EAC;
 			}
 
 			h3 {
@@ -354,6 +355,59 @@ Professional styling with shadows and effects
 
 			h3 {
 				font-size: 20px;
+			}
+		}
+	}
+}
+
+// RTL Support for Arabic
+[dir="rtl"] {
+	.approach-area {
+		.approach-content {
+			ul li {
+				padding: 25px 90px 25px 25px; // Right padding for icon in RTL
+
+				i {
+					left: auto;
+					right: 25px; // Position icon on the right
+				}
+
+				&:hover {
+					transform: translateX(-8px); // Reverse hover direction for RTL
+				}
+			}
+		}
+	}
+}
+
+// Responsive RTL adjustments
+@media only screen and (max-width: 991px) {
+	[dir="rtl"] {
+		.approach-area {
+			.approach-content {
+				ul li {
+					padding: 20px 80px 20px 20px;
+
+					i {
+						right: 20px;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	[dir="rtl"] {
+		.approach-area {
+			.approach-content {
+				ul li {
+					padding: 18px 75px 18px 18px;
+
+					i {
+						right: 18px;
+					}
+				}
 			}
 		}
 	}

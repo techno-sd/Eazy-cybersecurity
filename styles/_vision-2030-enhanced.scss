@@ -9,8 +9,8 @@ Platform Brand Alignment
 $vision-primary: #0A4D8C;      // Platform primary blue
 $vision-primary-dark: #073D6C;
 $vision-primary-light: #2575C0;
-$vision-accent: #D80650;       // Platform gradient color (pink/red)
-$vision-accent-light: #FE5D68;
+$vision-accent: #607EAC;       // Platform gradient color (pink/red)
+$vision-accent-light: #0A4D8C;
 $vision-white: #FFFFFF;
 $vision-dark: #0e0129;         // Platform heading color
 
@@ -32,7 +32,7 @@ $vision-dark: #0e0129;         // Platform heading color
 		height: 100%;
 		background-image:
 			radial-gradient(circle at 20% 50%, rgba(10, 77, 140, 0.04) 0%, transparent 50%),
-			radial-gradient(circle at 80% 80%, rgba(216, 6, 80, 0.04) 0%, transparent 50%);
+			radial-gradient(circle at 80% 80%, rgba(96, 126, 172, 0.04) 0%, transparent 50%);
 		pointer-events: none;
 		z-index: -1;
 	}
@@ -184,7 +184,7 @@ $vision-dark: #0e0129;         // Platform heading color
 				left: 0;
 				right: 0;
 				bottom: 0;
-				background: linear-gradient(135deg, rgba(10, 77, 140, 0.03) 0%, rgba(216, 6, 80, 0.03) 100%);
+				background: linear-gradient(135deg, rgba(10, 77, 140, 0.03) 0%, rgba(96, 126, 172, 0.03) 100%);
 				opacity: 0;
 				transition: opacity 0.4s ease;
 				pointer-events: none;
@@ -203,7 +203,7 @@ $vision-dark: #0e0129;         // Platform heading color
 					background: linear-gradient(135deg, $vision-accent 0%, $vision-accent-light 100%);
 					color: $vision-white;
 					transform: scale(1.1) rotate(5deg);
-					box-shadow: 0 10px 25px rgba(216, 6, 80, 0.3);
+					box-shadow: 0 10px 25px rgba(96, 126, 172, 0.3);
 				}
 
 				.vision-2030-text {
@@ -385,7 +385,7 @@ $vision-dark: #0e0129;         // Platform heading color
 		left: 5%;
 		width: 300px;
 		height: 300px;
-		background: radial-gradient(circle, rgba(216, 6, 80, 0.08) 0%, transparent 70%);
+		background: radial-gradient(circle, rgba(96, 126, 172, 0.08) 0%, transparent 70%);
 		border-radius: 50%;
 		animation: float 15s ease-in-out infinite reverse;
 

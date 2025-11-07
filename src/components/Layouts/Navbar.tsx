@@ -134,12 +134,40 @@ const Navbar: React.FC = () => {
                       </Link>
                     </div>
 
-                    {/* Right side - Quote Button */}
+                    {/* Right side - Login & Quote Buttons */}
                     <div style={{
                       display: 'flex',
                       alignItems: 'center',
                       gap: '10px',
                     }}>
+                      <Link
+                        href="/sign-in"
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: '36px',
+                          height: '36px',
+                          borderRadius: '50%',
+                          background: 'rgba(10, 77, 140, 0.1)',
+                          color: '#0A4D8C',
+                          transition: 'all 0.3s ease',
+                          border: '2px solid transparent',
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = '#0A4D8C';
+                          e.currentTarget.style.color = '#fff';
+                          e.currentTarget.style.borderColor = '#0A4D8C';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = 'rgba(10, 77, 140, 0.1)';
+                          e.currentTarget.style.color = '#0A4D8C';
+                          e.currentTarget.style.borderColor = 'transparent';
+                        }}
+                        title={lang === 'ar' ? 'تسجيل الدخول' : 'Login'}
+                      >
+                        <i className="bx bx-user" style={{ fontSize: '18px' }}></i>
+                      </Link>
                       <Link
                         href="/contact"
                         className="default-btn"
@@ -188,16 +216,55 @@ const Navbar: React.FC = () => {
                     </ul>
                   </div>
 
-                  {/* Desktop Quote Button */}
-                  <Link
-                    href="/contact"
-                    className="default-btn d-none d-md-block"
-                    style={{
-                      marginLeft: 'auto',
-                    }}
-                  >
-                    {t.buttons.quote}
-                  </Link>
+                  {/* Desktop Login & Quote Buttons */}
+                  <div className="d-none d-md-flex" style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '15px',
+                    marginLeft: 'auto',
+                  }}>
+                    <Link
+                      href="/sign-in"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '8px',
+                        padding: '10px 20px',
+                        borderRadius: '8px',
+                        background: 'rgba(10, 77, 140, 0.08)',
+                        color: '#0A4D8C',
+                        transition: 'all 0.3s ease',
+                        border: '2px solid rgba(10, 77, 140, 0.2)',
+                        fontWeight: '600',
+                        fontSize: '14px',
+                        textDecoration: 'none',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#0A4D8C';
+                        e.currentTarget.style.color = '#fff';
+                        e.currentTarget.style.borderColor = '#0A4D8C';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(10, 77, 140, 0.25)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'rgba(10, 77, 140, 0.08)';
+                        e.currentTarget.style.color = '#0A4D8C';
+                        e.currentTarget.style.borderColor = 'rgba(10, 77, 140, 0.2)';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
+                    >
+                      <i className="bx bx-user" style={{ fontSize: '18px' }}></i>
+                      <span>{lang === 'ar' ? 'تسجيل الدخول' : 'Login'}</span>
+                    </Link>
+                    <Link
+                      href="/contact"
+                      className="default-btn"
+                    >
+                      {t.buttons.quote}
+                    </Link>
+                  </div>
 
                   {/* Mobile Collapsible Menu */}
                   <div
@@ -222,6 +289,30 @@ const Navbar: React.FC = () => {
                       {menus.map((menuItem) => (
                         <MenuItem key={menuItem.label} {...menuItem} />
                       ))}
+                      <li className="nav-item" style={{
+                        borderTop: '1px solid #e8e8e8',
+                        marginTop: '10px',
+                        paddingTop: '10px',
+                      }}>
+                        <Link
+                          href="/sign-in"
+                          className="nav-link"
+                          onClick={toggleNavbar}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '10px',
+                            padding: '12px 20px',
+                            color: '#0A4D8C',
+                            fontWeight: '600',
+                            textDecoration: 'none',
+                            transition: 'all 0.3s ease',
+                          }}
+                        >
+                          <i className="bx bx-user" style={{ fontSize: '20px' }}></i>
+                          <span>{lang === 'ar' ? 'تسجيل الدخول' : 'Login'}</span>
+                        </Link>
+                      </li>
                     </ul>
                   </div>
                 </nav>

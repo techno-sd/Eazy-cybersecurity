@@ -510,3 +510,175 @@ One Card Per Row with Images
 		display: none;
 	}
 }
+
+// ===============================================
+// ENHANCED INDUSTRIES PAGE STYLING
+// Platform Brand Colors & Modern UI/UX
+// ===============================================
+
+// Industry Card Enhanced Hover Effects
+.industry-card-enhanced {
+	&:hover {
+		transform: translateY(-8px);
+		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15) !important;
+		
+		.industry-image-enhanced {
+			transform: scale(1.05);
+		}
+		
+		.industry-overlay {
+			opacity: 0.8;
+		}
+		
+		.industry-icon-float {
+			transform: scale(1.1) rotate(5deg);
+		}
+	}
+}
+
+// CTA Button Enhanced
+.industry-cta-btn {
+	&:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 12px 35px rgba(10, 77, 140, 0.4) !important;
+		gap: 15px !important;
+	}
+}
+
+// Feature Tags Hover
+.feature-tag {
+	&:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+		background: rgba(10, 77, 140, 0.15) !important;
+	}
+}
+
+// Vision CTA Enhanced
+.vision-cta-enhanced {
+	&:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3) !important;
+		background: rgba(255, 255, 255, 0.95) !important;
+		border-color: rgba(255, 255, 255, 0.5) !important;
+		gap: 15px !important;
+	}
+}
+
+// Enhanced Responsive Design
+@media only screen and (max-width: 991px) {
+	.industry-card-enhanced {
+		div[style*="height: 450px"] {
+			height: 350px !important;
+		}
+		
+		div[style*="padding: 60px 50px"] {
+			padding: 45px 35px !important;
+		}
+		
+		h3[style*="font-size: 32px"] {
+			font-size: 28px !important;
+		}
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	.industry-card-enhanced {
+		div[style*="height: 450px"] {
+			height: 280px !important;
+		}
+		
+		div[style*="padding: 60px 50px"] {
+			padding: 35px 25px !important;
+		}
+		
+		h3[style*="font-size: 32px"] {
+			font-size: 24px !important;
+		}
+		
+		p[style*="font-size: 16px"] {
+			font-size: 15px !important;
+		}
+		
+		div[style*="width: 70px"] {
+			width: 60px !important;
+			height: 60px !important;
+			
+			i {
+				font-size: 28px !important;
+			}
+		}
+		
+		div[style*="width: 60px"][style*="height: 60px"] {
+			width: 50px !important;
+			height: 50px !important;
+			font-size: 20px !important;
+		}
+	}
+	
+	.industries-hero-section {
+		padding: 60px 0 !important;
+		
+		span[style*="font-size: 14px"] {
+			font-size: 13px !important;
+			padding: 8px 18px !important;
+		}
+		
+		p[style*="font-size: 18px"] {
+			font-size: 16px !important;
+		}
+	}
+	
+	.industries-vision-section {
+		padding: 70px 0 !important;
+		
+		h2[style*="font-size: 38px"] {
+			font-size: 28px !important;
+		}
+		
+		p[style*="font-size: 17px"] {
+			font-size: 15px !important;
+		}
+		
+		a[style*="padding: 18px 36px"] {
+			padding: 14px 28px !important;
+			font-size: 15px !important;
+		}
+	}
+}
+
+// Enhanced Accessibility
+.industry-card-enhanced,
+.industry-cta-btn,
+.vision-cta-enhanced,
+.feature-tag {
+	&:focus-visible {
+		outline: 3px solid #0A4D8C;
+		outline-offset: 4px;
+		outline-style: solid;
+	}
+}
+
+// Smooth Animations
+@keyframes floatIcon {
+	0%, 100% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(-10px);
+	}
+}
+
+@keyframes pulseGlow {
+	0%, 100% {
+		box-shadow: 0 0 20px rgba(10, 77, 140, 0.3);
+	}
+	50% {
+		box-shadow: 0 0 35px rgba(10, 77, 140, 0.5);
+	}
+}
+
+.industry-icon-float {
+	animation: floatIcon 3s ease-in-out infinite;
+}
+

@@ -176,7 +176,9 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
               <div className="approach-content" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
                 <h2>{t.bigData.section_title}</h2>
                 <p style={{ fontSize: '16px', lineHeight: '1.8', marginBottom: '30px' }}>
-                  Transform your data into actionable business intelligence with our advanced analytics solutions.
+                  {isArabic
+                    ? 'حوّل بياناتك إلى ذكاء أعمال قابل للتنفيذ مع حلول التحليلات المتقدمة لدينا.'
+                    : 'Transform your data into actionable business intelligence with our advanced analytics solutions.'}
                 </p>
 
                 <ul>

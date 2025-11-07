@@ -1,0 +1,42 @@
+# Eazy Cyber Agent - Robots.txt
+# https://eazycyber.sa/robots.txt
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /_next/
+Disallow: /private/
+
+# Sitemaps
+Sitemap: https://eazycyber.sa/sitemap.xml
+Sitemap: https://eazycyber.sa/sitemap-ar.xml
+Sitemap: https://eazycyber.sa/sitemap-en.xml
+
+# Crawl-delay
+Crawl-delay: 1
+
+# Specific bots
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Slurp
+Allow: /
+
+# Block bad bots
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
