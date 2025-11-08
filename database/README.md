@@ -4,13 +4,15 @@ This directory contains SQL schema files for the Eazy Cyber Agent application.
 
 ## Files Overview
 
-### 1. `complete-schema.sql` ⭐ **RECOMMENDED**
-**Use this file for a fresh database setup.**
+### 1. `complete-schema.sql` ⭐ **MAIN SCHEMA FILE**
+**Use this file for database setup.**
 
 This file contains the complete database schema in the correct order:
 - Core tables (contacts, users, sessions)
-- Admin panel tables (blog_posts, consultations, etc.)
+- Admin panel tables (blog_posts, blog_categories, consultations, website_settings, activity_logs)
 - Default data (categories, settings)
+
+All tables use `BIGINT UNSIGNED` for primary keys for scalability and consistency.
 
 **Usage:**
 ```bash
@@ -20,64 +22,26 @@ mysql -h <your-host> -P <port> -u <username> -p <database> < database/complete-s
 
 ---
 
-### 2. `schema.sql`
-Contains the core tables:
-- `contacts` - Contact form submissions
-- `users` - User accounts
-- `sessions` - User authentication sessions
-
-**Usage:**
-Run this first if you want to apply schemas separately:
-```bash
-mysql -h <your-host> -P <port> -u <username> -p <database> < database/schema.sql
-```
-
----
-
-### 3. `admin-schema.sql`
-Contains admin panel tables:
-- `blog_posts` - Blog articles
-- `blog_categories` - Blog categories
-- `consultations` - Consultation requests
-- `website_settings` - Site configuration
-- `activity_logs` - User activity tracking
-
-**⚠️ IMPORTANT:** This file requires the `users` table to exist first!
+### 2. `sample-consultations.sql` (Optional)
+Contains sample consultation data for testing purposes.
 
 **Usage:**
 ```bash
-# Run schema.sql first, then run this:
-mysql -h <your-host> -P <port> -u <username> -p <database> < database/admin-schema.sql
+mysql -h <your-host> -P <port> -u <username> -p <database> < database/sample-consultations.sql
 ```
-
----
-
-### 4. `sample-consultations.sql`
-Contains sample consultation data for testing.
 
 ---
 
 ## Quick Start Guide
 
-### Option 1: Fresh Setup (Recommended)
+### Fresh Setup
 If you're setting up the database for the first time:
 
 ```bash
-# Use the complete schema file (you will be prompted for password)
+# Step 1: Run the complete schema
 mysql -h <your-host> -P <port> -u <username> -p <database> < database/complete-schema.sql
-```
 
-### Option 2: Separate Files
-If you prefer to run files separately:
-
-```bash
-# Step 1: Create core tables
-mysql -h <your-host> -P <port> -u <username> -p <database> < database/schema.sql
-
-# Step 2: Create admin panel tables
-mysql -h <your-host> -P <port> -u <username> -p <database> < database/admin-schema.sql
-
-# Step 3 (Optional): Add sample data
+# Step 2 (Optional): Add sample data for testing
 mysql -h <your-host> -P <port> -u <username> -p <database> < database/sample-consultations.sql
 ```
 
@@ -102,14 +66,6 @@ mysql -h <your-host> -P <port> -u <username> -p <database> < database/sample-con
 
 ## Troubleshooting
 
-### Error: "Cannot add foreign key constraint"
-
-**Cause:** The `users` table doesn't exist or has a different ID type.
-
-**Solution:**
-- Use `complete-schema.sql` instead of individual files
-- OR run `schema.sql` before `admin-schema.sql`
-
 ### Error: "Table already exists"
 
 **Cause:** Tables already created.
@@ -121,6 +77,23 @@ mysql -h <your-host> -P <port> -u <username> -p <database> < database/sample-con
 **Cause:** Default data already inserted.
 
 **Solution:** The INSERT statements use `ON DUPLICATE KEY UPDATE`, so this is just a warning and can be safely ignored.
+
+### Need to reset the database?
+
+**Drop all tables and start fresh:**
+```sql
+-- Warning: This will delete all data!
+DROP TABLE IF EXISTS activity_logs;
+DROP TABLE IF EXISTS website_settings;
+DROP TABLE IF EXISTS consultations;
+DROP TABLE IF EXISTS blog_posts;
+DROP TABLE IF EXISTS blog_categories;
+DROP TABLE IF EXISTS sessions;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS contacts;
+```
+
+Then run `complete-schema.sql` again.
 
 ---
 
@@ -138,6 +111,16 @@ defaultdb/
 └── activity_logs         # User activity audit trail
 ```
 
+### Table Relationships
+
+```
+users (1) ──< (N) sessions
+users (1) ──< (N) blog_posts
+users (1) ──< (N) consultations (assigned_to)
+users (1) ──< (N) website_settings (updated_by)
+users (1) ──< (N) activity_logs
+```
+
 ---
 
 ## Key Features
@@ -148,6 +131,30 @@ defaultdb/
 ✅ **Scalability**: BIGINT UNSIGNED IDs for large datasets
 ✅ **Data Integrity**: Foreign key constraints with CASCADE rules
 ✅ **Full-Text Search**: FULLTEXT indexes on blog content
+✅ **Session Management**: Token-based auth with expiry and revocation
+✅ **Audit Trail**: Activity logs for user actions
+
+---
+
+## Schema Details
+
+### Core Tables
+
+| Table | Purpose | Key Fields |
+|-------|---------|------------|
+| `contacts` | Contact form submissions | name, email, subject, message |
+| `users` | User accounts | username, email, password_hash, role |
+| `sessions` | Auth sessions | session_token, user_id, expires_at |
+
+### Admin Panel Tables
+
+| Table | Purpose | Key Fields |
+|-------|---------|------------|
+| `blog_posts` | Blog articles (bilingual) | title, title_ar, content, content_ar, slug |
+| `blog_categories` | Blog categories | name, name_ar, slug |
+| `consultations` | Consultation requests | name, email, service_type, status, priority |
+| `website_settings` | Site configuration | setting_key, setting_value, setting_type |
+| `activity_logs` | User activity tracking | user_id, action, entity_type, entity_id |
 
 ---
 
@@ -167,13 +174,68 @@ Replace the placeholders with your actual database credentials.
 
 After running the schema:
 
-1. **Create an admin user** (use Prisma Studio or SQL)
-2. **Test authentication** endpoints
-3. **Create blog posts** via admin panel
+1. **Create an admin user:**
+```sql
+INSERT INTO users (username, email, password_hash, full_name, role, is_active)
+VALUES ('admin', 'admin@eazycyber.sa', '$2b$10$...', 'Admin User', 'admin', 1);
+```
+
+2. **Test authentication endpoints:**
+   - POST `/api/auth/register`
+   - POST `/api/auth/login`
+
+3. **Create blog posts** via admin panel at `/admin/blog`
+
 4. **Monitor activity logs** for user actions
+
+---
+
+## Default Data
+
+The schema includes default data for:
+
+- **Blog Categories:**
+  - Cybersecurity (الأمن السيبراني)
+  - Artificial Intelligence (الذكاء الاصطناعي)
+  - Cloud Computing (الحوسبة السحابية)
+  - Digital Transformation (التحول الرقمي)
+  - Vision 2030 (رؤية 2030)
+
+- **Website Settings:**
+  - site_name: "Eazy Cyber Agent"
+  - site_email: "info@eazycyber.sa"
+  - site_phone: "+966 XX XXX XXXX"
+  - maintenance_mode: false
+  - posts_per_page: 10
+
+---
+
+## Maintenance Tips
+
+1. **Purge expired sessions regularly:**
+```sql
+DELETE FROM sessions WHERE expires_at < NOW() OR revoked_at IS NOT NULL;
+```
+
+2. **Archive old activity logs:**
+```sql
+-- Move logs older than 90 days to archive table
+-- Implement based on your retention policy
+```
+
+3. **Monitor table sizes:**
+```sql
+SELECT
+  table_name,
+  ROUND((data_length + index_length) / 1024 / 1024, 2) AS size_mb
+FROM information_schema.tables
+WHERE table_schema = 'defaultdb'
+ORDER BY (data_length + index_length) DESC;
+```
 
 ---
 
 **Last Updated:** January 2025
 **MySQL Version:** 8.0+
 **Character Set:** utf8mb4 (full Unicode support)
+**Collation:** utf8mb4_unicode_ci
