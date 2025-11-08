@@ -1,13 +1,83 @@
 -- ============================================================================
--- Admin Panel Database Schema
+-- Eazy Cyber Agent - Complete Database Schema
 -- ============================================================================
--- IMPORTANT: This file requires the users table to exist first!
--- Run schema.sql before running this file, OR use complete-schema.sql instead.
+-- This file contains the complete database schema in the correct order
+-- to avoid foreign key constraint errors.
 --
--- This schema uses BIGINT UNSIGNED for all IDs to match the users table.
+-- Order of execution:
+-- 1. Core tables (users, contacts)
+-- 2. Admin panel tables (blog_posts, consultations, etc.)
+-- 3. Default data (categories, settings)
+--
+-- MySQL Version: 8.0+
+-- Character Set: utf8mb4 (full Unicode support)
 -- ============================================================================
 
--- Blog Categories Table (create first - no dependencies)
+-- ============================================================================
+-- SECTION 1: CORE TABLES
+-- ============================================================================
+
+-- Contacts Table
+CREATE TABLE IF NOT EXISTS contacts (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  phone VARCHAR(32),
+  subject VARCHAR(300) NOT NULL,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT chk_contacts_email CHECK (email LIKE '%@%.%'),
+  INDEX idx_contacts_email_created (email, created_at),
+  INDEX idx_contacts_created_at (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+-- Users Table
+CREATE TABLE IF NOT EXISTS users (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(64) NOT NULL UNIQUE,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
+  password_algo VARCHAR(32) DEFAULT 'argon2id',
+  full_name VARCHAR(255),
+  phone VARCHAR(32),
+  company VARCHAR(255),
+  role ENUM('admin', 'user') DEFAULT 'user',
+  is_active TINYINT(1) DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  last_login TIMESTAMP NULL,
+  CONSTRAINT chk_users_username CHECK (CHAR_LENGTH(username) >= 3),
+  CONSTRAINT chk_users_email CHECK (email LIKE '%@%.%'),
+  INDEX idx_users_email (email),
+  INDEX idx_users_username (username),
+  INDEX idx_users_role_active (role, is_active),
+  INDEX idx_users_last_login (last_login)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+-- Sessions Table
+CREATE TABLE IF NOT EXISTS sessions (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  user_id BIGINT UNSIGNED NOT NULL,
+  session_token CHAR(128) NOT NULL UNIQUE,
+  ip_address VARCHAR(45),
+  user_agent TEXT,
+  expires_at TIMESTAMP NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  revoked_at TIMESTAMP NULL,
+  CONSTRAINT fk_sessions_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT chk_sessions_expiry CHECK (expires_at > created_at),
+  INDEX idx_sessions_token (session_token),
+  INDEX idx_sessions_user_expires (user_id, expires_at),
+  INDEX idx_sessions_expires (expires_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+-- ============================================================================
+-- SECTION 2: ADMIN PANEL TABLES
+-- ============================================================================
+
+-- Blog Categories Table
 CREATE TABLE IF NOT EXISTS blog_categories (
   id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
@@ -19,7 +89,7 @@ CREATE TABLE IF NOT EXISTS blog_categories (
   INDEX idx_slug (slug)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Blog Posts Table (depends on users table)
+-- Blog Posts Table
 CREATE TABLE IF NOT EXISTS blog_posts (
   id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(500) NOT NULL,
@@ -47,7 +117,7 @@ CREATE TABLE IF NOT EXISTS blog_posts (
   FULLTEXT INDEX idx_content (title, content, title_ar, content_ar)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Consultations Table (depends on users table)
+-- Consultations Table
 CREATE TABLE IF NOT EXISTS consultations (
   id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
@@ -70,7 +140,7 @@ CREATE TABLE IF NOT EXISTS consultations (
   INDEX idx_assigned_to (assigned_to)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Website Settings Table (depends on users table)
+-- Website Settings Table
 CREATE TABLE IF NOT EXISTS website_settings (
   id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   setting_key VARCHAR(100) NOT NULL UNIQUE,
@@ -83,7 +153,7 @@ CREATE TABLE IF NOT EXISTS website_settings (
   INDEX idx_key (setting_key)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Activity Log Table (depends on users table)
+-- Activity Log Table
 CREATE TABLE IF NOT EXISTS activity_logs (
   id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   user_id BIGINT UNSIGNED NOT NULL,
@@ -102,7 +172,7 @@ CREATE TABLE IF NOT EXISTS activity_logs (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ============================================================================
--- DEFAULT DATA
+-- SECTION 3: DEFAULT DATA
 -- ============================================================================
 
 -- Insert default blog categories
@@ -122,3 +192,30 @@ INSERT INTO website_settings (setting_key, setting_value, setting_type, descript
 ('maintenance_mode', 'false', 'boolean', 'Enable maintenance mode'),
 ('posts_per_page', '10', 'number', 'Blog posts per page')
 ON DUPLICATE KEY UPDATE setting_value=setting_value;
+
+-- ============================================================================
+-- NOTES & RECOMMENDATIONS
+-- ============================================================================
+--
+-- 1. Security:
+--    - Enable encryption at rest (Aiven managed)
+--    - Use TLS for all connections
+--    - Rotate session tokens regularly
+--    - Use least privilege DB user
+--
+-- 2. Performance:
+--    - Periodically purge expired sessions
+--    - Monitor slow query log
+--    - Review and optimize indexes based on actual query patterns
+--
+-- 3. Compliance:
+--    - Consider PII encryption for sensitive fields
+--    - Implement data retention policies
+--    - Regular backups and disaster recovery testing
+--
+-- 4. Maintenance:
+--    - Use strict SQL mode: NO_ZERO_DATE, STRICT_TRANS_TABLES
+--    - Regular ANALYZE TABLE to update statistics
+--    - Monitor table sizes and implement archiving strategy
+--
+-- ============================================================================
