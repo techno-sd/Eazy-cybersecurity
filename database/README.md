@@ -22,7 +22,21 @@ mysql -h <your-host> -P <port> -u <username> -p <database> < database/complete-s
 
 ---
 
-### 2. `sample-consultations.sql` (Optional)
+### 2. `sample-blog-posts.sql` (Optional)
+Contains sample bilingual blog posts for testing the blog functionality.
+
+**Includes:**
+- 4 published posts (Cybersecurity, AI, Vision 2030, Cloud Computing)
+- 1 draft post
+- Full bilingual content (English & Arabic)
+- Realistic view counts and publish dates
+
+**Usage:**
+```bash
+mysql -h <your-host> -P <port> -u <username> -p <database> < database/sample-blog-posts.sql
+```
+
+### 3. `sample-consultations.sql` (Optional)
 Contains sample consultation data for testing purposes.
 
 **Usage:**
@@ -41,7 +55,10 @@ If you're setting up the database for the first time:
 # Step 1: Run the complete schema
 mysql -h <your-host> -P <port> -u <username> -p <database> < database/complete-schema.sql
 
-# Step 2 (Optional): Add sample data for testing
+# Step 2 (Optional): Add sample blog posts
+mysql -h <your-host> -P <port> -u <username> -p <database> < database/sample-blog-posts.sql
+
+# Step 3 (Optional): Add sample consultations
 mysql -h <your-host> -P <port> -u <username> -p <database> < database/sample-consultations.sql
 ```
 
