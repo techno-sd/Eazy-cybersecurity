@@ -131,7 +131,8 @@ const IndustriesSection: React.FC = () => {
               color: "#555",
               fontWeight: "500",
               wordWrap: 'break-word',
-              overflowWrap: 'break-word'
+              overflowWrap: 'break-word',
+              whiteSpace: 'normal'
             }}
           >
             {t.home.industries_preview.tagline}
