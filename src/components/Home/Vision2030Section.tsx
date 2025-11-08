@@ -28,7 +28,7 @@ const Vision2030Section: React.FC = () => {
                   marginBottom: '12px'
                 }}>
                   <i className="bx bx-flag"></i>
-                  {t.home.vision2030.title}
+                  {isArabic ? 'رؤية 2030' : 'Vision 2030'}
                 </span>
                 <h2 className="gradient-text" style={{ 
                   fontSize: '36px', 
