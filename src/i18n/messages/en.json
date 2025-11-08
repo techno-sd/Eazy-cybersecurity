@@ -42,8 +42,14 @@
       "button": "Explore Industries"
     },
     "vision2030": {
-      "title": "Aligned with Saudi Vision 2030",
-      "content": "As a proud Saudi company, we are committed to advancing the Kingdom's Vision 2030 goals. Our solutions drive digital transformation across government and private sectors, protect critical national infrastructure, foster innovation in startups and SMEs, and develop local talent through comprehensive training programs. Together, we're building a secure, smart, and sustainable digital future for Saudi Arabia.",
+      "title": "Our Vision 2030 (Alignment with Vision 2030)",
+      "intro": "We believe that cybersecurity and digital innovation are two fundamental pillars of the Kingdom's Vision 2030, therefore our solutions focus on:",
+      "points": [
+        "Enabling digital transformation in government and private entities",
+        "Protecting critical national infrastructure",
+        "Supporting technology entrepreneurship and startups",
+        "Contributing to the development of national capabilities through training and capacity building"
+      ],
       "button": "Our Vision 2030 Impact"
     },
     "blog_preview": {

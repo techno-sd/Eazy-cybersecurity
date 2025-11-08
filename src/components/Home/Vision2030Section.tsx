@@ -19,9 +19,9 @@ const Vision2030Section: React.FC = () => {
             <div className="vision-2030-content" style={{ textAlign: isArabic ? 'right' : 'left' }}>
               <div className="section-title" style={{ textAlign: isArabic ? 'right' : 'left' }}>
                 <span style={{ display: 'block', width: '60px', height: '4px', background: 'linear-gradient(90deg, #0A4D8C, #607EAC)', borderRadius: '2px', marginBottom: '20px', [isArabic ? 'marginLeft' : 'marginRight']: 'auto' }}></span>
-                <span className="sub-title" style={{ 
-                  display: 'inline-flex', 
-                  alignItems: 'center', 
+                <span className="sub-title" style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
                   gap: '8px',
                   color: '#0A4D8C',
                   fontWeight: '600',
@@ -30,21 +30,34 @@ const Vision2030Section: React.FC = () => {
                   <i className="bx bx-flag"></i>
                   {isArabic ? 'رؤية 2030' : 'Vision 2030'}
                 </span>
-                <h2 className="gradient-text" style={{ 
-                  fontSize: '36px', 
-                  fontWeight: '700', 
+                <h2 className="gradient-text" style={{
+                  fontSize: '36px',
+                  fontWeight: '700',
                   marginBottom: '15px'
                 }}>
                   {t.home.vision2030.title}
                 </h2>
-                <p style={{ 
-                  fontSize: '16px', 
-                  lineHeight: '1.8', 
-                  marginBottom: '30px',
+                <p style={{
+                  fontSize: '16px',
+                  lineHeight: '1.8',
+                  marginBottom: '20px',
                   color: '#666'
                 }}>
-                  {t.home.vision2030.content}
+                  {t.home.vision2030.intro}
                 </p>
+                <ul style={{
+                  fontSize: '15px',
+                  lineHeight: '1.9',
+                  marginBottom: '30px',
+                  color: '#555',
+                  paddingLeft: isArabic ? '0' : '24px',
+                  paddingRight: isArabic ? '24px' : '0',
+                  listStylePosition: 'outside'
+                }}>
+                  {t.home.vision2030.points.map((point: string, index: number) => (
+                    <li key={index} style={{ marginBottom: '12px' }}>{point}</li>
+                  ))}
+                </ul>
               </div>
 
               <Link href="/vision-2030" className="btn-gradient" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '14px 32px', borderRadius: '8px', textDecoration: 'none', fontSize: '16px', fontWeight: '600' }}>

@@ -13,7 +13,7 @@ const Vision2030Content: React.FC<Vision2030Props> = ({ lang }) => {
 
   const content = {
     en: {
-      title: "Vision 2030 Alignment",
+      title: "Our Vision 2030 (Alignment with Vision 2030)",
       subtitle: "Building a Secure Digital Future",
       description: "Eazy Cyber Agent is proud to contribute to Saudi Vision 2030 by providing cutting-edge cybersecurity solutions that protect national digital infrastructure and empower digital transformation across all sectors.",
       mainPoints: [
@@ -55,39 +55,10 @@ const Vision2030Content: React.FC<Vision2030Props> = ({ lang }) => {
       ctaText: "Partner With Us"
     },
     ar: {
-      title: "التوافق مع رؤية 2030",
+      title: "رؤيتنا 2030 (التوافق مع رؤية 2030)",
       subtitle: "بناء مستقبل رقمي آمن",
       description: "نحن نؤمن أن الأمن السيبراني والابتكار الرقمي هما ركيزتان أساسيتان في رؤية المملكة 2030، لذلك تركز حلولنا على:",
-      mainPoints: [
-        {
-          number: "٠١",
-          title: "التحول الرقمي",
-          text: "تمكين التحول الرقمي في الجهات الحكومية والخاصة.",
-          icon: "bx bx-cloud-upload",
-          color: "#0A4D8C"
-        },
-        {
-          number: "٠٢",
-          title: "البنية التحتية الوطنية",
-          text: "حماية البنية التحتية الحيوية الوطنية.",
-          icon: "bx bx-shield-alt-2",
-          color: "#607EAC"
-        },
-        {
-          number: "٠٣",
-          title: "ريادة الأعمال التقنية",
-          text: "دعم ريادة الأعمال التقنية والشركات الناشئة.",
-          icon: "bx bx-bulb",
-          color: "#0A4D8C"
-        },
-        {
-          number: "٠٤",
-          title: "تطوير الكفاءات",
-          text: "المساهمة في تطوير الكفاءات الوطنية عبر التدريب وبناء القدرات.",
-          icon: "bx bx-user-check",
-          color: "#607EAC"
-        }
-      ],
+      mainPoints: [],
       stats: [
         { value: "+100", label: "مؤسسة محمية" },
         { value: "24/7", label: "مراقبة أمنية" },
@@ -193,6 +164,94 @@ const Vision2030Content: React.FC<Vision2030Props> = ({ lang }) => {
                 }}>
                   {currentContent.description}
                 </p>
+
+                {/* Bullet points section for Arabic */}
+                {isArabic && (
+                  <ul style={{
+                    listStyle: 'none',
+                    padding: '0',
+                    marginBottom: '30px',
+                    direction: 'rtl',
+                    textAlign: 'right'
+                  }}>
+                    <li style={{
+                      fontSize: '16px',
+                      lineHeight: '1.8',
+                      color: '#555',
+                      marginBottom: '12px',
+                      paddingRight: '24px',
+                      position: 'relative'
+                    }}>
+                      <span style={{
+                        position: 'absolute',
+                        right: '0',
+                        top: '2px',
+                        width: '8px',
+                        height: '8px',
+                        background: '#0A4D8C',
+                        borderRadius: '50%'
+                      }}></span>
+                      تمكين التحول الرقمي في الجهات الحكومية والخاصة.
+                    </li>
+                    <li style={{
+                      fontSize: '16px',
+                      lineHeight: '1.8',
+                      color: '#555',
+                      marginBottom: '12px',
+                      paddingRight: '24px',
+                      position: 'relative'
+                    }}>
+                      <span style={{
+                        position: 'absolute',
+                        right: '0',
+                        top: '2px',
+                        width: '8px',
+                        height: '8px',
+                        background: '#0A4D8C',
+                        borderRadius: '50%'
+                      }}></span>
+                      حماية البنية التحتية الحيوية الوطنية.
+                    </li>
+                    <li style={{
+                      fontSize: '16px',
+                      lineHeight: '1.8',
+                      color: '#555',
+                      marginBottom: '12px',
+                      paddingRight: '24px',
+                      position: 'relative'
+                    }}>
+                      <span style={{
+                        position: 'absolute',
+                        right: '0',
+                        top: '2px',
+                        width: '8px',
+                        height: '8px',
+                        background: '#0A4D8C',
+                        borderRadius: '50%'
+                      }}></span>
+                      دعم ريادة الأعمال التقنية والشركات الناشئة.
+                    </li>
+                    <li style={{
+                      fontSize: '16px',
+                      lineHeight: '1.8',
+                      color: '#555',
+                      marginBottom: '12px',
+                      paddingRight: '24px',
+                      position: 'relative'
+                    }}>
+                      <span style={{
+                        position: 'absolute',
+                        right: '0',
+                        top: '2px',
+                        width: '8px',
+                        height: '8px',
+                        background: '#0A4D8C',
+                        borderRadius: '50%'
+                      }}></span>
+                      المساهمة في تطوير الكفاءات الوطنية عبر التدريب وبناء القدرات.
+                    </li>
+                  </ul>
+                )}
 
                 <Link 
                   href="/contact" 
