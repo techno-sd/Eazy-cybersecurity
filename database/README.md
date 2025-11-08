@@ -22,7 +22,24 @@ mysql -h <your-host> -P <port> -u <username> -p <database> < database/complete-s
 
 ---
 
-### 2. `sample-blog-posts.sql` (Optional)
+### 2. `create-admin-user.sql` ⚠️ **IMPORTANT**
+Creates a default admin user for initial setup and testing.
+
+**Default Credentials:**
+- Email: `admin@eazycyber.sa`
+- Password: `Admin@2025!`
+
+**⚠️ SECURITY WARNING:**
+- This is a TEST password - change it immediately after first login!
+- Only use for development and initial setup
+- In production, create users through the `/api/auth/register` endpoint
+
+**Usage:**
+```bash
+mysql -h <your-host> -P <port> -u <username> -p <database> < database/create-admin-user.sql
+```
+
+### 3. `sample-blog-posts.sql` (Optional)
 Contains sample bilingual blog posts for testing the blog functionality.
 
 **Includes:**
@@ -36,7 +53,7 @@ Contains sample bilingual blog posts for testing the blog functionality.
 mysql -h <your-host> -P <port> -u <username> -p <database> < database/sample-blog-posts.sql
 ```
 
-### 3. `sample-consultations.sql` (Optional)
+### 4. `sample-consultations.sql` (Optional)
 Contains sample consultation data for testing purposes.
 
 **Usage:**
@@ -55,10 +72,13 @@ If you're setting up the database for the first time:
 # Step 1: Run the complete schema
 mysql -h <your-host> -P <port> -u <username> -p <database> < database/complete-schema.sql
 
-# Step 2 (Optional): Add sample blog posts
+# Step 2: Create admin user (REQUIRED for admin panel access)
+mysql -h <your-host> -P <port> -u <username> -p <database> < database/create-admin-user.sql
+
+# Step 3 (Optional): Add sample blog posts
 mysql -h <your-host> -P <port> -u <username> -p <database> < database/sample-blog-posts.sql
 
-# Step 3 (Optional): Add sample consultations
+# Step 4 (Optional): Add sample consultations
 mysql -h <your-host> -P <port> -u <username> -p <database> < database/sample-consultations.sql
 ```
 
@@ -189,21 +209,26 @@ Replace the placeholders with your actual database credentials.
 
 ## Next Steps
 
-After running the schema:
+After running the schema and creating the admin user:
 
-1. **Create an admin user:**
-```sql
-INSERT INTO users (username, email, password_hash, full_name, role, is_active)
-VALUES ('admin', 'admin@eazycyber.sa', '$2b$10$...', 'Admin User', 'admin', 1);
-```
+1. **Login to admin panel:**
+   - URL: `http://localhost:3008/admin` (or your production URL)
+   - Email: `admin@eazycyber.sa`
+   - Password: `Admin@2025!`
+   - **⚠️ CHANGE PASSWORD IMMEDIATELY**
 
 2. **Test authentication endpoints:**
-   - POST `/api/auth/register`
-   - POST `/api/auth/login`
+   - POST `/api/auth/login` - User login
+   - POST `/api/auth/register` - New user registration
 
 3. **Create blog posts** via admin panel at `/admin/blog`
 
 4. **Monitor activity logs** for user actions
+
+5. **For production:**
+   - Create new admin user with strong password
+   - Delete the test admin user
+   - Use environment-specific credentials
 
 ---
 
