@@ -531,7 +531,7 @@ const IndustriesList: React.FC<IndustriesListProps> = ({ lang, t }) => {
                       lineHeight: '1.3'
                     }}
                   >
-                    {t.industries.vision2030_heading}
+                    {t.home.vision2030.title}
                   </h2>
 
                   {/* Description */}
@@ -543,7 +543,7 @@ const IndustriesList: React.FC<IndustriesListProps> = ({ lang, t }) => {
                       marginBottom: '30px'
                     }}
                   >
-                    {t.industries.vision2030_content}
+                    {t.home.vision2030.content}
                   </p>
 
                   {/* CTA Button */}
@@ -561,7 +561,7 @@ const IndustriesList: React.FC<IndustriesListProps> = ({ lang, t }) => {
                       fontWeight: '600'
                     }}
                   >
-                    {t.industries.vision2030_button}
+                    {t.home.vision2030.button}
                     <i
                       className={`bx ${
                         isArabic ? "bx-left-arrow-alt" : "bx-right-arrow-alt"
