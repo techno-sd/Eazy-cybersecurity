@@ -23,6 +23,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
   const [isMobile, setIsMobile] = useState(false);
 
   React.useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
     handleResize();
     window.addEventListener('resize', handleResize);

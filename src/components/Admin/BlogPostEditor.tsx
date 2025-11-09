@@ -31,11 +31,13 @@ const BlogPostEditor: React.FC<BlogPostEditorProps> = ({ post, user }) => {
 
   // Load language preference
   useEffect(() => {
-    const savedLang = localStorage.getItem('admin_lang') as 'en' | 'ar' || 'en';
+    if (typeof window === 'undefined') return;
+
+    const savedLang = (localStorage.getItem('admin_lang') || 'en') as 'en' | 'ar';
     setLang(savedLang);
 
     const handleStorageChange = () => {
-      const newLang = localStorage.getItem('admin_lang') as 'en' | 'ar' || 'en';
+      const newLang = (localStorage.getItem('admin_lang') || 'en') as 'en' | 'ar';
       setLang(newLang);
     };
 

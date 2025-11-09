@@ -74,35 +74,37 @@ const nextConfig = {
 
   // Webpack configuration to fix Windows permission issues
   webpack: (config, { isServer, webpack }) => {
-    // Disable file system caching for Windows
-    config.cache = false;
+    // Only apply cache disabling on Windows
+    if (process.platform === 'win32') {
+      config.cache = false;
 
-    // Set snapshot options to avoid scanning user directories
-    config.snapshot = {
-      managedPaths: [/^(.+?[\\/]node_modules[\\/])/],
-      immutablePaths: [],
-      buildDependencies: {
-        hash: true,
-        timestamp: false,
-      },
-      module: {
-        timestamp: false,
-        hash: true,
-      },
-      resolve: {
-        timestamp: false,
-        hash: true,
-      },
-      resolveBuildDependencies: {
-        timestamp: false,
-        hash: true,
-      },
-    };
+      // Set snapshot options to avoid scanning user directories
+      config.snapshot = {
+        managedPaths: [/^(.+?[\\/]node_modules[\\/])/],
+        immutablePaths: [],
+        buildDependencies: {
+          hash: true,
+          timestamp: false,
+        },
+        module: {
+          timestamp: false,
+          hash: true,
+        },
+        resolve: {
+          timestamp: false,
+          hash: true,
+        },
+        resolveBuildDependencies: {
+          timestamp: false,
+          hash: true,
+        },
+      };
 
-    // Ignore Windows system directories
-    config.watchOptions = {
-      ignored: ['**/node_modules', '**/.git', 'C:/Users/**/AppData/**', 'C:/Users/**/Application Data/**', 'C:/Users/**/Cookies/**'],
-    };
+      // Ignore Windows system directories
+      config.watchOptions = {
+        ignored: ['**/node_modules', '**/.git', 'C:/Users/**/AppData/**', 'C:/Users/**/Application Data/**', 'C:/Users/**/Cookies/**'],
+      };
+    }
 
     // Add plugin to suppress warnings
     config.plugins.push(
@@ -111,7 +113,7 @@ const nextConfig = {
       })
     );
 
-    // Add ignored patterns to prevent scanning user directories
+    // Reduce logging verbosity
     config.infrastructureLogging = {
       level: 'error',
     };

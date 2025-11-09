@@ -1,9 +1,14 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 
 const GoTop: React.FC = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   useEffect(() => {
+    // Guard against SSR
+    if (typeof window === 'undefined') return;
+
     const toggleVisibility = () => {
       if (window.pageYOffset > 300) {
         setIsVisible(true);
@@ -20,6 +25,8 @@ const GoTop: React.FC = () => {
   }, []);
 
   const scrollToTop = () => {
+    if (typeof window === 'undefined') return;
+
     window.scrollTo({
       top: 0,
       behavior: "smooth",

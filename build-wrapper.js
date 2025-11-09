@@ -45,6 +45,12 @@ let hasRealError = false;
 buildProcess.stdout.on('data', (data) => {
   const output = data.toString();
   buildOutput += output;
+
+  // Check for compilation failures
+  if (output.includes('Failed to compile')) {
+    hasRealError = true;
+  }
+
   // Filter out glob errors but show real output
   const lines = output.split('\n');
   lines.forEach(line => {
@@ -64,10 +70,20 @@ buildProcess.stdout.on('data', (data) => {
 
 buildProcess.stderr.on('data', (data) => {
   const output = data.toString();
-  // Only show actual errors, not EPERM warnings
-  if (!output.includes('EPERM') &&
-      !output.includes('glob error') &&
-      !output.includes('unhandledRejection')) {
+  buildOutput += output;
+
+  // Always show compilation errors
+  if (output.includes('Failed to compile') ||
+      output.includes('Type error:') ||
+      output.includes('Syntax error:') ||
+      output.includes('Module not found')) {
+    hasRealError = true;
+    console.error(output);
+  }
+  // Show other errors unless they're EPERM warnings
+  else if (!output.includes('EPERM') &&
+           !output.includes('glob error') &&
+           !output.includes('unhandledRejection')) {
     if (output.includes('Error:') || output.includes('Failed')) {
       hasRealError = true;
       console.error(output);
@@ -80,9 +96,24 @@ buildProcess.on('close', (code) => {
   const fs = require('fs');
   const path = require('path');
 
+  // If we detected a real compilation error, fail immediately
+  if (hasRealError) {
+    console.error('\n✗ Build failed due to compilation errors');
+    console.error('Please check the errors above and fix them before deploying');
+    process.exit(1);
+  }
+
   const nextDir = path.join(process.cwd(), '.next');
   const hasServer = fs.existsSync(path.join(nextDir, 'server'));
   const hasStatic = fs.existsSync(path.join(nextDir, 'static'));
+  const hasRoutesManifest = fs.existsSync(path.join(nextDir, 'routes-manifest.json'));
+
+  // Check for routes-manifest.json which Vercel requires
+  if (!hasRoutesManifest && fs.existsSync(nextDir)) {
+    console.error('\n✗ Build failed - routes-manifest.json not generated');
+    console.error('This usually indicates a compilation failure');
+    process.exit(1);
+  }
 
   if (hasServer || hasStatic) {
     console.log('\n✓ Build completed successfully!');

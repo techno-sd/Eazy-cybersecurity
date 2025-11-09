@@ -6,6 +6,8 @@ import Image from "next/image";
 
 const ElectronicProtection: React.FC = () => {
   const openTabSection = (evt: React.MouseEvent<HTMLLIElement>, tabName: string) => {
+    if (typeof document === 'undefined') return;
+
     let i: number;
     let tabcontent: HTMLCollectionOf<Element> = document.getElementsByClassName("tabs_item");
     for (i = 0; i < tabcontent.length; i++) {
