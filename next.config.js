@@ -71,6 +71,53 @@ const nextConfig = {
   env: {
     SITE_URL: process.env.SITE_URL || 'https://eazycyber.sa',
   },
+
+  // Webpack configuration to fix Windows permission issues
+  webpack: (config, { isServer, webpack }) => {
+    // Disable file system caching for Windows
+    config.cache = false;
+
+    // Set snapshot options to avoid scanning user directories
+    config.snapshot = {
+      managedPaths: [/^(.+?[\\/]node_modules[\\/])/],
+      immutablePaths: [],
+      buildDependencies: {
+        hash: true,
+        timestamp: false,
+      },
+      module: {
+        timestamp: false,
+        hash: true,
+      },
+      resolve: {
+        timestamp: false,
+        hash: true,
+      },
+      resolveBuildDependencies: {
+        timestamp: false,
+        hash: true,
+      },
+    };
+
+    // Ignore Windows system directories
+    config.watchOptions = {
+      ignored: ['**/node_modules', '**/.git', 'C:/Users/**/AppData/**', 'C:/Users/**/Application Data/**', 'C:/Users/**/Cookies/**'],
+    };
+
+    // Add plugin to suppress warnings
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        'process.env.SUPPRESS_NO_CONFIG_WARNING': 'true',
+      })
+    );
+
+    // Add ignored patterns to prevent scanning user directories
+    config.infrastructureLogging = {
+      level: 'error',
+    };
+
+    return config;
+  },
 }
 
 module.exports = nextConfig
