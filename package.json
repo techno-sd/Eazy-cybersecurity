@@ -3,10 +3,10 @@
   "version": "1.8.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 8090",
     "build": "node build-wrapper.js",
     "build:next": "prisma generate && next build",
-    "start": "next start",
+    "start": "next start -p 8090",
     "lint": "next lint"
   },
   "dependencies": {
