@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `phone` varchar(50) COLLATE utf8mb4_unicode_ci,
   `company` varchar(255) COLLATE utf8mb4_unicode_ci,
   `role` enum('user','admin','moderator') COLLATE utf8mb4_unicode_ci DEFAULT 'user',
-  `is_active` boolean DEFAULT true,
+  `is_active` tinyint(1) DEFAULT 1,
   `failed_login_attempts` int DEFAULT 0,
   `last_failed_login` timestamp NULL,
   `locked_until` timestamp NULL,
@@ -35,7 +35,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
-  KEY `idx_email` (`email`),
   KEY `idx_is_active` (`is_active`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -180,21 +179,21 @@ VALUES
    'تعلم أساسيات الأمن السيبراني وكيفية حماية أصولك الرقمية.',
    'Cybersecurity is the practice of protecting computer systems and networks from digital attacks. In this comprehensive guide, we will explore the key concepts and best practices for securing your digital assets.',
    'الأمن السيبراني هو ممارسة حماية أنظمة وشبكات الكمبيوتر من الهجمات الرقمية. في هذا الدليل الشامل، سنستكشف المفاهيم الرئيسية وأفضل الممارسات لتأمين أصولك الرقمية.',
-   '/img/blog/blog1.jpg', 1, 'Security', 'cybersecurity,security,protection', 'published', 0, NOW(), NOW()),
+   '/img/blog/blog1.jpg', 1, 'Security', JSON_ARRAY('cybersecurity', 'security', 'protection'), 'published', 0, NOW(), NOW()),
   
   (2, 'Password Security Best Practices', 'أفضل ممارسات أمان كلمات المرور', 'password-security-best-practices',
    'Discover how to create and manage strong passwords to keep your accounts secure.',
    'اكتشف كيفية إنشاء وإدارة كلمات مرور قوية لإبقاء حساباتك آمنة.',
    'A strong password is your first line of defense against unauthorized access. Learn how to create memorable yet secure passwords that resist common attack methods.',
    'كلمة المرور القوية هي خط الدفاع الأول ضد الوصول غير المصرح به. تعلم كيفية إنشاء كلمات مرور يسهل تذكرها وآمنة تقاوم طرق الهجوم الشائعة.',
-   '/img/blog/blog2.jpg', 1, 'Security', 'password,security,protection', 'published', 0, NOW(), NOW()),
+   '/img/blog/blog2.jpg', 1, 'Security', JSON_ARRAY('password', 'security', 'protection'), 'published', 0, NOW(), NOW()),
   
   (3, 'Understanding Phishing Attacks', 'فهم هجمات التصيد الاحتيالي', 'understanding-phishing-attacks',
    'Learn to identify and protect yourself from phishing scams.',
    'تعلم كيفية تحديد والحماية من عمليات الاحتيال بالتصيد الاحتيالي.',
    'Phishing attacks are one of the most common cyber threats. This guide will help you understand how phishing works and how to protect yourself and your organization.',
    'هجمات التصيد الاحتيالي هي واحدة من أكثر التهديدات السيبرانية شيوعًا. سيساعدك هذا الدليل على فهم كيفية عمل التصيد الاحتيالي وكيفية حماية نفسك ومنظمتك.',
-   '/img/blog/blog3.jpg', 1, 'Threats', 'phishing,threats,security', 'published', 0, NOW(), NOW());
+   '/img/blog/blog3.jpg', 1, 'Threats', JSON_ARRAY('phishing', 'threats', 'security'), 'published', 0, NOW(), NOW());
 
 -- Insert default website settings
 INSERT IGNORE INTO `website_settings` 
