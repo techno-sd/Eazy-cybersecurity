@@ -65,23 +65,8 @@ const TopHeader: React.FC = () => {
                 }}
               >
                 <li>
-                  <a href="https://www.facebook.com/" target="_blank" style={{ color: '#ffffff' }}>
-                    <i className="bx bxl-facebook"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.twitter.com/" target="_blank" style={{ color: '#ffffff' }}>
-                    <i className="bx bxl-twitter"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.linkedin.com/" target="_blank" style={{ color: '#ffffff' }}>
+                  <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" style={{ color: '#ffffff' }}>
                     <i className="bx bxl-linkedin"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.instagram.com/" target="_blank" style={{ color: '#ffffff' }}>
-                    <i className="bx bxl-instagram"></i>
                   </a>
                 </li>
                 {/* Language Dropdown */}
