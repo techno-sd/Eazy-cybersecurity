@@ -60,8 +60,21 @@ const nextConfig = {
 
   // Image optimization
   images: {
-    domains: ['eazycyber.sa', 'localhost'],
+    domains: ['eazycyber.sa', 'localhost', '127.0.0.1'],
     formats: ['image/avif', 'image/webp'],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3000',
+        pathname: '/img/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'eazycyber.sa',
+        pathname: '/img/**',
+      },
+    ],
   },
 
   // Performance optimizations

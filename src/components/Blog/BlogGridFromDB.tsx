@@ -155,6 +155,8 @@ const BlogGridFromDB: React.FC = () => {
                       alt={isArabic && post.title_ar ? post.title_ar : post.title}
                       width={570}
                       height={600}
+                      unoptimized={true}
+                      priority={false}
                       style={{
                         width: '100%',
                         height: '100%',
