@@ -1,0 +1,134 @@
+/*
+Mobile Responsiveness Fixes
+====================================================*/
+
+/* Prevent horizontal scroll on mobile */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Ensure all elements use border-box sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Container fixes for mobile */
+@media only screen and (max-width: 767px) {
+  .container {
+    max-width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    overflow-x: hidden;
+  }
+
+  .row {
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+
+  .col, [class*="col-"] {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  /* Ensure images don't overflow */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Fix for full-width sections */
+  .banner-area,
+  .feature-area,
+  .about-area,
+  .services-area,
+  .footer-area {
+    overflow-x: hidden;
+  }
+
+  /* Prevent text overflow */
+  h1, h2, h3, h4, h5, h6, p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Mobile-friendly buttons */
+  .btn, .default-btn, .btn-gradient, .btn-modern {
+    min-width: auto;
+    max-width: 100%;
+    white-space: normal;
+    padding: 12px 20px;
+  }
+
+  /* Stack navigation items on mobile */
+  .navbar-nav {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  /* Adjust padding for mobile sections */
+  section {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+}
+
+/* Extra small devices (phones, less than 576px) */
+@media only screen and (max-width: 575px) {
+  html {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 28px !important;
+  }
+
+  h2 {
+    font-size: 24px !important;
+  }
+
+  h3 {
+    font-size: 20px !important;
+  }
+
+  h4 {
+    font-size: 18px !important;
+  }
+
+  h5, h6 {
+    font-size: 16px !important;
+  }
+
+  /* Reduce padding on very small screens */
+  .container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+/* Touch device improvements */
+@media (hover: none) and (pointer: coarse) {
+  /* Larger tap targets for mobile */
+  a, button, .btn {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Remove hover effects on touch devices */
+  a:hover, button:hover, .btn:hover {
+    transform: none !important;
+  }
+}
+
+/* Landscape phone fixes */
+@media only screen and (max-width: 767px) and (orientation: landscape) {
+  .banner-area {
+    min-height: auto;
+    padding-top: 80px;
+    padding-bottom: 60px;
+  }
+}

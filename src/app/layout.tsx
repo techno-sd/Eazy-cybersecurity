@@ -9,6 +9,7 @@ import "swiper/css/bundle";
 // Global Style
 import "../../styles/style.scss";
 import "../../styles/responsive.scss";
+import "../../styles/_mobile-fixes.scss";
 import "../../styles/_banner-responsive.scss";
 import "../../styles/_navbar-mobile.scss";
 import "../../styles/_vision-2030-enhanced.scss";
@@ -136,6 +137,9 @@ export default async function RootLayout({
   return (
     <html lang={lang} dir={lang === "ar" ? "rtl" : "ltr"}>
       <head>
+        {/* Viewport Meta Tag for Mobile Responsiveness */}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+
         {/* Security & Authentication Meta Tags */}
         <meta name="theme-color" content="#0A4D8C" />
         <meta name="mobile-web-app-capable" content="yes" />
