@@ -241,6 +241,23 @@ SITE_URL=https://your-domain.com
 NEXT_PUBLIC_SITE_URL=https://your-domain.com
 ```
 
+### Env Files & Best Practices
+
+- Precedence (production): `.env.production.local` > `.env.local` > `.env.production` > `.env`
+- Do not commit real secrets. Use hosting env vars or `.env.production.local` (gitignored).
+- `.env.example` contains placeholders for all required keys. Keep it in sync.
+- Development: copy `.env.example` to `.env.local` and fill values.
+- Self-hosted production: copy `.env.example` to `.env.production.local` and fill real values on the server.
+
+Quick setup (self-hosted):
+
+```bash
+cp .env.example .env.production.local  # then edit with real values
+npm ci
+npm run build
+npm run start
+```
+
 ---
 
 ## 📚 Documentation
