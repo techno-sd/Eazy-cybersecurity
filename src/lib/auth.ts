@@ -3,7 +3,12 @@ import jwt from 'jsonwebtoken';
 import { query, queryOne } from './db';
 import { RowDataPacket } from 'mysql2';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+const JWT_SECRET_ENV = process.env.JWT_SECRET;
+if (!JWT_SECRET_ENV && process.env.NODE_ENV === 'production') {
+  throw new Error('Missing JWT_SECRET environment variable in production.');
+}
+// In development, allow a fallback but warn loudly
+const JWT_SECRET = JWT_SECRET_ENV || 'dev-secret-change-me';
 const JWT_EXPIRES_IN = '7d'; // Token expires in 7 days
 const MAX_LOGIN_ATTEMPTS = 5;
 const LOCK_TIME = 15 * 60 * 1000; // 15 minutes
