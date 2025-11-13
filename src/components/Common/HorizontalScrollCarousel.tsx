@@ -115,14 +115,15 @@ const HorizontalScrollCarousel: React.FC<HorizontalScrollCarouselProps> = ({
   };
 
   return (
-    <div style={{ position: 'relative', width: '100%' }}>
+    <div style={{ position: 'relative', width: '100%', overflow: 'hidden' }} className="horizontal-scroll-carousel">
       {/* Left Arrow */}
       {showArrows && canScrollLeft && (
         <button
           onClick={() => scroll('left')}
+          className="carousel-arrow carousel-arrow-left"
           style={{
             position: 'absolute',
-            left: '-50px',
+            left: '10px',
             top: '50%',
             transform: 'translateY(-50%)',
             zIndex: 10,
@@ -159,6 +160,7 @@ const HorizontalScrollCarousel: React.FC<HorizontalScrollCarouselProps> = ({
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
+        className="carousel-track"
         style={{
           display: 'flex',
           gap: `${gap}px`,
@@ -169,8 +171,9 @@ const HorizontalScrollCarousel: React.FC<HorizontalScrollCarouselProps> = ({
           scrollbarColor: '#0A4D8C #f0f0f0',
           cursor: isDragging ? 'grabbing' : 'grab',
           paddingBottom: '10px',
-          marginLeft: showArrows ? '50px' : '0',
-          marginRight: showArrows ? '50px' : '0',
+          paddingLeft: '20px',
+          paddingRight: '20px',
+          margin: '0',
         }}
       >
         {/* Custom scrollbar styling for webkit browsers */}
@@ -210,9 +213,10 @@ const HorizontalScrollCarousel: React.FC<HorizontalScrollCarouselProps> = ({
       {showArrows && canScrollRight && (
         <button
           onClick={() => scroll('right')}
+          className="carousel-arrow carousel-arrow-right"
           style={{
             position: 'absolute',
-            right: '-50px',
+            right: '10px',
             top: '50%',
             transform: 'translateY(-50%)',
             zIndex: 10,

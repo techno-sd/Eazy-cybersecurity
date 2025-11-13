@@ -67,18 +67,18 @@ const LatesNews: React.FC = () => {
 
   return (
     <>
-      <section className="blog-area pb-70" style={{ background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)', paddingTop: '100px' }}>
-        <div className="container">
-          <div className="section-title" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: 'center', marginBottom: '60px' }}>
-            <span style={{ display: 'block', width: '60px', height: '4px', background: 'linear-gradient(90deg, #0A4D8C, #607EAC)', borderRadius: '2px', margin: '0 auto 20px 0' }}></span>
+      <section className="blog-area blog-area-full-width pb-70" style={{ background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)', paddingTop: '100px', width: '100%', overflow: 'hidden' }}>
+        <div className="container-fluid" style={{ maxWidth: '100%', paddingLeft: '20px', paddingRight: '20px' }}>
+          <div className="section-title" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: 'center', marginBottom: '60px', maxWidth: '1200px', margin: '0 auto 60px' }}>
+            <span style={{ display: 'block', width: '60px', height: '4px', background: 'linear-gradient(90deg, #0A4D8C, #607EAC)', borderRadius: '2px', margin: isArabic ? '0 auto 20px auto' : '0 auto 20px 0' }}></span>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: '#0A4D8C', fontWeight: '600', fontSize: '16px', marginBottom: '12px' }}>
               <i className="bx bx-news"></i>
               {isArabic ? 'آخر الأخبار' : 'Latest News'}
             </span>
-            <h2 className="gradient-text" style={{ fontSize: '42px', fontWeight: '700', marginBottom: '20px' }}>
+            <h2 className="gradient-text" style={{ fontSize: 'clamp(28px, 5vw, 42px)', fontWeight: '700', marginBottom: '20px' }}>
               {isArabic ? 'آخر الأخبار من المدونة' : 'Latest News From Blog'}
             </h2>
-            <p style={{ fontSize: '18px', maxWidth: '700px', margin: '0 auto', lineHeight: '1.8', color: '#666' }}>
+            <p style={{ fontSize: 'clamp(14px, 3vw, 18px)', maxWidth: '700px', margin: '0 auto', lineHeight: '1.8', color: '#666', padding: '0 15px' }}>
               {isArabic
                 ? 'ابق على اطلاع بأحدث المقالات والأخبار حول الأمن السيبراني والحلول الرقمية المتقدمة.'
                 : 'Stay up to date with the latest articles and news on cybersecurity and digital transformation.'}

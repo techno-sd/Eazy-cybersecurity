@@ -17,6 +17,7 @@ import "../../styles/_vision-2030-page-enhanced.scss";
 import "../../styles/_industries-enhanced.scss";
 import "../../styles/_services-enhanced.scss";
 import "../../styles/_blog-enhancements.scss";
+import "../../styles/_latest-news-responsive.scss";
 import "../../styles/_about-enhanced.scss";
 
 import type { Metadata } from "next";
