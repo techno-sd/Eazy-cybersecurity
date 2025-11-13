@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `blog_posts` (
   `featured_image` varchar(500) COLLATE utf8mb4_unicode_ci,
   `author_id` int NOT NULL,
   `category` varchar(100) COLLATE utf8mb4_unicode_ci,
-  `tags` varchar(500) COLLATE utf8mb4_unicode_ci,
+  `tags` JSON,
   `status` enum('draft','published','archived') COLLATE utf8mb4_unicode_ci DEFAULT 'draft',
   `views` int DEFAULT 0,
   `published_at` timestamp NULL,
