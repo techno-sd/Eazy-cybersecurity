@@ -21,18 +21,51 @@ process.on('uncaughtException', (error) => {
 // Run prisma generate
 try {
   console.log('Generating Prisma Client...');
+  // Best-effort cleanup to avoid EPERM rename issues on Windows
+  const fs = require('fs');
+  const path = require('path');
+  const generatedDir = path.join(process.cwd(), 'src', 'generated', 'prisma');
+  try {
+    if (fs.existsSync(generatedDir)) {
+      fs.rmSync(generatedDir, { recursive: true, force: true });
+    }
+  } catch (e) {
+    // Ignore cleanup errors; we'll attempt generate anyway
+  }
   execSync('npx prisma generate', {
     stdio: 'inherit',
     env: { ...process.env, SUPPRESS_NO_CONFIG_WARNING: 'true' }
   });
   console.log('✓ Prisma Client generated');
 } catch (error) {
-  console.error('✗ Prisma generate failed:', error.message);
-  process.exit(1);
+  const fs = require('fs');
+  const path = require('path');
+  const generatedDir = path.join(process.cwd(), 'src', 'generated', 'prisma');
+  const idx = path.join(generatedDir, 'index.js');
+  const clientJs = path.join(generatedDir, 'client.js');
+  const hasArtifacts = fs.existsSync(idx) && fs.existsSync(clientJs);
+  if (hasArtifacts) {
+    console.warn('⚠ Prisma generate reported an error, but artifacts exist. Proceeding...');
+  } else {
+    console.error('✗ Prisma generate failed:', error.message);
+    process.exit(1);
+  }
 }
 
 // Run next build
 console.log('Building Next.js application...');
+// Best-effort cleanup of previous .next outputs to avoid EPERM on Windows
+try {
+  const fs = require('fs');
+  const path = require('path');
+  const nextDir = path.join(process.cwd(), '.next');
+  if (fs.existsSync(nextDir)) {
+    fs.rmSync(nextDir, { recursive: true, force: true });
+  }
+} catch (e) {
+  // ignore
+}
+
 const buildProcess = spawn('npx', ['next', 'build'], {
   stdio: ['inherit', 'pipe', 'pipe'],
   shell: true,

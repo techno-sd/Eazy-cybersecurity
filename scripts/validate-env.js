@@ -1,5 +1,38 @@
 /* Simple environment validation for production builds */
 /* eslint-disable no-console */
+const fs = require('fs');
+const path = require('path');
+let dotenv;
+try {
+  dotenv = require('dotenv');
+} catch (e) {
+  // dotenv might not be installed yet (first install). That's ok; rely on CI/host envs.
+}
+
+function loadEnvFiles() {
+  if (!dotenv) return; // Skip if not available
+  const cwd = process.cwd();
+  const isProd = process.env.NODE_ENV === 'production';
+
+  // Load with increasing precedence (later wins)
+  const candidates = [];
+  if (isProd) {
+    candidates.push('.env');
+    candidates.push('.env.production');
+    candidates.push('.env.local');
+    candidates.push('.env.production.local');
+  } else {
+    candidates.push('.env');
+    candidates.push('.env.local');
+  }
+
+  for (const rel of candidates) {
+    const p = path.join(cwd, rel);
+    if (fs.existsSync(p)) {
+      dotenv.config({ path: p, override: true });
+    }
+  }
+}
 
 function requireVar(name) {
   const val = process.env[name];
@@ -21,6 +54,7 @@ function validateDbSplit() {
 }
 
 function main() {
+  loadEnvFiles();
   const isProd = process.env.NODE_ENV === 'production';
   const errors = [];
 
