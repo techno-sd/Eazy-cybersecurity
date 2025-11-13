@@ -14,10 +14,27 @@ const HomeServices: React.FC = () => {
   return (
     <>
       {/* Section 1: AI Solutions */}
-      <section id="ai" className="approach-area pb-100" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)' }}>
-        <div className="container">
+      <section id="ai" className="approach-area pb-100 pt-70" style={{
+        background: 'linear-gradient(135deg, #f8f9fa 0%, #e8f0f7 50%, #f0f5f9 100%)',
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        {/* Decorative element */}
+        <div style={{
+          position: 'absolute',
+          top: '50%',
+          right: isArabic ? '-150px' : 'auto',
+          left: isArabic ? 'auto' : '-150px',
+          width: '400px',
+          height: '400px',
+          background: 'radial-gradient(circle, rgba(10, 77, 140, 0.05) 0%, transparent 70%)',
+          borderRadius: '50%',
+          transform: 'translateY(-50%)'
+        }}></div>
+
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div className="row align-items-center">
-            <div className="col-lg-6">
+            <div className="col-lg-6 reveal-animation" style={{ animationDelay: '0.2s' }}>
               <div className="approach-img">
                 <Image
                   src="/img/services/ai.jpg"
@@ -29,19 +46,26 @@ const HomeServices: React.FC = () => {
               </div>
             </div>
 
-            <div className="col-lg-6">
+            <div className="col-lg-6 reveal-animation" style={{ animationDelay: '0.3s' }}>
               <div className="approach-content" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
-                <span style={{ 
-                  display: 'block', 
-                  width: '60px', 
-                  height: '4px', 
-                  background: 'linear-gradient(90deg, #0A4D8C, #607EAC)', 
-                  borderRadius: '2px', 
-                  marginBottom: '20px',
-                  [isArabic ? 'marginLeft' : 'marginRight']: 'auto' 
+                <span style={{
+                  display: 'block',
+                  width: '70px',
+                  height: '5px',
+                  background: 'linear-gradient(90deg, #0A4D8C, #607EAC)',
+                  borderRadius: '3px',
+                  marginBottom: '25px',
+                  [isArabic ? 'marginLeft' : 'marginRight']: 'auto',
+                  boxShadow: '0 2px 10px rgba(10, 77, 140, 0.3)'
                 }}></span>
-                <h2>{t.aiSolutions.section_title}</h2>
-                <p style={{ fontSize: '16px', lineHeight: '1.8', marginBottom: '30px' }}>
+                <h2 style={{
+                  fontSize: '38px',
+                  fontWeight: '800',
+                  marginBottom: '20px',
+                  color: '#0e0129',
+                  lineHeight: '1.2'
+                }}>{t.aiSolutions.section_title}</h2>
+                <p style={{ fontSize: '17px', lineHeight: '1.9', marginBottom: '35px', color: '#555', fontWeight: '500' }}>
                   {t.aiSolutions.section_subtitle}
                 </p>
 
@@ -69,22 +93,46 @@ const HomeServices: React.FC = () => {
       </section>
 
       {/* Section 2: Cybersecurity Services */}
-      <section id="cybersecurity" className="approach-area pb-100" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)' }}>
-        <div className="container">
+      <section id="cybersecurity" className="approach-area pb-100 pt-70" style={{
+        background: 'linear-gradient(135deg, #f0f5f9 0%, #e8f0f7 50%, #f8f9fa 100%)',
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        {/* Decorative element */}
+        <div style={{
+          position: 'absolute',
+          top: '50%',
+          left: isArabic ? '-150px' : 'auto',
+          right: isArabic ? 'auto' : '-150px',
+          width: '400px',
+          height: '400px',
+          background: 'radial-gradient(circle, rgba(96, 126, 172, 0.05) 0%, transparent 70%)',
+          borderRadius: '50%',
+          transform: 'translateY(-50%)'
+        }}></div>
+
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div className="row align-items-center">
-            <div className="col-lg-6" style={{ order: isArabic ? 2 : 1 }}>
+            <div className="col-lg-6 reveal-animation" style={{ order: isArabic ? 2 : 1, animationDelay: '0.2s' }}>
               <div className="approach-content" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
-                <span style={{ 
-                  display: 'block', 
-                  width: '60px', 
-                  height: '4px', 
-                  background: 'linear-gradient(90deg, #0A4D8C, #607EAC)', 
-                  borderRadius: '2px', 
-                  marginBottom: '20px',
-                  [isArabic ? 'marginLeft' : 'marginRight']: 'auto' 
+                <span style={{
+                  display: 'block',
+                  width: '70px',
+                  height: '5px',
+                  background: 'linear-gradient(90deg, #0A4D8C, #607EAC)',
+                  borderRadius: '3px',
+                  marginBottom: '25px',
+                  [isArabic ? 'marginLeft' : 'marginRight']: 'auto',
+                  boxShadow: '0 2px 10px rgba(10, 77, 140, 0.3)'
                 }}></span>
-                <h2>{t.cybersecurity.section_title}</h2>
-                <p style={{ fontSize: '16px', lineHeight: '1.8', marginBottom: '30px' }}>
+                <h2 style={{
+                  fontSize: '38px',
+                  fontWeight: '800',
+                  marginBottom: '20px',
+                  color: '#0e0129',
+                  lineHeight: '1.2'
+                }}>{t.cybersecurity.section_title}</h2>
+                <p style={{ fontSize: '17px', lineHeight: '1.9', marginBottom: '35px', color: '#555', fontWeight: '500' }}>
                   {t.cybersecurity.section_subtitle}
                 </p>
 
@@ -113,7 +161,7 @@ const HomeServices: React.FC = () => {
               </div>
             </div>
 
-            <div className="col-lg-6" style={{ order: isArabic ? 1 : 2 }}>
+            <div className="col-lg-6 reveal-animation" style={{ order: isArabic ? 1 : 2, animationDelay: '0.3s' }}>
               <div className="approach-img">
                 <Image
                   src="/img/services/sec.jpg"
@@ -129,7 +177,7 @@ const HomeServices: React.FC = () => {
       </section>
 
       {/* Section 3: Big Data & Analytics */}
-      <section id="bigdata" className="approach-area pb-100" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)' }}>
+      <section id="bigdata" className="approach-area pb-100 pt-70" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #e8f0f7 50%, #f0f5f9 100%)', position: 'relative', overflow: 'hidden' }}>
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-6">
@@ -189,7 +237,7 @@ const HomeServices: React.FC = () => {
       </section>
 
       {/* Section 4: Cloud Computing & Hosting */}
-      <section id="cloud" className="approach-area pb-100" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)' }}>
+      <section id="cloud" className="approach-area pb-100 pt-70" style={{ background: 'linear-gradient(135deg, #f0f5f9 0%, #e8f0f7 50%, #f8f9fa 100%)', position: 'relative', overflow: 'hidden' }}>
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-6" style={{ order: isArabic ? 2 : 1 }}>
@@ -249,7 +297,7 @@ const HomeServices: React.FC = () => {
       </section>
 
       {/* Section 5: SME-EAZY Program */}
-      <section id="sme" className="approach-area pb-100" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)' }}>
+      <section id="sme" className="approach-area pb-100 pt-70" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #e8f0f7 50%, #f0f5f9 100%)', position: 'relative', overflow: 'hidden' }}>
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-6">

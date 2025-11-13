@@ -40,10 +40,10 @@ const IndustriesSection: React.FC = () => {
   ];
 
   return (
-    <section 
-      className="pt-100 pb-70" 
-      style={{ 
-        background: "linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)", 
+    <section
+      className="pt-100 pb-70"
+      style={{
+        background: "linear-gradient(135deg, #f8f9fa 0%, #e8f0f7 50%, #f0f5f9 100%)",
         direction: isArabic ? "rtl" : "ltr",
         position: 'relative',
         overflow: 'hidden'
@@ -55,11 +55,25 @@ const IndustriesSection: React.FC = () => {
         top: '-50px',
         right: isArabic ? 'auto' : '-100px',
         left: isArabic ? '-100px' : 'auto',
+        width: '400px',
+        height: '400px',
+        background: 'radial-gradient(circle, rgba(10, 77, 140, 0.08) 0%, transparent 70%)',
+        borderRadius: '50%',
+        zIndex: 0,
+        animation: 'float 10s ease-in-out infinite'
+      }}></div>
+
+      <div style={{
+        position: 'absolute',
+        bottom: '-80px',
+        left: isArabic ? 'auto' : '-80px',
+        right: isArabic ? '-80px' : 'auto',
         width: '300px',
         height: '300px',
-        background: 'radial-gradient(circle, rgba(10, 77, 140, 0.05) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(96, 126, 172, 0.06) 0%, transparent 70%)',
         borderRadius: '50%',
-        zIndex: 0
+        zIndex: 0,
+        animation: 'float 12s ease-in-out infinite'
       }}></div>
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
@@ -104,18 +118,19 @@ const IndustriesSection: React.FC = () => {
           </div>
 
           {/* Main heading */}
-          <h2 
-            className="gradient-text" 
-            style={{ 
-              fontSize: "48px", 
-              fontWeight: "800", 
+          <h2
+            className="gradient-text reveal-animation"
+            style={{
+              fontSize: "48px",
+              fontWeight: "800",
               marginBottom: "30px",
               background: 'linear-gradient(135deg, #0A4D8C 0%, #0e0129 100%)',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-              letterSpacing: '-0.5px',
-              lineHeight: '1.2'
+              letterSpacing: '-1px',
+              lineHeight: '1.2',
+              animationDelay: '0.2s'
             }}
           >
             {t.home.industries_preview.title}
