@@ -44,7 +44,7 @@ export default async function AdminPage() {
     query<any[]>("SELECT COUNT(*) as total FROM blog_posts"),
     query<any[]>("SELECT COUNT(*) as total, SUM(CASE WHEN status = 'new' THEN 1 ELSE 0 END) as new_count FROM consultations"),
     query<any[]>("SELECT COUNT(*) as total FROM users"),
-    query<any[]>("SELECT id, name, email, service_type, status, created_at FROM consultations ORDER BY created_at DESC LIMIT 5"),
+    query<any[]>("SELECT id, company_name as name, email, service_type, status, created_at FROM consultations ORDER BY created_at DESC LIMIT 5"),
     query<any[]>("SELECT id, title, title_ar, status, views, created_at FROM blog_posts ORDER BY created_at DESC LIMIT 5")
   ]);
 
