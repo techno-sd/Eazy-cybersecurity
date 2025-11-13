@@ -115,7 +115,7 @@ const HorizontalScrollCarousel: React.FC<HorizontalScrollCarouselProps> = ({
   };
 
   return (
-    <div style={{ position: 'relative', width: '100%', overflow: 'hidden' }} className="horizontal-scroll-carousel">
+    <div style={{ position: 'relative', width: '100%', overflow: 'hidden', margin: '0', padding: '0' }} className="horizontal-scroll-carousel">
       {/* Left Arrow */}
       {showArrows && canScrollLeft && (
         <button
@@ -171,9 +171,10 @@ const HorizontalScrollCarousel: React.FC<HorizontalScrollCarouselProps> = ({
           scrollbarColor: '#0A4D8C #f0f0f0',
           cursor: isDragging ? 'grabbing' : 'grab',
           paddingBottom: '10px',
-          paddingLeft: '20px',
-          paddingRight: '20px',
+          paddingLeft: '0',
+          paddingRight: '0',
           margin: '0',
+          boxSizing: 'border-box',
         }}
       >
         {/* Custom scrollbar styling for webkit browsers */}

@@ -67,9 +67,9 @@ const LatesNews: React.FC = () => {
 
   return (
     <>
-      <section className="blog-area blog-area-full-width pb-70" style={{ background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)', paddingTop: '100px', width: '100%', overflow: 'hidden' }}>
-        <div className="container-fluid" style={{ maxWidth: '100%', paddingLeft: '20px', paddingRight: '20px' }}>
-          <div className="section-title" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: 'center', marginBottom: '60px', maxWidth: '1200px', margin: '0 auto 60px' }}>
+      <section className="blog-area blog-area-full-width pb-70" style={{ background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)', paddingTop: '100px', width: '100vw', position: 'relative', left: '50%', right: '50%', marginLeft: '-50vw', marginRight: '-50vw', overflow: 'hidden', padding: '100px 0 70px 0', boxSizing: 'border-box' }}>
+        <div className="container-fluid" style={{ maxWidth: '100%', paddingLeft: '0', paddingRight: '0', width: '100%', margin: '0', boxSizing: 'border-box' }}>
+          <div className="section-title" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: 'center', marginBottom: '60px', maxWidth: '1200px', margin: '0 auto 60px', paddingLeft: '20px', paddingRight: '20px' }}>
             <span style={{ display: 'block', width: '60px', height: '4px', background: 'linear-gradient(90deg, #0A4D8C, #607EAC)', borderRadius: '2px', margin: isArabic ? '0 auto 20px auto' : '0 auto 20px 0' }}></span>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: '#0A4D8C', fontWeight: '600', fontSize: '16px', marginBottom: '12px' }}>
               <i className="bx bx-news"></i>

@@ -3,20 +3,30 @@ Latest News Section - Full Width & Responsive
 ====================================================*/
 
 .blog-area-full-width {
-  width: 100%;
-  margin: 0;
-  padding-left: 0;
-  padding-right: 0;
-  overflow-x: hidden;
+  width: 100vw !important;
+  position: relative !important;
+  left: 50% !important;
+  right: 50% !important;
+  margin-left: -50vw !important;
+  margin-right: -50vw !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
 
   .container-fluid {
-    max-width: 100%;
-    padding-left: 20px;
-    padding-right: 20px;
+    max-width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
   }
 
   .section-title {
-    padding: 0 15px;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    box-sizing: border-box !important;
   }
 }
 
@@ -25,10 +35,12 @@ Latest News Section - Full Width & Responsive
   .blog-area-full-width {
     padding-top: 70px !important;
     padding-bottom: 50px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 
     .container-fluid {
-      padding-left: 15px;
-      padding-right: 15px;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
     }
 
     .section-title {
@@ -51,10 +63,12 @@ Latest News Section - Full Width & Responsive
   .blog-area-full-width {
     padding-top: 50px !important;
     padding-bottom: 40px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 
     .container-fluid {
-      padding-left: 10px;
-      padding-right: 10px;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
     }
 
     .section-title {
@@ -114,10 +128,14 @@ Latest News Section - Full Width & Responsive
   width: 100% !important;
   max-width: 100vw !important;
   overflow: hidden !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
 
   .carousel-track {
     width: 100% !important;
     -webkit-overflow-scrolling: touch;
+    box-sizing: border-box !important;
+    justify-content: center !important;
   }
 
   /* Hide arrows on mobile */
@@ -143,8 +161,14 @@ Latest News Section - Full Width & Responsive
       margin-right: 0 !important;
 
       .carousel-track {
-        padding-left: 15px !important;
-        padding-right: 15px !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+      }
+
+      .blog-card,
+      > div {
+        padding: 0 15px !important;
+        box-sizing: border-box !important;
       }
     }
   }
@@ -154,17 +178,24 @@ Latest News Section - Full Width & Responsive
   .blog-area-full-width {
     .horizontal-scroll-carousel {
       .carousel-track {
-        padding-left: 10px !important;
-        padding-right: 10px !important;
-        gap: 15px !important;
-      }
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        gap: 0 !important;
+        justify-content: center !important;
+        align-items: center !important;
 
-      .blog-card,
-      > div {
-        /* Adjust card width for mobile */
-        min-width: 280px !important;
-        max-width: 320px !important;
-        width: 280px !important;
+        /* Target the wrapper div */
+        > div {
+          /* Full width cards on mobile */
+          min-width: 100vw !important;
+          max-width: 100vw !important;
+          width: 100vw !important;
+          padding: 0 15px !important;
+          box-sizing: border-box !important;
+          display: flex !important;
+          justify-content: center !important;
+          align-items: center !important;
+        }
       }
     }
   }
@@ -174,16 +205,24 @@ Latest News Section - Full Width & Responsive
   .blog-area-full-width {
     .horizontal-scroll-carousel {
       .carousel-track {
-        padding-left: 5px !important;
-        padding-right: 5px !important;
-        gap: 12px !important;
-      }
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        gap: 0 !important;
+        justify-content: center !important;
+        align-items: center !important;
 
-      .blog-card,
-      > div {
-        min-width: 260px !important;
-        max-width: 280px !important;
-        width: 260px !important;
+        /* Target the wrapper div */
+        > div {
+          /* Full width cards on small mobile */
+          min-width: 100vw !important;
+          max-width: 100vw !important;
+          width: 100vw !important;
+          padding: 0 15px !important;
+          box-sizing: border-box !important;
+          display: flex !important;
+          justify-content: center !important;
+          align-items: center !important;
+        }
       }
     }
   }

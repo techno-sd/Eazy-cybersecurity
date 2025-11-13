@@ -68,7 +68,7 @@ html, body {
   }
 
   /* Adjust padding for mobile sections */
-  section {
+  section:not(.blog-area-full-width) {
     padding-top: 50px;
     padding-bottom: 50px;
   }
