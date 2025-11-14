@@ -19,8 +19,10 @@ import "../../styles/_industries-enhanced.scss";
 import "../../styles/_services-enhanced.scss";
 import "../../styles/_blog-enhancements.scss";
 import "../../styles/_latest-news-responsive.scss";
+import "../../styles/_latest-news-enhanced.scss";
 import "../../styles/_about-enhanced.scss";
 import "../../styles/_homepage-enhanced.scss";
+import "../../styles/_testimonials-enhanced.scss";
 import "../../styles/_ui-enhancements.scss";
 
 import type { Metadata } from "next";
