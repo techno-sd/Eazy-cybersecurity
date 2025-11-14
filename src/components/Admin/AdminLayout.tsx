@@ -367,6 +367,39 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
               <i className="bx bx-external-link"></i>
               {t.viewSite}
             </Link>
+
+            <button
+              onClick={handleLogout}
+              style={{
+                padding: "10px 20px",
+                background: "linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)",
+                border: "1px solid rgba(220, 38, 38, 0.3)",
+                borderRadius: "8px",
+                color: "#fff",
+                fontSize: "14px",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                fontWeight: "600",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+                boxShadow: "0 2px 8px rgba(220, 38, 38, 0.2)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "linear-gradient(135deg, #b91c1c 0%, #991b1b 100%)";
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow = "0 4px 12px rgba(220, 38, 38, 0.3)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)";
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 2px 8px rgba(220, 38, 38, 0.2)";
+              }}
+            >
+              <i className="bx bx-log-out"></i>
+              {t.logout}
+            </button>
           </div>
         </header>
 

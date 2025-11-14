@@ -13,7 +13,8 @@ const blogPosts = {
       date: "Jun 20 2024",
       title: "Secure Managed IT",
       desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolorer",
-      link: "/blog/details",
+      link: "/blog/secure-managed-it",
+      slug: "secure-managed-it",
     },
     {
       img: "/img/blog/blog2.jpg",
@@ -21,7 +22,8 @@ const blogPosts = {
       date: "Jun 21 2024",
       title: "Cloud Security",
       desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolorer",
-      link: "/blog/details",
+      link: "/blog/cloud-security",
+      slug: "cloud-security",
     },
     {
       img: "/img/blog/blog3.jpg",
@@ -29,7 +31,8 @@ const blogPosts = {
       date: "Jun 22 2024",
       title: "Security in a fragment world of workload",
       desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolorer",
-      link: "/blog/details",
+      link: "/blog/security-fragment-world-workload",
+      slug: "security-fragment-world-workload",
     },
     {
       img: "/img/blog/blog4.jpg",
@@ -37,7 +40,8 @@ const blogPosts = {
       date: "Jun 23 2024",
       title: "Drughydrus add google drive to roughrobin torjan",
       desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolorer",
-      link: "/blog/details",
+      link: "/blog/drughydrus-google-drive-roughrobin-trojan",
+      slug: "drughydrus-google-drive-roughrobin-trojan",
     },
   ],
   ar: [
@@ -47,7 +51,8 @@ const blogPosts = {
       date: "٢٠ يونيو ٢٠٢٤",
       title: "إدارة تقنية المعلومات الآمنة",
       desc: "لوريم إيبسوم هو نص تجريبي يستخدم في التصميم، هنا وصف مختصر للمقال باللغة العربية.",
-      link: "/blog/details",
+      link: "/blog/secure-managed-it",
+      slug: "secure-managed-it",
     },
     {
       img: "/img/blog/blog2.jpg",
@@ -55,7 +60,8 @@ const blogPosts = {
       date: "٢١ يونيو ٢٠٢٤",
       title: "أمن السحابة",
       desc: "لوريم إيبسوم هو نص تجريبي يستخدم في التصميم، هنا وصف مختصر للمقال باللغة العربية.",
-      link: "/blog/details",
+      link: "/blog/cloud-security",
+      slug: "cloud-security",
     },
     {
       img: "/img/blog/blog3.jpg",
@@ -63,7 +69,8 @@ const blogPosts = {
       date: "٢٢ يونيو ٢٠٢٤",
       title: "الأمان في عالم مجزأ من أعباء العمل",
       desc: "لوريم إيبسوم هو نص تجريبي يستخدم في التصميم، هنا وصف مختصر للمقال باللغة العربية.",
-      link: "/blog/details",
+      link: "/blog/security-fragment-world-workload",
+      slug: "security-fragment-world-workload",
     },
     {
       img: "/img/blog/blog4.jpg",
@@ -71,7 +78,8 @@ const blogPosts = {
       date: "٢٣ يونيو ٢٠٢٤",
       title: "إضافة Google Drive إلى Trojan RoughRobin",
       desc: "لوريم إيبسوم هو نص تجريبي يستخدم في التصميم، هنا وصف مختصر للمقال باللغة العربية.",
-      link: "/blog/details",
+      link: "/blog/drughydrus-google-drive-roughrobin-trojan",
+      slug: "drughydrus-google-drive-roughrobin-trojan",
     },
   ],
 };

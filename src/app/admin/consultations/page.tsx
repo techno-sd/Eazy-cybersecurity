@@ -36,16 +36,14 @@ export default async function ConsultationsPage() {
   // Get consultations
   const consultations = await query<any[]>(`
     SELECT
-      c.*,
-      u.full_name as assigned_to_name
+      c.*
     FROM consultations c
-    LEFT JOIN users u ON c.assigned_to = u.id
     ORDER BY
-      CASE c.priority
-        WHEN 'urgent' THEN 1
-        WHEN 'high' THEN 2
-        WHEN 'medium' THEN 3
-        WHEN 'low' THEN 4
+      CASE c.status
+        WHEN 'pending' THEN 1
+        WHEN 'scheduled' THEN 2
+        WHEN 'completed' THEN 3
+        WHEN 'cancelled' THEN 4
       END,
       c.created_at DESC
   `);

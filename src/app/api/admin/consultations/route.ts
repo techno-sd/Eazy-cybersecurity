@@ -83,7 +83,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, email, phone, company, service_type, message } = body;
+    const { name, email, phone, company, service_type, message, budget, preferred_date } = body;
 
     // Validation
     if (!name || !email || !message) {
@@ -101,12 +101,27 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Insert consultation
+    // Get client IP address
+    const ip_address = request.headers.get('x-forwarded-for') ||
+                       request.headers.get('x-real-ip') ||
+                       'unknown';
+
+    // Insert consultation - map to correct database column names
     const result = await query<any>(
       `INSERT INTO consultations
-       (name, email, phone, company, service_type, message, status, priority, created_at)
-       VALUES (?, ?, ?, ?, ?, ?, 'new', 'medium', NOW())`,
-      [name, email, phone || null, company || null, service_type || null, message]
+       (contact_person, company_name, email, phone, service_type, description, budget, preferred_date, status, ip_address)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?)`,
+      [
+        name,
+        company || null,
+        email,
+        phone || null,
+        service_type || null,
+        message,
+        budget || null,
+        preferred_date || null,
+        ip_address
+      ]
     );
 
     return NextResponse.json(

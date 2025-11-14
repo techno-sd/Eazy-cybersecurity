@@ -28,6 +28,7 @@ const BlogGridFromDB: React.FC = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
   // Prefetch post data on hover
   const prefetchPost = useCallback((slug: string) => {
@@ -36,7 +37,22 @@ const BlogGridFromDB: React.FC = () => {
 
   useEffect(() => {
     fetchPosts();
+    checkAdminStatus();
   }, []);
+
+  const checkAdminStatus = async () => {
+    try {
+      const response = await fetch('/api/auth/me');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && (data.user.role === 'admin' || data.user.role === 'moderator')) {
+          setIsAdmin(true);
+        }
+      }
+    } catch (err) {
+      // User not authenticated or error - keep isAdmin false
+    }
+  };
 
   const fetchPosts = async () => {
     try {
@@ -182,6 +198,45 @@ const BlogGridFromDB: React.FC = () => {
                     }}>
                       {post.category}
                     </span>
+                    {isAdmin && (
+                      <Link
+                        href={`/admin/blog/${post.id}/edit`}
+                        style={{
+                          position: 'absolute',
+                          top: '20px',
+                          right: isArabic ? '20px' : 'auto',
+                          left: isArabic ? 'auto' : '20px',
+                          padding: '8px 16px',
+                          background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.95), rgba(220, 38, 38, 0.95))',
+                          backdropFilter: 'blur(10px)',
+                          color: '#fff',
+                          fontSize: '12px',
+                          fontWeight: '600',
+                          borderRadius: '8px',
+                          zIndex: '10',
+                          boxShadow: '0 4px 15px rgba(239, 68, 68, 0.4)',
+                          letterSpacing: '0.3px',
+                          textDecoration: 'none',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          transition: 'all 0.3s ease',
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(220, 38, 38, 0.95), rgba(185, 28, 28, 0.95))';
+                          e.currentTarget.style.transform = 'translateY(-2px)';
+                          e.currentTarget.style.boxShadow = '0 6px 20px rgba(239, 68, 68, 0.5)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(239, 68, 68, 0.95), rgba(220, 38, 38, 0.95))';
+                          e.currentTarget.style.transform = 'translateY(0)';
+                          e.currentTarget.style.boxShadow = '0 4px 15px rgba(239, 68, 68, 0.4)';
+                        }}
+                      >
+                        <i className="bx bx-edit-alt" style={{ fontSize: '14px' }}></i>
+                        {isArabic ? 'تحديث' : 'Update'}
+                      </Link>
+                    )}
                   </div>
                   <div className="blog-content" style={{
                     padding: '28px',
@@ -255,7 +310,11 @@ const BlogGridFromDB: React.FC = () => {
                         transition: 'all 0.4s ease',
                         width: '100%',
                         marginTop: 'auto',
-                        letterSpacing: '0.5px'
+                        letterSpacing: '0.5px',
+                        cursor: 'pointer',
+                        pointerEvents: 'auto',
+                        position: 'relative',
+                        zIndex: 1
                       }}
                     >
                       {isArabic ? 'اقرأ المزيد' : 'Read More'}
