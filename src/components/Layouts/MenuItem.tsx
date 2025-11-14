@@ -11,9 +11,10 @@ interface MenuItemProps {
   label: string;
   link: string;
   submenu?: { label: string; link: string }[];
+  onNavigate?: () => void;
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu }) => {
+const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu, onNavigate }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const pathname = usePathname();
@@ -45,6 +46,11 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu }) => {
       const targetPath = href.split("#")[0];
       const currentPath = normalize(pathname || "/");
 
+      // Close mobile menu when navigating
+      if (onNavigate) {
+        onNavigate();
+      }
+
       // Only handle smooth scroll if we're on the same page
       if (currentPath === normalize(targetPath)) {
         e.preventDefault();
@@ -58,6 +64,11 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu }) => {
           // Update URL hash without scrolling
           window.history.pushState(null, "", href);
         }
+      }
+    } else {
+      // Close mobile menu for regular links too
+      if (onNavigate) {
+        onNavigate();
       }
     }
   };

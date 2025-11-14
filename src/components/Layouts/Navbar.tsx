@@ -21,17 +21,23 @@ const Navbar: React.FC = () => {
     setMenu(!menu);
   };
 
-  // Define section IDs for services, industries, and about pages
+  const closeMenu = () => {
+    setMenu(true);
+  };
+
+  // Define section IDs for services, industries, about, and contact pages
   const serviceSectionIds = ["ai", "cybersecurity", "bigdata", "cloud", "sme"];
   const industrySectionIds = ["government", "banking", "energy", "healthcare", "education", "smes"];
   const aboutSectionIds = ["vision-mission", "values", "team", "why-us"];
+  const contactSectionIds = ["location"];
 
-  // Enable scroll spy on services, industries, and about pages
+  // Enable scroll spy on services, industries, about, and contact pages
   const normalize = (p: string) => (p || "/").replace(/^\/(en|ar)(?=\/|$)/, "") || "/";
   const currentPath = normalize(pathname || "/");
   const isServicesPage = currentPath === "/services" || currentPath === "/services/";
   const isIndustriesPage = currentPath === "/industries" || currentPath === "/industries/";
   const isAboutPage = currentPath === "/about" || currentPath === "/about/";
+  const isContactPage = currentPath === "/contact" || currentPath === "/contact/";
 
   // Determine which section IDs to use
   let sectionIds: string[] = [];
@@ -41,6 +47,8 @@ const Navbar: React.FC = () => {
     sectionIds = industrySectionIds;
   } else if (isAboutPage) {
     sectionIds = aboutSectionIds;
+  } else if (isContactPage) {
+    sectionIds = contactSectionIds;
   }
 
   // Use scroll spy hook
@@ -140,7 +148,7 @@ const Navbar: React.FC = () => {
 
                     {/* Right side - Quote Button */}
                     <Link
-                      href="/contact"
+                      href="/contact#consultation"
                       className="navbar-quote-btn"
                     >
                       {t.buttons.quote}
@@ -172,7 +180,7 @@ const Navbar: React.FC = () => {
                       justifyContent: lang === 'en' ? 'flex-start' : 'flex-start',
                     }}>
                       {menus.map((menuItem) => (
-                        <MenuItem key={menuItem.label} {...menuItem} />
+                        <MenuItem key={menuItem.label} {...menuItem} onNavigate={closeMenu} />
                       ))}
                     </ul>
                   </div>
@@ -185,7 +193,7 @@ const Navbar: React.FC = () => {
                     marginLeft: 'auto',
                   }}>
                     <Link
-                      href="/contact"
+                      href="/contact#consultation"
                       className="navbar-quote-btn desktop"
                     >
                       {t.buttons.quote}
@@ -213,7 +221,7 @@ const Navbar: React.FC = () => {
                       padding: '15px 0',
                     }}>
                       {menus.map((menuItem) => (
-                        <MenuItem key={menuItem.label} {...menuItem} />
+                        <MenuItem key={menuItem.label} {...menuItem} onNavigate={closeMenu} />
                       ))}
                     </ul>
                   </div>

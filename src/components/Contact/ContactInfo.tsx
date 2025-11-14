@@ -32,7 +32,7 @@ const ContactInfo: React.FC = () => {
 
   return (
     <>
-      <div className={`contact-info-area ${isArabic ? 'rtl' : ''}`} style={{
+      <div id="location" className={`contact-info-area ${isArabic ? 'rtl' : ''}`} style={{
         background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.02) 0%, rgba(14, 165, 233, 0.02) 100%)',
         padding: '80px 0'
       }}>

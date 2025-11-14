@@ -91,19 +91,19 @@ const Footer: React.FC = () => {
                   <li>
                     <Link href="/industries#government">
                       <i className="bx bx-chevrons-right"></i>
-                      {isArabic ? 'القطاع الحكومي (التحول الرقمي الحكومي)' : 'Government Sector (Digital Government Transformation)'}
+                      {isArabic ? 'القطاع الحكومي والعام' : 'Government & Public Sector'}
                     </Link>
                   </li>
                   <li>
-                    <Link href="/industries#finance">
+                    <Link href="/industries#banking">
                       <i className="bx bx-chevrons-right"></i>
-                      {isArabic ? 'البنوك والخدمات المالية' : 'Banks and Financial Services'}
+                      {isArabic ? 'البنوك والتمويل' : 'Banking & Finance'}
                     </Link>
                   </li>
                   <li>
                     <Link href="/industries#energy">
                       <i className="bx bx-chevrons-right"></i>
-                      {isArabic ? 'الطاقة والاتصالات' : 'Energy and Telecommunications'}
+                      {isArabic ? 'الطاقة والاتصالات' : 'Energy & Telecom'}
                     </Link>
                   </li>
                   <li>
@@ -115,7 +115,13 @@ const Footer: React.FC = () => {
                   <li>
                     <Link href="/industries#education">
                       <i className="bx bx-chevrons-right"></i>
-                      {isArabic ? 'التعليم والجامعات' : 'Education and Universities'}
+                      {isArabic ? 'التعليم' : 'Education'}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/industries#smes">
+                      <i className="bx bx-chevrons-right"></i>
+                      {isArabic ? 'الشركات الصغيرة والناشئة' : 'SMEs & Startups'}
                     </Link>
                   </li>
                 </ul>
@@ -129,9 +135,27 @@ const Footer: React.FC = () => {
 
                 <ul>
                   <li>
-                    <Link href="/about">
+                    <Link href="/about#vision-mission">
                       <i className="bx bx-chevrons-right"></i>
-                      {isArabic ? 'من نحن' : 'About Us'}
+                      {isArabic ? 'الرؤية والرسالة' : 'Vision & Mission'}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/about#values">
+                      <i className="bx bx-chevrons-right"></i>
+                      {isArabic ? 'القيم الأساسية' : 'Core Values'}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/about#team">
+                      <i className="bx bx-chevrons-right"></i>
+                      {isArabic ? 'فريقنا' : 'Our Team'}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/about#why-us">
+                      <i className="bx bx-chevrons-right"></i>
+                      {isArabic ? 'لماذا نحن' : 'Why Choose Us'}
                     </Link>
                   </li>
                   <li>
@@ -141,27 +165,15 @@ const Footer: React.FC = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/why-choose-us">
-                      <i className="bx bx-chevrons-right"></i>
-                      {isArabic ? 'لماذا نحن' : 'Why Choose Us'}
-                    </Link>
-                  </li>
-                  <li>
                     <Link href="/blog">
                       <i className="bx bx-chevrons-right"></i>
                       {isArabic ? 'المدونة' : 'Blog'}
                     </Link>
                   </li>
                   <li>
-                    <Link href="/contact">
+                    <Link href="/contact#location">
                       <i className="bx bx-chevrons-right"></i>
                       {isArabic ? 'اتصل بنا' : 'Contact Us'}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/contact">
-                      <i className="bx bx-chevrons-right"></i>
-                      {isArabic ? 'دعم 24/7' : '24/7 Support'}
                     </Link>
                   </li>
                 </ul>

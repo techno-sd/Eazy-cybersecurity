@@ -64,6 +64,7 @@ const ServiceConsultationForm: React.FC<ServiceConsultationFormProps> = ({ preSe
       errorMessage: "An error occurred. Please try again.",
       nameRequired: "Name is required",
       emailRequired: "Email is required",
+      phoneRequired: "Phone number is required",
       serviceRequired: "Please select a service type",
       messageRequired: "Message is required"
     },
@@ -82,6 +83,7 @@ const ServiceConsultationForm: React.FC<ServiceConsultationFormProps> = ({ preSe
       errorMessage: "حدث خطأ. يرجى المحاولة مرة أخرى.",
       nameRequired: "الاسم مطلوب",
       emailRequired: "البريد الإلكتروني مطلوب",
+      phoneRequired: "رقم الهاتف مطلوب",
       serviceRequired: "يرجى اختيار نوع الخدمة",
       messageRequired: "الرسالة مطلوبة"
     }
@@ -135,6 +137,7 @@ const ServiceConsultationForm: React.FC<ServiceConsultationFormProps> = ({ preSe
 
   return (
     <div
+      id="consultation"
       className={`consultation-form-section ${isArabic ? 'rtl' : ''}`}
       style={{
         background: 'linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%)',
@@ -288,7 +291,7 @@ const ServiceConsultationForm: React.FC<ServiceConsultationFormProps> = ({ preSe
                         marginBottom: '10px',
                         fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit'
                       }}>
-                        {t.phonePlaceholder}
+                        {t.phonePlaceholder} *
                       </label>
                       <input
                         type="tel"
@@ -297,6 +300,7 @@ const ServiceConsultationForm: React.FC<ServiceConsultationFormProps> = ({ preSe
                         onChange={handleChange}
                         placeholder={t.phonePlaceholder}
                         className="form-control"
+                        required
                         style={{
                           border: '2px solid #E5E7EB',
                           borderRadius: '12px',

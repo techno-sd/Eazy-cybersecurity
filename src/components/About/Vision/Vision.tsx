@@ -104,7 +104,7 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
       </section>
 
       {/* Enhanced Vision & Mission Section - Side by Side */}
-      <section className="vision-mission-section" style={{ padding: '100px 0', background: '#fff' }}>
+      <section id="vision-mission" className="vision-mission-section" style={{ padding: '100px 0', background: '#fff' }}>
         <div className="container">
           <div className="row g-4" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
             {/* Vision Card */}
@@ -476,8 +476,8 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
       </section>
 
       {/* Enhanced Why Choose Us Section */}
-      <section 
-        id="why-choose" 
+      <section
+        id="why-us"
         className="why-choose-section"
         style={{
           padding: '100px 0',
