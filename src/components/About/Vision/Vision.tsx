@@ -445,7 +445,7 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
                       lineHeight: '1.3'
                     }}
                   >
-                    م. مازن المطيري
+                    {isArabic ? 'م. مازن المطيري' : 'Eng. Mazen Al-Mutairi'}
                   </h3>
 
                   <span
@@ -458,7 +458,7 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
                       lineHeight: '1.5'
                     }}
                   >
-                    الرئيس التنفيذي لوكيل إيزي سايبر
+                    {isArabic ? 'الرئيس التنفيذي لوكيل إيزي سايبر' : 'CEO of Easy Cyber Agency'}
                   </span>
 
                   <p
@@ -469,7 +469,7 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
                       marginBottom: '0'
                     }}
                   >
-                    قيادة الابتكار الرقمي والأمن السيبراني
+                    {isArabic ? 'قيادة الابتكار الرقمي والأمن السيبراني' : 'Leading Digital Innovation and Cybersecurity'}
                   </p>
                 </div>
               </div>
