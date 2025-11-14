@@ -183,7 +183,13 @@ const MainBanner: React.FC = () => {
 
                 {/* Vision & Mission moved to FeaturedSection below hero */}
 
-                <div className="banner-btn reveal-animation" dir={isAR ? 'rtl' : 'ltr'} style={{ animationDelay: '0.5s' }}>
+                <div className="banner-btn reveal-animation" dir={isAR ? 'rtl' : 'ltr'} style={{
+                  animationDelay: '0.5s',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  flexWrap: 'wrap',
+                  gap: '15px'
+                }}>
                   <Link
                     href="/contact"
                     className="btn-gradient"
@@ -197,39 +203,11 @@ const MainBanner: React.FC = () => {
                       fontWeight: '700',
                       borderRadius: '50px',
                       transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                      boxShadow: '0 8px 30px rgba(10, 77, 140, 0.4), 0 0 20px rgba(63, 160, 255, 0.3)',
-                      marginRight: isAR ? '0' : '15px',
-                      marginLeft: isAR ? '15px' : '0',
-                      marginBottom: '15px'
+                      boxShadow: '0 8px 30px rgba(10, 77, 140, 0.4), 0 0 20px rgba(63, 160, 255, 0.3)'
                     }}
                   >
                     <i className={`bx bx-shield-quarter`} style={{ fontSize: '20px' }}></i>
                     {t.buttons.contact}
-                    <i className={`bx ${isAR ? 'bx-left-arrow-alt' : 'bx-right-arrow-alt'}`}></i>
-                  </Link>
-
-                  <Link
-                    href="/about"
-                    className="default-btn"
-                    style={{
-                      position: 'relative',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '10px',
-                      padding: '16px 38px',
-                      fontSize: '17px',
-                      fontWeight: '700',
-                      borderRadius: '50px',
-                      backgroundColor: 'rgba(255, 255, 255, 0.15)',
-                      color: 'white',
-                      border: '2px solid rgba(255, 255, 255, 0.4)',
-                      backdropFilter: 'blur(10px)',
-                      transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                      marginBottom: '15px',
-                      boxShadow: '0 5px 20px rgba(255, 255, 255, 0.1)'
-                    }}
-                  >
-                    {t.buttons.about}
                     <i className={`bx ${isAR ? 'bx-left-arrow-alt' : 'bx-right-arrow-alt'}`}></i>
                   </Link>
                 </div>

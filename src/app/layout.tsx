@@ -12,6 +12,7 @@ import "../../styles/responsive.scss";
 import "../../styles/_mobile-fixes.scss";
 import "../../styles/_banner-responsive.scss";
 import "../../styles/_navbar-mobile.scss";
+import "../../styles/_navbar-enhanced.scss";
 import "../../styles/_vision-2030-enhanced.scss";
 import "../../styles/_vision-2030-page-enhanced.scss";
 import "../../styles/_industries-enhanced.scss";
@@ -20,6 +21,7 @@ import "../../styles/_blog-enhancements.scss";
 import "../../styles/_latest-news-responsive.scss";
 import "../../styles/_about-enhanced.scss";
 import "../../styles/_homepage-enhanced.scss";
+import "../../styles/_ui-enhancements.scss";
 
 import type { Metadata } from "next";
 import Providers from "./providers";

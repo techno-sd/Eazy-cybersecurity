@@ -21,15 +21,17 @@ const Navbar: React.FC = () => {
     setMenu(!menu);
   };
 
-  // Define section IDs for services and industries pages
+  // Define section IDs for services, industries, and about pages
   const serviceSectionIds = ["ai", "cybersecurity", "bigdata", "cloud", "sme"];
   const industrySectionIds = ["government", "banking", "energy", "healthcare", "education", "smes"];
+  const aboutSectionIds = ["vision-mission", "values", "team", "why-us"];
 
-  // Enable scroll spy on services and industries pages
+  // Enable scroll spy on services, industries, and about pages
   const normalize = (p: string) => (p || "/").replace(/^\/(en|ar)(?=\/|$)/, "") || "/";
   const currentPath = normalize(pathname || "/");
   const isServicesPage = currentPath === "/services" || currentPath === "/services/";
   const isIndustriesPage = currentPath === "/industries" || currentPath === "/industries/";
+  const isAboutPage = currentPath === "/about" || currentPath === "/about/";
 
   // Determine which section IDs to use
   let sectionIds: string[] = [];
@@ -37,6 +39,8 @@ const Navbar: React.FC = () => {
     sectionIds = serviceSectionIds;
   } else if (isIndustriesPage) {
     sectionIds = industrySectionIds;
+  } else if (isAboutPage) {
+    sectionIds = aboutSectionIds;
   }
 
   // Use scroll spy hook
@@ -137,16 +141,7 @@ const Navbar: React.FC = () => {
                     {/* Right side - Quote Button */}
                     <Link
                       href="/contact"
-                      className="default-btn"
-                      style={{
-                        padding: '10px 16px',
-                        fontSize: '12px',
-                        minWidth: 'auto',
-                        whiteSpace: 'nowrap',
-                        fontWeight: '600',
-                        transition: 'all 0.3s ease',
-                        boxShadow: '0 2px 8px rgba(10, 77, 140, 0.15)',
-                      }}
+                      className="navbar-quote-btn"
                     >
                       {t.buttons.quote}
                     </Link>
@@ -191,7 +186,7 @@ const Navbar: React.FC = () => {
                   }}>
                     <Link
                       href="/contact"
-                      className="default-btn"
+                      className="navbar-quote-btn desktop"
                     >
                       {t.buttons.quote}
                     </Link>

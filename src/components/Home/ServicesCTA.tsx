@@ -80,21 +80,26 @@ const ServicesCTA: React.FC = () => {
           </p>
 
           <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/contact" className="default-btn" style={{
-              background: 'white',
-              color: '#0A4D8C',
-              border: 'none',
-              padding: '16px 38px',
-              fontSize: '17px',
-              fontWeight: '700',
-              borderRadius: '50px',
-              cursor: 'pointer',
-              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-              boxShadow: '0 8px 30px rgba(0, 0, 0, 0.3)',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '10px'
-            }}>
+            <Link
+              href="/contact"
+              style={{
+                background: 'white',
+                color: '#0A4D8C',
+                border: 'none',
+                padding: '16px 38px',
+                fontSize: '17px',
+                fontWeight: '700',
+                borderRadius: '50px',
+                cursor: 'pointer',
+                transition: 'none',
+                boxShadow: '0 8px 30px rgba(0, 0, 0, 0.3)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '10px',
+                textDecoration: 'none',
+                textTransform: 'capitalize'
+              }}
+            >
               {isArabic ? 'طلب استشارة مجانية' : 'Request Free Consultation'}
               <i className={`bx ${isArabic ? 'bx-left-arrow-alt' : 'bx-right-arrow-alt'}`}></i>
             </Link>

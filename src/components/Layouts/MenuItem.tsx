@@ -20,7 +20,11 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu }) => {
   const normalize = (p: string) => (p || "/").replace(/^\/(en|ar)(?=\/|$)/, "") || "/";
   const current = normalize(pathname || "/");
   const target = normalize(link);
-  const isActive = current === target || (target !== "#" && current.startsWith(target));
+  // Special handling for home page: only exact match
+  // For other pages: exact match OR starts with (for sub-pages)
+  const isActive = target === "/"
+    ? current === "/"
+    : (current === target || (target !== "#" && target !== "/" && current.startsWith(target)));
   const { lang } = useLang();
   const t = getMessages(lang);
   const translate = (k: string) => (t.menu as any)[k] ?? (t as any).about?.[k] ?? k;
