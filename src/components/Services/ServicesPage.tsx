@@ -45,14 +45,14 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
 
             <div className="col-lg-6">
               <div className="approach-content" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
-                <span style={{ 
-                  display: 'block', 
-                  width: '60px', 
-                  height: '4px', 
-                  background: 'linear-gradient(90deg, #0A4D8C, #607EAC)', 
-                  borderRadius: '2px', 
+                <span style={{
+                  display: 'block',
+                  width: '60px',
+                  height: '4px',
+                  background: 'linear-gradient(90deg, #0A4D8C, #607EAC)',
+                  borderRadius: '2px',
                   marginBottom: '20px',
-                  [isArabic ? 'marginLeft' : 'marginRight']: 'auto' 
+                  [isArabic ? 'marginLeft' : 'marginRight']: 'auto'
                 }}></span>
                 <h2>{t.aiSolutions.section_title}</h2>
                 <p style={{ fontSize: '16px', lineHeight: '1.8', marginBottom: '30px' }}>
@@ -89,14 +89,14 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
           <div className="row align-items-center">
             <div className="col-lg-6" style={{ order: isArabic ? 2 : 1 }}>
               <div className="approach-content" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
-                <span style={{ 
-                  display: 'block', 
-                  width: '60px', 
-                  height: '4px', 
-                  background: 'linear-gradient(90deg, #0A4D8C, #607EAC)', 
-                  borderRadius: '2px', 
+                <span style={{
+                  display: 'block',
+                  width: '60px',
+                  height: '4px',
+                  background: 'linear-gradient(90deg, #0A4D8C, #607EAC)',
+                  borderRadius: '2px',
                   marginBottom: '20px',
-                  [isArabic ? 'marginLeft' : 'marginRight']: 'auto' 
+                  [isArabic ? 'marginLeft' : 'marginRight']: 'auto'
                 }}></span>
                 <h2>{t.cybersecurity.section_title}</h2>
                 <p style={{ fontSize: '16px', lineHeight: '1.8', marginBottom: '30px' }}>
@@ -162,14 +162,14 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
 
             <div className="col-lg-6">
               <div className="approach-content" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
-                <span style={{ 
-                  display: 'block', 
-                  width: '60px', 
-                  height: '4px', 
-                  background: 'linear-gradient(90deg, #0A4D8C, #607EAC)', 
-                  borderRadius: '2px', 
+                <span style={{
+                  display: 'block',
+                  width: '60px',
+                  height: '4px',
+                  background: 'linear-gradient(90deg, #0A4D8C, #607EAC)',
+                  borderRadius: '2px',
                   marginBottom: '20px',
-                  [isArabic ? 'marginLeft' : 'marginRight']: 'auto' 
+                  [isArabic ? 'marginLeft' : 'marginRight']: 'auto'
                 }}></span>
                 <h2>{t.bigData.section_title}</h2>
                 <p style={{ fontSize: '16px', lineHeight: '1.8', marginBottom: '30px' }}>
@@ -211,14 +211,14 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
           <div className="row align-items-center">
             <div className="col-lg-6" style={{ order: isArabic ? 2 : 1 }}>
               <div className="approach-content" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
-                <span style={{ 
-                  display: 'block', 
-                  width: '60px', 
-                  height: '4px', 
-                  background: 'linear-gradient(90deg, #0A4D8C, #607EAC)', 
-                  borderRadius: '2px', 
+                <span style={{
+                  display: 'block',
+                  width: '60px',
+                  height: '4px',
+                  background: 'linear-gradient(90deg, #0A4D8C, #607EAC)',
+                  borderRadius: '2px',
                   marginBottom: '20px',
-                  [isArabic ? 'marginLeft' : 'marginRight']: 'auto' 
+                  [isArabic ? 'marginLeft' : 'marginRight']: 'auto'
                 }}></span>
                 <h2>{t.cloudHosting.section_title}</h2>
                 <p style={{ fontSize: '16px', lineHeight: '1.8', marginBottom: '30px' }}>
@@ -284,14 +284,14 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
 
             <div className="col-lg-6">
               <div className="approach-content" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
-                <span style={{ 
-                  display: 'block', 
-                  width: '60px', 
-                  height: '4px', 
-                  background: 'linear-gradient(90deg, #0A4D8C, #607EAC)', 
-                  borderRadius: '2px', 
+                <span style={{
+                  display: 'block',
+                  width: '60px',
+                  height: '4px',
+                  background: 'linear-gradient(90deg, #0A4D8C, #607EAC)',
+                  borderRadius: '2px',
                   marginBottom: '20px',
-                  [isArabic ? 'marginLeft' : 'marginRight']: 'auto' 
+                  [isArabic ? 'marginLeft' : 'marginRight']: 'auto'
                 }}></span>
                 <h2>{t.smeEazy.section_title}</h2>
                 <p style={{ fontSize: '16px', lineHeight: '1.8', marginBottom: '30px' }}>
