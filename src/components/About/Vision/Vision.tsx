@@ -288,7 +288,7 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
               
               return (
                 <div key={index} className="col-lg-3 col-md-6 col-sm-6" data-aos="fade-up" data-aos-delay={index * 100}>
-                  <div 
+                  <div
                     style={{
                       background: '#fff',
                       borderRadius: '16px',
@@ -298,11 +298,15 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
                       transition: 'all 0.4s ease',
                       textAlign: 'center',
                       position: 'relative',
-                      overflow: 'hidden'
+                      overflow: 'hidden',
+                      ['--value-color' as any]: colors[index]
                     }}
                     className="value-card"
                   >
-                    <div 
+                    {/* Number Badge */}
+                    <span className="value-number">{String(index + 1).padStart(2, '0')}</span>
+
+                    <div
                       style={{
                         width: '80px',
                         height: '80px',
@@ -313,14 +317,15 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
                         justifyContent: 'center',
                         margin: '0 auto 25px',
                         boxShadow: `0 10px 30px ${colors[index]}40`,
-                        transition: 'all 0.4s ease'
+                        transition: 'all 0.4s ease',
+                        borderColor: colors[index]
                       }}
                       className="value-icon"
                     >
                       <i className={icons[index]} style={{ fontSize: '38px', color: '#fff' }}></i>
                     </div>
 
-                    <h3 
+                    <h3
                       style={{
                         fontSize: '20px',
                         fontWeight: '700',
@@ -331,7 +336,7 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
                       {value.title}
                     </h3>
 
-                    <p 
+                    <p
                       style={{
                         fontSize: '15px',
                         lineHeight: '1.7',
@@ -403,7 +408,13 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
                 }}
                 className="team-card"
               >
-                <div style={{ position: 'relative', overflow: 'hidden', height: '450px', width: '100%', backgroundColor: '#f8f9fa', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div className="team-img-wrapper" style={{ position: 'relative', overflow: 'hidden', height: '450px', width: '100%', backgroundColor: '#f8f9fa', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {/* CEO Badge */}
+                  <span className="team-badge">
+                    <i className="bx bx-certification" style={{ marginRight: '6px' }}></i>
+                    {isArabic ? 'الرئيس التنفيذي' : 'CEO'}
+                  </span>
+
                   <Image
                     src="/img/team/ceo.jpg"
                     alt="م. مازن المطيري"
@@ -423,24 +434,41 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
                       target.src = '/img/team/placeholder.jpg';
                     }}
                   />
+
                   <div
                     style={{
                       position: 'absolute',
                       inset: 0,
-                      background: 'linear-gradient(to top, rgba(10, 77, 140, 0.8) 0%, transparent 60%)',
+                      background: 'linear-gradient(to top, rgba(10, 77, 140, 0.9) 0%, rgba(10, 77, 140, 0.6) 40%, transparent 70%)',
                       opacity: 0,
-                      transition: 'opacity 0.4s ease'
+                      transition: 'opacity 0.4s ease',
+                      display: 'flex',
+                      alignItems: 'flex-end',
+                      padding: '30px'
                     }}
                     className="team-overlay"
-                  ></div>
+                  >
+                    {/* Social Links */}
+                    <div className="team-social">
+                      <a href="#" aria-label="LinkedIn">
+                        <i className="bx bxl-linkedin"></i>
+                      </a>
+                      <a href="#" aria-label="Twitter">
+                        <i className="bx bxl-twitter"></i>
+                      </a>
+                      <a href="#" aria-label="Email">
+                        <i className="bx bx-envelope"></i>
+                      </a>
+                    </div>
+                  </div>
                 </div>
 
-                <div style={{ padding: '30px 25px', textAlign: 'center' }}>
+                <div className="team-content" style={{ padding: '30px 25px', textAlign: 'center' }}>
                   <h3
                     style={{
                       fontSize: 'clamp(18px, 3vw, 22px)',
                       fontWeight: '700',
-                      marginBottom: '10px',
+                      marginBottom: '8px',
                       color: '#1a1a1a',
                       lineHeight: '1.3'
                     }}
@@ -449,19 +477,20 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
                   </h3>
 
                   <span
+                    className="team-role"
                     style={{
                       color: '#0A4D8C',
                       fontWeight: '600',
                       fontSize: 'clamp(13px, 2vw, 15px)',
                       display: 'block',
-                      marginBottom: '15px',
-                      lineHeight: '1.5'
+                      marginBottom: '12px'
                     }}
                   >
                     {isArabic ? 'الرئيس التنفيذي لوكيل إيزي سايبر' : 'CEO of Easy Cyber Agency'}
                   </span>
 
                   <p
+                    className="team-bio"
                     style={{
                       fontSize: 'clamp(13px, 2vw, 14px)',
                       lineHeight: '1.6',
@@ -518,26 +547,33 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
               
               return (
                 <div key={index} className="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay={index * 100}>
-                  <div 
+                  <div
                     style={{
                       display: 'flex',
                       alignItems: 'flex-start',
                       gap: '20px',
                       background: '#fff',
-                      padding: '30px',
-                      borderRadius: '16px',
-                      border: `2px solid ${colors[index]}20`,
-                      transition: 'all 0.3s ease',
-                      flexDirection: isArabic ? 'row-reverse' : 'row'
+                      padding: '25px',
+                      borderRadius: '12px',
+                      border: `1px solid rgba(0, 0, 0, 0.06)`,
+                      transition: 'all 0.4s ease',
+                      flexDirection: isArabic ? 'row-reverse' : 'row',
+                      position: 'relative',
+                      overflow: 'hidden'
                     }}
                     className="why-choose-item"
                   >
-                    <div 
+                    {/* Check Mark */}
+                    <div className="check-mark">
+                      <i className="bx bx-check"></i>
+                    </div>
+
+                    <div
                       style={{
                         minWidth: '50px',
                         width: '50px',
                         height: '50px',
-                        background: `linear-gradient(135deg, ${colors[index]}, ${colors[index]}99)`,
+                        background: `linear-gradient(135deg, rgba(10, 77, 140, 0.1), rgba(96, 126, 172, 0.1))`,
                         borderRadius: '12px',
                         display: 'flex',
                         alignItems: 'center',
@@ -586,7 +622,12 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
           opacity: 0.3
         }}></div>
 
-        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+        {/* Floating Shapes */}
+        <div className="cta-shape"></div>
+        <div className="cta-shape"></div>
+        <div className="cta-shape"></div>
+
+        <div className="container cta-content" style={{ position: 'relative', zIndex: 1 }}>
           <div 
             style={{ 
               direction: isArabic ? 'rtl' : 'ltr', 

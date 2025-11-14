@@ -19,7 +19,19 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
       <section id="hero" className="security-area pb-70 pt-100" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)' }}>
         <div className="container">
           <div className="section-title" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
-            <h2>{t.services.hero_title}</h2>
+            <h2 style={{
+              fontSize: 'clamp(36px, 7vw, 56px)',
+              fontWeight: '800',
+              lineHeight: '1.2',
+              marginBottom: 'clamp(20px, 3vw, 30px)',
+              background: 'linear-gradient(135deg, #0A4D8C 0%, #607EAC 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              textShadow: 'none'
+            }}>
+              {t.services.hero_title}
+            </h2>
             <p style={{ fontSize: '16px', lineHeight: '1.8' }}>
               {t.services.hero_content}
             </p>

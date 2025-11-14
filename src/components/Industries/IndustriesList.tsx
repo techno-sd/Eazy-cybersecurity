@@ -86,27 +86,20 @@ const IndustriesList: React.FC<IndustriesListProps> = ({ lang, t }) => {
           <div className="row justify-content-center">
             <div className="col-lg-10">
               <div className="text-center" data-aos="fade-up">
-                {/* Decorative Badge */}
-                <span
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    padding: '10px 24px',
-                    background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.1), rgba(96, 126, 172, 0.1))',
-                    borderRadius: '50px',
-                    color: '#0A4D8C',
-                    fontWeight: '600',
-                    fontSize: '14px',
-                    marginBottom: '25px',
-                    border: '2px solid rgba(10, 77, 140, 0.2)',
-                    textTransform: 'uppercase',
-                    letterSpacing: '1px'
-                  }}
-                >
-                  <i className="bx bx-briefcase" style={{ fontSize: '18px' }}></i>
+                {/* Main Title */}
+                <h2 style={{
+                  fontSize: 'clamp(36px, 7vw, 56px)',
+                  fontWeight: '800',
+                  lineHeight: '1.2',
+                  marginBottom: 'clamp(20px, 3vw, 30px)',
+                  background: 'linear-gradient(135deg, #0A4D8C 0%, #607EAC 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  textShadow: 'none'
+                }}>
                   {isArabic ? 'القطاعات التي نخدمها' : 'Industries We Serve'}
-                </span>
+                </h2>
 
                 {/* Subtitle */}
                 <p

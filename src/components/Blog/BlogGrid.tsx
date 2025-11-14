@@ -87,29 +87,18 @@ const BlogGrid: React.FC = () => {
       <section className="blog-area ptb-100" style={{ background: 'linear-gradient(to bottom, #f8f9fa 0%, #ffffff 50%, #f8f9fa 100%)' }}>
         <div className="container">
           <div className="section-title" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: 'center', marginBottom: '60px' }}>
-            <span style={{ 
-              display: 'block', 
-              width: '60px', 
-              height: '4px', 
-              background: 'linear-gradient(90deg, #0A4D8C, #607EAC)', 
-              borderRadius: '2px', 
-              margin: isArabic ? '0 0 20px auto' : '0 auto 20px 0'
-            }}></span>
-            <span style={{ 
-              display: 'inline-flex', 
-              alignItems: 'center', 
-              gap: '8px', 
-              color: '#0A4D8C', 
-              fontWeight: '600', 
-              fontSize: '16px', 
-              marginBottom: '12px',
-              letterSpacing: '0.5px'
+            <h2 style={{
+              fontSize: 'clamp(36px, 7vw, 56px)',
+              fontWeight: '800',
+              lineHeight: '1.2',
+              marginBottom: 'clamp(20px, 3vw, 30px)',
+              background: 'linear-gradient(135deg, #0A4D8C 0%, #607EAC 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              textShadow: 'none'
             }}>
-              <i className="bx bx-news"></i>
-              {isArabic ? 'آخر الأخبار' : 'Latest Updates'}
-            </span>
-            <h2 className="gradient-text" style={{ fontSize: '42px', fontWeight: '700', marginBottom: '20px', lineHeight: '1.3' }}>
-              {isArabic ? 'آخر الأخبار والمقالات' : 'Insights & Resources'}
+              {isArabic ? 'آخر الأخبار' : 'Latest News'}
             </h2>
             <p style={{ fontSize: '18px', maxWidth: '700px', margin: '0 auto', lineHeight: '1.8', color: '#555' }}>
               {isArabic
