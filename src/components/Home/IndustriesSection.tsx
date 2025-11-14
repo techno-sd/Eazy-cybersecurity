@@ -164,18 +164,18 @@ const IndustriesSection: React.FC = () => {
         </div>
 
         {/* Industries Cards - Show top 3 */}
-        <div className="row g-4" style={{ direction: isArabic ? "rtl" : "ltr" }}>
+        <div className="row" style={{ direction: isArabic ? "rtl" : "ltr", marginLeft: 0, marginRight: 0 }}>
           {industries.map((industryData, index) => {
             const industry = t.industries.industries_list[index];
             const isEven = index % 2 === 0;
 
             return (
-              <div key={index} className="col-12 reveal-animation" data-aos="fade-up" data-aos-delay={index * 100} style={{ animationDelay: `${index * 0.1}s` }}>
+              <div key={index} className="col-12 reveal-animation" data-aos="fade-up" data-aos-delay={index * 100} style={{ animationDelay: `${index * 0.1}s`, paddingLeft: 0, paddingRight: 0 }}>
                 <div className="industry-card-horizontal hover-lift">
-                  <div className="row g-0 align-items-center">
+                  <div className="row align-items-center">
                     {/* Image Section */}
                     <div
-                      className={`col-lg-5 ${
+                      className={`col-lg-6 ${
                         isArabic
                           ? isEven
                             ? "order-lg-2"
@@ -189,14 +189,10 @@ const IndustriesSection: React.FC = () => {
                         <Image
                           src={industryData.image}
                           alt={industry.title}
-                          width={600}
+                          width={800}
                           height={400}
                           className="industry-image"
-                          style={{ objectFit: "cover" }}
-                        />
-                        <div
-                          className="industry-gradient-overlay"
-                          style={{ background: industryData.gradient }}
+                          style={{ objectFit: "cover", width: '100%', height: '100%', display: 'block' }}
                         />
                         <div
                           className="industry-icon-badge-horizontal icon-circle"
@@ -212,7 +208,7 @@ const IndustriesSection: React.FC = () => {
 
                     {/* Content Section */}
                     <div
-                      className={`col-lg-7 ${
+                      className={`col-lg-6 ${
                         isArabic
                           ? isEven
                             ? "order-lg-1"

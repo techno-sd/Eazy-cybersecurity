@@ -42,7 +42,6 @@ const HomeServices: React.FC = () => {
                   width={660}
                   height={700}
                 />
-                <div className="image-overlay"></div>
               </div>
             </div>
 
@@ -169,7 +168,6 @@ const HomeServices: React.FC = () => {
                   width={660}
                   height={700}
                 />
-                <div className="image-overlay"></div>
               </div>
             </div>
           </div>
@@ -188,7 +186,6 @@ const HomeServices: React.FC = () => {
                   width={660}
                   height={700}
                 />
-                <div className="image-overlay"></div>
               </div>
             </div>
 
@@ -289,7 +286,6 @@ const HomeServices: React.FC = () => {
                   width={660}
                   height={700}
                 />
-                <div className="image-overlay"></div>
               </div>
             </div>
           </div>
@@ -308,7 +304,6 @@ const HomeServices: React.FC = () => {
                   width={660}
                   height={700}
                 />
-                <div className="image-overlay"></div>
               </div>
             </div>
 

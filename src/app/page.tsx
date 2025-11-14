@@ -6,9 +6,9 @@ import IndustriesSection from "../components/Home/IndustriesSection";
 import ServicesSectionHeader from "../components/Home/ServicesSectionHeader";
 import HomeServices from "../components/Home/HomeServices";
 import ServicesCTA from "../components/Home/ServicesCTA";
+import StatsCounter from "../components/Home/StatsCounter";
 import Testimonials from "../components/Common/Testimonials";
 import LatesNews from "../components/Common/LatesNews";
-import ContactCTA from "../components/Home/ContactCTA";
 import Footer from "../components/Layouts/Footer";
 
 export default function Home() {
@@ -38,16 +38,16 @@ export default function Home() {
         <ServicesCTA />
       </LazyLoad>
 
+      <LazyLoad delay={100}>
+        <StatsCounter />
+      </LazyLoad>
+
       <LazyLoad delay={150}>
         <Testimonials />
       </LazyLoad>
 
       <LazyLoad delay={150}>
         <LatesNews />
-      </LazyLoad>
-
-      <LazyLoad delay={100}>
-        <ContactCTA />
       </LazyLoad>
 
       <Footer />

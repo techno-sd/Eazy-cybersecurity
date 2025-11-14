@@ -32,17 +32,6 @@ const MainBanner: React.FC = () => {
           overflow: 'hidden'
         }}
       >
-        {/* Light overlay for text readability */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.25) 0%, rgba(20, 20, 30, 0.3) 100%)',
-          zIndex: 1
-        }}></div>
-
         {/* Subtle animated gradient overlay */}
         <div style={{
           position: 'absolute',
@@ -50,7 +39,7 @@ const MainBanner: React.FC = () => {
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'radial-gradient(circle at 30% 50%, rgba(10, 77, 140, 0.15) 0%, transparent 50%)',
+          background: 'radial-gradient(circle at 30% 50%, rgba(10, 77, 140, 0.08) 0%, transparent 50%)',
           animation: 'float 15s ease-in-out infinite',
           zIndex: 1
         }}></div>
@@ -150,41 +139,84 @@ const MainBanner: React.FC = () => {
         }}></div>
 
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-          <div className="row align-items-center">
-            <div className="col-lg-9">
+          <div className="row align-items-center justify-content-center">
+            <div className="col-lg-12">
               <div className="banner-text reveal-animation" style={{
                 direction: isAR ? 'rtl' : 'ltr',
-                textAlign: isAR ? 'right' : 'left',
-                animationDelay: '0.2s'
+                textAlign: 'center',
+                animationDelay: '0.2s',
+                maxWidth: '100%',
+                margin: '0 auto'
               }}>
                 <h1 className="reveal-animation" style={{
                   fontWeight: '800',
-                  color: '#fff',
+                  color: '#ffffff',
                   lineHeight: '1.2',
-                  marginBottom: '25px',
-                  fontSize: '52px',
-                  letterSpacing: '-1px',
-                  textShadow: '0 4px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(63, 160, 255, 0.3)',
-                  animationDelay: '0.3s'
+                  marginBottom: '15px',
+                  fontSize: 'clamp(36px, 5vw, 56px)',
+                  letterSpacing: '-1.5px',
+                  textShadow: '0 2px 20px rgba(0, 0, 0, 0.8), 0 4px 40px rgba(0, 0, 0, 0.6), 0 0 60px rgba(63, 160, 255, 0.5), 0 0 30px rgba(255, 255, 255, 0.3)',
+                  animationDelay: '0.3s',
+                  fontFamily: 'var(--font-barlow-condensed)',
+                  filter: 'drop-shadow(0 0 20px rgba(63, 160, 255, 0.4))'
                 }}>
-                  {t.hero.title}
+                  {isAR ? 'شريكك الموثوق في بناء مستقبل رقمي آمن وذكي' : 'Your Trusted Partner in Building a Secure and Smart Digital Future'}
                 </h1>
-                <p className="reveal-animation" style={{
-                  color: '#f5f5f5',
-                  marginBottom: '35px',
-                  lineHeight: '1.9',
-                  fontSize: '18px',
-                  maxWidth: '650px',
-                  textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)',
+
+                <div className="reveal-animation" style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  background: 'linear-gradient(135deg, rgba(63, 160, 255, 0.15) 0%, rgba(10, 77, 140, 0.2) 100%)',
+                  padding: '12px 28px',
+                  borderRadius: '50px',
+                  border: '2px solid rgba(63, 160, 255, 0.3)',
+                  marginBottom: '30px',
+                  backdropFilter: 'blur(10px)',
+                  boxShadow: '0 8px 32px rgba(63, 160, 255, 0.2)',
                   animationDelay: '0.4s'
                 }}>
-                  {t.hero.welcome}
+                  <i className="bx bx-check-shield" style={{
+                    fontSize: '28px',
+                    color: '#3fa0ff',
+                    animation: 'pulse 2s ease-in-out infinite'
+                  }}></i>
+                  <h2 style={{
+                    fontWeight: '700',
+                    color: '#fff',
+                    fontSize: 'clamp(20px, 3vw, 28px)',
+                    margin: 0,
+                    letterSpacing: '0.5px',
+                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
+                  }}>
+                    {isAR ? 'متوافق مع رؤية المملكة 2030' : 'Aligned with Saudi Vision 2030'}
+                  </h2>
+                </div>
+
+                <p className="reveal-animation" style={{
+                  color: 'rgba(255, 255, 255, 0.95)',
+                  marginBottom: '40px',
+                  lineHeight: '1.9',
+                  fontSize: 'clamp(15px, 2vw, 18px)',
+                  maxWidth: '900px',
+                  textShadow: '0 2px 15px rgba(0, 0, 0, 0.4)',
+                  animationDelay: '0.5s',
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                  fontWeight: '400',
+                  background: 'rgba(0, 0, 0, 0.2)',
+                  padding: '20px 30px',
+                  borderRadius: '15px',
+                  backdropFilter: 'blur(5px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)'
+                }}>
+                  {isAR
+                    ? 'Eazy Cyber Agent شركة سعودية متخصصة في الأمن السيبراني والحلول الرقمية، تقدم خدمات متكاملة في الذكاء الاصطناعي، البيانات الضخمة، والحوسبة السحابية. نعمل مع القطاعين العام والخاص لتعزيز التحول الرقمي وتحقيق مستهدفات رؤية المملكة 2030 في بناء اقتصاد قائم على المعرفة والابتكار.'
+                    : 'Eazy Cyber Agent is a Saudi company specializing in cybersecurity and digital solutions. We provide integrated services in artificial intelligence, big data, and cloud computing. Our mission is to support both public and private sectors in driving digital transformation and achieving Vision 2030 goals toward a knowledge-based, innovative economy.'}
                 </p>
 
-                {/* Vision & Mission moved to FeaturedSection below hero */}
-
-                <div className="banner-btn reveal-animation" dir={isAR ? 'rtl' : 'ltr'} style={{
-                  animationDelay: '0.5s',
+                <div className="banner-btn reveal-animation" style={{
+                  animationDelay: '0.6s',
                   display: 'flex',
                   justifyContent: 'center',
                   flexWrap: 'wrap',

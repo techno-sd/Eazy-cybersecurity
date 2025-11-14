@@ -36,6 +36,52 @@ One Card Per Row with Images
 	transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 	margin-bottom: 30px;
 
+	// Remove Bootstrap column padding and row gutters for full-width images
+	> .row {
+		margin-left: 0 !important;
+		margin-right: 0 !important;
+		--bs-gutter-x: 0 !important;
+	}
+
+	.col-lg-5,
+	.col-lg-6,
+	.col-lg-7,
+	[class*="col-"] {
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+
+		// Make image columns full height
+		&:has(.industry-image-wrapper) {
+			display: flex;
+			flex-direction: column;
+
+			@media only screen and (min-width: 992px) {
+				height: 100%;
+			}
+		}
+	}
+
+	// Restore padding only for content section
+	.industry-content-horizontal {
+		padding-left: 60px !important;
+		padding-right: 60px !important;
+
+		@media only screen and (max-width: 1199px) {
+			padding-left: 50px !important;
+			padding-right: 50px !important;
+		}
+
+		@media only screen and (max-width: 991px) {
+			padding-left: 40px !important;
+			padding-right: 40px !important;
+		}
+
+		@media only screen and (max-width: 767px) {
+			padding-left: 25px !important;
+			padding-right: 25px !important;
+		}
+	}
+
 	&:hover {
 		transform: translateY(-6px);
 		box-shadow: 0 15px 50px rgba(0, 0, 0, 0.12);
@@ -73,11 +119,47 @@ One Card Per Row with Images
 // Image Section
 .industry-image-wrapper {
 	position: relative;
-	height: 400px;
+	height: 100%;
+	min-height: 450px;
 	overflow: hidden;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border-radius: 0;
+
+	// Add border-radius only on appropriate corners based on position
+	.order-lg-1 & {
+		border-top-left-radius: 20px;
+		border-bottom-left-radius: 20px;
+
+		[dir="rtl"] & {
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
+			border-top-right-radius: 20px;
+			border-bottom-right-radius: 20px;
+		}
+	}
+
+	.order-lg-2 & {
+		border-top-right-radius: 20px;
+		border-bottom-right-radius: 20px;
+
+		[dir="rtl"] & {
+			border-top-right-radius: 0;
+			border-bottom-right-radius: 0;
+			border-top-left-radius: 20px;
+			border-bottom-left-radius: 20px;
+		}
+	}
 
 	@media only screen and (max-width: 991px) {
 		height: 350px;
+		min-height: auto;
+		border-radius: 0;
+		border-top-left-radius: 20px !important;
+		border-top-right-radius: 20px !important;
+		border-bottom-left-radius: 0 !important;
+		border-bottom-right-radius: 0 !important;
 	}
 
 	@media only screen and (max-width: 767px) {
@@ -89,6 +171,7 @@ One Card Per Row with Images
 		height: 100%;
 		object-fit: cover;
 		transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+		display: block;
 	}
 
 	.industry-gradient-overlay {
@@ -164,23 +247,27 @@ One Card Per Row with Images
 
 // Content Section
 .industry-content-horizontal {
-	padding: 50px 60px;
+	padding-top: 50px;
+	padding-bottom: 50px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	min-height: 400px;
 
 	@media only screen and (max-width: 1199px) {
-		padding: 40px 50px;
+		padding-top: 40px;
+		padding-bottom: 40px;
 	}
 
 	@media only screen and (max-width: 991px) {
-		padding: 40px;
+		padding-top: 40px;
+		padding-bottom: 40px;
 		min-height: auto;
 	}
 
 	@media only screen and (max-width: 767px) {
-		padding: 30px 25px;
+		padding-top: 30px;
+		padding-bottom: 30px;
 	}
 
 	.industry-number {
