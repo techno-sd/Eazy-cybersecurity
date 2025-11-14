@@ -17,7 +17,7 @@ const stats: StatItem[] = [
     icon: 'bx-check-shield',
     endValue: 50,
     label_en: 'Security Solutions',
-    label_ar: 'حل أمني',
+    label_ar: 'حلول أمنية',
     suffix: '+',
   },
   {
@@ -30,8 +30,8 @@ const stats: StatItem[] = [
   {
     icon: 'bx-award',
     endValue: 100,
-    label_en: 'Success Rate',
-    label_ar: 'معدل النجاح',
+    label_en: 'Reliability',
+    label_ar: 'موثوقية',
     suffix: '%',
   },
   {
@@ -76,7 +76,7 @@ const StatsCounter: React.FC = () => {
       className="stats-counter-section"
       style={{
         background: 'linear-gradient(135deg, #0A4D8C 0%, #073D6C 50%, #0A4D8C 100%)',
-        padding: '80px 0',
+        padding: 'clamp(50px, 10vw, 80px) 0',
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -115,7 +115,7 @@ const StatsCounter: React.FC = () => {
       />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-        <div className="row g-4">
+        <div className="row g-3 g-md-4">
           {stats.map((stat, index) => (
             <StatCard
               key={index}
@@ -181,15 +181,15 @@ const StatCard: React.FC<StatCardProps> = ({
   const displayValue = endValue % 1 !== 0 ? count.toFixed(1) : Math.floor(count);
 
   return (
-    <div className="col-lg-3 col-md-6 col-sm-6">
+    <div className="col-lg-3 col-md-6 col-6">
       <div
         className="stat-card"
         style={{
           background: 'rgba(255, 255, 255, 0.08)',
           backdropFilter: 'blur(10px)',
           border: '1px solid rgba(255, 255, 255, 0.15)',
-          borderRadius: '20px',
-          padding: '40px 30px',
+          borderRadius: 'clamp(12px, 3vw, 20px)',
+          padding: 'clamp(25px, 5vw, 40px) clamp(15px, 4vw, 30px)',
           textAlign: 'center',
           transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
           cursor: 'pointer',
@@ -198,6 +198,10 @@ const StatCard: React.FC<StatCardProps> = ({
           transitionDelay: `${delay}ms`,
           position: 'relative',
           overflow: 'hidden',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column' as const,
+          justifyContent: 'center',
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.transform = 'translateY(-10px)';
@@ -215,9 +219,9 @@ const StatCard: React.FC<StatCardProps> = ({
         {/* Icon Circle */}
         <div
           style={{
-            width: '80px',
-            height: '80px',
-            margin: '0 auto 25px',
+            width: 'clamp(55px, 12vw, 80px)',
+            height: 'clamp(55px, 12vw, 80px)',
+            margin: '0 auto clamp(12px, 3vw, 25px)',
             background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%)',
             borderRadius: '50%',
             display: 'flex',
@@ -239,7 +243,7 @@ const StatCard: React.FC<StatCardProps> = ({
           <i
             className={`bx ${icon}`}
             style={{
-              fontSize: '40px',
+              fontSize: 'clamp(28px, 6vw, 40px)',
               color: '#ffffff',
               display: 'block',
             }}
@@ -249,10 +253,10 @@ const StatCard: React.FC<StatCardProps> = ({
         {/* Counter */}
         <div
           style={{
-            fontSize: 'clamp(36px, 5vw, 48px)',
+            fontSize: 'clamp(28px, 7vw, 48px)',
             fontWeight: '800',
             color: '#ffffff',
-            marginBottom: '15px',
+            marginBottom: 'clamp(8px, 2vw, 15px)',
             fontFamily: 'var(--font-barlow-condensed)',
             lineHeight: 1,
             textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)',
@@ -267,12 +271,13 @@ const StatCard: React.FC<StatCardProps> = ({
         {/* Label */}
         <div
           style={{
-            fontSize: '16px',
+            fontSize: 'clamp(11px, 2.5vw, 16px)',
             fontWeight: '600',
             color: 'rgba(255, 255, 255, 0.9)',
             textTransform: 'uppercase',
-            letterSpacing: '1px',
+            letterSpacing: 'clamp(0.5px, 0.15vw, 1px)',
             direction: isArabic ? 'rtl' : 'ltr',
+            lineHeight: 1.3,
           }}
         >
           {label}

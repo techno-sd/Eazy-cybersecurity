@@ -25,14 +25,29 @@
 
 // Team Card Effects
 .team-card {
+	// Ensure image container has no padding/margin
+	> div:first-child {
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 100% !important;
+	}
+
+	// Ensure image fills full width with no spacing
+	.team-img-enhanced {
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 100% !important;
+		display: block !important;
+	}
+
 	&:hover {
 		transform: translateY(-10px);
 		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15) !important;
-		
+
 		.team-img-enhanced {
 			transform: scale(1.1);
 		}
-		
+
 		.team-overlay {
 			opacity: 1;
 		}

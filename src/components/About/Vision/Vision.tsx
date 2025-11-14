@@ -15,12 +15,12 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
   return (
     <>
       {/* Enhanced Hero / Introduction Section */}
-      <section 
-        id="introduction" 
+      <section
+        id="introduction"
         className="about-hero-section"
         style={{
           background: 'linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%)',
-          padding: '100px 0',
+          padding: 'clamp(60px, 12vw, 100px) 0',
           position: 'relative',
           overflow: 'hidden'
         }}
@@ -50,11 +50,11 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
                   {t.about.hero_tagline}
                 </span>
                 
-                <h1 
+                <h1
                   style={{
-                    fontSize: '48px',
+                    fontSize: 'clamp(32px, 6vw, 48px)',
                     fontWeight: '700',
-                    marginBottom: '25px',
+                    marginBottom: 'clamp(18px, 3vw, 25px)',
                     lineHeight: '1.2',
                     background: 'linear-gradient(135deg, #0A4D8C, #607EAC)',
                     WebkitBackgroundClip: 'text',
@@ -64,10 +64,10 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
                 >
                   {t.about.hero_title}
                 </h1>
-                
-                <p 
+
+                <p
                   style={{
-                    fontSize: '18px',
+                    fontSize: 'clamp(15px, 2.5vw, 18px)',
                     lineHeight: '1.8',
                     color: '#555',
                     marginBottom: '0'
@@ -104,16 +104,16 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
       </section>
 
       {/* Enhanced Vision & Mission Section - Side by Side */}
-      <section id="vision-mission" className="vision-mission-section" style={{ padding: '100px 0', background: '#fff' }}>
+      <section id="vision-mission" className="vision-mission-section" style={{ padding: 'clamp(60px, 12vw, 100px) 0', background: '#fff' }}>
         <div className="container">
-          <div className="row g-4" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
+          <div className="row g-3 g-md-4" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
             {/* Vision Card */}
             <div className="col-lg-6" data-aos="fade-up">
-              <div 
+              <div
                 style={{
                   background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.05), rgba(96, 126, 172, 0.05))',
-                  borderRadius: '20px',
-                  padding: '50px 40px',
+                  borderRadius: 'clamp(16px, 3vw, 20px)',
+                  padding: 'clamp(35px, 6vw, 50px) clamp(25px, 5vw, 40px)',
                   height: '100%',
                   border: '2px solid rgba(10, 77, 140, 0.1)',
                   transition: 'all 0.4s ease',
@@ -151,20 +151,20 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
                     <i className="bx bx-bullseye" style={{ fontSize: '36px', color: '#fff' }}></i>
                   </div>
 
-                  <h2 
+                  <h2
                     style={{
-                      fontSize: '32px',
+                      fontSize: 'clamp(24px, 4vw, 32px)',
                       fontWeight: '700',
-                      marginBottom: '20px',
+                      marginBottom: 'clamp(15px, 2.5vw, 20px)',
                       color: '#0A4D8C'
                     }}
                   >
                     {t.about.vision_heading}
                   </h2>
 
-                  <p 
+                  <p
                     style={{
-                      fontSize: '16px',
+                      fontSize: 'clamp(14px, 2vw, 16px)',
                       lineHeight: '1.8',
                       color: '#555',
                       marginBottom: '0'
@@ -178,11 +178,11 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
 
             {/* Mission Card */}
             <div className="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-              <div 
+              <div
                 style={{
                   background: 'linear-gradient(135deg, rgba(96, 126, 172, 0.05), rgba(10, 77, 140, 0.05))',
-                  borderRadius: '20px',
-                  padding: '50px 40px',
+                  borderRadius: 'clamp(16px, 3vw, 20px)',
+                  padding: 'clamp(35px, 6vw, 50px) clamp(25px, 5vw, 40px)',
                   height: '100%',
                   border: '2px solid rgba(96, 126, 172, 0.1)',
                   transition: 'all 0.4s ease',
@@ -220,20 +220,20 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
                     <i className="bx bx-rocket" style={{ fontSize: '36px', color: '#fff' }}></i>
                   </div>
 
-                  <h2 
+                  <h2
                     style={{
-                      fontSize: '32px',
+                      fontSize: 'clamp(24px, 4vw, 32px)',
                       fontWeight: '700',
-                      marginBottom: '20px',
+                      marginBottom: 'clamp(15px, 2.5vw, 20px)',
                       color: '#607EAC'
                     }}
                   >
                     {t.about.mission_heading}
                   </h2>
 
-                  <p 
+                  <p
                     style={{
-                      fontSize: '16px',
+                      fontSize: 'clamp(14px, 2vw, 16px)',
                       lineHeight: '1.8',
                       color: '#555',
                       marginBottom: '0'
@@ -249,11 +249,11 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
       </section>
 
       {/* Enhanced Core Values Section */}
-      <section 
-        id="values" 
+      <section
+        id="values"
         className="core-values-section"
         style={{
-          padding: '100px 0',
+          padding: 'clamp(60px, 12vw, 100px) 0',
           background: 'linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%)'
         }}
       >
@@ -268,7 +268,7 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
           >
             <h2
               style={{
-                fontSize: '42px',
+                fontSize: 'clamp(28px, 5vw, 42px)',
                 fontWeight: '700',
                 marginBottom: '0',
                 background: 'linear-gradient(135deg, #0A4D8C, #607EAC)',
@@ -281,7 +281,7 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
             </h2>
           </div>
 
-          <div className="row g-4" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
+          <div className="row g-3 g-md-4" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
             {t.about.core_values.map((value: any, index: number) => {
               const colors = ['#0A4D8C', '#607EAC', '#0A4D8C', '#607EAC'];
               const icons = ['bx bx-shield-quarter', 'bx bx-bulb', 'bx bx-lock-alt', 'bx bx-user-check'];
@@ -350,19 +350,19 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
       </section>
 
       {/* Enhanced Team Section */}
-      <section id="team" className="team-section" style={{ padding: '100px 0', background: '#fff' }}>
+      <section id="team" className="team-section" style={{ padding: 'clamp(60px, 12vw, 100px) 0', background: '#fff' }}>
         <div className="container">
-          <div 
-            className="section-title" 
-            style={{ 
-              direction: isArabic ? 'rtl' : 'ltr', 
+          <div
+            className="section-title"
+            style={{
+              direction: isArabic ? 'rtl' : 'ltr',
               textAlign: 'center',
               marginBottom: '60px'
             }}
           >
             <h2
               style={{
-                fontSize: '42px',
+                fontSize: 'clamp(28px, 5vw, 42px)',
                 fontWeight: '700',
                 marginBottom: '20px',
                 background: 'linear-gradient(135deg, #0A4D8C, #607EAC)',
@@ -371,106 +371,109 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
                 backgroundClip: 'text'
               }}
             >
-              {t.about.team_heading}
+              {isArabic ? 'الفريق' : 'Our Team'}
             </h2>
 
-            <p 
-              style={{ 
-                fontSize: '17px', 
+            <p
+              style={{
+                fontSize: 'clamp(15px, 2.5vw, 17px)',
                 lineHeight: '1.8',
                 color: '#555',
-                maxWidth: '800px',
+                maxWidth: '900px',
                 margin: '0 auto'
               }}
             >
-              {t.about.team_content}
+              {isArabic
+                ? 'فريقنا يجمع بين الخبرة التقنية والالتزام بالجودة، يضم نخبة من المتخصصين في الأمن السيبراني، الذكاء الاصطناعي، وتحليل البيانات، يحملون شهادات عالمية ويعملون بروح واحدة لتحقيق رؤية الشركة.'
+                : 'Our team combines technical expertise with a commitment to quality, featuring elite specialists in cybersecurity, artificial intelligence, and data analytics, holding international certifications and working with one spirit to achieve the company\'s vision.'}
             </p>
           </div>
 
-          <div className="row g-4" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
-            {t.about.team_members.map((member: any, index: number) => (
-              <div key={index} className="col-lg-3 col-md-6 col-sm-6" data-aos="fade-up" data-aos-delay={index * 100}>
-                <div 
-                  style={{
-                    background: '#fff',
-                    borderRadius: '20px',
-                    overflow: 'hidden',
-                    boxShadow: '0 10px 40px rgba(0, 0, 0, 0.08)',
-                    transition: 'all 0.4s ease',
-                    border: '1px solid rgba(0, 0, 0, 0.05)',
-                    height: '100%'
-                  }}
-                  className="team-card"
-                >
-                  <div style={{ position: 'relative', overflow: 'hidden', height: '280px', width: '100%' }}>
-                    <Image
-                      src={member.image || `/img/team/team-${index + 1}.jpg`}
-                      alt={isArabic ? member.name : member.name_en}
-                      width={400}
-                      height={280}
-                      style={{ 
-                        objectFit: 'cover',
-                        width: '100%',
-                        height: '280px',
-                        display: 'block',
-                        transition: 'transform 0.5s ease'
-                      }}
-                      className="team-img-enhanced"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = '/img/team/placeholder.jpg';
-                      }}
-                    />
-                    <div 
-                      style={{
-                        position: 'absolute',
-                        inset: 0,
-                        background: 'linear-gradient(to top, rgba(10, 77, 140, 0.8) 0%, transparent 60%)',
-                        opacity: 0,
-                        transition: 'opacity 0.4s ease'
-                      }}
-                      className="team-overlay"
-                    ></div>
-                  </div>
+          <div className="row justify-content-center" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
+            <div className="col-lg-4 col-md-6 col-sm-8" data-aos="fade-up">
+              <div
+                style={{
+                  background: '#fff',
+                  borderRadius: '20px',
+                  overflow: 'hidden',
+                  boxShadow: '0 10px 40px rgba(0, 0, 0, 0.08)',
+                  transition: 'all 0.4s ease',
+                  border: '1px solid rgba(0, 0, 0, 0.05)',
+                  height: '100%'
+                }}
+                className="team-card"
+              >
+                <div style={{ position: 'relative', overflow: 'hidden', height: '450px', width: '100%', backgroundColor: '#f8f9fa', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Image
+                    src="/img/team/ceo.jpg"
+                    alt="م. مازن المطيري"
+                    width={450}
+                    height={450}
+                    style={{
+                      objectFit: 'contain',
+                      objectPosition: 'center',
+                      width: '100%',
+                      height: '100%',
+                      display: 'block',
+                      transition: 'transform 0.5s ease'
+                    }}
+                    className="team-img-enhanced"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = '/img/team/placeholder.jpg';
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'linear-gradient(to top, rgba(10, 77, 140, 0.8) 0%, transparent 60%)',
+                      opacity: 0,
+                      transition: 'opacity 0.4s ease'
+                    }}
+                    className="team-overlay"
+                  ></div>
+                </div>
 
-                  <div style={{ padding: '25px 20px', textAlign: isArabic ? 'right' : 'left' }}>
-                    <h3 
-                      style={{ 
-                        fontSize: '20px', 
-                        fontWeight: '700',
-                        marginBottom: '8px',
-                        color: '#1a1a1a'
-                      }}
-                    >
-                      {isArabic ? member.name : member.name_en}
-                    </h3>
-                    
-                    <span 
-                      style={{ 
-                        color: '#0A4D8C', 
-                        fontWeight: '600', 
-                        fontSize: '14px',
-                        display: 'block', 
-                        marginBottom: '12px' 
-                      }}
-                    >
-                      {member.position}
-                    </span>
-                    
-                    <p 
-                      style={{ 
-                        fontSize: '14px', 
-                        lineHeight: '1.6',
-                        color: '#666',
-                        marginBottom: '0'
-                      }}
-                    >
-                      {isArabic ? member.tagline : member.tagline_en}
-                    </p>
-                  </div>
+                <div style={{ padding: '30px 25px', textAlign: 'center' }}>
+                  <h3
+                    style={{
+                      fontSize: 'clamp(18px, 3vw, 22px)',
+                      fontWeight: '700',
+                      marginBottom: '10px',
+                      color: '#1a1a1a',
+                      lineHeight: '1.3'
+                    }}
+                  >
+                    م. مازن المطيري
+                  </h3>
+
+                  <span
+                    style={{
+                      color: '#0A4D8C',
+                      fontWeight: '600',
+                      fontSize: 'clamp(13px, 2vw, 15px)',
+                      display: 'block',
+                      marginBottom: '15px',
+                      lineHeight: '1.5'
+                    }}
+                  >
+                    الرئيس التنفيذي لوكيل إيزي سايبر
+                  </span>
+
+                  <p
+                    style={{
+                      fontSize: 'clamp(13px, 2vw, 14px)',
+                      lineHeight: '1.6',
+                      color: '#666',
+                      marginBottom: '0'
+                    }}
+                  >
+                    قيادة الابتكار الرقمي والأمن السيبراني
+                  </p>
                 </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
@@ -480,7 +483,7 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
         id="why-us"
         className="why-choose-section"
         style={{
-          padding: '100px 0',
+          padding: 'clamp(60px, 12vw, 100px) 0',
           background: 'linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%)'
         }}
       >
@@ -565,10 +568,10 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
       </section>
 
       {/* Enhanced Call to Action Section */}
-      <section 
+      <section
         className="cta-section"
         style={{
-          padding: '100px 0',
+          padding: 'clamp(60px, 12vw, 100px) 0',
           background: 'linear-gradient(135deg, #0A4D8C 0%, #073D6C 100%)',
           position: 'relative',
           overflow: 'hidden'
@@ -592,10 +595,10 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
           >
             <h2
               style={{
-                fontSize: '42px',
+                fontSize: 'clamp(28px, 5vw, 42px)',
                 fontWeight: '700',
                 color: '#fff',
-                marginBottom: '20px',
+                marginBottom: 'clamp(15px, 3vw, 20px)',
                 lineHeight: '1.3'
               }}
             >
@@ -604,11 +607,11 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
 
             <p
               style={{
-                fontSize: '18px',
+                fontSize: 'clamp(15px, 2.5vw, 18px)',
                 color: 'rgba(255, 255, 255, 0.9)',
-                marginBottom: '40px',
+                marginBottom: 'clamp(30px, 5vw, 40px)',
                 maxWidth: '700px',
-                margin: '0 auto 40px'
+                margin: '0 auto clamp(30px, 5vw, 40px)'
               }}
             >
               {isArabic 
