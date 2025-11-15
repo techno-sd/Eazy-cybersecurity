@@ -99,16 +99,17 @@ const Navbar: React.FC = () => {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     width: '100%',
-                    gap: '10px',
+                    gap: '8px',
                     position: 'relative',
-                    padding: '12px 0',
+                    padding: '10px 0',
                   }}
                   className="d-md-none">
                     {/* Left side - Menu Icon + Logo */}
                     <div style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '10px',
+                      gap: lang === 'en' ? '8px' : '10px',
+                      flex: 1,
                     }}>
                       <button
                         onClick={toggleNavbar}
@@ -119,9 +120,11 @@ const Navbar: React.FC = () => {
                         aria-controls="navbarSupportedContent"
                         aria-expanded={!menu}
                         aria-label="Toggle navigation"
-                        style={{ 
+                        style={{
                           margin: '0',
-                          padding: '8px',
+                          padding: '6px',
+                          paddingLeft: lang === 'en' ? '0' : '6px',
+                          paddingRight: lang === 'ar' ? '0' : '6px',
                           border: 'none',
                           background: 'transparent',
                           cursor: 'pointer',
@@ -132,9 +135,10 @@ const Navbar: React.FC = () => {
                         <span className="icon-bar middle-bar" style={{ transition: 'all 0.3s ease' }}></span>
                         <span className="icon-bar bottom-bar" style={{ transition: 'all 0.3s ease' }}></span>
                       </button>
-                      
-                      <Link href="/" className="navbar-brand" style={{ 
+
+                      <Link href="/" className="navbar-brand" style={{
                         margin: '0',
+                        padding: '0',
                         transition: 'all 0.3s ease',
                       }}>
                         <Image
@@ -150,6 +154,11 @@ const Navbar: React.FC = () => {
                     <Link
                       href="/contact#consultation"
                       className="navbar-quote-btn"
+                      style={{
+                        flexShrink: 0,
+                        marginLeft: lang === 'en' ? '0' : 'auto',
+                        marginRight: lang === 'ar' ? '0' : 'auto',
+                      }}
                     >
                       {t.buttons.quote}
                     </Link>

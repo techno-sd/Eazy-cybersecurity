@@ -31,46 +31,91 @@ const TopHeader: React.FC = () => {
     <>
       <div className="top-header-area" style={{
         backgroundColor: '#0A4D8C',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        padding: '6px 0'
       }}>
         <div className="container-fluid">
-          <div className="row align-items-center">
-            <div className="col-lg-6 col-sm-8">
-              <ul className="header-content-left" style={{ color: '#ffffff' }}>
-                <li>
-                  <i className="bx bx-envelope"></i>
-                  <a href="mailto:info@eazycyber.sa" style={{ color: '#ffffff' }}>
-                    <span style={{ color: '#ffffff' }}>
-                      Email: info@eazycyber.sa
-                    </span>
-                  </a>
-                </li>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '10px',
+            flexWrap: 'nowrap'
+          }}>
+            {/* Email & Address */}
+            <ul className="header-content-left" style={{
+              color: '#ffffff',
+              margin: '0',
+              padding: '0',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'clamp(8px, 2vw, 15px)',
+              flexDirection: lang === 'ar' ? 'row-reverse' : 'row',
+              listStyle: 'none',
+              flex: '1 1 auto',
+              minWidth: 0,
+              justifyContent: 'flex-start',
+              order: lang === 'ar' ? 2 : 1
+            }}>
+              <li style={{
+                display: 'none',
+                alignItems: 'center',
+                gap: '5px',
+                fontSize: 'clamp(11px, 1.8vw, 13px)',
+                whiteSpace: 'nowrap'
+              }}
+              className="d-none d-lg-flex">
+                <i className="bx bx-envelope" style={{ fontSize: 'clamp(14px, 2.5vw, 16px)' }}></i>
+                <a href="mailto:info@eazycyber.sa" style={{
+                  color: '#ffffff',
+                  textDecoration: 'none',
+                  transition: 'opacity 0.3s ease'
+                }}>
+                  info@eazycyber.sa
+                </a>
+              </li>
 
-                <li>
-                  <i className="bx bxs-map"></i>
-                  KSA , Yanbu
-                </li>
-              </ul>
-            </div>
+              <li style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+                fontSize: 'clamp(11px, 1.8vw, 13px)',
+                whiteSpace: 'nowrap'
+              }}>
+                <i className="bx bxs-map" style={{ fontSize: 'clamp(14px, 2.5vw, 16px)' }}></i>
+                <span>KSA, Yanbu</span>
+              </li>
+            </ul>
 
-            <div className="col-lg-6 col-sm-4">
-              <ul
-                className="header-content-right"
-                style={{
+            {/* Social & Language */}
+            <ul
+              className="header-content-right"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'clamp(10px, 2vw, 15px)',
+                justifyContent: 'flex-end',
+                margin: '0',
+                padding: '0',
+                flexDirection: lang === 'ar' ? 'row-reverse' : 'row',
+                listStyle: 'none',
+                flex: '0 0 auto',
+                order: lang === 'ar' ? 1 : 2
+              }}
+            >
+              <li style={{ display: 'flex', alignItems: 'center' }}>
+                <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" style={{
+                  color: '#ffffff',
+                  fontSize: 'clamp(16px, 2.5vw, 18px)',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: 12,
-                  justifyContent: lang === 'ar' ? 'flex-start' : 'flex-end',
-                  float: lang === 'ar' ? 'left' : 'right',
-                }}
-              >
-                <li>
-                  <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" style={{ color: '#ffffff' }}>
-                    <i className="bx bxl-linkedin"></i>
-                  </a>
-                </li>
-                {/* Language Dropdown */}
-                <li className="language-area" style={{ listStyle: 'none', position: 'relative' }}>
+                  transition: 'opacity 0.3s ease'
+                }}>
+                  <i className="bx bxl-linkedin"></i>
+                </a>
+              </li>
+              {/* Language Dropdown */}
+              <li className="language-area" style={{ listStyle: 'none', position: 'relative' }}>
                   <div
                     className="language-item-top"
                     onMouseEnter={() => setIsLangDropdownOpen(true)}
@@ -81,12 +126,13 @@ const TopHeader: React.FC = () => {
                       display: 'flex',
                       alignItems: 'center',
                       color: '#ffffff',
-                      fontSize: '14px',
-                      fontWeight: '600'
+                      fontSize: 'clamp(12px, 2vw, 14px)',
+                      fontWeight: '600',
+                      gap: '3px'
                     }}>
-                      <i className="bx bx-world" style={{ fontSize: '20px', marginRight: '5px' }}></i>
-                      <span>{lang === 'ar' ? 'العربية' : 'English'}</span>
-                      <i className="bx bx-chevron-down" style={{ fontSize: '18px', marginLeft: '3px' }}></i>
+                      <i className="bx bx-world" style={{ fontSize: 'clamp(16px, 2.5vw, 20px)' }}></i>
+                      <span className="d-none d-sm-inline">{lang === 'ar' ? 'العربية' : 'English'}</span>
+                      <i className="bx bx-chevron-down" style={{ fontSize: 'clamp(14px, 2.2vw, 18px)' }}></i>
                     </div>
                     <ul
                       className="language-item-bottom"
@@ -175,7 +221,6 @@ const TopHeader: React.FC = () => {
                   </div>
                 </li>
               </ul>
-            </div>
           </div>
         </div>
       </div>
