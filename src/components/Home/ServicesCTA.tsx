@@ -38,41 +38,38 @@ const ServicesCTA: React.FC = () => {
       }}></div>
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-        <div className="section-title reveal-animation" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: 'center' }}>
+        <div className="section-title reveal-animation" style={{
+          direction: isArabic ? 'rtl' : 'ltr',
+          textAlign: isArabic ? 'right' : 'left',
+          maxWidth: '900px',
+          margin: '0 auto'
+        }}>
           <span style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '10px',
-            color: 'rgba(255, 255, 255, 0.9)',
-            fontWeight: '600',
-            fontSize: '14px',
-            textTransform: 'uppercase',
-            letterSpacing: '1.5px',
-            marginBottom: '20px'
-          }}>
-            <i className="bx bx-rocket" style={{ fontSize: '22px' }}></i>
-            {isArabic ? 'ابدأ الآن' : 'Get Started'}
-          </span>
-          <h2 style={{
-            fontSize: '48px',
-            fontWeight: '800',
+            display: 'block',
+            width: '70px',
+            height: '5px',
+            background: 'linear-gradient(90deg, rgba(255,255,255,0.8), rgba(255,255,255,0.5))',
+            borderRadius: '3px',
             marginBottom: '25px',
+            [isArabic ? 'marginLeft' : 'marginRight']: 'auto',
+            boxShadow: '0 2px 10px rgba(255, 255, 255, 0.3)'
+          }}></span>
+          <h2 style={{
+            fontSize: '42px',
+            fontWeight: '800',
+            marginBottom: '20px',
             color: 'white',
-            textShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
             lineHeight: '1.2',
             letterSpacing: '-0.5px'
           }}>
             {isArabic ? 'هل أنت مستعد للبدء؟' : 'Ready to Get Started?'}
           </h2>
           <p style={{
-            fontSize: '18px',
+            fontSize: '17px',
             lineHeight: '1.9',
+            marginBottom: '25px',
             color: 'rgba(255, 255, 255, 0.95)',
-            marginBottom: '45px',
-            maxWidth: '700px',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            fontWeight: '400'
+            fontWeight: '500'
           }}>
             {isArabic
               ? 'اتصل بنا اليوم لمناقشة احتياجات شركتك وكيف يمكننا مساعدتك في تحقيق أهدافك الرقمية.'

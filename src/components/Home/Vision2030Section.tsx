@@ -45,20 +45,6 @@ const Vision2030Section: React.FC = () => {
                   [isArabic ? 'marginLeft' : 'marginRight']: 'auto',
                   boxShadow: '0 2px 10px rgba(10, 77, 140, 0.3)'
                 }}></span>
-                <span className="sub-title" style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  color: '#0A4D8C',
-                  fontWeight: '700',
-                  marginBottom: '15px',
-                  fontSize: '15px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px'
-                }}>
-                  <i className="bx bx-flag" style={{ fontSize: '22px' }}></i>
-                  {isArabic ? 'رؤية 2030' : 'Vision 2030'}
-                </span>
                 <h2 className="gradient-text" style={{
                   fontSize: '42px',
                   fontWeight: '800',
@@ -117,37 +103,74 @@ const Vision2030Section: React.FC = () => {
 
           <div className="col-lg-6 col-md-12 reveal-animation" style={{ animationDelay: '0.4s' }}>
             <div className="vision-2030-img modern-card" style={{
-              borderRadius: '20px',
+              borderRadius: '24px',
               overflow: 'hidden',
-              boxShadow: '0 15px 50px rgba(10, 77, 140, 0.2)',
-              position: 'relative'
+              boxShadow: '0 20px 60px rgba(10, 77, 140, 0.25)',
+              position: 'relative',
+              border: '1px solid rgba(10, 77, 140, 0.15)',
+              background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.03) 0%, rgba(96, 126, 172, 0.03) 100%)',
+              padding: '8px',
+              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-8px)';
+              e.currentTarget.style.boxShadow = '0 30px 70px rgba(10, 77, 140, 0.3)';
+              e.currentTarget.style.borderColor = 'rgba(10, 77, 140, 0.3)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 20px 60px rgba(10, 77, 140, 0.25)';
+              e.currentTarget.style.borderColor = 'rgba(10, 77, 140, 0.15)';
             }}>
-              <Image
-                src="/img/vision-2020.jpg"
-                alt="Saudi Vision 2030"
-                width={600}
-                height={400}
-                style={{ width: '100%', height: 'auto' }}
-              />
+              <div style={{
+                borderRadius: '18px',
+                overflow: 'hidden',
+                position: 'relative',
+                background: '#fff'
+              }}>
+                <Image
+                  src="/img/vision-2020.jpg"
+                  alt="Saudi Vision 2030"
+                  width={600}
+                  height={400}
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                    display: 'block'
+                  }}
+                />
+                {/* Gradient overlay on image */}
+                <div style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.1) 0%, rgba(96, 126, 172, 0.15) 100%)',
+                  pointerEvents: 'none'
+                }}></div>
+              </div>
               {/* Decorative badge */}
               <div style={{
                 position: 'absolute',
-                top: '25px',
-                right: isArabic ? 'auto' : '25px',
-                left: isArabic ? '25px' : 'auto',
+                top: '30px',
+                right: isArabic ? 'auto' : '30px',
+                left: isArabic ? '30px' : 'auto',
                 background: 'linear-gradient(135deg, #0A4D8C, #607EAC)',
                 color: '#fff',
-                padding: '12px 24px',
-                borderRadius: '30px',
-                fontSize: '14px',
+                padding: '14px 26px',
+                borderRadius: '12px',
+                fontSize: '15px',
                 fontWeight: '700',
-                boxShadow: '0 5px 20px rgba(0, 0, 0, 0.3)',
+                boxShadow: '0 8px 25px rgba(10, 77, 140, 0.4)',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px'
+                gap: '10px',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                backdropFilter: 'blur(10px)'
               }}>
-                <i className="bx bx-flag"></i>
-                2030
+                <i className="bx bx-flag" style={{ fontSize: '20px' }}></i>
+                <span style={{ letterSpacing: '1px' }}>2030</span>
               </div>
             </div>
           </div>

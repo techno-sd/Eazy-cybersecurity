@@ -82,85 +82,41 @@ const IndustriesSection: React.FC = () => {
           className="section-title"
           style={{
             direction: isArabic ? "rtl" : "ltr",
-            textAlign: "center",
+            textAlign: isArabic ? "right" : "left",
             marginBottom: "60px",
-            animation: "fadeInUp 0.8s ease"
+            animation: "fadeInUp 0.8s ease",
+            maxWidth: "900px",
+            margin: "0 auto 60px"
           }}
         >
-          {/* Accent line */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
+          <span style={{
+            display: 'block',
+            width: '70px',
+            height: '5px',
+            background: 'linear-gradient(90deg, #0A4D8C, #607EAC)',
+            borderRadius: '3px',
             marginBottom: '25px',
-            gap: '12px'
+            [isArabic ? 'marginLeft' : 'marginRight']: 'auto',
+            boxShadow: '0 2px 10px rgba(10, 77, 140, 0.3)'
+          }}></span>
+          <h2 className="gradient-text" style={{
+            fontSize: '42px',
+            fontWeight: '800',
+            marginBottom: '20px',
+            lineHeight: '1.2',
+            letterSpacing: '-0.5px'
           }}>
-            <span style={{ 
-              display: 'block', 
-              width: '40px', 
-              height: '4px', 
-              background: 'linear-gradient(90deg, transparent, #0A4D8C)', 
-              borderRadius: '2px'
-            }}></span>
-            <span style={{ 
-              display: 'block', 
-              width: '60px', 
-              height: '4px', 
-              background: 'linear-gradient(90deg, #0A4D8C, #607EAC)', 
-              borderRadius: '2px'
-            }}></span>
-            <span style={{ 
-              display: 'block', 
-              width: '40px', 
-              height: '4px', 
-              background: 'linear-gradient(90deg, #607EAC, transparent)', 
-              borderRadius: '2px'
-            }}></span>
-          </div>
-
-          {/* Main heading */}
-          <h2
-            className="gradient-text reveal-animation"
-            style={{
-              fontSize: "48px",
-              fontWeight: "800",
-              marginBottom: "30px",
-              background: 'linear-gradient(135deg, #0A4D8C 0%, #0e0129 100%)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              letterSpacing: '-1px',
-              lineHeight: '1.2',
-              animationDelay: '0.2s'
-            }}
-          >
             {t.home.industries_preview.title}
           </h2>
-
-          {/* Description */}
-          <p
-            style={{
-              fontSize: "17px",
-              maxWidth: "900px",
-              margin: "0 auto",
-              lineHeight: "1.85",
-              color: "#555",
-              fontWeight: "500",
-              wordWrap: 'break-word',
-              overflowWrap: 'break-word',
-              whiteSpace: 'normal'
-            }}
-          >
+          <p style={{
+            fontSize: '17px',
+            lineHeight: '1.9',
+            marginBottom: '25px',
+            color: '#555',
+            fontWeight: '500'
+          }}>
             {t.home.industries_preview.tagline}
           </p>
-
-          {/* Bottom accent */}
-          <div style={{
-            width: '80px',
-            height: '4px',
-            background: 'linear-gradient(90deg, #0A4D8C, #607EAC)',
-            borderRadius: '2px',
-            margin: '30px auto 0 auto'
-          }}></div>
         </div>
 
         {/* Industries Cards - Show top 3 */}

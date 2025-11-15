@@ -69,16 +69,41 @@ const LatesNews: React.FC = () => {
     <>
       <section className="blog-area blog-area-full-width pb-70" style={{ background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)', paddingTop: '100px', width: '100vw', position: 'relative', left: '50%', right: '50%', marginLeft: '-50vw', marginRight: '-50vw', overflow: 'hidden', padding: '100px 0 70px 0', boxSizing: 'border-box' }}>
         <div className="container-fluid" style={{ maxWidth: '100%', paddingLeft: '0', paddingRight: '0', width: '100%', margin: '0', boxSizing: 'border-box' }}>
-          <div className="section-title" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: 'center', marginBottom: '60px', maxWidth: '1200px', margin: '0 auto 60px', paddingLeft: '20px', paddingRight: '20px' }}>
-            <span style={{ display: 'block', width: '60px', height: '4px', background: 'linear-gradient(90deg, #0A4D8C, #607EAC)', borderRadius: '2px', margin: '0 auto 20px' }}></span>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: '#0A4D8C', fontWeight: '600', fontSize: '16px', marginBottom: '12px' }}>
-              <i className="bx bx-news"></i>
-              {isArabic ? 'المدونة' : 'Blog'}
-            </span>
-            <h2 className="gradient-text" style={{ fontSize: 'clamp(28px, 5vw, 42px)', fontWeight: '700', marginBottom: '20px' }}>
+          <div className="section-title" style={{
+            direction: isArabic ? 'rtl' : 'ltr',
+            textAlign: isArabic ? 'right' : 'left',
+            marginBottom: '60px',
+            maxWidth: '900px',
+            margin: '0 auto 60px',
+            paddingLeft: '20px',
+            paddingRight: '20px'
+          }}>
+            <span style={{
+              display: 'block',
+              width: '70px',
+              height: '5px',
+              background: 'linear-gradient(90deg, #0A4D8C, #607EAC)',
+              borderRadius: '3px',
+              marginBottom: '25px',
+              [isArabic ? 'marginLeft' : 'marginRight']: 'auto',
+              boxShadow: '0 2px 10px rgba(10, 77, 140, 0.3)'
+            }}></span>
+            <h2 className="gradient-text" style={{
+              fontSize: '42px',
+              fontWeight: '800',
+              marginBottom: '20px',
+              lineHeight: '1.2',
+              letterSpacing: '-0.5px'
+            }}>
               {isArabic ? 'آخر الأخبار' : 'Latest News'}
             </h2>
-            <p style={{ fontSize: 'clamp(14px, 3vw, 18px)', maxWidth: '700px', margin: '0 auto', lineHeight: '1.8', color: '#666', padding: '0 15px' }}>
+            <p style={{
+              fontSize: '17px',
+              lineHeight: '1.9',
+              marginBottom: '25px',
+              color: '#555',
+              fontWeight: '500'
+            }}>
               {isArabic
                 ? 'ابق على اطلاع بأحدث المقالات والأخبار حول الأمن السيبراني والحلول الرقمية المتقدمة.'
                 : 'Stay up to date with the latest articles and news on cybersecurity and digital transformation.'}

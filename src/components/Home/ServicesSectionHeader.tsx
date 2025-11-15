@@ -33,86 +33,47 @@ const ServicesSectionHeader: React.FC = () => {
       }}></div>
       
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-        <div 
-          className="section-title" 
-          style={{ 
-            direction: isArabic ? 'rtl' : 'ltr', 
-            textAlign: 'center', 
+        <div
+          className="section-title"
+          style={{
+            direction: isArabic ? 'rtl' : 'ltr',
+            textAlign: isArabic ? 'right' : 'left',
             marginBottom: '0',
-            animation: 'fadeInUp 0.8s ease'
+            animation: 'fadeInUp 0.8s ease',
+            maxWidth: '900px',
+            margin: '0 auto'
           }}
         >
-          {/* Accent line */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
+          <span style={{
+            display: 'block',
+            width: '70px',
+            height: '5px',
+            background: 'linear-gradient(90deg, #0A4D8C, #607EAC)',
+            borderRadius: '3px',
             marginBottom: '25px',
-            gap: '12px'
-          }}>
-            <span style={{ 
-              display: 'block', 
-              width: '40px', 
-              height: '4px', 
-              background: 'linear-gradient(90deg, transparent, #0A4D8C)', 
-              borderRadius: '2px'
-            }}></span>
-            <span style={{ 
-              display: 'block', 
-              width: '60px', 
-              height: '4px', 
-              background: 'linear-gradient(90deg, #0A4D8C, #607EAC)', 
-              borderRadius: '2px'
-            }}></span>
-            <span style={{ 
-              display: 'block', 
-              width: '40px', 
-              height: '4px', 
-              background: 'linear-gradient(90deg, #607EAC, transparent)', 
-              borderRadius: '2px'
-            }}></span>
-          </div>
-
-          {/* Main heading */}
-          <h2 style={{ 
-            fontSize: '48px', 
-            fontWeight: '800', 
-            marginBottom: '30px', 
-            color: '#0e0129',
-            background: 'linear-gradient(135deg, #0A4D8C 0%, #0e0129 100%)',
-            backgroundClip: 'text',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            letterSpacing: '-0.5px',
-            lineHeight: '1.2'
+            [isArabic ? 'marginLeft' : 'marginRight']: 'auto',
+            boxShadow: '0 2px 10px rgba(10, 77, 140, 0.3)'
+          }}></span>
+          <h2 className="gradient-text" style={{
+            fontSize: '42px',
+            fontWeight: '800',
+            marginBottom: '20px',
+            lineHeight: '1.2',
+            letterSpacing: '-0.5px'
           }}>
             {isArabic ? 'خدماتنا' : 'Our Services'}
           </h2>
-
-          {/* Description */}
-          <p style={{ 
-            fontSize: '17px', 
-            lineHeight: '1.85', 
+          <p style={{
+            fontSize: '17px',
+            lineHeight: '1.9',
+            marginBottom: '25px',
             color: '#555',
-            maxWidth: '900px', 
-            marginLeft: 'auto', 
-            marginRight: 'auto',
-            fontWeight: '500',
-            wordWrap: 'break-word',
-            overflowWrap: 'break-word'
+            fontWeight: '500'
           }}>
-            {isArabic 
+            {isArabic
               ? 'نقدّم مجموعة من الحلول التقنية المتطورة التي تمكّن المؤسسات من النمو والابتكار بثقة. من الذكاء الاصطناعي إلى الأمن السيبراني والحوسبة السحابية، نوفّر خدمات متكاملة تدعم التحوّل الرقمي وتُعزّز كفاءة الأعمال.'
               : 'We offer a suite of advanced technical solutions that empower organizations to grow and innovate with confidence. From artificial intelligence to cybersecurity and cloud computing, we provide integrated services that support digital transformation and enhance business efficiency.'}
           </p>
-
-          {/* Bottom accent */}
-          <div style={{
-            width: '80px',
-            height: '4px',
-            background: 'linear-gradient(90deg, #0A4D8C, #607EAC)',
-            borderRadius: '2px',
-            margin: '30px auto 0 auto'
-          }}></div>
         </div>
       </div>
     </section>

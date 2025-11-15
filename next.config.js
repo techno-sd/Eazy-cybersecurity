@@ -60,7 +60,7 @@ const nextConfig = {
 
   // Image optimization
   images: {
-    domains: ['eazycyber.sa', 'localhost', '127.0.0.1'],
+    domains: ['eazycyber.sa', 'localhost', '127.0.0.1', 'ui-avatars.com'],
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
@@ -73,6 +73,11 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'eazycyber.sa',
         pathname: '/img/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ui-avatars.com',
+        pathname: '/api/**',
       },
     ],
   },
