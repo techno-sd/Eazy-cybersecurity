@@ -381,7 +381,6 @@ const BlogGridFromDB: React.FC = () => {
                     <Link
                       href={`/blog/${post.slug}`}
                       className="btn-modern-outlined"
-                      onMouseEnter={() => prefetchPost(post.slug)}
                       style={{
                         display: 'inline-flex',
                         alignItems: 'center',
@@ -406,6 +405,7 @@ const BlogGridFromDB: React.FC = () => {
                         overflow: 'hidden'
                       }}
                       onMouseEnter={(e) => {
+                        prefetchPost(post.slug);
                         e.currentTarget.style.background = 'linear-gradient(135deg, #0A4D8C, #607EAC)';
                         e.currentTarget.style.color = '#fff';
                         e.currentTarget.style.transform = 'translateY(-2px)';
