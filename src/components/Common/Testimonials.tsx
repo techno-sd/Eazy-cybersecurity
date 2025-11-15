@@ -117,8 +117,13 @@ const Testimonials: React.FC = () => {
               fontWeight: '800',
               marginBottom: '20px',
               lineHeight: '1.2',
-              letterSpacing: '-0.5px'
-            }}>{sectionTitle}</h2>
+              letterSpacing: '-0.5px',
+              color: 'white',
+              background: 'none',
+              WebkitTextFillColor: 'white',
+              backgroundClip: 'unset',
+              WebkitBackgroundClip: 'unset'
+            } as React.CSSProperties}>{sectionTitle}</h2>
             <p style={{
               fontSize: '17px',
               lineHeight: '1.9',

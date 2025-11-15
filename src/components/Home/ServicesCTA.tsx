@@ -60,8 +60,12 @@ const ServicesCTA: React.FC = () => {
             marginBottom: '20px',
             color: 'white',
             lineHeight: '1.2',
-            letterSpacing: '-0.5px'
-          }}>
+            letterSpacing: '-0.5px',
+            background: 'none',
+            WebkitTextFillColor: 'white',
+            backgroundClip: 'unset',
+            WebkitBackgroundClip: 'unset'
+          } as React.CSSProperties}>
             {isArabic ? 'هل أنت مستعد للبدء؟' : 'Ready to Get Started?'}
           </h2>
           <p style={{
