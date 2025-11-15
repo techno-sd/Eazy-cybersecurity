@@ -83,15 +83,12 @@ $light-bg: #f8f9fa;
 // UNIFIED PAGE BANNER STYLES
 // ===============================================
 .page-banner-area {
-	background-image: url(/img/footer-bg.jpg);
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-size: cover;
+	background: linear-gradient(135deg, #0e0129 0%, #1a0a3e 50%, #0e0129 100%);
 	padding: clamp(120px, 20vw, 180px) 0 clamp(80px, 15vw, 120px);
 	position: relative;
 	z-index: 1;
 
-	// Dark overlay for better text readability
+	// Subtle gradient overlay for depth
 	&::before {
 		content: "";
 		position: absolute;
@@ -99,7 +96,7 @@ $light-bg: #f8f9fa;
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background: rgba(14, 1, 41, 0.85);
+		background: linear-gradient(180deg, rgba(10, 77, 140, 0.05) 0%, rgba(96, 126, 172, 0.05) 100%);
 		z-index: -1;
 	}
 
@@ -559,16 +556,9 @@ $light-bg: #f8f9fa;
 		}
 
 		// Reduce grid background animation on mobile
-		&::before {
+		&::after {
 			opacity: 0.3;
 			animation: none;
-		}
-
-		// Reduce glow orb sizes
-		&::after {
-			width: 250px;
-			height: 250px;
-			filter: blur(40px);
 		}
 	}
 
@@ -658,11 +648,7 @@ $light-bg: #f8f9fa;
 			}
 		}
 
-		// Disable all animations on small mobile for performance
-		&::before {
-			display: none;
-		}
-
+		// Disable grid animation on small mobile for performance
 		&::after {
 			display: none;
 		}
