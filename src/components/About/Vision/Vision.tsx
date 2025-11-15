@@ -573,15 +573,15 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
                         minWidth: '50px',
                         width: '50px',
                         height: '50px',
-                        background: `linear-gradient(135deg, rgba(10, 77, 140, 0.1), rgba(96, 126, 172, 0.1))`,
+                        background: 'linear-gradient(135deg, #0A4D8C 0%, #607EAC 100%)',
                         borderRadius: '12px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        boxShadow: `0 8px 20px ${colors[index]}40`
+                        boxShadow: '0 4px 15px rgba(10, 77, 140, 0.3)'
                       }}
                     >
-                      <i className={icons[index]} style={{ fontSize: '28px', color: '#fff' }}></i>
+                      <i className={icons[index]} style={{ fontSize: '28px', color: '#ffffff' }}></i>
                     </div>
                     <p 
                       style={{
