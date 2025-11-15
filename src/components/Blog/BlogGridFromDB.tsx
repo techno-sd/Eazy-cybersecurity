@@ -354,13 +354,13 @@ const BlogGridFromDB: React.FC = () => {
                         }}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.background = 'linear-gradient(135deg, #0A4D8C, #607EAC)';
-                          e.currentTarget.style.WebkitBackgroundClip = 'text';
-                          e.currentTarget.style.WebkitTextFillColor = 'transparent';
+                          (e.currentTarget.style as any).webkitBackgroundClip = 'text';
+                          (e.currentTarget.style as any).webkitTextFillColor = 'transparent';
                           e.currentTarget.style.backgroundClip = 'text';
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.background = 'none';
-                          e.currentTarget.style.WebkitTextFillColor = '#1a1a1a';
+                          (e.currentTarget.style as any).webkitTextFillColor = '#1a1a1a';
                         }}
                       >
                         {isArabic && post.title_ar ? post.title_ar : post.title}
