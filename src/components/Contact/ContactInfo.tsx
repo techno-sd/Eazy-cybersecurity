@@ -20,7 +20,7 @@ const ContactInfo: React.FC = () => {
     ar: {
       location: "موقعنا",
       address: "ينبع، المملكة العربية السعودية",
-      fullAddress: "ينبع، المملكة العربية السعودية",
+      fullAddress: "",
       email: "البريد الإلكتروني",
       phone: "الهاتف",
       hours: "ساعات العمل",
@@ -60,69 +60,109 @@ const ContactInfo: React.FC = () => {
 
                 {/* Location Card */}
                 <div style={{
-                  background: 'linear-gradient(135deg, #0A4D8C 0%, #0EA5E9 100%)',
-                  borderRadius: '15px',
+                  background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.05) 0%, rgba(96, 126, 172, 0.05) 100%)',
+                  borderRadius: '20px',
                   padding: '25px',
-                  marginBottom: '20px',
-                  color: 'white',
-                  transition: 'all 0.3s ease',
-                  cursor: 'pointer'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-5px)';
-                  e.currentTarget.style.boxShadow = '0 15px 40px rgba(10, 77, 140, 0.3)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = 'none';
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-                    <i className="bx bx-location-plus" style={{
-                      fontSize: '32px',
-                      marginRight: isArabic ? '0' : '15px',
-                      marginLeft: isArabic ? '15px' : '0'
-                    }}></i>
-                    <h3 style={{ fontSize: '20px', fontWeight: '700', margin: 0 }}>
-                      {currentContent.address}
-                    </h3>
-                  </div>
-                  <p style={{ margin: '0', opacity: '0.9', paddingLeft: isArabic ? '0' : '47px', paddingRight: isArabic ? '47px' : '0' }}>
-                    {currentContent.fullAddress}
-                  </p>
-                </div>
-
-                {/* Email Card */}
-                <div style={{
-                  background: '#F8F9FA',
-                  borderRadius: '15px',
-                  padding: '20px',
-                  marginBottom: '20px',
-                  transition: 'all 0.3s ease',
+                  marginBottom: '25px',
+                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                   cursor: 'pointer',
-                  border: '2px solid transparent'
+                  border: '2px solid rgba(10, 77, 140, 0.1)',
+                  position: 'relative',
+                  overflow: 'hidden'
                 }}
+                className="contact-card"
                 onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-8px)';
+                  e.currentTarget.style.boxShadow = '0 15px 40px rgba(10, 77, 140, 0.15)';
                   e.currentTarget.style.borderColor = '#0A4D8C';
                   e.currentTarget.style.background = 'white';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'transparent';
-                  e.currentTarget.style.background = '#F8F9FA';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                  e.currentTarget.style.borderColor = 'rgba(10, 77, 140, 0.1)';
+                  e.currentTarget.style.background = 'linear-gradient(135deg, rgba(10, 77, 140, 0.05) 0%, rgba(96, 126, 172, 0.05) 100%)';
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <i className="bx bx-envelope" style={{
-                      fontSize: '28px',
-                      color: '#0A4D8C',
-                      marginRight: isArabic ? '0' : '15px',
-                      marginLeft: isArabic ? '15px' : '0'
-                    }}></i>
-                    <div style={{ textAlign: isArabic ? 'right' : 'left' }}>
-                      <p style={{ margin: '0', fontSize: '14px', color: '#666' }}>{currentContent.email}</p>
-                      <a href="mailto:support@eazycyber.sa" style={{
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                    <div style={{
+                      width: '55px',
+                      height: '55px',
+                      background: 'linear-gradient(135deg, #0A4D8C 0%, #607EAC 100%)',
+                      borderRadius: '12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0,
+                      boxShadow: '0 8px 20px rgba(10, 77, 140, 0.25)'
+                    }}>
+                      <i className="bx bx-location-plus" style={{
+                        fontSize: '28px',
+                        color: 'white'
+                      }}></i>
+                    </div>
+                    <div style={{ textAlign: isArabic ? 'right' : 'left', flex: 1 }}>
+                      <p style={{ margin: '0 0 5px 0', fontSize: '13px', color: '#666', fontWeight: '500' }}>
+                        {currentContent.location}
+                      </p>
+                      <h3 style={{ fontSize: '17px', fontWeight: '700', margin: 0, color: '#0A4D8C' }}>
+                        {currentContent.address}
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Email Card */}
+                <div style={{
+                  background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.05) 0%, rgba(96, 126, 172, 0.05) 100%)',
+                  borderRadius: '20px',
+                  padding: '25px',
+                  marginBottom: '25px',
+                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                  cursor: 'pointer',
+                  border: '2px solid rgba(10, 77, 140, 0.1)',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}
+                className="contact-card"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-8px)';
+                  e.currentTarget.style.boxShadow = '0 15px 40px rgba(10, 77, 140, 0.15)';
+                  e.currentTarget.style.borderColor = '#0A4D8C';
+                  e.currentTarget.style.background = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                  e.currentTarget.style.borderColor = 'rgba(10, 77, 140, 0.1)';
+                  e.currentTarget.style.background = 'linear-gradient(135deg, rgba(10, 77, 140, 0.05) 0%, rgba(96, 126, 172, 0.05) 100%)';
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                    <div style={{
+                      width: '55px',
+                      height: '55px',
+                      background: 'linear-gradient(135deg, #0A4D8C 0%, #607EAC 100%)',
+                      borderRadius: '12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0,
+                      boxShadow: '0 8px 20px rgba(10, 77, 140, 0.25)'
+                    }}>
+                      <i className="bx bx-envelope" style={{
+                        fontSize: '28px',
+                        color: 'white'
+                      }}></i>
+                    </div>
+                    <div style={{ textAlign: isArabic ? 'right' : 'left', flex: 1 }}>
+                      <p style={{ margin: '0 0 5px 0', fontSize: '13px', color: '#666', fontWeight: '500' }}>
+                        {currentContent.email}
+                      </p>
+                      <a href="mailto:info@eazycyber.sa" style={{
                         color: '#0A4D8C',
-                        fontWeight: '600',
+                        fontWeight: '700',
                         textDecoration: 'none',
-                        fontSize: '16px'
+                        fontSize: '17px',
+                        transition: 'color 0.3s ease'
                       }}>
                         info@eazycyber.sa
                       </a>
@@ -132,38 +172,58 @@ const ContactInfo: React.FC = () => {
 
                 {/* Phone Card */}
                 <div style={{
-                  background: '#F8F9FA',
-                  borderRadius: '15px',
-                  padding: '20px',
+                  background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.05) 0%, rgba(96, 126, 172, 0.05) 100%)',
+                  borderRadius: '20px',
+                  padding: '25px',
                   marginBottom: '20px',
-                  transition: 'all 0.3s ease',
+                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                   cursor: 'pointer',
-                  border: '2px solid transparent'
+                  border: '2px solid rgba(10, 77, 140, 0.1)',
+                  position: 'relative',
+                  overflow: 'hidden'
                 }}
+                className="contact-card"
                 onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-8px)';
+                  e.currentTarget.style.boxShadow = '0 15px 40px rgba(10, 77, 140, 0.15)';
                   e.currentTarget.style.borderColor = '#0A4D8C';
                   e.currentTarget.style.background = 'white';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'transparent';
-                  e.currentTarget.style.background = '#F8F9FA';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                  e.currentTarget.style.borderColor = 'rgba(10, 77, 140, 0.1)';
+                  e.currentTarget.style.background = 'linear-gradient(135deg, rgba(10, 77, 140, 0.05) 0%, rgba(96, 126, 172, 0.05) 100%)';
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <i className="bx bx-phone" style={{
-                      fontSize: '28px',
-                      color: '#0A4D8C',
-                      marginRight: isArabic ? '0' : '15px',
-                      marginLeft: isArabic ? '15px' : '0'
-                    }}></i>
-                    <div style={{ textAlign: isArabic ? 'right' : 'left' }}>
-                      <p style={{ margin: '0', fontSize: '14px', color: '#666' }}>{currentContent.phone}</p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                    <div style={{
+                      width: '55px',
+                      height: '55px',
+                      background: 'linear-gradient(135deg, #0A4D8C 0%, #607EAC 100%)',
+                      borderRadius: '12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0,
+                      boxShadow: '0 8px 20px rgba(10, 77, 140, 0.25)'
+                    }}>
+                      <i className="bx bx-phone" style={{
+                        fontSize: '28px',
+                        color: 'white'
+                      }}></i>
+                    </div>
+                    <div style={{ textAlign: isArabic ? 'right' : 'left', flex: 1 }}>
+                      <p style={{ margin: '0 0 5px 0', fontSize: '13px', color: '#666', fontWeight: '500' }}>
+                        {currentContent.phone}
+                      </p>
                       <a href="tel:+966563664008" style={{
                         color: '#0A4D8C',
-                        fontWeight: '600',
+                        fontWeight: '700',
                         textDecoration: 'none',
-                        fontSize: '16px',
+                        fontSize: '17px',
                         direction: 'ltr',
-                        display: 'inline-block'
+                        display: 'inline-block',
+                        transition: 'color 0.3s ease'
                       }}>
                         +966 56 366 4008
                       </a>

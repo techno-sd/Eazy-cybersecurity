@@ -96,6 +96,48 @@ const BlogGridFromDB: React.FC = () => {
               {isArabic ? 'جار التحميل...' : 'Loading...'}
             </h2>
           </div>
+          <div className="row g-4" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
+            {[1, 2, 3].map((i) => (
+              <div className="col-lg-4 col-sm-6" key={i}>
+                <div style={{
+                  borderRadius: '20px',
+                  overflow: 'hidden',
+                  height: '100%',
+                  background: '#fff',
+                  boxShadow: '0 8px 30px rgba(10, 77, 140, 0.1)',
+                  border: '1px solid rgba(10, 77, 140, 0.1)'
+                }}>
+                  <div style={{
+                    height: '260px',
+                    background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.1) 0%, rgba(96, 126, 172, 0.1) 100%)',
+                    animation: 'pulse 1.5s ease-in-out infinite'
+                  }}></div>
+                  <div style={{ padding: '30px' }}>
+                    <div style={{
+                      height: '20px',
+                      background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.1) 0%, rgba(96, 126, 172, 0.1) 100%)',
+                      borderRadius: '4px',
+                      marginBottom: '15px',
+                      animation: 'pulse 1.5s ease-in-out infinite'
+                    }}></div>
+                    <div style={{
+                      height: '60px',
+                      background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.1) 0%, rgba(96, 126, 172, 0.1) 100%)',
+                      borderRadius: '4px',
+                      marginBottom: '15px',
+                      animation: 'pulse 1.5s ease-in-out infinite'
+                    }}></div>
+                    <div style={{
+                      height: '80px',
+                      background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.1) 0%, rgba(96, 126, 172, 0.1) 100%)',
+                      borderRadius: '4px',
+                      animation: 'pulse 1.5s ease-in-out infinite'
+                    }}></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     );
@@ -140,21 +182,55 @@ const BlogGridFromDB: React.FC = () => {
             </p>
           </div>
 
+          {posts.length === 0 ? (
+            <div className="blog-empty-state" style={{ textAlign: 'center', padding: '80px 20px' }}>
+              <i className="bx bx-news" style={{
+                fontSize: '80px',
+                color: 'rgba(10, 77, 140, 0.2)',
+                marginBottom: '20px',
+                display: 'block'
+              }}></i>
+              <h3 style={{
+                fontSize: '24px',
+                fontWeight: '700',
+                color: '#1a1a1a',
+                marginBottom: '10px'
+              }}>
+                {isArabic ? 'لا توجد مقالات بعد' : 'No Posts Yet'}
+              </h3>
+              <p style={{
+                fontSize: '16px',
+                color: '#666'
+              }}>
+                {isArabic ? 'ترقب قريباً المزيد من المقالات والأخبار' : 'Stay tuned for upcoming articles and news'}
+              </p>
+            </div>
+          ) : (
           <div className="row g-4" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
             {posts.map((post, idx) => (
               <div className="col-lg-4 col-sm-6 reveal-animation" key={post.id} style={{ animationDelay: `${idx * 0.1}s` }}>
                 <div className="modern-card hover-lift" style={{
-                  borderRadius: '16px',
+                  borderRadius: '20px',
                   overflow: 'hidden',
                   transition: 'all 0.5s cubic-bezier(0.23, 1, 0.320, 1)',
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
                   background: '#fff',
-                  boxShadow: '0 5px 25px rgba(10, 77, 140, 0.08)',
-                  border: '1px solid rgba(10, 77, 140, 0.08)'
+                  boxShadow: '0 8px 30px rgba(10, 77, 140, 0.1)',
+                  border: '1px solid rgba(10, 77, 140, 0.1)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-12px)';
+                  e.currentTarget.style.boxShadow = '0 20px 50px rgba(10, 77, 140, 0.18)';
+                  e.currentTarget.style.borderColor = 'rgba(10, 77, 140, 0.3)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 8px 30px rgba(10, 77, 140, 0.1)';
+                  e.currentTarget.style.borderColor = 'rgba(10, 77, 140, 0.1)';
                 }}>
-                  <div style={{ position: 'relative', overflow: 'hidden', height: '240px' }}>
+                  <div style={{ position: 'relative', overflow: 'hidden', height: '260px' }}>
                     <Image
                       src={post.featured_image}
                       alt={isArabic && post.title_ar ? post.title_ar : post.title}
@@ -185,16 +261,17 @@ const BlogGridFromDB: React.FC = () => {
                       top: '20px',
                       right: isArabic ? 'auto' : '20px',
                       left: isArabic ? '20px' : 'auto',
-                      padding: '8px 16px',
-                      background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.95), rgba(96, 126, 172, 0.95))',
+                      padding: '10px 18px',
+                      background: 'linear-gradient(135deg, #0A4D8C, #607EAC)',
                       backdropFilter: 'blur(10px)',
                       color: '#fff',
-                      fontSize: '12px',
+                      fontSize: '13px',
                       fontWeight: '600',
-                      borderRadius: '8px',
+                      borderRadius: '10px',
                       zIndex: '10',
-                      boxShadow: '0 4px 15px rgba(10, 77, 140, 0.3)',
-                      letterSpacing: '0.3px'
+                      boxShadow: '0 6px 20px rgba(10, 77, 140, 0.35)',
+                      letterSpacing: '0.5px',
+                      border: '2px solid rgba(255, 255, 255, 0.2)'
                     }}>
                       {post.category}
                     </span>
@@ -239,12 +316,12 @@ const BlogGridFromDB: React.FC = () => {
                     )}
                   </div>
                   <div className="blog-content" style={{
-                    padding: '28px',
+                    padding: '30px',
                     textAlign: isArabic ? 'right' : 'left',
                     flex: 1,
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '12px'
+                    gap: '16px'
                   }}>
                     <div style={{
                       fontSize: '13px',
@@ -253,15 +330,16 @@ const BlogGridFromDB: React.FC = () => {
                       display: 'flex',
                       alignItems: 'center',
                       gap: '8px',
-                      letterSpacing: '0.3px'
+                      letterSpacing: '0.3px',
+                      flexDirection: isArabic ? 'row-reverse' : 'row'
                     }}>
                       <i className="bx bx-calendar" style={{ fontSize: '16px' }}></i>
                       {formatDate(post.created_at)}
                     </div>
                     <h3 style={{
-                      fontSize: '20px',
+                      fontSize: '22px',
                       marginBottom: '0',
-                      lineHeight: '1.5',
+                      lineHeight: '1.4',
                       fontWeight: '700',
                       flex: 1,
                       minHeight: '60px'
@@ -272,16 +350,26 @@ const BlogGridFromDB: React.FC = () => {
                         style={{
                           textDecoration: 'none',
                           color: '#1a1a1a',
-                          transition: 'color 0.3s ease'
+                          transition: 'all 0.3s ease'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = 'linear-gradient(135deg, #0A4D8C, #607EAC)';
+                          e.currentTarget.style.WebkitBackgroundClip = 'text';
+                          e.currentTarget.style.WebkitTextFillColor = 'transparent';
+                          e.currentTarget.style.backgroundClip = 'text';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = 'none';
+                          e.currentTarget.style.WebkitTextFillColor = '#1a1a1a';
                         }}
                       >
                         {isArabic && post.title_ar ? post.title_ar : post.title}
                       </Link>
                     </h3>
                     <p style={{
-                      fontSize: '14.5px',
+                      fontSize: '15px',
                       color: '#666',
-                      lineHeight: '1.7',
+                      lineHeight: '1.8',
                       marginBottom: '0',
                       display: '-webkit-box',
                       WebkitLineClamp: 3,
@@ -299,22 +387,35 @@ const BlogGridFromDB: React.FC = () => {
                         alignItems: 'center',
                         justifyContent: 'center',
                         gap: '8px',
-                        padding: '12px 24px',
-                        borderRadius: '8px',
+                        padding: '14px 28px',
+                        borderRadius: '12px',
                         border: '2px solid #0A4D8C',
                         color: '#0A4D8C',
                         background: 'transparent',
                         fontWeight: '600',
-                        fontSize: '13px',
+                        fontSize: '14px',
                         textDecoration: 'none',
-                        transition: 'all 0.4s ease',
+                        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                         width: '100%',
                         marginTop: 'auto',
                         letterSpacing: '0.5px',
                         cursor: 'pointer',
                         pointerEvents: 'auto',
                         position: 'relative',
-                        zIndex: 1
+                        zIndex: 1,
+                        overflow: 'hidden'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'linear-gradient(135deg, #0A4D8C, #607EAC)';
+                        e.currentTarget.style.color = '#fff';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                        e.currentTarget.style.boxShadow = '0 8px 20px rgba(10, 77, 140, 0.25)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'transparent';
+                        e.currentTarget.style.color = '#0A4D8C';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = 'none';
                       }}
                     >
                       {isArabic ? 'اقرأ المزيد' : 'Read More'}
@@ -328,10 +429,10 @@ const BlogGridFromDB: React.FC = () => {
             {/* Pagination */}
             {posts.length > 0 && (
               <div className="col-lg-12">
-                <div className="page-navigation-area" style={{ marginTop: '50px' }}>
+                <div className="page-navigation-area" style={{ marginTop: '60px' }}>
                   <ul className="pagination" style={{
                     justifyContent: 'center',
-                    gap: '10px',
+                    gap: '12px',
                     direction: isArabic ? 'rtl' : 'ltr',
                     display: 'flex',
                     flexWrap: 'wrap',
@@ -341,18 +442,28 @@ const BlogGridFromDB: React.FC = () => {
                   }}>
                     <li className="page-item active">
                       <Link href="#" className="page-link" style={{
-                        padding: '12px 16px',
-                        borderRadius: '10px',
+                        padding: '14px 20px',
+                        borderRadius: '12px',
                         background: 'linear-gradient(135deg, #0A4D8C, #607EAC)',
-                        border: '2px solid #0A4D8C',
+                        border: '2px solid transparent',
                         color: '#fff',
-                        transition: 'all 0.3s ease',
+                        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                         fontWeight: '600',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        minWidth: '48px',
-                        boxShadow: '0 4px 15px rgba(10, 77, 140, 0.25)'
+                        minWidth: '52px',
+                        boxShadow: '0 6px 20px rgba(10, 77, 140, 0.3)',
+                        textDecoration: 'none',
+                        fontSize: '15px'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-3px)';
+                        e.currentTarget.style.boxShadow = '0 10px 30px rgba(10, 77, 140, 0.4)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 6px 20px rgba(10, 77, 140, 0.3)';
                       }}>
                         1
                       </Link>
@@ -362,6 +473,7 @@ const BlogGridFromDB: React.FC = () => {
               </div>
             )}
           </div>
+          )}
         </div>
       </section>
     </>

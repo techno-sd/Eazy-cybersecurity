@@ -332,7 +332,7 @@ const ServiceConsultationForm: React.FC<ServiceConsultationFormProps> = ({ preSe
                         marginBottom: '10px',
                         fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit'
                       }}>
-                        {t.companyPlaceholder}
+                        {t.companyPlaceholder} *
                       </label>
                       <input
                         type="text"
@@ -341,6 +341,7 @@ const ServiceConsultationForm: React.FC<ServiceConsultationFormProps> = ({ preSe
                         onChange={handleChange}
                         placeholder={t.companyPlaceholder}
                         className="form-control"
+                        required
                         style={{
                           border: '2px solid #E5E7EB',
                           borderRadius: '12px',

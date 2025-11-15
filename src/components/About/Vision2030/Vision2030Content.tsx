@@ -15,33 +15,33 @@ const Vision2030Content: React.FC<Vision2030Props> = ({ lang }) => {
     en: {
       title: "Our Vision 2030 (Alignment with Vision 2030)",
       subtitle: "Building a Secure Digital Future",
-      description: "Eazy Cyber Agent is proud to contribute to Saudi Vision 2030 by providing cutting-edge cybersecurity solutions that protect national digital infrastructure and empower digital transformation across all sectors.",
+      description: "We believe that cybersecurity and digital innovation are two fundamental pillars of the Kingdom's Vision 2030, so our solutions focus on:",
       mainPoints: [
         {
           number: "01",
           title: "Digital Transformation",
-          text: "Empowering government and private sectors with secure digital solutions aligned with Vision 2030 objectives.",
+          text: "Empowering digital transformation in government and private entities.",
           icon: "bx bx-cloud-upload",
           color: "#0A4D8C"
         },
         {
           number: "02",
           title: "National Infrastructure",
-          text: "Protecting critical national infrastructure through advanced threat detection and security operations centers.",
+          text: "Protecting critical national infrastructure.",
           icon: "bx bx-shield-alt-2",
           color: "#607EAC"
         },
         {
           number: "03",
           title: "Innovation & Entrepreneurship",
-          text: "Supporting technical entrepreneurship and startups with secure cloud solutions and AI-driven security tools.",
+          text: "Supporting technical entrepreneurship and startups.",
           icon: "bx bx-bulb",
           color: "#0A4D8C"
         },
         {
           number: "04",
           title: "Talent Development",
-          text: "Contributing to national expertise development through comprehensive cybersecurity training and capacity building programs.",
+          text: "Contributing to the development of national competencies through training and capacity building.",
           icon: "bx bx-user-check",
           color: "#607EAC"
         }
@@ -58,7 +58,36 @@ const Vision2030Content: React.FC<Vision2030Props> = ({ lang }) => {
       title: "رؤيتنا 2030 (التوافق مع رؤية 2030)",
       subtitle: "بناء مستقبل رقمي آمن",
       description: "نحن نؤمن أن الأمن السيبراني والابتكار الرقمي هما ركيزتان أساسيتان في رؤية المملكة 2030، لذلك تركز حلولنا على:",
-      mainPoints: [],
+      mainPoints: [
+        {
+          number: "01",
+          title: "التحول الرقمي",
+          text: "تمكين التحول الرقمي في الجهات الحكومية والخاصة.",
+          icon: "bx bx-cloud-upload",
+          color: "#0A4D8C"
+        },
+        {
+          number: "02",
+          title: "البنية التحتية الوطنية",
+          text: "حماية البنية التحتية الحيوية الوطنية.",
+          icon: "bx bx-shield-alt-2",
+          color: "#607EAC"
+        },
+        {
+          number: "03",
+          title: "الابتكار وريادة الأعمال",
+          text: "دعم ريادة الأعمال التقنية والشركات الناشئة.",
+          icon: "bx bx-bulb",
+          color: "#0A4D8C"
+        },
+        {
+          number: "04",
+          title: "تطوير المواهب",
+          text: "المساهمة في تطوير الكفاءات الوطنية عبر التدريب وبناء القدرات.",
+          icon: "bx bx-user-check",
+          color: "#607EAC"
+        }
+      ],
       stats: [
         { value: "+100", label: "مؤسسة محمية" },
         { value: "24/7", label: "مراقبة أمنية" },
@@ -73,15 +102,16 @@ const Vision2030Content: React.FC<Vision2030Props> = ({ lang }) => {
 
   return (
     <>
-      <section 
-        className="vision-2030-area ptb-100" 
-        style={{ 
+      <section
+        className="vision-2030-area ptb-100"
+        style={{
           background: 'linear-gradient(to bottom, #f8f9fa 0%, #ffffff 50%, #f8f9fa 100%)',
           position: 'relative',
           overflow: 'hidden'
         }}
       >
         <div className="container" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
+          {/* Header Section with Image */}
           <div className="row align-items-center mb-5">
             <div className="col-lg-6" data-aos="fade-up">
               <div style={{ position: 'relative' }}>
@@ -110,10 +140,10 @@ const Vision2030Content: React.FC<Vision2030Props> = ({ lang }) => {
                   borderRadius: '12px',
                   boxShadow: '0 8px 30px rgba(10, 77, 140, 0.3)'
                 }}>
-                  <h3 style={{ 
-                    color: '#fff', 
-                    fontSize: '28px', 
-                    fontWeight: '700', 
+                  <h3 style={{
+                    color: '#fff',
+                    fontSize: '28px',
+                    fontWeight: '700',
                     margin: '0',
                     textAlign: isArabic ? 'right' : 'left'
                   }}>
@@ -122,7 +152,7 @@ const Vision2030Content: React.FC<Vision2030Props> = ({ lang }) => {
                 </div>
               </div>
             </div>
-            
+
             <div className="col-lg-6" data-aos="fade-up" data-aos-delay="100">
               <div style={{ textAlign: isArabic ? 'right' : 'left' }}>
                 <span style={{
@@ -141,7 +171,7 @@ const Vision2030Content: React.FC<Vision2030Props> = ({ lang }) => {
                   <i className="bx bx-trending-up" style={{ fontSize: '18px' }}></i>
                   {currentContent.subtitle}
                 </span>
-                
+
                 <h2 style={{
                   fontSize: '42px',
                   fontWeight: '700',
@@ -160,125 +190,15 @@ const Vision2030Content: React.FC<Vision2030Props> = ({ lang }) => {
                   fontSize: '17px',
                   lineHeight: '1.8',
                   color: '#555',
-                  marginBottom: '30px'
+                  marginBottom: '0'
                 }}>
                   {currentContent.description}
                 </p>
-
-                {/* Bullet points section for Arabic */}
-                {isArabic && (
-                  <ul style={{
-                    listStyle: 'none',
-                    padding: '0',
-                    marginBottom: '30px',
-                    direction: 'rtl',
-                    textAlign: 'right'
-                  }}>
-                    <li style={{
-                      fontSize: '16px',
-                      lineHeight: '1.8',
-                      color: '#555',
-                      marginBottom: '12px',
-                      paddingRight: '24px',
-                      position: 'relative'
-                    }}>
-                      <span style={{
-                        position: 'absolute',
-                        right: '0',
-                        top: '2px',
-                        width: '8px',
-                        height: '8px',
-                        background: '#0A4D8C',
-                        borderRadius: '50%'
-                      }}></span>
-                      تمكين التحول الرقمي في الجهات الحكومية والخاصة.
-                    </li>
-                    <li style={{
-                      fontSize: '16px',
-                      lineHeight: '1.8',
-                      color: '#555',
-                      marginBottom: '12px',
-                      paddingRight: '24px',
-                      position: 'relative'
-                    }}>
-                      <span style={{
-                        position: 'absolute',
-                        right: '0',
-                        top: '2px',
-                        width: '8px',
-                        height: '8px',
-                        background: '#0A4D8C',
-                        borderRadius: '50%'
-                      }}></span>
-                      حماية البنية التحتية الحيوية الوطنية.
-                    </li>
-                    <li style={{
-                      fontSize: '16px',
-                      lineHeight: '1.8',
-                      color: '#555',
-                      marginBottom: '12px',
-                      paddingRight: '24px',
-                      position: 'relative'
-                    }}>
-                      <span style={{
-                        position: 'absolute',
-                        right: '0',
-                        top: '2px',
-                        width: '8px',
-                        height: '8px',
-                        background: '#0A4D8C',
-                        borderRadius: '50%'
-                      }}></span>
-                      دعم ريادة الأعمال التقنية والشركات الناشئة.
-                    </li>
-                    <li style={{
-                      fontSize: '16px',
-                      lineHeight: '1.8',
-                      color: '#555',
-                      marginBottom: '12px',
-                      paddingRight: '24px',
-                      position: 'relative'
-                    }}>
-                      <span style={{
-                        position: 'absolute',
-                        right: '0',
-                        top: '2px',
-                        width: '8px',
-                        height: '8px',
-                        background: '#0A4D8C',
-                        borderRadius: '50%'
-                      }}></span>
-                      المساهمة في تطوير الكفاءات الوطنية عبر التدريب وبناء القدرات.
-                    </li>
-                  </ul>
-                )}
-
-                <Link 
-                  href="/contact" 
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '10px',
-                    padding: '14px 32px',
-                    background: 'linear-gradient(135deg, #0A4D8C, #607EAC)',
-                    color: '#fff',
-                    borderRadius: '10px',
-                    fontWeight: '600',
-                    fontSize: '16px',
-                    textDecoration: 'none',
-                    transition: 'all 0.3s ease',
-                    boxShadow: '0 8px 25px rgba(10, 77, 140, 0.25)'
-                  }}
-                  className="vision-cta-button"
-                >
-                  {currentContent.ctaText}
-                  <i className={`bx ${isArabic ? 'bx-left-arrow-alt' : 'bx-right-arrow-alt'}`} style={{ fontSize: '20px' }}></i>
-                </Link>
               </div>
             </div>
           </div>
 
-          <div className="row g-4 mt-5">
+          <div className="row g-4 mt-4">
             {currentContent.mainPoints.map((point, index) => (
               <div key={index} className="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay={index * 100}>
                 <div style={{

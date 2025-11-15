@@ -1,40 +1,85 @@
 /* Blog Page Enhancements */
 
+// Loading Animation
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// Reveal Animation for Cards
+@keyframes revealCard {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal-animation {
+  animation: revealCard 0.6s ease-out forwards;
+  opacity: 0;
+}
+
 // Blog Card Hover Effects
 .modern-card {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(10, 77, 140, 0.03), rgba(96, 126, 172, 0.03));
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: -1;
+  }
+
   &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 40px rgba(10, 77, 140, 0.15) !important;
-    border-color: rgba(10, 77, 140, 0.2) !important;
-    
     .blog-image-hover {
-      transform: scale(1.08);
+      transform: scale(1.1);
     }
-    
+
     .gradient-overlay-hover {
       opacity: 1 !important;
     }
-    
-    .btn-modern-outlined {
-      background: linear-gradient(135deg, #0A4D8C, #607EAC);
-      color: #fff;
-      border-color: #0A4D8C;
-      
-      i {
-        transform: translateX(5px);
-      }
+
+    &::before {
+      opacity: 1;
+    }
+  }
+}
+
+// Button Hover Arrow Animation
+.btn-modern-outlined {
+  i {
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    i {
+      transform: translateX(5px);
     }
   }
 }
 
 // RTL Support for Blog Cards
 [dir="rtl"] {
-  .modern-card {
+  .btn-modern-outlined {
     &:hover {
-      .btn-modern-outlined {
-        i {
-          transform: translateX(-5px);
-        }
+      i {
+        transform: translateX(-5px);
       }
     }
   }
@@ -484,5 +529,71 @@
   
   .comment-respond {
     padding: 25px;
+  }
+}
+
+// Blog Section Title Enhancements
+.section-title {
+  h2 {
+    position: relative;
+    display: inline-block;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, #0A4D8C, #607EAC);
+      border-radius: 2px;
+    }
+  }
+}
+
+// Empty State Styling
+.blog-empty-state {
+  text-align: center;
+  padding: 80px 20px;
+
+  i {
+    font-size: 80px;
+    color: rgba(10, 77, 140, 0.2);
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 16px;
+    color: #666;
+  }
+}
+
+// Image Overlay Effects
+.blog-image-container {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  &:hover::after {
+    opacity: 1;
   }
 }
