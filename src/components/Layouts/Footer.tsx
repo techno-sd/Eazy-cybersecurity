@@ -91,13 +91,13 @@ const Footer: React.FC = () => {
                   <li>
                     <Link href="/industries#government">
                       <i className="bx bx-chevrons-right"></i>
-                      {isArabic ? 'القطاع الحكومي والعام' : 'Government & Public Sector'}
+                      {isArabic ? 'القطاع الحكومي (التحول الرقمي الحكومي)' : 'Government & Public Sector'}
                     </Link>
                   </li>
                   <li>
                     <Link href="/industries#banking">
                       <i className="bx bx-chevrons-right"></i>
-                      {isArabic ? 'البنوك والتمويل' : 'Banking & Finance'}
+                      {isArabic ? 'البنوك والخدمات المالية' : 'Banking & Finance'}
                     </Link>
                   </li>
                   <li>
@@ -115,13 +115,13 @@ const Footer: React.FC = () => {
                   <li>
                     <Link href="/industries#education">
                       <i className="bx bx-chevrons-right"></i>
-                      {isArabic ? 'التعليم' : 'Education'}
+                      {isArabic ? 'التعليم والجامعات' : 'Education'}
                     </Link>
                   </li>
                   <li>
                     <Link href="/industries#smes">
                       <i className="bx bx-chevrons-right"></i>
-                      {isArabic ? 'الشركات الصغيرة والناشئة' : 'SMEs & Startups'}
+                      {isArabic ? 'الشركات الصغيرة والمتوسطة' : 'SMEs & Startups'}
                     </Link>
                   </li>
                 </ul>
