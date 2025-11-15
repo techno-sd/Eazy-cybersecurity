@@ -76,9 +76,6 @@ const PageBanner: React.FC<PageBannerProps> = ({
           zIndex: 0
         }}></div>
 
-        {/* Scan Line Effect */}
-        <div className="scan-line"></div>
-
         {/* Animated Falling Stars/Particles */}
         <div className="cyber-particles">
           {particles.map((particle, i) => (
@@ -206,33 +203,6 @@ const PageBanner: React.FC<PageBannerProps> = ({
             }
           }
 
-          .scan-line {
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #3fa0ff, transparent);
-            animation: scanLine 4s linear infinite;
-            pointer-events: none;
-            z-index: 10;
-          }
-
-          @keyframes scanLine {
-            0% {
-              top: 0;
-              opacity: 0;
-            }
-            10% {
-              opacity: 1;
-            }
-            90% {
-              opacity: 1;
-            }
-            100% {
-              top: 100%;
-              opacity: 0;
-            }
-          }
-
           .cyber-particles {
             position: absolute;
             width: 100%;
@@ -300,10 +270,6 @@ const PageBanner: React.FC<PageBannerProps> = ({
             }
 
             .particle {
-              display: none;
-            }
-
-            .scan-line {
               display: none;
             }
           }
