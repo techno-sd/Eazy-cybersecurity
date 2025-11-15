@@ -91,7 +91,7 @@ const Navbar: React.FC = () => {
               backgroundColor: '#ffffff',
               borderBottom: 'none'
             }}>
-              <div className="container-fluid">
+              <div className="container" style={{ maxWidth: '1320px' }}>
                 <nav className="navbar navbar-expand-md navbar-light" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
                   {/* Mobile Layout */}
                   <div style={{
@@ -101,7 +101,7 @@ const Navbar: React.FC = () => {
                     width: '100%',
                     gap: '8px',
                     position: 'relative',
-                    padding: '10px 0',
+                    padding: '8px 0',
                   }}
                   className="d-md-none">
                     {/* Left side - Menu Icon + Logo */}
@@ -144,8 +144,8 @@ const Navbar: React.FC = () => {
                         <Image
                           src="/img/logo.png"
                           alt="logo"
-                          width={100}
-                          height={39}
+                          width={85}
+                          height={33}
                         />
                       </Link>
                     </div>
@@ -169,8 +169,8 @@ const Navbar: React.FC = () => {
                     <Image
                       src="/img/logo.png"
                       alt="logo"
-                      width={100}
-                      height={39}
+                      width={85}
+                      height={33}
                     />
                   </Link>
 

@@ -70,13 +70,13 @@
 .navbar-nav {
   .nav-item {
     position: relative;
-    margin: 0 8px;
+    margin: 0 4px;
 
     .nav-link {
       position: relative;
-      padding: 12px 18px !important;
+      padding: 10px 16px !important;
       font-weight: 600;
-      font-size: 15px;
+      font-size: 14px;
       color: #0e0129 !important;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       border-radius: 8px;
@@ -563,7 +563,7 @@
 
   // Desktop version
   &.desktop {
-    padding: 10px 18px;
+    padding: 8px 16px;
     font-size: 13px;
     text-transform: capitalize;
   }
