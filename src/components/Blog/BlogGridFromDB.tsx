@@ -16,6 +16,7 @@ interface BlogPost {
   content: string;
   content_ar: string;
   featured_image: string;
+  category: string;
   views: number;
   created_at: string;
 }
