@@ -10,7 +10,6 @@ interface BlogPost {
   title: string;
   title_ar: string;
   slug: string;
-  category: string;
   status: 'draft' | 'published' | 'archived';
   views: number;
   published_at: string | null;
@@ -40,7 +39,6 @@ const BlogPostsList: React.FC<BlogPostsListProps> = ({ posts: initialPosts, user
       published: "Published",
       archived: "Archived",
       title: "Title",
-      category: "Category",
       author: "Author",
       status: "Status",
       views: "Views",
@@ -65,7 +63,6 @@ const BlogPostsList: React.FC<BlogPostsListProps> = ({ posts: initialPosts, user
       published: "منشور",
       archived: "مؤرشف",
       title: "العنوان",
-      category: "التصنيف",
       author: "الكاتب",
       status: "الحالة",
       views: "المشاهدات",
@@ -118,8 +115,7 @@ const BlogPostsList: React.FC<BlogPostsListProps> = ({ posts: initialPosts, user
     const matchesSearch =
       !searchTerm ||
       post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.title_ar.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.category?.toLowerCase().includes(searchTerm.toLowerCase());
+      post.title_ar.toLowerCase().includes(searchTerm.toLowerCase());
 
     return matchesStatus && matchesSearch;
   }), [posts, filterStatus, searchTerm]);
@@ -269,9 +265,6 @@ const BlogPostsList: React.FC<BlogPostsListProps> = ({ posts: initialPosts, user
                   {t.title}
                 </th>
                 <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                  {t.category}
-                </th>
-                <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
                   {t.author}
                 </th>
                 <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
@@ -291,7 +284,7 @@ const BlogPostsList: React.FC<BlogPostsListProps> = ({ posts: initialPosts, user
             <tbody>
               {filteredPosts.length === 0 ? (
                 <tr>
-                  <td colSpan={7} style={{ padding: '40px', textAlign: 'center', color: '#9ca3af', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                  <td colSpan={6} style={{ padding: '40px', textAlign: 'center', color: '#9ca3af', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
                     {t.noPosts}
                   </td>
                 </tr>
@@ -312,9 +305,6 @@ const BlogPostsList: React.FC<BlogPostsListProps> = ({ posts: initialPosts, user
                         {isArabic && post.title_ar ? post.title_ar : post.title}
                       </div>
                       <div style={{ fontSize: '12px', color: '#6b7280' }}>{post.slug}</div>
-                    </td>
-                    <td style={{ padding: '16px', fontSize: '13px', color: '#374151', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                      {post.category || '-'}
                     </td>
                     <td style={{ padding: '16px', fontSize: '13px', color: '#374151', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
                       {post.author_name}

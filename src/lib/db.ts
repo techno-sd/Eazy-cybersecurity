@@ -14,8 +14,11 @@ const dbConfig = {
   } : undefined,
   // Connection pool settings
   waitForConnections: true,
-  connectionLimit: 10,
+  connectionLimit: 30, // Increased to handle parallel queries
   queueLimit: 0,
+  maxIdle: 15, // Maximum idle connections
+  idleTimeout: 60000, // Close idle connections after 60 seconds
+  connectTimeout: 10000, // Connection timeout 10 seconds
   enableKeepAlive: true,
   keepAliveInitialDelay: 0
 };
@@ -26,8 +29,23 @@ let pool: mysql.Pool | null = null;
 export function getPool(): mysql.Pool {
   if (!pool) {
     pool = mysql.createPool(dbConfig);
+
+    // Log pool creation
+    console.log('📊 Database pool created with config:', {
+      connectionLimit: dbConfig.connectionLimit,
+      maxIdle: dbConfig.maxIdle,
+      idleTimeout: dbConfig.idleTimeout
+    });
   }
   return pool;
+}
+
+// Force pool reset (useful during development)
+export function resetPool(): void {
+  if (pool) {
+    pool.end().catch(console.error);
+    pool = null;
+  }
 }
 
 // Get a connection from the pool

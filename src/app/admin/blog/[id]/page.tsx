@@ -57,15 +57,6 @@ export default async function EditBlogPostPage({ params }: { params: Promise<{ i
 
   const post = posts[0];
 
-  // Parse tags if they exist
-  if (post.tags && typeof post.tags === 'string') {
-    try {
-      post.tags = JSON.parse(post.tags);
-    } catch (e) {
-      post.tags = [];
-    }
-  }
-
   return (
     <AdminLayout user={user}>
       <BlogPostEditor user={user} post={post} />

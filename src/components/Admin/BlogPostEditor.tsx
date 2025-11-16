@@ -24,8 +24,6 @@ const BlogPostEditor: React.FC<BlogPostEditorProps> = ({ post, user }) => {
     content: post?.content || "",
     content_ar: post?.content_ar || "",
     featured_image: post?.featured_image || "",
-    category: post?.category || "",
-    tags: post?.tags ? (typeof post.tags === 'string' ? JSON.parse(post.tags) : post.tags) : [],
     status: post?.status || "draft",
   });
 
@@ -62,8 +60,6 @@ const BlogPostEditor: React.FC<BlogPostEditorProps> = ({ post, user }) => {
       featuredImage: "Featured Image",
       uploadImage: "Upload Image",
       orEnterUrl: "Or enter image URL",
-      category: "Category",
-      tags: "Tags (comma separated)",
       status: "Status",
       draft: "Draft",
       published: "Published",
@@ -92,8 +88,6 @@ const BlogPostEditor: React.FC<BlogPostEditorProps> = ({ post, user }) => {
       featuredImage: "الصورة المميزة",
       uploadImage: "رفع صورة",
       orEnterUrl: "أو أدخل رابط الصورة",
-      category: "التصنيف",
-      tags: "الوسوم (مفصولة بفواصل)",
       status: "الحالة",
       draft: "مسودة",
       published: "منشور",
@@ -132,11 +126,6 @@ const BlogPostEditor: React.FC<BlogPostEditorProps> = ({ post, user }) => {
     }
   };
 
-  const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const tagsString = e.target.value;
-    const tagsArray = tagsString.split(',').map(tag => tag.trim()).filter(tag => tag);
-    setFormData(prev => ({ ...prev, tags: tagsArray }));
-  };
 
   const validateForm = () => {
     if (!formData.title || !formData.slug || !formData.content) {
@@ -418,91 +407,35 @@ const BlogPostEditor: React.FC<BlogPostEditorProps> = ({ post, user }) => {
             />
           </div>
 
-          {/* Row with Category, Tags, Status */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
-            {/* Category */}
-            <div>
-              <label style={{
-                display: 'block',
+          {/* Status */}
+          <div>
+            <label style={{
+              display: 'block',
+              fontSize: '14px',
+              fontWeight: '600',
+              color: '#374151',
+              marginBottom: '8px',
+              fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+            }}>
+              {t.status}
+            </label>
+            <select
+              name="status"
+              value={formData.status}
+              onChange={handleChange}
+              style={{
+                width: '100%',
+                padding: '10px 14px',
+                border: '1px solid #e5e7eb',
+                borderRadius: '8px',
                 fontSize: '14px',
-                fontWeight: '600',
-                color: '#374151',
-                marginBottom: '8px',
                 fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-              }}>
-                {t.category}
-              </label>
-              <input
-                type="text"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                style={{
-                  width: '100%',
-                  padding: '10px 14px',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '8px',
-                  fontSize: '14px',
-                }}
-              />
-            </div>
-
-            {/* Tags */}
-            <div>
-              <label style={{
-                display: 'block',
-                fontSize: '14px',
-                fontWeight: '600',
-                color: '#374151',
-                marginBottom: '8px',
-                fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-              }}>
-                {t.tags}
-              </label>
-              <input
-                type="text"
-                value={formData.tags.join(', ')}
-                onChange={handleTagsChange}
-                style={{
-                  width: '100%',
-                  padding: '10px 14px',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '8px',
-                  fontSize: '14px',
-                }}
-              />
-            </div>
-
-            {/* Status */}
-            <div>
-              <label style={{
-                display: 'block',
-                fontSize: '14px',
-                fontWeight: '600',
-                color: '#374151',
-                marginBottom: '8px',
-                fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-              }}>
-                {t.status}
-              </label>
-              <select
-                name="status"
-                value={formData.status}
-                onChange={handleChange}
-                style={{
-                  width: '100%',
-                  padding: '10px 14px',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '8px',
-                  fontSize: '14px',
-                  fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-                }}
-              >
-                <option value="draft">{t.draft}</option>
-                <option value="published">{t.published}</option>
-                <option value="archived">{t.archived}</option>
-              </select>
-            </div>
+              }}
+            >
+              <option value="draft">{t.draft}</option>
+              <option value="published">{t.published}</option>
+              <option value="archived">{t.archived}</option>
+            </select>
           </div>
 
           {/* Featured Image */}

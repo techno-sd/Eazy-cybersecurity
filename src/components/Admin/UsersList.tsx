@@ -15,11 +15,28 @@ interface User {
   created_at: string;
 }
 
+interface Role {
+  id: number;
+  name: string;
+  description: string;
+}
+
 const UsersList: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [roles, setRoles] = useState<Role[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [creatingUser, setCreatingUser] = useState(false);
+  const [newUser, setNewUser] = useState({
+    email: '',
+    full_name: '',
+    password: '',
+    phone: '',
+    company: '',
+    role: 'user',
+    is_active: true,
+  });
   const [filterRole, setFilterRole] = useState<string>('all');
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
@@ -47,9 +64,23 @@ const UsersList: React.FC = () => {
     }
   }, [filterRole, filterStatus, searchTerm]);
 
+  // Fetch roles
+  const fetchRoles = useCallback(async () => {
+    try {
+      const response = await fetch('/api/admin/roles');
+      const data = await response.json();
+      if (data.success) {
+        setRoles(data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching roles:', error);
+    }
+  }, []);
+
   useEffect(() => {
     fetchUsers();
-  }, [fetchUsers]);
+    fetchRoles();
+  }, [fetchUsers, fetchRoles]);
 
   const translations = useMemo(() => ({
     en: {
@@ -86,6 +117,11 @@ const UsersList: React.FC = () => {
       roleUser: "User",
       roleModerator: "Moderator",
       never: "Never",
+      addNewUser: "Add New User",
+      createUser: "Create User",
+      password: "Password",
+      assignRole: "Assign Role",
+      create: "Create",
     },
     ar: {
       total: "إجمالي المستخدمين",
@@ -121,6 +157,11 @@ const UsersList: React.FC = () => {
       roleUser: "مستخدم",
       roleModerator: "مشرف",
       never: "أبداً",
+      addNewUser: "إضافة مستخدم جديد",
+      createUser: "إنشاء مستخدم",
+      password: "كلمة المرور",
+      assignRole: "تعيين دور",
+      create: "إنشاء",
     }
   }), []);
 
@@ -179,6 +220,43 @@ const UsersList: React.FC = () => {
       alert('Failed to update user');
     }
   }, [editingUser, fetchUsers]);
+
+  const handleCreateUser = useCallback(async () => {
+    if (!newUser.email || !newUser.full_name || !newUser.password || !newUser.role) {
+      alert(isArabic ? 'يرجى ملء جميع الحقول المطلوبة' : 'Please fill all required fields');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/admin/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newUser),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        fetchUsers();
+        setCreatingUser(false);
+        setNewUser({
+          email: '',
+          full_name: '',
+          password: '',
+          phone: '',
+          company: '',
+          role: 'user',
+          is_active: true,
+        });
+        alert(data.message);
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error('Error creating user:', error);
+      alert('Failed to create user');
+    }
+  }, [newUser, fetchUsers, isArabic]);
 
   const formatDate = (dateString: string | undefined) => {
     if (!dateString) return t.never;
@@ -244,7 +322,7 @@ const UsersList: React.FC = () => {
         ))}
       </div>
 
-      {/* Filters */}
+      {/* Filters and Add Button */}
       <div style={{
         background: '#fff',
         padding: '20px',
@@ -253,6 +331,30 @@ const UsersList: React.FC = () => {
         marginBottom: '20px',
         border: '1px solid rgba(0,0,0,0.05)',
       }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+          <button
+            onClick={() => {
+              fetchRoles(); // Refresh roles when opening modal
+              setCreatingUser(true);
+            }}
+            style={{
+              padding: '12px 24px',
+              background: '#27ae60',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '10px',
+              cursor: 'pointer',
+              fontSize: '14px',
+              fontWeight: '600',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
+            <i className="bx bx-plus" style={{ fontSize: '20px' }}></i>
+            {t.addNewUser}
+          </button>
+        </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px' }}>
           <input
             type="text"
@@ -393,7 +495,10 @@ const UsersList: React.FC = () => {
                           {t.view}
                         </button>
                         <button
-                          onClick={() => setEditingUser({...user})}
+                          onClick={() => {
+                            fetchRoles(); // Refresh roles when opening edit modal
+                            setEditingUser({...user});
+                          }}
                           style={{
                             padding: '8px 16px',
                             background: '#f39c12',
@@ -611,9 +716,12 @@ const UsersList: React.FC = () => {
                     fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
                   }}
                 >
-                  <option value="user">{t.roleUser}</option>
-                  <option value="moderator">{t.roleModerator}</option>
-                  <option value="admin">{t.roleAdmin}</option>
+                  <option value="">{isArabic ? 'اختر دور' : 'Select Role'}</option>
+                  {roles.filter(role => role.is_active).map(role => (
+                    <option key={role.id} value={role.name}>
+                      {role.name}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div>
@@ -646,6 +754,195 @@ const UsersList: React.FC = () => {
               </button>
               <button
                 onClick={() => setEditingUser(null)}
+                style={{
+                  flex: 1,
+                  padding: '12px',
+                  background: '#95a5a6',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '10px',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                }}
+              >
+                {t.cancel}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Create User Modal */}
+      {creatingUser && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+          backdropFilter: 'blur(4px)',
+        }} onClick={() => setCreatingUser(false)}>
+          <div style={{
+            background: '#fff',
+            padding: '32px',
+            borderRadius: '20px',
+            maxWidth: '600px',
+            width: '90%',
+            maxHeight: '80vh',
+            overflowY: 'auto',
+            boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
+          }} onClick={(e) => e.stopPropagation()}>
+            <h2 style={{ margin: '0 0 24px 0', color: '#2c3e50', fontSize: '24px', fontWeight: 'bold' }}>
+              {t.createUser}
+            </h2>
+            <div style={{ display: 'grid', gap: '16px' }}>
+              <div>
+                <label style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
+                  {t.fullName} *
+                </label>
+                <input
+                  type="text"
+                  value={newUser.full_name}
+                  onChange={(e) => setNewUser({...newUser, full_name: e.target.value})}
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    border: '1px solid #ddd',
+                    borderRadius: '10px',
+                    fontSize: '14px',
+                    fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                  }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
+                  {t.email} *
+                </label>
+                <input
+                  type="email"
+                  value={newUser.email}
+                  onChange={(e) => setNewUser({...newUser, email: e.target.value})}
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    border: '1px solid #ddd',
+                    borderRadius: '10px',
+                    fontSize: '14px',
+                  }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
+                  {t.password} *
+                </label>
+                <input
+                  type="password"
+                  value={newUser.password}
+                  onChange={(e) => setNewUser({...newUser, password: e.target.value})}
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    border: '1px solid #ddd',
+                    borderRadius: '10px',
+                    fontSize: '14px',
+                  }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
+                  {t.phone}
+                </label>
+                <input
+                  type="tel"
+                  value={newUser.phone}
+                  onChange={(e) => setNewUser({...newUser, phone: e.target.value})}
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    border: '1px solid #ddd',
+                    borderRadius: '10px',
+                    fontSize: '14px',
+                  }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
+                  {t.company}
+                </label>
+                <input
+                  type="text"
+                  value={newUser.company}
+                  onChange={(e) => setNewUser({...newUser, company: e.target.value})}
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    border: '1px solid #ddd',
+                    borderRadius: '10px',
+                    fontSize: '14px',
+                    fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                  }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
+                  {t.assignRole} *
+                </label>
+                <select
+                  value={newUser.role}
+                  onChange={(e) => setNewUser({...newUser, role: e.target.value})}
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    border: '1px solid #ddd',
+                    borderRadius: '10px',
+                    fontSize: '14px',
+                    fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                  }}
+                >
+                  <option value="">{isArabic ? 'اختر دور' : 'Select Role'}</option>
+                  {roles.filter(role => role.is_active).map(role => (
+                    <option key={role.id} value={role.name}>
+                      {role.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={newUser.is_active}
+                    onChange={(e) => setNewUser({...newUser, is_active: e.target.checked})}
+                  />
+                  <span style={{ color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>{t.activeStatus}</span>
+                </label>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
+              <button
+                onClick={handleCreateUser}
+                style={{
+                  flex: 1,
+                  padding: '12px',
+                  background: '#27ae60',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '10px',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                }}
+              >
+                {t.create}
+              </button>
+              <button
+                onClick={() => setCreatingUser(false)}
                 style={{
                   flex: 1,
                   padding: '12px',

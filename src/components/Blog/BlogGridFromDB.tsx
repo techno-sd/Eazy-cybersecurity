@@ -11,10 +11,11 @@ interface BlogPost {
   title: string;
   title_ar: string;
   slug: string;
+  excerpt: string;
+  excerpt_ar: string;
   content: string;
   content_ar: string;
   featured_image: string;
-  category: string;
   views: number;
   created_at: string;
 }
@@ -57,15 +58,20 @@ const BlogGridFromDB: React.FC = () => {
   const fetchPosts = async () => {
     try {
       const response = await fetch('/api/blog/public');
-      if (!response.ok) throw new Error('Failed to fetch posts');
 
       const data = await response.json();
+
+      if (!response.ok) {
+        console.error('API Error:', data);
+        throw new Error(data.error || data.message || 'Failed to fetch posts');
+      }
+
       if (data.success) {
         setPosts(data.data);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error fetching blog posts:', err);
-      setError('Failed to load blog posts');
+      setError(err.message || 'Failed to load blog posts');
     } finally {
       setLoading(false);
     }

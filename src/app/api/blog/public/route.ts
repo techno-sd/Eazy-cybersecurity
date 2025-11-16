@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { query } from "@/lib/db";
 import { getCacheControlHeader, CACHE_CONFIG } from "@/lib/performance";
 import { getSecurityHeaders } from "@/lib/security";
 
@@ -9,41 +9,25 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const limit = Math.min(parseInt(searchParams.get('limit') || '12'), 100); // Max 100
     const offset = parseInt(searchParams.get('offset') || '0');
-    const category = searchParams.get('category') || '';
 
-    // Build where clause
-    const where: any = {
-      status: 'published',
-    };
+    // Fetch posts with MySQL (sequential to avoid connection pool issues)
+    const totalResult = await query<any[]>(
+      'SELECT COUNT(*) as total FROM blog_posts WHERE status = ?',
+      ['published']
+    );
 
-    if (category) {
-      where.category = category;
-    }
+    const posts = await query<any[]>(
+      `SELECT
+        id, title, title_ar, slug, excerpt, excerpt_ar,
+        content, content_ar, featured_image, views, created_at
+       FROM blog_posts
+       WHERE status = ?
+       ORDER BY created_at DESC
+       LIMIT ${limit} OFFSET ${offset}`,
+      ['published']
+    );
 
-    // Fetch posts with Prisma
-    const [posts, total] = await Promise.all([
-      prisma.blog_posts.findMany({
-        where,
-        select: {
-          id: true,
-          title: true,
-          title_ar: true,
-          slug: true,
-          content: true,
-          content_ar: true,
-          featured_image: true,
-          category: true,
-          views: true,
-          created_at: true,
-        },
-        orderBy: {
-          created_at: 'desc',
-        },
-        take: limit,
-        skip: offset,
-      }),
-      prisma.blog_posts.count({ where }),
-    ]);
+    const total = totalResult[0]?.total || 0;
 
     return NextResponse.json(
       {
@@ -70,8 +54,18 @@ export async function GET(request: NextRequest) {
     );
   } catch (error: any) {
     console.error('Error fetching blog posts:', error);
+    console.error('Error details:', {
+      message: error.message,
+      code: error.code,
+      errno: error.errno,
+      sql: error.sql
+    });
     return NextResponse.json(
-      { success: false, message: 'Failed to fetch blog posts' },
+      {
+        success: false,
+        message: 'Failed to fetch blog posts',
+        error: process.env.NODE_ENV === 'development' ? error.message : undefined
+      },
       {
         status: 500,
         headers: {

@@ -25,6 +25,38 @@ const AdminDashboard: React.FC<DashboardProps> = ({
 }) => {
   const { lang, isArabic } = useAdminLang();
 
+  // Service type mapping to match website consultation form
+  const serviceTypeMap = {
+    en: {
+      'ai-solutions': 'AI Solutions',
+      'cybersecurity': 'Cybersecurity Services',
+      'big-data': 'Big Data & Analytics',
+      'cloud-computing': 'Cloud Computing & Hosting',
+      'sme-eazy': 'SME-EAZY Program',
+      'digital-transformation': 'Digital Transformation',
+      'vision-2030': 'Vision 2030 Initiatives',
+      'security-training': 'Security Training & Awareness',
+      'other': 'Other',
+    },
+    ar: {
+      'ai-solutions': 'حلول الذكاء الاصطناعي',
+      'cybersecurity': 'خدمات الأمن السيبراني',
+      'big-data': 'البيانات الضخمة والتحليلات',
+      'cloud-computing': 'الحوسبة السحابية والاستضافة',
+      'sme-eazy': 'برنامج SME-EAZY',
+      'digital-transformation': 'التحول الرقمي',
+      'vision-2030': 'مبادرات رؤية 2030',
+      'security-training': 'التدريب والتوعية الأمنية',
+      'other': 'أخرى',
+    }
+  };
+
+  const getServiceName = (serviceType: string | undefined): string => {
+    if (!serviceType) return '-';
+    const serviceMap = isArabic ? serviceTypeMap.ar : serviceTypeMap.en;
+    return serviceMap[serviceType as keyof typeof serviceMap] || serviceType;
+  };
+
   const translations = {
     en: {
       welcomeBack: "Welcome back",
@@ -312,7 +344,7 @@ const AdminDashboard: React.FC<DashboardProps> = ({
               {recentConsultations.map((consultation) => (
                 <Link
                   key={consultation.id}
-                  href={`/admin/consultations/${consultation.id}`}
+                  href="/admin/consultations"
                   style={{
                     padding: "16px",
                     background: "#f9fafb",
@@ -348,7 +380,7 @@ const AdminDashboard: React.FC<DashboardProps> = ({
                     </span>
                   </div>
                   <div style={{ fontSize: "13px", color: "#6b7280", marginBottom: "4px", fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                    {consultation.service_type || (isArabic ? "استفسار عام" : "General Inquiry")}
+                    {getServiceName(consultation.service_type)}
                   </div>
                   <div style={{ fontSize: "12px", color: "#9ca3af" }}>
                     {formatDate(consultation.created_at)}

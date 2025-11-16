@@ -12,6 +12,9 @@ interface AdminLayoutProps {
     full_name: string;
     email: string;
     role: string;
+    menu_access?: {
+      [key: string]: boolean;
+    };
   };
 }
 
@@ -38,15 +41,14 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
       blogPosts: "Blog Posts",
       allPosts: "All Posts",
       addNew: "Add New",
-      categories: "Categories",
       consultations: "Consultations",
-      contacts: "Contacts",
       users: "Users",
+      roles: "Roles & Permissions",
       logout: "Logout",
       viewSite: "View Site",
       blogManagement: "Blog Management",
-      contactMessages: "Contact Messages",
       userManagement: "User Management",
+      rolesManagement: "Roles & Permissions",
     },
     ar: {
       adminPanel: "لوحة الإدارة",
@@ -54,15 +56,14 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
       blogPosts: "المقالات",
       allPosts: "كل المقالات",
       addNew: "إضافة جديد",
-      categories: "التصنيفات",
       consultations: "الاستشارات",
-      contacts: "الرسائل",
       users: "المستخدمين",
+      roles: "الأدوار والصلاحيات",
       logout: "تسجيل الخروج",
       viewSite: "عرض الموقع",
       blogManagement: "إدارة المقالات",
-      contactMessages: "رسائل الاتصال",
       userManagement: "إدارة المستخدمين",
+      rolesManagement: "الأدوار والصلاحيات",
     }
   }), []);
 
@@ -74,26 +75,31 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
       icon: "bx bx-home-alt",
       path: "/admin",
       exact: true,
+      menuKey: "dashboard",
     },
     {
       title: t.blogPosts,
       icon: "bx bx-news",
       path: "/admin/blog",
-      submenu: [
-        { title: t.allPosts, path: "/admin/blog" },
-        { title: t.addNew, path: "/admin/blog/new" },
-        { title: t.categories, path: "/admin/blog/categories" },
-      ],
+      menuKey: "blog",
     },
     {
       title: t.consultations,
       icon: "bx bx-message-dots",
       path: "/admin/consultations",
+      menuKey: "consultations",
     },
     {
       title: t.users,
       icon: "bx bx-user",
       path: "/admin/users",
+      menuKey: "users",
+    },
+    {
+      title: t.roles,
+      icon: "bx bx-shield-quarter",
+      path: "/admin/roles",
+      menuKey: "roles",
     },
   ], [t]);
 
@@ -190,7 +196,15 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
 
         {/* Navigation */}
         <nav style={{ padding: "24px 0" }}>
-          {menuItems.map((item, index) => (
+          {menuItems.map((item, index) => {
+            // Check menu access from role permissions
+            if (user?.menu_access && item.menuKey) {
+              // If menu_access exists, check if user has permission for this menu
+              if (!user.menu_access[item.menuKey]) {
+                return null;
+              }
+            }
+            return (
               <div key={index}>
                 <Link
                   href={item.path}
@@ -296,7 +310,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
                   </div>
                 )}
               </div>
-          ))}
+            );
+          })}
         </nav>
 
 
@@ -332,6 +347,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
             {pathname?.startsWith("/admin/blog") && t.blogManagement}
             {pathname?.startsWith("/admin/consultations") && t.consultations}
             {pathname?.startsWith("/admin/users") && t.userManagement}
+            {pathname?.startsWith("/admin/roles") && t.rolesManagement}
           </h1>
 
           <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>

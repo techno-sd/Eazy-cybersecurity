@@ -150,6 +150,52 @@ CREATE TABLE IF NOT EXISTS `website_settings` (
   UNIQUE KEY `setting_key` (`setting_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Roles table (Simplified RBAC with menu-based permissions)
+CREATE TABLE IF NOT EXISTS `roles` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `menu_access` JSON DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT 1,
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  KEY `idx_name` (`name`),
+  KEY `idx_is_active` (`is_active`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Sessions table
+CREATE TABLE IF NOT EXISTS `sessions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `session_token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci,
+  `user_agent` text COLLATE utf8mb4_unicode_ci,
+  `expires_at` timestamp NOT NULL,
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `session_token` (`session_token`),
+  KEY `idx_session_token` (`session_token`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_expires_at` (`expires_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Contacts table
+CREATE TABLE IF NOT EXISTS `contacts` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(50) COLLATE utf8mb4_unicode_ci,
+  `subject` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_email` (`email`),
+  KEY `idx_created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- ============================================================================
 -- INITIAL DATA
 -- ============================================================================
@@ -196,15 +242,38 @@ VALUES
    '/img/blog/blog3.jpg', 1, 'Threats', JSON_ARRAY('phishing', 'threats', 'security'), 'published', 0, NOW(), NOW());
 
 -- Insert default website settings
-INSERT IGNORE INTO `website_settings` 
-  (`setting_key`, `setting_value`, `setting_type`, `description`) 
-VALUES 
+INSERT IGNORE INTO `website_settings`
+  (`setting_key`, `setting_value`, `setting_type`, `description`)
+VALUES
   ('site_name', 'Eazy Cybersecurity', 'text', 'Website name'),
   ('site_email', 'info@eazycyber.sa', 'text', 'Contact email address'),
   ('site_phone', '+966-12-345-6789', 'text', 'Contact phone number'),
   ('site_address', 'Riyadh, Saudi Arabia', 'text', 'Business address'),
   ('maintenance_mode', '0', 'boolean', 'Enable/disable maintenance mode'),
   ('blog_posts_per_page', '12', 'number', 'Number of blog posts per page');
+
+-- Insert default roles (Simplified RBAC with menu-based permissions)
+INSERT IGNORE INTO `roles`
+  (`name`, `description`, `menu_access`, `is_active`)
+VALUES
+  ('admin', 'Administrator - Full access to all admin panel features',
+   JSON_OBJECT(
+     'dashboard', true,
+     'blog', true,
+     'consultations', true,
+     'users', true,
+     'roles', true
+   ),
+   1),
+  ('moderator', 'Content Moderator - Can manage blog and consultations',
+   JSON_OBJECT(
+     'dashboard', true,
+     'blog', true,
+     'consultations', true,
+     'users', false,
+     'roles', false
+   ),
+   1);
 
 -- ============================================================================
 -- Commit message for migrations
