@@ -48,7 +48,14 @@ const RolesManagement: React.FC<RolesManagementProps> = ({ isArabic = false }) =
       const data = await response.json();
 
       if (data.success) {
-        setRoles(data.data);
+        // Parse menu_access if it's a string from database
+        const parsedRoles = data.data.map((role: any) => ({
+          ...role,
+          menu_access: typeof role.menu_access === 'string'
+            ? JSON.parse(role.menu_access)
+            : role.menu_access
+        }));
+        setRoles(parsedRoles);
       } else {
         setError(data.message);
       }
@@ -372,6 +379,16 @@ const RoleEditModal: React.FC<RoleEditModalProps> = ({ role, isArabic, onClose, 
     menu_access: JSON.parse(JSON.stringify(role.menu_access)), // Deep clone
   });
   const [loading, setLoading] = useState(false);
+
+  // Re-initialize form data when role changes
+  useEffect(() => {
+    setFormData({
+      name: role.name,
+      description: role.description,
+      is_active: role.is_active,
+      menu_access: JSON.parse(JSON.stringify(role.menu_access)),
+    });
+  }, [role]);
 
   const t = {
     editRole: isArabic ? "تعديل الدور" : "Edit Role",
