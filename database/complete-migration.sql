@@ -38,20 +38,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `idx_is_active` (`is_active`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Blog categories table
-CREATE TABLE IF NOT EXISTS `blog_categories` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name_ar` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `slug` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `description_ar` text COLLATE utf8mb4_unicode_ci,
-  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `slug` (`slug`),
-  KEY `idx_slug` (`slug`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 -- Blog posts table
 CREATE TABLE IF NOT EXISTS `blog_posts` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -78,24 +64,6 @@ CREATE TABLE IF NOT EXISTS `blog_posts` (
   KEY `idx_author_id` (`author_id`),
   KEY `idx_created_at` (`created_at`),
   CONSTRAINT `fk_blog_posts_author` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Contact submissions table
-CREATE TABLE IF NOT EXISTS `contact_submissions` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(50) COLLATE utf8mb4_unicode_ci,
-  `subject` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` enum('new','read','responded','archived') COLLATE utf8mb4_unicode_ci DEFAULT 'new',
-  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci,
-  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `idx_email` (`email`),
-  KEY `idx_status` (`status`),
-  KEY `idx_created_at` (`created_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Consultations table
@@ -137,19 +105,6 @@ CREATE TABLE IF NOT EXISTS `activity_logs` (
   KEY `idx_entity` (`entity_type`, `entity_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Website settings table
-CREATE TABLE IF NOT EXISTS `website_settings` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `setting_key` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `setting_value` text COLLATE utf8mb4_unicode_ci,
-  `setting_type` enum('text','textarea','boolean','number') COLLATE utf8mb4_unicode_ci DEFAULT 'text',
-  `description` varchar(500) COLLATE utf8mb4_unicode_ci,
-  `updated_by` int,
-  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `setting_key` (`setting_key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 -- Roles table (Simplified RBAC with menu-based permissions)
 CREATE TABLE IF NOT EXISTS `roles` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -165,37 +120,6 @@ CREATE TABLE IF NOT EXISTS `roles` (
   KEY `idx_is_active` (`is_active`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Sessions table
-CREATE TABLE IF NOT EXISTS `sessions` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `session_token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci,
-  `user_agent` text COLLATE utf8mb4_unicode_ci,
-  `expires_at` timestamp NOT NULL,
-  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `session_token` (`session_token`),
-  KEY `idx_session_token` (`session_token`),
-  KEY `idx_user_id` (`user_id`),
-  KEY `idx_expires_at` (`expires_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Contacts table
-CREATE TABLE IF NOT EXISTS `contacts` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(50) COLLATE utf8mb4_unicode_ci,
-  `subject` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `idx_email` (`email`),
-  KEY `idx_created_at` (`created_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 -- ============================================================================
 -- INITIAL DATA
 -- ============================================================================
@@ -205,15 +129,6 @@ INSERT IGNORE INTO `users`
   (`id`, `email`, `password_hash`, `full_name`, `role`, `is_active`, `created_at`) 
 VALUES 
   (1, 'admin@eazycyber.sa', '$2b$10$MaFMBVdgHLwdAZ1d9LHOIeH7.P3YGwZ2Gv3zN2Pq0K9LmF9Z2Vq0G', 'Admin User', 'admin', 1, NOW());
-
--- Insert blog categories
-INSERT IGNORE INTO `blog_categories` 
-  (`id`, `name`, `name_ar`, `slug`, `description`, `description_ar`) 
-VALUES 
-  (1, 'Security', 'الأمن', 'security', 'Cybersecurity articles and tips', 'مقالات ونصائح الأمن السيبراني'),
-  (2, 'Threats', 'التهديدات', 'threats', 'Information about cyber threats', 'معلومات حول التهديدات السيبرانية'),
-  (3, 'Solutions', 'الحلول', 'solutions', 'Eazy solutions and services', 'حلول وخدمات Eazy'),
-  (4, 'Updates', 'التحديثات', 'updates', 'Latest updates and news', 'أحدث التحديثات والأخبار');
 
 -- Insert sample blog posts
 INSERT IGNORE INTO `blog_posts` 
@@ -240,17 +155,6 @@ VALUES
    'Phishing attacks are one of the most common cyber threats. This guide will help you understand how phishing works and how to protect yourself and your organization.',
    'هجمات التصيد الاحتيالي هي واحدة من أكثر التهديدات السيبرانية شيوعًا. سيساعدك هذا الدليل على فهم كيفية عمل التصيد الاحتيالي وكيفية حماية نفسك ومنظمتك.',
    '/img/blog/blog3.jpg', 1, 'Threats', JSON_ARRAY('phishing', 'threats', 'security'), 'published', 0, NOW(), NOW());
-
--- Insert default website settings
-INSERT IGNORE INTO `website_settings`
-  (`setting_key`, `setting_value`, `setting_type`, `description`)
-VALUES
-  ('site_name', 'Eazy Cybersecurity', 'text', 'Website name'),
-  ('site_email', 'info@eazycyber.sa', 'text', 'Contact email address'),
-  ('site_phone', '+966-12-345-6789', 'text', 'Contact phone number'),
-  ('site_address', 'Riyadh, Saudi Arabia', 'text', 'Business address'),
-  ('maintenance_mode', '0', 'boolean', 'Enable/disable maintenance mode'),
-  ('blog_posts_per_page', '12', 'number', 'Number of blog posts per page');
 
 -- Insert default roles (Simplified RBAC with menu-based permissions)
 INSERT IGNORE INTO `roles`
