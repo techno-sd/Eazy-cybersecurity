@@ -120,6 +120,22 @@ CREATE TABLE IF NOT EXISTS `roles` (
   KEY `idx_is_active` (`is_active`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- User Roles junction table
+CREATE TABLE IF NOT EXISTS `user_roles` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `role_id` int NOT NULL,
+  `assigned_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `assigned_by` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_user_role` (`user_id`, `role_id`),
+  KEY `idx_user_roles_user_id` (`user_id`),
+  KEY `idx_user_roles_role_id` (`role_id`),
+  CONSTRAINT `fk_user_roles_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_user_roles_role` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_user_roles_assigned_by` FOREIGN KEY (`assigned_by`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- ============================================================================
 -- INITIAL DATA
 -- ============================================================================
@@ -157,10 +173,9 @@ VALUES
    '/img/blog/blog3.jpg', 1, 'Threats', JSON_ARRAY('phishing', 'threats', 'security'), 'published', 0, NOW(), NOW());
 
 -- Insert default roles (Simplified RBAC with menu-based permissions)
-INSERT IGNORE INTO `roles`
-  (`name`, `description`, `menu_access`, `is_active`)
+INSERT INTO `roles` (`name`, `description`, `menu_access`, `is_active`)
 VALUES
-  ('admin', 'Administrator - Full access to all admin panel features',
+  ('admin', 'Administrator - Full access to all features',
    JSON_OBJECT(
      'dashboard', true,
      'blog', true,
@@ -168,8 +183,8 @@ VALUES
      'users', true,
      'roles', true
    ),
-   1),
-  ('moderator', 'Content Moderator - Can manage blog and consultations',
+   true),
+  ('moderator', 'Content Moderator - Manage blog and consultations',
    JSON_OBJECT(
      'dashboard', true,
      'blog', true,
@@ -177,7 +192,11 @@ VALUES
      'users', false,
      'roles', false
    ),
-   1);
+   true)
+ON DUPLICATE KEY UPDATE
+  `description` = VALUES(`description`),
+  `menu_access` = VALUES(`menu_access`),
+  `is_active` = VALUES(`is_active`);
 
 -- ============================================================================
 -- Commit message for migrations
