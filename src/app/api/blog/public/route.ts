@@ -23,8 +23,8 @@ export async function GET(request: NextRequest) {
        FROM blog_posts
        WHERE status = ?
        ORDER BY created_at DESC
-       LIMIT ${limit} OFFSET ${offset}`,
-      ['published']
+       LIMIT ? OFFSET ?`,
+      ['published', limit, offset]
     );
 
     const total = totalResult[0]?.total || 0;

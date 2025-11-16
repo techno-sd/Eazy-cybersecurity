@@ -1,13 +1,18 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 import { query, queryOne } from './db';
 import { RowDataPacket } from 'mysql2';
 
 const JWT_SECRET_ENV = process.env.JWT_SECRET;
-if (!JWT_SECRET_ENV && process.env.NODE_ENV === 'production') {
-  throw new Error('Missing JWT_SECRET environment variable in production.');
+if (!JWT_SECRET_ENV) {
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('SECURITY ERROR: JWT_SECRET environment variable is required in production');
+  }
+  console.warn('⚠️  SECURITY WARNING: Using fallback JWT_SECRET for development');
+  console.warn('⚠️  Set JWT_SECRET in .env.local for proper security');
+  console.warn('⚠️  Generate with: openssl rand -base64 32');
 }
-// In development, allow a fallback but warn loudly
 const JWT_SECRET = JWT_SECRET_ENV || 'dev-secret-change-me';
 const JWT_EXPIRES_IN = '7d'; // Token expires in 7 days
 const MAX_LOGIN_ATTEMPTS = 5;
@@ -276,10 +281,11 @@ export async function authenticateUser(
 }
 
 /**
- * Generate random token
+ * Generate cryptographically secure random token
+ * Uses crypto.randomBytes for secure token generation
  */
 export function generateRandomToken(): string {
-  return Math.random().toString(36).substring(2) + Date.now().toString(36);
+  return crypto.randomBytes(32).toString('hex');
 }
 
 /**

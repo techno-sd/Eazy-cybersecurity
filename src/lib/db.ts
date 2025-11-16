@@ -7,10 +7,11 @@ const dbConfig = {
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  // Aiven requires SSL connection
-  // For development, we accept self-signed certificates
+  // SSL configuration for database connection
+  // In production, enforce certificate validation for security
+  // In development with self-signed certs, allow unverified certificates
   ssl: process.env.DB_SSL === 'true' ? {
-    rejectUnauthorized: false
+    rejectUnauthorized: process.env.NODE_ENV === 'production'
   } : undefined,
   // Connection pool settings
   waitForConnections: true,
