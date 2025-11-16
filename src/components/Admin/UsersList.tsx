@@ -19,6 +19,7 @@ interface Role {
   id: number;
   name: string;
   description: string;
+  is_active: boolean;
 }
 
 const UsersList: React.FC = () => {
