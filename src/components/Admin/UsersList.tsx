@@ -41,6 +41,9 @@ const UsersList: React.FC = () => {
   const [filterRole, setFilterRole] = useState<string>('all');
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [resettingPassword, setResettingPassword] = useState<User | null>(null);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const { lang, isArabic } = useAdminLang();
 
   // Fetch users
@@ -123,6 +126,13 @@ const UsersList: React.FC = () => {
       password: "Password",
       assignRole: "Assign Role",
       create: "Create",
+      resetPassword: "Reset Password",
+      newPassword: "New Password",
+      confirmPassword: "Confirm Password",
+      passwordMismatch: "Passwords do not match",
+      passwordTooShort: "Password must be at least 8 characters",
+      passwordResetSuccess: "Password reset successfully",
+      resetPasswordFor: "Reset Password for",
     },
     ar: {
       total: "إجمالي المستخدمين",
@@ -163,6 +173,13 @@ const UsersList: React.FC = () => {
       password: "كلمة المرور",
       assignRole: "تعيين دور",
       create: "إنشاء",
+      resetPassword: "إعادة تعيين كلمة المرور",
+      newPassword: "كلمة المرور الجديدة",
+      confirmPassword: "تأكيد كلمة المرور",
+      passwordMismatch: "كلمات المرور غير متطابقة",
+      passwordTooShort: "يجب أن تكون كلمة المرور 8 أحرف على الأقل",
+      passwordResetSuccess: "تم إعادة تعيين كلمة المرور بنجاح",
+      resetPasswordFor: "إعادة تعيين كلمة المرور لـ",
     }
   }), []);
 
@@ -258,6 +275,43 @@ const UsersList: React.FC = () => {
       alert('Failed to create user');
     }
   }, [newUser, fetchUsers, isArabic]);
+
+  const handleResetPassword = useCallback(async () => {
+    if (!resettingPassword) return;
+
+    // Validation
+    if (!newPassword || newPassword.length < 8) {
+      alert(t.passwordTooShort);
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      alert(t.passwordMismatch);
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/admin/users/${resettingPassword.id}/reset-password`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ new_password: newPassword }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        alert(t.passwordResetSuccess);
+        setResettingPassword(null);
+        setNewPassword('');
+        setConfirmPassword('');
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error('Error resetting password:', error);
+      alert('Failed to reset password');
+    }
+  }, [resettingPassword, newPassword, confirmPassword, t]);
 
   const formatDate = (dateString: string | undefined) => {
     if (!dateString) return t.never;
@@ -480,7 +534,7 @@ const UsersList: React.FC = () => {
                     </td>
                     <td style={{ padding: '16px', color: '#6c757d', fontSize: '13px' }}>{formatDate(user.last_login)}</td>
                     <td style={{ padding: '16px' }}>
-                      <div style={{ display: 'flex', gap: '8px' }}>
+                      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                         <button
                           onClick={() => setSelectedUser(user)}
                           style={{
@@ -511,6 +565,20 @@ const UsersList: React.FC = () => {
                           }}
                         >
                           {t.edit}
+                        </button>
+                        <button
+                          onClick={() => setResettingPassword(user)}
+                          style={{
+                            padding: '8px 16px',
+                            background: '#9b59b6',
+                            color: '#fff',
+                            border: 'none',
+                            borderRadius: '8px',
+                            cursor: 'pointer',
+                            fontSize: '13px',
+                          }}
+                        >
+                          {t.resetPassword}
                         </button>
                         <button
                           onClick={() => handleDelete(user.id)}
@@ -944,6 +1012,119 @@ const UsersList: React.FC = () => {
               </button>
               <button
                 onClick={() => setCreatingUser(false)}
+                style={{
+                  flex: 1,
+                  padding: '12px',
+                  background: '#95a5a6',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '10px',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                }}
+              >
+                {t.cancel}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Reset Password Modal */}
+      {resettingPassword && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+          backdropFilter: 'blur(4px)',
+        }} onClick={() => {
+          setResettingPassword(null);
+          setNewPassword('');
+          setConfirmPassword('');
+        }}>
+          <div style={{
+            background: '#fff',
+            padding: '32px',
+            borderRadius: '20px',
+            maxWidth: '500px',
+            width: '90%',
+            boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
+          }} onClick={(e) => e.stopPropagation()}>
+            <h2 style={{ margin: '0 0 8px 0', color: '#2c3e50', fontSize: '24px', fontWeight: 'bold' }}>
+              {t.resetPassword}
+            </h2>
+            <p style={{ margin: '0 0 24px 0', color: '#6c757d', fontSize: '14px' }}>
+              {t.resetPasswordFor}: <strong>{resettingPassword.full_name}</strong>
+            </p>
+            <div style={{ display: 'grid', gap: '16px' }}>
+              <div>
+                <label style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
+                  {t.newPassword} *
+                </label>
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder={t.passwordTooShort}
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    border: '1px solid #ddd',
+                    borderRadius: '10px',
+                    fontSize: '14px',
+                  }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
+                  {t.confirmPassword} *
+                </label>
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder={t.confirmPassword}
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    border: '1px solid #ddd',
+                    borderRadius: '10px',
+                    fontSize: '14px',
+                  }}
+                />
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
+              <button
+                onClick={handleResetPassword}
+                style={{
+                  flex: 1,
+                  padding: '12px',
+                  background: '#9b59b6',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '10px',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                }}
+              >
+                {t.resetPassword}
+              </button>
+              <button
+                onClick={() => {
+                  setResettingPassword(null);
+                  setNewPassword('');
+                  setConfirmPassword('');
+                }}
                 style={{
                   flex: 1,
                   padding: '12px',

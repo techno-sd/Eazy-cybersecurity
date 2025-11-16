@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `user_roles` (
 INSERT IGNORE INTO `users` 
   (`id`, `email`, `password_hash`, `full_name`, `role`, `is_active`, `created_at`) 
 VALUES 
-  (1, 'admin@eazycyber.sa', '$2b$10$MaFMBVdgHLwdAZ1d9LHOIeH7.P3YGwZ2Gv3zN2Pq0K9LmF9Z2Vq0G', 'Admin User', 'admin', 1, NOW());
+  (1, 'admin@eazycyber.sa', '$2b$10$jIIkPRZCPWjyRTejeg9bdOMx6glrnXIUDskQmMlHNBu7rmYNOGKou', 'Admin User', 'admin', 1, NOW());
 
 -- Insert sample blog posts
 INSERT IGNORE INTO `blog_posts` 
