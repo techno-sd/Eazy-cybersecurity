@@ -8,9 +8,12 @@ export const dynamic = 'force-dynamic';
 // GET - Get user's roles
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // Await params in Next.js 15
+    const { id } = await params;
+
     // Check authentication
     const cookieStore = await cookies();
     const token = cookieStore.get('auth_token')?.value;
@@ -37,7 +40,7 @@ export async function GET(
        INNER JOIN user_roles ur ON r.id = ur.role_id
        WHERE ur.user_id = ?
        ORDER BY ur.assigned_at DESC`,
-      [params.id]
+      [id]
     );
 
     return NextResponse.json({
@@ -57,9 +60,12 @@ export async function GET(
 // POST - Assign role to user
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // Await params in Next.js 15
+    const { id } = await params;
+
     // Check authentication
     const cookieStore = await cookies();
     const token = cookieStore.get('auth_token')?.value;
@@ -105,7 +111,7 @@ export async function POST(
     // Check if target user exists
     const targetUsers = await query<any[]>(
       'SELECT id FROM users WHERE id = ?',
-      [params.id]
+      [id]
     );
 
     if (targetUsers.length === 0) {
@@ -131,7 +137,7 @@ export async function POST(
     // Check if user already has this role
     const existingAssignments = await query<any[]>(
       'SELECT id FROM user_roles WHERE user_id = ? AND role_id = ?',
-      [params.id, role_id]
+      [id, role_id]
     );
 
     if (existingAssignments.length > 0) {
@@ -144,7 +150,7 @@ export async function POST(
     // Assign role to user
     await query(
       'INSERT INTO user_roles (user_id, role_id, assigned_by) VALUES (?, ?, ?)',
-      [params.id, role_id, decoded.userId]
+      [id, role_id, decoded.userId]
     );
 
     return NextResponse.json({
@@ -164,9 +170,12 @@ export async function POST(
 // DELETE - Remove role from user
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // Await params in Next.js 15
+    const { id } = await params;
+
     // Check authentication
     const cookieStore = await cookies();
     const token = cookieStore.get('auth_token')?.value;
@@ -212,7 +221,7 @@ export async function DELETE(
     // Check if assignment exists
     const existingAssignments = await query<any[]>(
       'SELECT id FROM user_roles WHERE user_id = ? AND role_id = ?',
-      [params.id, role_id]
+      [id, role_id]
     );
 
     if (existingAssignments.length === 0) {
@@ -225,7 +234,7 @@ export async function DELETE(
     // Remove role from user
     await query(
       'DELETE FROM user_roles WHERE user_id = ? AND role_id = ?',
-      [params.id, role_id]
+      [id, role_id]
     );
 
     return NextResponse.json({
