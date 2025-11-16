@@ -266,49 +266,6 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
                   </div>
                   {sidebarOpen && <span style={{ fontSize: "15px", fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit', fontWeight: 500 }}>{item.title}</span>}
                 </Link>
-
-                {/* Submenu */}
-                {item.submenu && sidebarOpen && isActive(item.path) && (
-                  <div style={{ [isArabic ? 'marginRight' : 'marginLeft']: "24px", paddingTop: "8px" }}>
-                    {item.submenu.map((subitem, subindex) => (
-                      <Link
-                        key={subindex}
-                        href={subitem.path}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          padding: "12px 20px",
-                          margin: "4px 12px",
-                          borderRadius: "10px",
-                          color: pathname === subitem.path ? "#fff" : "rgba(255,255,255,0.7)",
-                          textDecoration: "none",
-                          fontSize: "14px",
-                          background: pathname === subitem.path
-                            ? "linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.08) 100%)"
-                            : "transparent",
-                          transition: "all 0.3s cubic-bezier(.4,0,.2,1)",
-                          direction: isArabic ? 'rtl' : 'ltr',
-                          border: pathname === subitem.path ? "1px solid rgba(255,255,255,0.2)" : "none",
-                        }}
-                        onMouseEnter={(e) => {
-                          if (pathname !== subitem.path) {
-                            e.currentTarget.style.background = "rgba(255,255,255,0.08)";
-                            e.currentTarget.style.color = "rgba(255,255,255,0.9)";
-                          }
-                        }}
-                        onMouseLeave={(e) => {
-                          if (pathname !== subitem.path) {
-                            e.currentTarget.style.background = "transparent";
-                            e.currentTarget.style.color = "rgba(255,255,255,0.7)";
-                          }
-                        }}
-                      >
-                        <i className={isArabic ? "bx bx-chevron-left" : "bx bx-chevron-right"} style={{ [isArabic ? 'marginLeft' : 'marginRight']: "10px", fontSize: "14px" }}></i>
-                        <span style={{ fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit', fontWeight: 400 }}>{subitem.title}</span>
-                      </Link>
-                    ))}
-                  </div>
-                )}
               </div>
             );
           })}
