@@ -196,6 +196,23 @@ CREATE TABLE IF NOT EXISTS `contacts` (
   KEY `idx_created_at` (`created_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- User Roles junction table (for multiple role assignments)
+CREATE TABLE IF NOT EXISTS `user_roles` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `role_id` int NOT NULL,
+  `assigned_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `assigned_by` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_role_unique` (`user_id`, `role_id`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_role_id` (`role_id`),
+  KEY `idx_assigned_by` (`assigned_by`),
+  CONSTRAINT `fk_user_roles_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_user_roles_role` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_user_roles_assigned_by` FOREIGN KEY (`assigned_by`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- ============================================================================
 -- INITIAL DATA
 -- ============================================================================
