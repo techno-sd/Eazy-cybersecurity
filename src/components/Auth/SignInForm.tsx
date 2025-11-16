@@ -93,22 +93,28 @@ const SignInForm: React.FC<SignInFormProps> = ({ lang }) => {
         throw new Error(data.message || (isArabic ? "فشل تسجيل الدخول" : "Login failed"));
       }
 
-      setSuccess(isArabic ? "تم تسجيل الدخول بنجاح!" : "Login successful!");
-
       // Store user data in localStorage if remember me is checked
       if (formData.rememberMe) {
         localStorage.setItem("user_email", formData.email);
       }
 
-      // Redirect to admin or home page after 1 second
-      setTimeout(() => {
-        if (data.data?.role === 'admin' || data.data?.role === 'moderator') {
-          router.push("/admin");
-        } else {
-          router.push("/");
-        }
+      // Check user role and redirect accordingly
+      const userRole = data.data?.role;
+      const isAdminOrModerator = userRole === 'admin' || userRole === 'moderator';
+
+      // Show success message
+      setSuccess(isArabic ? "تم تسجيل الدخول بنجاح!" : "Login successful!");
+
+      // Redirect immediately for admins/moderators, with delay for regular users
+      if (isAdminOrModerator) {
+        router.push("/admin");
         router.refresh();
-      }, 1000);
+      } else {
+        setTimeout(() => {
+          router.push("/");
+          router.refresh();
+        }, 1000);
+      }
 
     } catch (err: any) {
       setError(err.message || (isArabic ? "حدث خطأ ما" : "Something went wrong"));
