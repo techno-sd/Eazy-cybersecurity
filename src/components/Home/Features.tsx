@@ -15,7 +15,7 @@ const Features: React.FC = () => {
     <>
       <div className="container pt-70 pb-70" style={{ position: 'relative', zIndex: 3 }}>
         <div className="row g-4">
-          <div className="col-lg-6 col-sm-6">
+          <div className="col-lg-6 col-12">
             <div
               className="single-features reveal-animation"
               onMouseEnter={() => setHoveredCard(0)}
@@ -37,7 +37,10 @@ const Features: React.FC = () => {
                 overflow: 'hidden',
                 animationDelay: '0.3s',
                 transform: hoveredCard === 0 ? 'translateY(-8px) scale(1.02)' : 'translateY(0) scale(1)',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                minHeight: '320px',
+                display: 'flex',
+                flexDirection: 'column'
               }}>
               {/* Animated gradient overlay */}
               <div style={{
@@ -153,7 +156,7 @@ const Features: React.FC = () => {
             </div>
           </div>
 
-          <div className="col-lg-6 col-sm-6">
+          <div className="col-lg-6 col-12">
             <div
               className="single-features reveal-animation"
               onMouseEnter={() => setHoveredCard(1)}
@@ -175,7 +178,10 @@ const Features: React.FC = () => {
                 overflow: 'hidden',
                 animationDelay: '0.5s',
                 transform: hoveredCard === 1 ? 'translateY(-8px) scale(1.02)' : 'translateY(0) scale(1)',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                minHeight: '320px',
+                display: 'flex',
+                flexDirection: 'column'
               }}>
               {/* Animated gradient overlay */}
               <div style={{
