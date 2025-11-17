@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, memo, useCallback } from "react";
+import React, { useState, useMemo, memo, useCallback, useTransition } from "react";
 import { useAdminLang } from "@/hooks/useAdminLang";
 import AdminLanguageSelector from "./AdminLanguageSelector";
 import Link from "next/link";
@@ -24,6 +24,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const { lang, isArabic, toggleLanguage } = useAdminLang();
   const [isMobile, setIsMobile] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const [administrationOpen, setAdministrationOpen] = useState(false);
 
   React.useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -44,6 +46,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
       consultations: "Consultations",
       users: "Users",
       roles: "Roles & Permissions",
+      administration: "Administration",
+      settings: "Settings",
       logout: "Logout",
       viewSite: "View Site",
       blogManagement: "Blog Management",
@@ -59,6 +63,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
       consultations: "الاستشارات",
       users: "المستخدمين",
       roles: "الأدوار والصلاحيات",
+      administration: "الإدارة",
+      settings: "الإعدادات",
       logout: "تسجيل الخروج",
       viewSite: "عرض الموقع",
       blogManagement: "إدارة المقالات",
@@ -89,6 +95,9 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
       path: "/admin/consultations",
       menuKey: "consultations",
     },
+  ], [t]);
+
+  const administrationItems = useMemo(() => [
     {
       title: t.users,
       icon: "bx bx-user",
@@ -113,6 +122,13 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
       return pathname === path;
     }
     return pathname?.startsWith(path);
+  }, [pathname]);
+
+  // Auto-expand Administration menu if on users or roles page
+  React.useEffect(() => {
+    if (pathname?.startsWith('/admin/users') || pathname?.startsWith('/admin/roles')) {
+      setAdministrationOpen(true);
+    }
   }, [pathname]);
 
   return (
@@ -208,6 +224,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
               <div key={index}>
                 <Link
                   href={item.path}
+                  prefetch={true}
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -269,6 +286,164 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
               </div>
             );
           })}
+
+          {/* Administration Submenu */}
+          <div>
+            <div
+              onClick={() => setAdministrationOpen(!administrationOpen)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: sidebarOpen ? "16px 24px" : "16px",
+                margin: "6px 16px",
+                borderRadius: "14px",
+                color: "#fff",
+                cursor: "pointer",
+                background: (pathname?.startsWith('/admin/users') || pathname?.startsWith('/admin/roles'))
+                  ? "linear-gradient(135deg, rgba(10,77,140,0.2) 0%, rgba(7,61,108,0.15) 100%)"
+                  : "transparent",
+                transition: "all 0.3s cubic-bezier(.4,0,.2,1)",
+                justifyContent: sidebarOpen ? "space-between" : "center",
+                direction: isArabic ? 'rtl' : 'ltr',
+                border: (pathname?.startsWith('/admin/users') || pathname?.startsWith('/admin/roles')) ? "1px solid rgba(255,255,255,0.2)" : "1px solid transparent",
+              }}
+              onMouseEnter={(e) => {
+                if (!pathname?.startsWith('/admin/users') && !pathname?.startsWith('/admin/roles')) {
+                  e.currentTarget.style.background = "rgba(255,255,255,0.12)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!pathname?.startsWith('/admin/users') && !pathname?.startsWith('/admin/roles')) {
+                  e.currentTarget.style.background = "transparent";
+                }
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <div
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    borderRadius: "10px",
+                    background: (pathname?.startsWith('/admin/users') || pathname?.startsWith('/admin/roles'))
+                      ? "rgba(10,77,140,0.25)"
+                      : "rgba(255,255,255,0.12)",
+                    border: "1px solid rgba(255,255,255,0.15)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    [isArabic ? 'marginLeft' : 'marginRight']: sidebarOpen ? "14px" : "0",
+                    transition: "all 0.3s ease",
+                  }}
+                >
+                  <i
+                    className="bx bx-cog"
+                    style={{
+                      fontSize: "20px",
+                      color: (pathname?.startsWith('/admin/users') || pathname?.startsWith('/admin/roles')) ? "#fff" : "rgba(255,255,255,0.8)",
+                    }}
+                  ></i>
+                </div>
+                {sidebarOpen && (
+                  <span style={{ fontSize: "15px", fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit', fontWeight: 500 }}>
+                    {t.administration}
+                  </span>
+                )}
+              </div>
+              {sidebarOpen && (
+                <i
+                  className={`bx ${administrationOpen ? 'bx-chevron-up' : 'bx-chevron-down'}`}
+                  style={{
+                    fontSize: "20px",
+                    color: "rgba(255,255,255,0.8)",
+                    transition: "transform 0.3s ease",
+                  }}
+                ></i>
+              )}
+            </div>
+
+            {/* Submenu Items */}
+            {sidebarOpen && (
+              <div
+                style={{
+                  maxHeight: administrationOpen ? "500px" : "0",
+                  overflow: "hidden",
+                  transition: "max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                  [isArabic ? 'paddingRight' : 'paddingLeft']: "16px",
+                }}
+              >
+                {administrationItems.map((subItem, subIndex) => {
+                  // Check menu access for submenu items
+                  if (user?.menu_access && subItem.menuKey) {
+                    if (!user.menu_access[subItem.menuKey]) {
+                      return null;
+                    }
+                  }
+                  return (
+                    <Link
+                      key={subIndex}
+                      href={subItem.path}
+                      prefetch={true}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        padding: "12px 20px",
+                        margin: "4px 16px",
+                        borderRadius: "10px",
+                        color: "#fff",
+                        textDecoration: "none",
+                        background: isActive(subItem.path)
+                          ? "rgba(10,77,140,0.15)"
+                          : "transparent",
+                        transition: "all 0.2s ease",
+                        direction: isArabic ? 'rtl' : 'ltr',
+                        borderLeft: isArabic ? "none" : (isActive(subItem.path) ? "3px solid rgba(255,255,255,0.5)" : "3px solid transparent"),
+                        borderRight: isArabic ? (isActive(subItem.path) ? "3px solid rgba(255,255,255,0.5)" : "3px solid transparent") : "none",
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isActive(subItem.path)) {
+                          e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+                          e.currentTarget.style[isArabic ? 'borderRight' : 'borderLeft'] = "3px solid rgba(255,255,255,0.3)";
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isActive(subItem.path)) {
+                          e.currentTarget.style.background = "transparent";
+                          e.currentTarget.style[isArabic ? 'borderRight' : 'borderLeft'] = "3px solid transparent";
+                        }
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: "32px",
+                          height: "32px",
+                          borderRadius: "8px",
+                          background: isActive(subItem.path)
+                            ? "rgba(10,77,140,0.2)"
+                            : "rgba(255,255,255,0.08)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          [isArabic ? 'marginLeft' : 'marginRight']: "12px",
+                          transition: "all 0.2s ease",
+                        }}
+                      >
+                        <i
+                          className={subItem.icon}
+                          style={{
+                            fontSize: "16px",
+                            color: isActive(subItem.path) ? "#fff" : "rgba(255,255,255,0.7)",
+                          }}
+                        ></i>
+                      </div>
+                      <span style={{ fontSize: "14px", fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit', fontWeight: 400 }}>
+                        {subItem.title}
+                      </span>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </nav>
 
 

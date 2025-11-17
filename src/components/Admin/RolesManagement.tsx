@@ -628,12 +628,18 @@ const RoleEditModal: React.FC<RoleEditModalProps> = ({ role, isArabic, onClose, 
                 padding: '12px 24px',
                 borderRadius: '8px',
                 border: 'none',
-                backgroundColor: '#0EA5E9',
+                backgroundColor: loading ? '#9ca3af' : '#0EA5E9',
                 color: '#fff',
                 fontSize: '14px',
                 fontWeight: '600',
                 cursor: loading ? 'not-allowed' : 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                opacity: loading ? 0.7 : 1,
               }}>
+              {loading && <i className="bx bx-loader-alt bx-spin" style={{ fontSize: '18px' }}></i>}
               {loading ? t.saving : t.save}
             </button>
           </div>

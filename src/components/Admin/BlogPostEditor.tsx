@@ -578,7 +578,7 @@ const BlogPostEditor: React.FC<BlogPostEditorProps> = ({ post, user }) => {
             disabled={isLoading}
             style={{
               padding: '10px 24px',
-              background: '#6b7280',
+              background: isLoading ? '#9ca3af' : '#6b7280',
               border: 'none',
               borderRadius: '8px',
               fontSize: '14px',
@@ -586,8 +586,13 @@ const BlogPostEditor: React.FC<BlogPostEditorProps> = ({ post, user }) => {
               cursor: isLoading ? 'not-allowed' : 'pointer',
               color: '#fff',
               fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              opacity: isLoading ? 0.7 : 1,
             }}
           >
+            {isLoading && <i className="bx bx-loader-alt bx-spin" style={{ fontSize: '18px' }}></i>}
             {isLoading ? t.saving : t.saveDraft}
           </button>
 
@@ -597,7 +602,7 @@ const BlogPostEditor: React.FC<BlogPostEditorProps> = ({ post, user }) => {
             disabled={isLoading}
             style={{
               padding: '10px 24px',
-              background: '#0A4D8C',
+              background: isLoading ? '#6b7280' : '#0A4D8C',
               border: 'none',
               borderRadius: '8px',
               fontSize: '14px',
@@ -605,8 +610,13 @@ const BlogPostEditor: React.FC<BlogPostEditorProps> = ({ post, user }) => {
               cursor: isLoading ? 'not-allowed' : 'pointer',
               color: '#fff',
               fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              opacity: isLoading ? 0.7 : 1,
             }}
           >
+            {isLoading && <i className="bx bx-loader-alt bx-spin" style={{ fontSize: '18px' }}></i>}
             {isLoading ? t.publishing : t.publish}
           </button>
         </div>

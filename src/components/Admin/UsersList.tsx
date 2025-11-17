@@ -29,6 +29,9 @@ const UsersList: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [creatingUser, setCreatingUser] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
   const [newUser, setNewUser] = useState({
     email: '',
     full_name: '',
@@ -217,6 +220,7 @@ const UsersList: React.FC = () => {
   const handleSaveEdit = useCallback(async () => {
     if (!editingUser) return;
 
+    setIsSaving(true);
     try {
       const response = await fetch(`/api/admin/users/${editingUser.id}`, {
         method: 'PUT',
@@ -236,6 +240,8 @@ const UsersList: React.FC = () => {
     } catch (error) {
       console.error('Error updating user:', error);
       alert('Failed to update user');
+    } finally {
+      setIsSaving(false);
     }
   }, [editingUser, fetchUsers]);
 
@@ -245,6 +251,7 @@ const UsersList: React.FC = () => {
       return;
     }
 
+    setIsCreating(true);
     try {
       const response = await fetch('/api/admin/users', {
         method: 'POST',
@@ -273,6 +280,8 @@ const UsersList: React.FC = () => {
     } catch (error) {
       console.error('Error creating user:', error);
       alert('Failed to create user');
+    } finally {
+      setIsCreating(false);
     }
   }, [newUser, fetchUsers, isArabic]);
 
@@ -290,6 +299,7 @@ const UsersList: React.FC = () => {
       return;
     }
 
+    setIsResetting(true);
     try {
       const response = await fetch(`/api/admin/users/${resettingPassword.id}/reset-password`, {
         method: 'POST',
@@ -310,6 +320,8 @@ const UsersList: React.FC = () => {
     } catch (error) {
       console.error('Error resetting password:', error);
       alert('Failed to reset password');
+    } finally {
+      setIsResetting(false);
     }
   }, [resettingPassword, newPassword, confirmPassword, t]);
 
@@ -807,22 +819,30 @@ const UsersList: React.FC = () => {
             <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
               <button
                 onClick={handleSaveEdit}
+                disabled={isSaving}
                 style={{
                   flex: 1,
                   padding: '12px',
-                  background: '#27ae60',
+                  background: isSaving ? '#9ca3af' : '#27ae60',
                   color: '#fff',
                   border: 'none',
                   borderRadius: '10px',
-                  cursor: 'pointer',
+                  cursor: isSaving ? 'not-allowed' : 'pointer',
                   fontSize: '14px',
                   fontWeight: '600',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  opacity: isSaving ? 0.7 : 1,
                 }}
               >
-                {t.save}
+                {isSaving && <i className="bx bx-loader-alt bx-spin" style={{ fontSize: '18px' }}></i>}
+                {isSaving ? (isArabic ? 'جاري الحفظ...' : 'Saving...') : t.save}
               </button>
               <button
                 onClick={() => setEditingUser(null)}
+                disabled={isSaving}
                 style={{
                   flex: 1,
                   padding: '12px',
@@ -830,7 +850,7 @@ const UsersList: React.FC = () => {
                   color: '#fff',
                   border: 'none',
                   borderRadius: '10px',
-                  cursor: 'pointer',
+                  cursor: isSaving ? 'not-allowed' : 'pointer',
                   fontSize: '14px',
                   fontWeight: '600',
                 }}
@@ -996,22 +1016,30 @@ const UsersList: React.FC = () => {
             <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
               <button
                 onClick={handleCreateUser}
+                disabled={isCreating}
                 style={{
                   flex: 1,
                   padding: '12px',
-                  background: '#27ae60',
+                  background: isCreating ? '#9ca3af' : '#27ae60',
                   color: '#fff',
                   border: 'none',
                   borderRadius: '10px',
-                  cursor: 'pointer',
+                  cursor: isCreating ? 'not-allowed' : 'pointer',
                   fontSize: '14px',
                   fontWeight: '600',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  opacity: isCreating ? 0.7 : 1,
                 }}
               >
-                {t.create}
+                {isCreating && <i className="bx bx-loader-alt bx-spin" style={{ fontSize: '18px' }}></i>}
+                {isCreating ? (isArabic ? 'جاري الإنشاء...' : 'Creating...') : t.create}
               </button>
               <button
                 onClick={() => setCreatingUser(false)}
+                disabled={isCreating}
                 style={{
                   flex: 1,
                   padding: '12px',
@@ -1019,7 +1047,7 @@ const UsersList: React.FC = () => {
                   color: '#fff',
                   border: 'none',
                   borderRadius: '10px',
-                  cursor: 'pointer',
+                  cursor: isCreating ? 'not-allowed' : 'pointer',
                   fontSize: '14px',
                   fontWeight: '600',
                 }}
@@ -1105,19 +1133,26 @@ const UsersList: React.FC = () => {
             <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
               <button
                 onClick={handleResetPassword}
+                disabled={isResetting}
                 style={{
                   flex: 1,
                   padding: '12px',
-                  background: '#9b59b6',
+                  background: isResetting ? '#9ca3af' : '#9b59b6',
                   color: '#fff',
                   border: 'none',
                   borderRadius: '10px',
-                  cursor: 'pointer',
+                  cursor: isResetting ? 'not-allowed' : 'pointer',
                   fontSize: '14px',
                   fontWeight: '600',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  opacity: isResetting ? 0.7 : 1,
                 }}
               >
-                {t.resetPassword}
+                {isResetting && <i className="bx bx-loader-alt bx-spin" style={{ fontSize: '18px' }}></i>}
+                {isResetting ? (isArabic ? 'جاري إعادة التعيين...' : 'Resetting...') : t.resetPassword}
               </button>
               <button
                 onClick={() => {
@@ -1125,6 +1160,7 @@ const UsersList: React.FC = () => {
                   setNewPassword('');
                   setConfirmPassword('');
                 }}
+                disabled={isResetting}
                 style={{
                   flex: 1,
                   padding: '12px',
@@ -1132,7 +1168,7 @@ const UsersList: React.FC = () => {
                   color: '#fff',
                   border: 'none',
                   borderRadius: '10px',
-                  cursor: 'pointer',
+                  cursor: isResetting ? 'not-allowed' : 'pointer',
                   fontSize: '14px',
                   fontWeight: '600',
                 }}
