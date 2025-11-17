@@ -22,15 +22,15 @@ const Features: React.FC = () => {
               onMouseLeave={() => setHoveredCard(null)}
               style={{
                 background: hoveredCard === 0
-                  ? 'linear-gradient(135deg, rgba(63, 160, 255, 0.08) 0%, rgba(10, 77, 140, 0.06) 100%)'
+                  ? 'linear-gradient(135deg, rgba(63, 160, 255, 0.25) 0%, rgba(10, 77, 140, 0.2) 100%)'
                   : 'transparent',
                 padding: '40px 35px',
                 borderRadius: '20px',
                 border: hoveredCard === 0
-                  ? '1px solid rgba(63, 160, 255, 0.6)'
+                  ? '1px solid rgba(63, 160, 255, 0.8)'
                   : '1px solid rgba(63, 160, 255, 0.3)',
                 boxShadow: hoveredCard === 0
-                  ? '0 20px 60px rgba(10, 77, 140, 0.6), 0 0 40px rgba(63, 160, 255, 0.3)'
+                  ? '0 20px 60px rgba(63, 160, 255, 0.4), 0 0 40px rgba(63, 160, 255, 0.5)'
                   : '0 10px 40px rgba(10, 77, 140, 0.4), 0 0 20px rgba(63, 160, 255, 0.1)',
                 transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                 position: 'relative',
@@ -42,57 +42,6 @@ const Features: React.FC = () => {
                 display: 'flex',
                 flexDirection: 'column'
               }}>
-              {/* Animated gradient overlay */}
-              <div style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                background: 'radial-gradient(circle at 80% 20%, rgba(63, 160, 255, 0.15) 0%, transparent 50%)',
-                pointerEvents: 'none',
-                animation: 'pulse 3s ease-in-out infinite',
-                opacity: hoveredCard === 0 ? 1 : 0.7,
-                transition: 'opacity 0.4s ease'
-              }}></div>
-
-              {/* Shine effect on hover */}
-              <div style={{
-                position: 'absolute',
-                top: '-100%',
-                left: '-100%',
-                width: '200%',
-                height: '200%',
-                background: 'linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%)',
-                transform: hoveredCard === 0 ? 'translate(50%, 50%)' : 'translate(0, 0)',
-                transition: 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
-                pointerEvents: 'none'
-              }}></div>
-
-              {/* Glowing corner accents */}
-              <div style={{
-                position: 'absolute',
-                top: '-2px',
-                left: '-2px',
-                width: '40px',
-                height: '40px',
-                borderTop: '2px solid rgba(63, 160, 255, 0.6)',
-                borderLeft: '2px solid rgba(63, 160, 255, 0.6)',
-                borderRadius: '20px 0 0 0',
-                animation: 'shimmer 2s ease-in-out infinite'
-              }}></div>
-              <div style={{
-                position: 'absolute',
-                bottom: '-2px',
-                right: '-2px',
-                width: '40px',
-                height: '40px',
-                borderBottom: '2px solid rgba(63, 160, 255, 0.6)',
-                borderRight: '2px solid rgba(63, 160, 255, 0.6)',
-                borderRadius: '0 0 20px 0',
-                animation: 'shimmer 2s ease-in-out infinite 1s'
-              }}></div>
-
               <div style={{
                 width: '70px',
                 height: '70px',
@@ -163,15 +112,15 @@ const Features: React.FC = () => {
               onMouseLeave={() => setHoveredCard(null)}
               style={{
                 background: hoveredCard === 1
-                  ? 'linear-gradient(135deg, rgba(63, 160, 255, 0.08) 0%, rgba(10, 77, 140, 0.06) 100%)'
+                  ? 'linear-gradient(135deg, rgba(63, 160, 255, 0.25) 0%, rgba(10, 77, 140, 0.2) 100%)'
                   : 'transparent',
                 padding: '40px 35px',
                 borderRadius: '20px',
                 border: hoveredCard === 1
-                  ? '1px solid rgba(63, 160, 255, 0.6)'
+                  ? '1px solid rgba(63, 160, 255, 0.8)'
                   : '1px solid rgba(63, 160, 255, 0.3)',
                 boxShadow: hoveredCard === 1
-                  ? '0 20px 60px rgba(10, 77, 140, 0.6), 0 0 40px rgba(63, 160, 255, 0.3)'
+                  ? '0 20px 60px rgba(63, 160, 255, 0.4), 0 0 40px rgba(63, 160, 255, 0.5)'
                   : '0 10px 40px rgba(10, 77, 140, 0.4), 0 0 20px rgba(63, 160, 255, 0.1)',
                 transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                 position: 'relative',
@@ -183,57 +132,6 @@ const Features: React.FC = () => {
                 display: 'flex',
                 flexDirection: 'column'
               }}>
-              {/* Animated gradient overlay */}
-              <div style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                background: 'radial-gradient(circle at 20% 80%, rgba(63, 160, 255, 0.15) 0%, transparent 50%)',
-                pointerEvents: 'none',
-                animation: 'pulse 3s ease-in-out infinite 1.5s',
-                opacity: hoveredCard === 1 ? 1 : 0.7,
-                transition: 'opacity 0.4s ease'
-              }}></div>
-
-              {/* Shine effect on hover */}
-              <div style={{
-                position: 'absolute',
-                top: '-100%',
-                left: '-100%',
-                width: '200%',
-                height: '200%',
-                background: 'linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%)',
-                transform: hoveredCard === 1 ? 'translate(50%, 50%)' : 'translate(0, 0)',
-                transition: 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
-                pointerEvents: 'none'
-              }}></div>
-
-              {/* Glowing corner accents */}
-              <div style={{
-                position: 'absolute',
-                top: '-2px',
-                left: '-2px',
-                width: '40px',
-                height: '40px',
-                borderTop: '2px solid rgba(63, 160, 255, 0.6)',
-                borderLeft: '2px solid rgba(63, 160, 255, 0.6)',
-                borderRadius: '20px 0 0 0',
-                animation: 'shimmer 2s ease-in-out infinite 0.5s'
-              }}></div>
-              <div style={{
-                position: 'absolute',
-                bottom: '-2px',
-                right: '-2px',
-                width: '40px',
-                height: '40px',
-                borderBottom: '2px solid rgba(63, 160, 255, 0.6)',
-                borderRight: '2px solid rgba(63, 160, 255, 0.6)',
-                borderRadius: '0 0 20px 0',
-                animation: 'shimmer 2s ease-in-out infinite 1.5s'
-              }}></div>
-
               <div style={{
                 width: '70px',
                 height: '70px',
