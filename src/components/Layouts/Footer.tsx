@@ -19,7 +19,7 @@ const Footer: React.FC = () => {
             {/* Contact Us Column */}
             <div className="col-lg-3 col-md-6">
               <div className="single-widget contact" style={{ textAlign: isArabic ? 'right' : 'left' }}>
-                <h3>{isArabic ? 'اتصل بنا' : 'Contact Us'}</h3>
+                <h3 style={{ fontSize: '22px', fontWeight: '700' }}>{isArabic ? 'اتصل بنا' : 'Contact Us'}</h3>
 
                 <ul className="contact-info" style={{ textAlign: isArabic ? 'right' : 'left' }}>
                   <li>
@@ -45,7 +45,7 @@ const Footer: React.FC = () => {
             {/* Services Column */}
             <div className="col-lg-3 col-md-6">
               <div className="single-widget" style={{ textAlign: isArabic ? 'right' : 'left' }}>
-                <h3>{isArabic ? 'خدماتنا' : 'Our Services'}</h3>
+                <h3 style={{ fontSize: '22px', fontWeight: '700' }}>{isArabic ? 'خدماتنا' : 'Our Services'}</h3>
 
                 <ul>
                   <li>
@@ -85,7 +85,7 @@ const Footer: React.FC = () => {
             {/* Industries Column */}
             <div className="col-lg-3 col-md-6">
               <div className="single-widget" style={{ textAlign: isArabic ? 'right' : 'left' }}>
-                <h3>{isArabic ? 'القطاعات' : 'Industries'}</h3>
+                <h3 style={{ fontSize: '22px', fontWeight: '700' }}>{isArabic ? 'القطاعات' : 'Industries'}</h3>
 
                 <ul>
                   <li>
@@ -131,7 +131,7 @@ const Footer: React.FC = () => {
             {/* Quick Links Column */}
             <div className="col-lg-3 col-md-6">
               <div className="single-widget" style={{ textAlign: isArabic ? 'right' : 'left' }}>
-                <h3>{isArabic ? 'روابط سريعة' : 'Quick Links'}</h3>
+                <h3 style={{ fontSize: '22px', fontWeight: '700' }}>{isArabic ? 'روابط سريعة' : 'Quick Links'}</h3>
 
                 <ul>
                   <li>
