@@ -7,8 +7,9 @@ import { getSecurityHeaders } from "@/lib/security";
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const limit = Math.min(parseInt(searchParams.get('limit') || '12'), 100); // Max 100
-    const offset = parseInt(searchParams.get('offset') || '0');
+    // Parse and validate limit and offset as integers (prevents SQL injection)
+    const limit = Math.min(Math.max(parseInt(searchParams.get('limit') || '12', 10) || 12, 1), 100);
+    const offset = Math.max(parseInt(searchParams.get('offset') || '0', 10) || 0, 0);
 
     // Fetch posts with MySQL (sequential to avoid connection pool issues)
     const totalResult = await query<any[]>(
@@ -16,6 +17,8 @@ export async function GET(request: NextRequest) {
       ['published']
     );
 
+    // Note: LIMIT and OFFSET must be integers in the SQL string for mysql2 compatibility
+    // They are validated above to prevent SQL injection
     const posts = await query<any[]>(
       `SELECT
         id, title, title_ar, slug, excerpt, excerpt_ar,
@@ -23,8 +26,8 @@ export async function GET(request: NextRequest) {
        FROM blog_posts
        WHERE status = ?
        ORDER BY created_at DESC
-       LIMIT ? OFFSET ?`,
-      ['published', limit, offset]
+       LIMIT ${limit} OFFSET ${offset}`,
+      ['published']
     );
 
     const total = totalResult[0]?.total || 0;
