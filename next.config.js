@@ -91,7 +91,6 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
-  swcMinify: true,
 
   // Experimental features for better performance
   experimental: {
