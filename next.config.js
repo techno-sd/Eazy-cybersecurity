@@ -62,6 +62,11 @@ const nextConfig = {
   images: {
     domains: ['eazycyber.sa', 'localhost', '127.0.0.1', 'ui-avatars.com'],
     formats: ['image/avif', 'image/webp'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60,
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
       {
         protocol: 'http',
@@ -86,6 +91,17 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
+  swcMinify: true,
+
+  // Experimental features for better performance
+  experimental: {
+    optimizePackageImports: ['boxicons', 'fslightbox-react'],
+  },
+
+  // Production optimizations
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
 
   // Environment variables
   env: {
