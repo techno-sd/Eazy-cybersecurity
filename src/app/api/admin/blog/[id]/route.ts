@@ -84,8 +84,6 @@ export async function PUT(
       content,
       content_ar,
       featured_image,
-      category,
-      tags,
       status,
     } = body;
 
@@ -150,8 +148,6 @@ export async function PUT(
         content,
         content_ar,
         featured_image: featured_image || null,
-        category: category || null,
-        tags: tags || null,
         status: status || 'draft',
         published_at: publishedAtValue,
         updated_at: new Date(),

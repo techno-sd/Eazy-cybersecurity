@@ -93,8 +93,6 @@ export async function POST(request: NextRequest) {
       content,
       content_ar,
       featured_image,
-      category,
-      tags,
       status,
     } = body;
 
@@ -131,8 +129,6 @@ export async function POST(request: NextRequest) {
         content_ar,
         featured_image: featured_image || null,
         author_id: user?.id || 0,
-        category: category || null,
-        tags: tags || null,
         status: status || 'draft',
         published_at: status === 'published' ? new Date() : null,
       },

@@ -112,8 +112,8 @@ const BlogPostEditor: React.FC<BlogPostEditorProps> = ({ post, user }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
 
-    // Auto-generate slug from title
-    if (name === 'title' && !post) {
+    // Auto-generate slug from title (both for new posts and edits)
+    if (name === 'title') {
       const slug = value
         .toLowerCase()
         .replace(/[^a-z0-9\s-]/g, '')
@@ -128,7 +128,7 @@ const BlogPostEditor: React.FC<BlogPostEditorProps> = ({ post, user }) => {
 
 
   const validateForm = () => {
-    if (!formData.title || !formData.slug || !formData.content) {
+    if (!formData.title || !formData.title_ar || !formData.slug || !formData.content || !formData.content_ar) {
       setError(t.required);
       return false;
     }
@@ -195,6 +195,8 @@ const BlogPostEditor: React.FC<BlogPostEditorProps> = ({ post, user }) => {
         status: publishNow ? 'published' : formData.status,
       };
 
+      console.log('Sending blog post data:', dataToSend);
+
       const url = post ? `/api/admin/blog/${post.id}` : '/api/admin/blog';
       const method = post ? 'PUT' : 'POST';
 
@@ -208,6 +210,7 @@ const BlogPostEditor: React.FC<BlogPostEditorProps> = ({ post, user }) => {
       const data = await response.json();
 
       if (!response.ok) {
+        console.error('API Error Response:', data);
         throw new Error(data.message || t.error);
       }
 
@@ -302,7 +305,7 @@ const BlogPostEditor: React.FC<BlogPostEditorProps> = ({ post, user }) => {
               marginBottom: '8px',
               fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
             }}>
-              {t.titleAr}
+              {t.titleAr} *
             </label>
             <input
               type="text"
@@ -317,33 +320,6 @@ const BlogPostEditor: React.FC<BlogPostEditorProps> = ({ post, user }) => {
                 fontSize: '14px',
                 fontFamily: 'Cairo, sans-serif',
                 direction: 'rtl',
-              }}
-            />
-          </div>
-
-          {/* Slug */}
-          <div>
-            <label style={{
-              display: 'block',
-              fontSize: '14px',
-              fontWeight: '600',
-              color: '#374151',
-              marginBottom: '8px',
-              fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-            }}>
-              {t.slug} *
-            </label>
-            <input
-              type="text"
-              name="slug"
-              value={formData.slug}
-              onChange={handleChange}
-              style={{
-                width: '100%',
-                padding: '10px 14px',
-                border: '1px solid #e5e7eb',
-                borderRadius: '8px',
-                fontSize: '14px',
               }}
             />
           </div>
@@ -387,7 +363,7 @@ const BlogPostEditor: React.FC<BlogPostEditorProps> = ({ post, user }) => {
               marginBottom: '8px',
               fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
             }}>
-              {t.contentAr}
+              {t.contentAr} *
             </label>
             <textarea
               name="content_ar"

@@ -26,18 +26,6 @@ model activity_logs {
   @@index([user_id], map: "idx_user_id")
 }
 
-model blog_categories {
-  id             Int       @id @default(autoincrement())
-  name           String    @db.VarChar(100)
-  name_ar        String    @db.VarChar(100)
-  slug           String    @unique(map: "slug") @db.VarChar(100)
-  description    String?   @db.Text
-  description_ar String?   @db.Text
-  created_at     DateTime? @default(now()) @db.Timestamp(0)
-
-  @@index([slug], map: "idx_slug")
-}
-
 model blog_posts {
   id             Int                @id @default(autoincrement())
   title          String             @db.VarChar(500)
@@ -49,8 +37,6 @@ model blog_posts {
   content_ar     String             @db.LongText
   featured_image String?            @db.VarChar(500)
   author_id      Int
-  category       String?            @db.VarChar(100)
-  tags           Json?
   status         blog_posts_status? @default(draft)
   views          Int?               @default(0)
   published_at   DateTime?          @db.Timestamp(0)
@@ -58,61 +44,42 @@ model blog_posts {
   updated_at     DateTime?          @default(now()) @db.Timestamp(0)
 
   @@index([author_id], map: "idx_author_id")
-  @@index([category], map: "idx_category")
-  @@index([published_at], map: "idx_published_at")
+  @@index([created_at], map: "idx_created_at")
   @@index([slug], map: "idx_slug")
   @@index([status], map: "idx_status")
-  @@fulltext([title, content, title_ar, content_ar], map: "idx_content")
 }
 
 model consultations {
-  id           Int                     @id @default(autoincrement())
-  name         String                  @db.VarChar(255)
-  email        String                  @db.VarChar(255)
-  phone        String?                 @db.VarChar(50)
-  company      String?                 @db.VarChar(255)
-  service_type String?                 @db.VarChar(100)
-  message      String                  @db.Text
-  status       consultations_status?   @default(new)
-  priority     consultations_priority? @default(medium)
-  assigned_to  Int?
-  notes        String?                 @db.Text
-  created_at   DateTime?               @default(now()) @db.Timestamp(0)
-  updated_at   DateTime?               @default(now()) @db.Timestamp(0)
+  id             Int                   @id @default(autoincrement())
+  company_name   String                @db.VarChar(255)
+  contact_person String                @db.VarChar(255)
+  email          String                @db.VarChar(255)
+  phone          String                @db.VarChar(50)
+  service_type   String?               @db.VarChar(100)
+  budget         String?               @db.VarChar(50)
+  description    String?               @db.Text
+  preferred_date DateTime?             @db.Date
+  status         consultations_status? @default(pending)
+  ip_address     String?               @db.VarChar(45)
+  created_at     DateTime?             @default(now()) @db.Timestamp(0)
+  updated_at     DateTime?             @default(now()) @db.Timestamp(0)
 
-  @@index([assigned_to], map: "idx_assigned_to")
   @@index([created_at], map: "idx_created_at")
   @@index([email], map: "idx_email")
-  @@index([priority], map: "idx_priority")
   @@index([status], map: "idx_status")
 }
 
-model contacts {
-  id         Int       @id @default(autoincrement())
-  name       String    @db.VarChar(255)
-  email      String    @db.VarChar(255)
-  phone      String?   @db.VarChar(50)
-  subject    String    @db.VarChar(500)
-  message    String    @db.Text
-  created_at DateTime? @default(now()) @db.Timestamp(0)
-  updated_at DateTime? @default(now()) @db.Timestamp(0)
+model roles {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique(map: "name") @db.VarChar(50)
+  description String?   @db.Text
+  menu_access Json?
+  is_active   Boolean?  @default(true)
+  created_at  DateTime? @default(now()) @db.Timestamp(0)
+  updated_at  DateTime? @default(now()) @db.Timestamp(0)
 
-  @@index([created_at], map: "idx_created_at")
-  @@index([email], map: "idx_email")
-}
-
-model sessions {
-  id            Int       @id @default(autoincrement())
-  user_id       Int
-  session_token String    @unique(map: "session_token") @db.VarChar(255)
-  ip_address    String?   @db.VarChar(45)
-  user_agent    String?   @db.Text
-  expires_at    DateTime  @db.Timestamp(0)
-  created_at    DateTime? @default(now()) @db.Timestamp(0)
-
-  @@index([expires_at], map: "idx_expires_at")
-  @@index([session_token], map: "idx_session_token")
-  @@index([user_id], map: "user_id")
+  @@index([is_active], map: "idx_roles_is_active")
+  @@index([name], map: "idx_roles_name")
 }
 
 model users {
@@ -132,48 +99,20 @@ model users {
   created_at            DateTime?   @default(now()) @db.Timestamp(0)
   updated_at            DateTime?   @default(now()) @db.Timestamp(0)
 
-  @@index([email], map: "idx_email")
   @@index([is_active], map: "idx_is_active")
 }
 
-model website_settings {
-  id            Int                            @id @default(autoincrement())
-  setting_key   String                         @unique(map: "setting_key") @db.VarChar(100)
-  setting_value String?                        @db.Text
-  setting_type  website_settings_setting_type? @default(text)
-  description   String?                        @db.VarChar(500)
-  updated_by    Int?
-  updated_at    DateTime?                      @default(now()) @db.Timestamp(0)
-
-  @@index([setting_key], map: "idx_key")
-  @@index([updated_by], map: "updated_by")
-}
-
-enum website_settings_setting_type {
-  text
-  number
-  boolean
-  json
-}
-
 enum users_role {
-  admin
   user
+  admin
   moderator
 }
 
 enum consultations_status {
-  new
-  in_progress
+  pending
+  scheduled
   completed
   cancelled
-}
-
-enum consultations_priority {
-  low
-  medium
-  high
-  urgent
 }
 
 enum blog_posts_status {
