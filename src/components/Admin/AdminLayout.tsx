@@ -268,7 +268,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      marginRight: sidebarOpen ? "14px" : "0",
+                      [isArabic ? 'marginLeft' : 'marginRight']: sidebarOpen ? "14px" : "0",
                       transition: "all 0.3s ease",
                     }}
                   >
@@ -332,7 +332,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    marginRight: sidebarOpen ? "14px" : "0",
+                    [isArabic ? 'marginLeft' : 'marginRight']: sidebarOpen ? "14px" : "0",
                     transition: "all 0.3s ease",
                   }}
                 >
@@ -395,18 +395,26 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
                           ? "rgba(10,77,140,0.15)"
                           : "transparent",
                         transition: "all 0.2s ease",
-                        borderLeft: isActive(subItem.path) ? "3px solid rgba(255,255,255,0.5)" : "3px solid transparent",
+                        [isArabic ? 'borderRight' : 'borderLeft']: isActive(subItem.path) ? "3px solid rgba(255,255,255,0.5)" : "3px solid transparent",
                       }}
                       onMouseEnter={(e) => {
                         if (!isActive(subItem.path)) {
                           e.currentTarget.style.background = "rgba(255,255,255,0.08)";
-                          e.currentTarget.style.borderLeft = "3px solid rgba(255,255,255,0.3)";
+                          if (isArabic) {
+                            e.currentTarget.style.borderRight = "3px solid rgba(255,255,255,0.3)";
+                          } else {
+                            e.currentTarget.style.borderLeft = "3px solid rgba(255,255,255,0.3)";
+                          }
                         }
                       }}
                       onMouseLeave={(e) => {
                         if (!isActive(subItem.path)) {
                           e.currentTarget.style.background = "transparent";
-                          e.currentTarget.style.borderLeft = "3px solid transparent";
+                          if (isArabic) {
+                            e.currentTarget.style.borderRight = "3px solid transparent";
+                          } else {
+                            e.currentTarget.style.borderLeft = "3px solid transparent";
+                          }
                         }
                       }}
                     >
@@ -421,7 +429,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
-                          marginRight: "12px",
+                          [isArabic ? 'marginLeft' : 'marginRight']: "12px",
                           transition: "all 0.2s ease",
                         }}
                       >

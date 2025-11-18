@@ -41,13 +41,9 @@ export default async function RolesPage() {
     user.menu_access = JSON.parse(user.menu_access);
   }
 
-  // Check language preference
-  const lang = cookieStore.get("lang")?.value || cookieStore.get("NEXT_LOCALE")?.value || 'en';
-  const isArabic = lang === 'ar';
-
   return (
     <AdminLayout user={user}>
-      <RolesManagement isArabic={isArabic} />
+      <RolesManagement />
     </AdminLayout>
   );
 }

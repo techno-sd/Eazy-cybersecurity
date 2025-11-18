@@ -2,12 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 import { Role, MenuPermissions, ADMIN_MENUS } from "@/types/roles";
+import { useAdminLang } from "@/hooks/useAdminLang";
 
 interface RolesManagementProps {
   isArabic?: boolean;
 }
 
-const RolesManagement: React.FC<RolesManagementProps> = ({ isArabic = false }) => {
+const RolesManagement: React.FC<RolesManagementProps> = () => {
+  const { isArabic } = useAdminLang();
   const [roles, setRoles] = useState<Role[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
