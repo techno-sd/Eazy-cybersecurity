@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, memo } from "react";
+import React, { useMemo, memo, useState, useEffect } from "react";
 import { useAdminLang } from "@/hooks/useAdminLang";
 import Link from "next/link";
 
@@ -24,6 +24,11 @@ const AdminDashboard: React.FC<DashboardProps> = ({
   user,
 }) => {
   const { lang, isArabic } = useAdminLang();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Service type mapping to match website consultation form
   const serviceTypeMap = {
@@ -192,98 +197,228 @@ const AdminDashboard: React.FC<DashboardProps> = ({
 
   return (
     <div
+      className="dashboard-container"
       style={{
         direction: isArabic ? 'rtl' : 'ltr',
         minHeight: '100vh',
         background: 'linear-gradient(135deg, #e8f0fa 0%, #f8fafc 100%)',
-        padding: '40px 0',
+        padding: '40px 20px',
       }}
     >
       {/* Welcome Section */}
       <div
+        className="dashboard-welcome"
         style={{
-          background: 'rgba(255,255,255,0.7)',
-          borderRadius: '20px',
+          background: 'rgba(255,255,255,0.85)',
+          borderRadius: '24px',
           padding: '36px 32px',
           marginBottom: '36px',
           color: '#0A4D8C',
-          boxShadow: '0 8px 32px 0 rgba(10,77,140,0.10)',
-          backdropFilter: 'blur(8px)',
+          boxShadow: '0 10px 40px 0 rgba(10,77,140,0.12)',
+          backdropFilter: 'blur(12px)',
           display: 'flex',
           alignItems: 'center',
           gap: '28px',
+          border: '1px solid rgba(255,255,255,0.6)',
+          opacity: mounted ? 1 : 0,
+          transform: mounted ? 'translateY(0)' : 'translateY(20px)',
+          transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+          flexWrap: 'wrap',
         }}
       >
-        <div style={{
-          width: 64, height: 64, borderRadius: '50%',
-          background: 'linear-gradient(135deg, #0A4D8C 60%, #607EAC 100%)',
+        <div className="dashboard-avatar" style={{
+          width: 72, height: 72, borderRadius: '50%',
+          background: 'linear-gradient(135deg, #0A4D8C 0%, #607EAC 100%)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          boxShadow: '0 2px 12px #0A4D8C22',
+          boxShadow: '0 4px 16px rgba(10,77,140,0.25)',
           flexShrink: 0,
+          position: 'relative',
         }}>
-          <span style={{ color: '#fff', fontWeight: 700, fontSize: 28, fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+          <div style={{
+            position: 'absolute',
+            inset: -3,
+            borderRadius: '50%',
+            background: 'linear-gradient(135deg, #0A4D8C40, #607EAC40)',
+            animation: 'pulse 2s ease-in-out infinite',
+          }}></div>
+          <span style={{ color: '#fff', fontWeight: 700, fontSize: 32, fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit', position: 'relative', zIndex: 1 }}>
             {user.full_name?.[0] || 'A'}
           </span>
         </div>
-        <div>
-          <h2 style={{ margin: '0 0 10px 0', fontSize: '28px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit', color: '#0A4D8C' }}>
+        <div style={{ flex: 1, minWidth: '200px' }}>
+          <h2 style={{ margin: '0 0 10px 0', fontSize: '28px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit', color: '#0A4D8C', fontWeight: 700 }}>
             {t.welcomeBack}, {user.full_name}!
           </h2>
-          <p style={{ margin: 0, opacity: 0.9, fontSize: '16px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit', color: '#607EAC' }}>
+          <p style={{ margin: 0, opacity: 0.85, fontSize: '16px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit', color: '#607EAC', fontWeight: 500 }}>
             {t.welcomeMessage}
           </p>
         </div>
       </div>
 
+      <style>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 0.6; transform: scale(1); }
+          50% { opacity: 0.8; transform: scale(1.05); }
+        }
+        @keyframes shimmer {
+          0% { background-position: -1000px 0; }
+          100% { background-position: 1000px 0; }
+        }
+        @keyframes slideUp {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+          .dashboard-stats-grid {
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+            gap: 20px !important;
+          }
+          .dashboard-activity-grid {
+            grid-template-columns: 1fr !important;
+            gap: 20px !important;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .dashboard-welcome {
+            padding: 24px 20px !important;
+            gap: 20px !important;
+          }
+          .dashboard-avatar {
+            width: 56px !important;
+            height: 56px !important;
+          }
+          .dashboard-avatar span {
+            font-size: 24px !important;
+          }
+          .dashboard-welcome h2 {
+            font-size: 22px !important;
+          }
+          .dashboard-welcome p {
+            font-size: 14px !important;
+          }
+          .dashboard-stats-grid {
+            grid-template-columns: 1fr !important;
+            gap: 16px !important;
+          }
+          .dashboard-stat-card {
+            padding: 24px 20px !important;
+          }
+          .dashboard-activity-card {
+            padding: 20px !important;
+            border-radius: 16px !important;
+          }
+          .dashboard-activity-header h3 {
+            font-size: 18px !important;
+          }
+          .dashboard-quick-actions {
+            padding: 20px !important;
+            margin-top: 24px !important;
+          }
+          .dashboard-quick-actions h3 {
+            font-size: 18px !important;
+          }
+          .dashboard-action-buttons {
+            flex-direction: column !important;
+            width: 100%;
+          }
+          .dashboard-action-button {
+            width: 100% !important;
+            justify-content: center !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .dashboard-container {
+            padding: 24px 12px !important;
+          }
+          .dashboard-welcome {
+            flex-direction: column !important;
+            text-align: center;
+            padding: 20px 16px !important;
+          }
+          .dashboard-stat-value {
+            font-size: 32px !important;
+          }
+          .dashboard-activity-item {
+            padding: 14px !important;
+          }
+        }
+      `}</style>
+
       {/* Stats Grid */}
       <div
+        className="dashboard-stats-grid"
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
           gap: '24px',
-          marginBottom: '36px',
+          marginBottom: '40px',
         }}
       >
         {statCards.map((stat, index) => (
           <Link
             key={index}
             href={stat.link}
+            className="dashboard-stat-card"
             style={{
-              background: 'rgba(255,255,255,0.85)',
-              borderRadius: '18px',
-              padding: '32px 24px',
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%)',
+              borderRadius: '20px',
+              padding: '32px 28px',
               textDecoration: 'none',
-              border: '1.5px solid #e5e7eb',
-              transition: 'all 0.3s cubic-bezier(.4,0,.2,1)',
+              border: '1px solid rgba(10,77,140,0.08)',
+              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
               position: 'relative',
               overflow: 'hidden',
-              boxShadow: '0 2px 16px 0 rgba(10,77,140,0.07)',
-              backdropFilter: 'blur(4px)',
-              display: 'flex', flexDirection: 'column', alignItems: 'center',
+              boxShadow: '0 4px 20px 0 rgba(10,77,140,0.08)',
+              backdropFilter: 'blur(8px)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              opacity: mounted ? 1 : 0,
+              transform: mounted ? 'translateY(0)' : 'translateY(30px)',
+              transitionDelay: `${index * 0.1}s`,
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.transform = 'translateY(-6px) scale(1.03)';
-              e.currentTarget.style.boxShadow = '0 12px 36px 0 rgba(10,77,140,0.13)';
+              e.currentTarget.style.transform = 'translateY(-8px) scale(1.02)';
+              e.currentTarget.style.boxShadow = '0 16px 48px 0 rgba(10,77,140,0.15)';
+              e.currentTarget.style.borderColor = `${stat.color}40`;
             }}
             onMouseLeave={e => {
               e.currentTarget.style.transform = 'translateY(0) scale(1)';
-              e.currentTarget.style.boxShadow = '0 2px 16px 0 rgba(10,77,140,0.07)';
+              e.currentTarget.style.boxShadow = '0 4px 20px 0 rgba(10,77,140,0.08)';
+              e.currentTarget.style.borderColor = 'rgba(10,77,140,0.08)';
             }}
           >
+            {/* Decorative gradient background */}
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: '6px',
+              background: `linear-gradient(90deg, ${stat.color} 0%, ${stat.color}80 100%)`,
+              borderRadius: '20px 20px 0 0',
+            }}></div>
+
             {stat.badge && (
               <div
                 style={{
                   position: 'absolute',
-                  top: '14px',
-                  [isArabic ? 'left' : 'right']: '14px',
-                  background: 'linear-gradient(90deg, #ef4444 60%, #f59e0b 100%)',
+                  top: '18px',
+                  [isArabic ? 'left' : 'right']: '18px',
+                  background: 'linear-gradient(135deg, #ef4444 0%, #f59e0b 100%)',
                   color: '#fff',
-                  borderRadius: '20px',
-                  padding: '5px 14px',
-                  fontSize: '12px',
+                  borderRadius: '24px',
+                  padding: '6px 16px',
+                  fontSize: '11px',
                   fontWeight: '700',
                   fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-                  boxShadow: '0 2px 8px #ef444422',
+                  boxShadow: '0 4px 12px rgba(239,68,68,0.3)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
                 }}
               >
                 {t.new}
@@ -291,98 +426,217 @@ const AdminDashboard: React.FC<DashboardProps> = ({
             )}
             <div
               style={{
-                width: '56px',
-                height: '56px',
-                borderRadius: '14px',
-                background: `linear-gradient(135deg, ${stat.color}22, #fff 80%)`,
+                width: '68px',
+                height: '68px',
+                borderRadius: '18px',
+                background: `linear-gradient(135deg, ${stat.color}18, ${stat.color}08)`,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                marginBottom: '18px',
-                boxShadow: `0 2px 8px ${stat.color}22`,
+                marginBottom: '20px',
+                marginTop: '8px',
+                boxShadow: `0 4px 16px ${stat.color}20`,
+                border: `2px solid ${stat.color}15`,
+                transition: 'all 0.3s ease',
               }}
             >
-              <i className={stat.icon} style={{ fontSize: '28px', color: stat.color }}></i>
+              <i className={stat.icon} style={{ fontSize: '32px', color: stat.color }}></i>
             </div>
-            <div style={{ fontSize: '36px', fontWeight: '800', color: '#0A4D8C', marginBottom: '8px', letterSpacing: '-1px' }}>
+            <div className="dashboard-stat-value" style={{
+              fontSize: '40px',
+              fontWeight: '800',
+              color: '#0A4D8C',
+              marginBottom: '10px',
+              letterSpacing: '-1.5px',
+              background: `linear-gradient(135deg, #0A4D8C 0%, ${stat.color} 100%)`,
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}>
               {stat.value}
             </div>
-            <div style={{ fontSize: '15px', color: '#607EAC', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit', fontWeight: 600 }}>{stat.title}</div>
+            <div style={{
+              fontSize: '15px',
+              color: '#607EAC',
+              fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+              fontWeight: 600,
+              textAlign: 'center',
+            }}>
+              {stat.title}
+            </div>
           </Link>
         ))}
       </div>
 
       {/* Recent Activity Grid */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
+      <div className="dashboard-activity-grid" style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))",
+        gap: "24px",
+      }}>
         {/* Recent Consultations */}
         <div
+          className="dashboard-activity-card"
           style={{
-            background: "#fff",
-            borderRadius: "12px",
-            padding: "24px",
-            border: "1px solid #e5e7eb",
+            background: "rgba(255,255,255,0.95)",
+            borderRadius: "20px",
+            padding: "28px",
+            border: "1px solid rgba(10,77,140,0.08)",
+            boxShadow: "0 4px 20px 0 rgba(10,77,140,0.08)",
+            backdropFilter: "blur(8px)",
+            opacity: mounted ? 1 : 0,
+            transform: mounted ? 'translateY(0)' : 'translateY(30px)',
+            transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.4s',
           }}
         >
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-            <h3 style={{ margin: 0, fontSize: "18px", fontWeight: "700", fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+          <div className="dashboard-activity-header" style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "24px",
+            paddingBottom: "16px",
+            borderBottom: "2px solid #f3f4f6",
+          }}>
+            <h3 style={{
+              margin: 0,
+              fontSize: "20px",
+              fontWeight: "700",
+              fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+              color: '#0A4D8C',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+            }}>
+              <i className="bx bx-message-dots" style={{ fontSize: '24px', color: '#607EAC' }}></i>
               {t.recentConsultations}
             </h3>
             <Link
               href="/admin/consultations"
-              style={{ color: "#0A4D8C", fontSize: "14px", textDecoration: "none", fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}
+              style={{
+                color: "#0A4D8C",
+                fontSize: "14px",
+                textDecoration: "none",
+                fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                fontWeight: 600,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.gap = '8px';
+                e.currentTarget.style.color = '#607EAC';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.gap = '4px';
+                e.currentTarget.style.color = '#0A4D8C';
+              }}
             >
-              {t.viewAll} {isArabic ? '←' : '→'}
+              {t.viewAll} <i className={`bx bx-${isArabic ? 'left' : 'right'}-arrow-alt`}></i>
             </Link>
           </div>
 
           {recentConsultations.length === 0 ? (
-            <div style={{ textAlign: "center", padding: "40px", color: "#9ca3af", fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+            <div style={{
+              textAlign: "center",
+              padding: "60px 20px",
+              color: "#9ca3af",
+              fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+            }}>
+              <i className="bx bx-message-x" style={{ fontSize: '48px', opacity: 0.3, marginBottom: '16px', display: 'block' }}></i>
               {t.noConsultations}
             </div>
           ) : (
-            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-              {recentConsultations.map((consultation) => (
+            <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+              {recentConsultations.map((consultation, idx) => (
                 <Link
                   key={consultation.id}
                   href="/admin/consultations"
+                  className="dashboard-activity-item"
                   style={{
-                    padding: "16px",
-                    background: "#f9fafb",
-                    borderRadius: "8px",
+                    padding: "18px",
+                    background: "linear-gradient(135deg, #f9fafb 0%, #ffffff 100%)",
+                    borderRadius: "14px",
                     textDecoration: "none",
                     border: "1px solid #e5e7eb",
-                    transition: "all 0.2s",
+                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                    opacity: mounted ? 1 : 0,
+                    transform: mounted ? 'translateX(0)' : `translateX(${isArabic ? '20px' : '-20px'})`,
+                    transitionDelay: `${0.5 + idx * 0.1}s`,
+                    position: 'relative',
+                    overflow: 'hidden',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "#f3f4f6";
+                    e.currentTarget.style.background = "linear-gradient(135deg, #f3f4f6 0%, #f9fafb 100%)";
+                    e.currentTarget.style.transform = 'translateX(4px)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(10,77,140,0.1)';
+                    e.currentTarget.style.borderColor = '#0A4D8C40';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "#f9fafb";
+                    e.currentTarget.style.background = "linear-gradient(135deg, #f9fafb 0%, #ffffff 100%)";
+                    e.currentTarget.style.transform = 'translateX(0)';
+                    e.currentTarget.style.boxShadow = 'none';
+                    e.currentTarget.style.borderColor = '#e5e7eb';
                   }}
                 >
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
-                    <strong style={{ color: "#1a1a1a", fontSize: "14px", fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                  <div style={{
+                    position: 'absolute',
+                    left: 0,
+                    top: 0,
+                    bottom: 0,
+                    width: '4px',
+                    background: `linear-gradient(180deg, ${getStatusColor(consultation.status)} 0%, ${getStatusColor(consultation.status)}80 100%)`,
+                    borderRadius: '14px 0 0 14px',
+                  }}></div>
+
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px", alignItems: 'flex-start' }}>
+                    <strong style={{
+                      color: "#1a1a1a",
+                      fontSize: "15px",
+                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                      fontWeight: 700,
+                      flex: 1,
+                      [isArabic ? 'marginLeft' : 'marginRight']: '12px',
+                    }}>
                       {consultation.name}
                     </strong>
                     <span
                       style={{
                         fontSize: "11px",
-                        padding: "4px 10px",
-                        borderRadius: "12px",
-                        background: `${getStatusColor(consultation.status)}20`,
+                        padding: "5px 12px",
+                        borderRadius: "14px",
+                        background: `${getStatusColor(consultation.status)}15`,
                         color: getStatusColor(consultation.status),
-                        fontWeight: "600",
+                        fontWeight: "700",
                         textTransform: isArabic ? 'none' : 'uppercase',
                         fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                        whiteSpace: 'nowrap',
+                        border: `1px solid ${getStatusColor(consultation.status)}30`,
                       }}
                     >
                       {getStatusLabel(consultation.status)}
                     </span>
                   </div>
-                  <div style={{ fontSize: "13px", color: "#6b7280", marginBottom: "4px", fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                  <div style={{
+                    fontSize: "13px",
+                    color: "#6b7280",
+                    marginBottom: "6px",
+                    fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}>
+                    <i className="bx bx-briefcase" style={{ fontSize: '14px', color: '#9ca3af' }}></i>
                     {getServiceName(consultation.service_type)}
                   </div>
-                  <div style={{ fontSize: "12px", color: "#9ca3af" }}>
+                  <div style={{
+                    fontSize: "12px",
+                    color: "#9ca3af",
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}>
+                    <i className="bx bx-calendar" style={{ fontSize: '14px' }}></i>
                     {formatDate(consultation.created_at)}
                   </div>
                 </Link>
@@ -393,75 +647,163 @@ const AdminDashboard: React.FC<DashboardProps> = ({
 
         {/* Recent Blog Posts */}
         <div
+          className="dashboard-activity-card"
           style={{
-            background: "#fff",
-            borderRadius: "12px",
-            padding: "24px",
-            border: "1px solid #e5e7eb",
+            background: "rgba(255,255,255,0.95)",
+            borderRadius: "20px",
+            padding: "28px",
+            border: "1px solid rgba(10,77,140,0.08)",
+            boxShadow: "0 4px 20px 0 rgba(10,77,140,0.08)",
+            backdropFilter: "blur(8px)",
+            opacity: mounted ? 1 : 0,
+            transform: mounted ? 'translateY(0)' : 'translateY(30px)',
+            transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.5s',
           }}
         >
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-            <h3 style={{ margin: 0, fontSize: "18px", fontWeight: "700", fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+          <div style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "24px",
+            paddingBottom: "16px",
+            borderBottom: "2px solid #f3f4f6",
+          }}>
+            <h3 style={{
+              margin: 0,
+              fontSize: "20px",
+              fontWeight: "700",
+              fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+              color: '#0A4D8C',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+            }}>
+              <i className="bx bx-news" style={{ fontSize: '24px', color: '#607EAC' }}></i>
               {t.recentBlogPosts}
             </h3>
             <Link
               href="/admin/blog"
-              style={{ color: "#0A4D8C", fontSize: "14px", textDecoration: "none", fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}
+              style={{
+                color: "#0A4D8C",
+                fontSize: "14px",
+                textDecoration: "none",
+                fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                fontWeight: 600,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.gap = '8px';
+                e.currentTarget.style.color = '#607EAC';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.gap = '4px';
+                e.currentTarget.style.color = '#0A4D8C';
+              }}
             >
-              {t.viewAll} {isArabic ? '←' : '→'}
+              {t.viewAll} <i className={`bx bx-${isArabic ? 'left' : 'right'}-arrow-alt`}></i>
             </Link>
           </div>
 
           {recentPosts.length === 0 ? (
-            <div style={{ textAlign: "center", padding: "40px", color: "#9ca3af", fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+            <div style={{
+              textAlign: "center",
+              padding: "60px 20px",
+              color: "#9ca3af",
+              fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+            }}>
+              <i className="bx bx-news" style={{ fontSize: '48px', opacity: 0.3, marginBottom: '16px', display: 'block' }}></i>
               {t.noBlogPosts}
             </div>
           ) : (
-            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-              {recentPosts.map((post) => (
+            <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+              {recentPosts.map((post, idx) => (
                 <Link
                   key={post.id}
                   href={`/admin/blog/${post.id}`}
+                  className="dashboard-activity-item"
                   style={{
-                    padding: "16px",
-                    background: "#f9fafb",
-                    borderRadius: "8px",
+                    padding: "18px",
+                    background: "linear-gradient(135deg, #f9fafb 0%, #ffffff 100%)",
+                    borderRadius: "14px",
                     textDecoration: "none",
                     border: "1px solid #e5e7eb",
-                    transition: "all 0.2s",
+                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                    opacity: mounted ? 1 : 0,
+                    transform: mounted ? 'translateX(0)' : `translateX(${isArabic ? '-20px' : '20px'})`,
+                    transitionDelay: `${0.6 + idx * 0.1}s`,
+                    position: 'relative',
+                    overflow: 'hidden',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "#f3f4f6";
+                    e.currentTarget.style.background = "linear-gradient(135deg, #f3f4f6 0%, #f9fafb 100%)";
+                    e.currentTarget.style.transform = 'translateX(4px)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(10,77,140,0.1)';
+                    e.currentTarget.style.borderColor = '#0A4D8C40';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "#f9fafb";
+                    e.currentTarget.style.background = "linear-gradient(135deg, #f9fafb 0%, #ffffff 100%)";
+                    e.currentTarget.style.transform = 'translateX(0)';
+                    e.currentTarget.style.boxShadow = 'none';
+                    e.currentTarget.style.borderColor = '#e5e7eb';
                   }}
                 >
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
-                    <strong style={{ color: "#1a1a1a", fontSize: "14px", fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                  <div style={{
+                    position: 'absolute',
+                    left: 0,
+                    top: 0,
+                    bottom: 0,
+                    width: '4px',
+                    background: `linear-gradient(180deg, ${getStatusColor(post.status)} 0%, ${getStatusColor(post.status)}80 100%)`,
+                    borderRadius: '14px 0 0 14px',
+                  }}></div>
+
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px", alignItems: 'flex-start' }}>
+                    <strong style={{
+                      color: "#1a1a1a",
+                      fontSize: "15px",
+                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                      fontWeight: 700,
+                      flex: 1,
+                      [isArabic ? 'marginLeft' : 'marginRight']: '12px',
+                      lineHeight: '1.4',
+                    }}>
                       {isArabic && post.title_ar ? post.title_ar : post.title}
                     </strong>
                     <span
                       style={{
                         fontSize: "11px",
-                        padding: "4px 10px",
-                        borderRadius: "12px",
-                        background: `${getStatusColor(post.status)}20`,
+                        padding: "5px 12px",
+                        borderRadius: "14px",
+                        background: `${getStatusColor(post.status)}15`,
                         color: getStatusColor(post.status),
-                        fontWeight: "600",
+                        fontWeight: "700",
                         textTransform: isArabic ? 'none' : 'uppercase',
                         fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                        whiteSpace: 'nowrap',
+                        border: `1px solid ${getStatusColor(post.status)}30`,
                       }}
                     >
                       {getStatusLabel(post.status)}
                     </span>
                   </div>
-                  <div style={{ display: "flex", gap: "16px", fontSize: "12px", color: "#9ca3af" }}>
-                    <span>
-                      <i className="bx bx-show" style={{ [isArabic ? 'marginLeft' : 'marginRight']: "4px" }}></i>
+                  <div style={{
+                    display: "flex",
+                    gap: "18px",
+                    fontSize: "12px",
+                    color: "#9ca3af",
+                    alignItems: 'center',
+                  }}>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <i className="bx bx-show" style={{ fontSize: '14px' }}></i>
                       {post.views} {t.views}
                     </span>
-                    <span>{formatDate(post.created_at)}</span>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <i className="bx bx-calendar" style={{ fontSize: '14px' }}></i>
+                      {formatDate(post.created_at)}
+                    </span>
                   </div>
                 </Link>
               ))}
@@ -472,54 +814,97 @@ const AdminDashboard: React.FC<DashboardProps> = ({
 
       {/* Quick Actions */}
       <div
+        className="dashboard-quick-actions"
         style={{
-          marginTop: "30px",
-          background: "#fff",
-          borderRadius: "12px",
-          padding: "24px",
-          border: "1px solid #e5e7eb",
+          marginTop: "32px",
+          background: "rgba(255,255,255,0.95)",
+          borderRadius: "20px",
+          padding: "28px",
+          border: "1px solid rgba(10,77,140,0.08)",
+          boxShadow: "0 4px 20px 0 rgba(10,77,140,0.08)",
+          backdropFilter: "blur(8px)",
+          opacity: mounted ? 1 : 0,
+          transform: mounted ? 'translateY(0)' : 'translateY(30px)',
+          transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.7s',
         }}
       >
-        <h3 style={{ margin: "0 0 20px 0", fontSize: "18px", fontWeight: "700", fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+        <h3 style={{
+          margin: "0 0 24px 0",
+          fontSize: "20px",
+          fontWeight: "700",
+          fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+          color: '#0A4D8C',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+        }}>
+          <i className="bx bx-rocket" style={{ fontSize: '24px', color: '#607EAC' }}></i>
           {t.quickActions}
         </h3>
-        <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+        <div className="dashboard-action-buttons" style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
           <Link
             href="/admin/blog/new"
+            className="dashboard-action-button"
             style={{
-              padding: "12px 24px",
-              background: "#0A4D8C",
+              padding: "14px 28px",
+              background: "linear-gradient(135deg, #0A4D8C 0%, #607EAC 100%)",
               color: "#fff",
-              borderRadius: "8px",
+              borderRadius: "12px",
               textDecoration: "none",
               fontSize: "14px",
-              fontWeight: "600",
+              fontWeight: "700",
               display: "inline-flex",
               alignItems: "center",
-              gap: "8px",
+              gap: "10px",
               fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              boxShadow: '0 4px 16px rgba(10,77,140,0.25)',
+              border: 'none',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.transform = 'translateY(-3px)';
+              e.currentTarget.style.boxShadow = '0 8px 24px rgba(10,77,140,0.35)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 4px 16px rgba(10,77,140,0.25)';
             }}
           >
-            <i className="bx bx-plus"></i>
+            <i className="bx bx-plus-circle" style={{ fontSize: '20px' }}></i>
             {t.newBlogPost}
           </Link>
           <Link
             href="/admin/consultations"
+            className="dashboard-action-button"
             style={{
-              padding: "12px 24px",
-              background: "#f3f4f6",
-              color: "#374151",
-              borderRadius: "8px",
+              padding: "14px 28px",
+              background: "linear-gradient(135deg, #f9fafb 0%, #ffffff 100%)",
+              color: "#0A4D8C",
+              borderRadius: "12px",
               textDecoration: "none",
               fontSize: "14px",
-              fontWeight: "600",
+              fontWeight: "700",
               display: "inline-flex",
               alignItems: "center",
-              gap: "8px",
+              gap: "10px",
               fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              border: '2px solid #e5e7eb',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.transform = 'translateY(-3px)';
+              e.currentTarget.style.borderColor = '#0A4D8C';
+              e.currentTarget.style.background = 'linear-gradient(135deg, #ffffff 0%, #f9fafb 100%)';
+              e.currentTarget.style.boxShadow = '0 8px 24px rgba(10,77,140,0.15)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.borderColor = '#e5e7eb';
+              e.currentTarget.style.background = 'linear-gradient(135deg, #f9fafb 0%, #ffffff 100%)';
+              e.currentTarget.style.boxShadow = 'none';
             }}
           >
-            <i className="bx bx-message-dots"></i>
+            <i className="bx bx-message-dots" style={{ fontSize: '20px' }}></i>
             {t.viewConsultations}
           </Link>
         </div>
