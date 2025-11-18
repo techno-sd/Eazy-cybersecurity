@@ -28,6 +28,16 @@ const BlogPostsList: React.FC<BlogPostsListProps> = ({ posts: initialPosts, user
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const { lang, isArabic } = useAdminLang();
+  const [isMobile, setIsMobile] = useState(false);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const translations = {
     en: {
@@ -152,24 +162,39 @@ const BlogPostsList: React.FC<BlogPostsListProps> = ({ posts: initialPosts, user
   return (
     <div style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-        <h2 style={{ margin: 0, fontSize: '28px', fontWeight: '700', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: isMobile ? 'flex-start' : 'center',
+        marginBottom: '24px',
+        flexDirection: isMobile ? 'column' : 'row',
+        gap: isMobile ? '16px' : '0',
+      }}>
+        <h2 style={{
+          margin: 0,
+          fontSize: isMobile ? '24px' : '28px',
+          fontWeight: '700',
+          fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+          width: isMobile ? '100%' : 'auto',
+        }}>
           {t.allPosts}
         </h2>
         <Link
           href="/admin/blog/new"
           style={{
-            padding: '12px 24px',
+            padding: isMobile ? '10px 20px' : '12px 24px',
             background: '#0A4D8C',
             color: '#fff',
             borderRadius: '8px',
             textDecoration: 'none',
-            fontSize: '14px',
+            fontSize: isMobile ? '13px' : '14px',
             fontWeight: '600',
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
             fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+            width: isMobile ? '100%' : 'auto',
+            justifyContent: 'center',
           }}
         >
           <i className="bx bx-plus"></i>
@@ -178,7 +203,12 @@ const BlogPostsList: React.FC<BlogPostsListProps> = ({ posts: initialPosts, user
       </div>
 
       {/* Stats */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '24px' }}>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
+        gap: isMobile ? '12px' : '16px',
+        marginBottom: '24px',
+      }}>
         {[
           { label: t.totalPosts, value: stats.total, color: '#0A4D8C' },
           { label: t.drafts, value: stats.draft, color: '#6b7280' },
@@ -188,13 +218,28 @@ const BlogPostsList: React.FC<BlogPostsListProps> = ({ posts: initialPosts, user
             key={index}
             style={{
               background: '#fff',
-              padding: '20px',
+              padding: isMobile ? '16px' : '20px',
               borderRadius: '12px',
               border: '1px solid #e5e7eb',
+              display: 'flex',
+              flexDirection: isMobile ? 'row' : 'column',
+              alignItems: isMobile ? 'center' : 'flex-start',
+              justifyContent: isMobile ? 'space-between' : 'flex-start',
             }}
           >
-            <div style={{ fontSize: '28px', fontWeight: '700', color: stat.color }}>{stat.value}</div>
-            <div style={{ fontSize: '14px', color: '#6b7280', marginTop: '4px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>{stat.label}</div>
+            <div style={{
+              fontSize: isMobile ? '24px' : '28px',
+              fontWeight: '700',
+              color: stat.color,
+              order: isMobile ? 2 : 1,
+            }}>{stat.value}</div>
+            <div style={{
+              fontSize: isMobile ? '13px' : '14px',
+              color: '#6b7280',
+              marginTop: isMobile ? '0' : '4px',
+              fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+              order: isMobile ? 1 : 2,
+            }}>{stat.label}</div>
           </div>
         ))}
       </div>
@@ -203,14 +248,15 @@ const BlogPostsList: React.FC<BlogPostsListProps> = ({ posts: initialPosts, user
       <div
         style={{
           background: '#fff',
-          padding: '20px',
+          padding: isMobile ? '16px' : '20px',
           borderRadius: '12px',
           marginBottom: '20px',
           border: '1px solid #e5e7eb',
           display: 'flex',
-          gap: '16px',
+          gap: isMobile ? '12px' : '16px',
           flexWrap: 'wrap',
           alignItems: 'center',
+          flexDirection: isMobile ? 'column' : 'row',
         }}
       >
         <input
@@ -219,12 +265,13 @@ const BlogPostsList: React.FC<BlogPostsListProps> = ({ posts: initialPosts, user
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           style={{
-            flex: 1,
-            minWidth: '250px',
-            padding: '10px 16px',
+            flex: isMobile ? 'unset' : 1,
+            width: isMobile ? '100%' : 'auto',
+            minWidth: isMobile ? 'unset' : '250px',
+            padding: isMobile ? '12px 16px' : '10px 16px',
             border: '1px solid #e5e7eb',
             borderRadius: '8px',
-            fontSize: '14px',
+            fontSize: isMobile ? '15px' : '14px',
             direction: isArabic ? 'rtl' : 'ltr',
             fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
           }}
@@ -234,10 +281,11 @@ const BlogPostsList: React.FC<BlogPostsListProps> = ({ posts: initialPosts, user
           value={filterStatus}
           onChange={(e) => setFilterStatus(e.target.value)}
           style={{
-            padding: '10px 16px',
+            width: isMobile ? '100%' : 'auto',
+            padding: isMobile ? '12px 16px' : '10px 16px',
             border: '1px solid #e5e7eb',
             borderRadius: '8px',
-            fontSize: '14px',
+            fontSize: isMobile ? '15px' : '14px',
             fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
           }}
         >
@@ -248,133 +296,312 @@ const BlogPostsList: React.FC<BlogPostsListProps> = ({ posts: initialPosts, user
         </select>
       </div>
 
-      {/* Posts Table */}
-      <div
-        style={{
-          background: '#fff',
-          borderRadius: '12px',
-          border: '1px solid #e5e7eb',
-          overflow: 'hidden',
-        }}
-      >
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead style={{ background: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
-              <tr>
-                <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                  {t.title}
-                </th>
-                <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                  {t.author}
-                </th>
-                <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                  {t.status}
-                </th>
-                <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                  {t.views}
-                </th>
-                <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                  {t.date}
-                </th>
-                <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                  {t.actions}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredPosts.length === 0 ? (
-                <tr>
-                  <td colSpan={6} style={{ padding: '40px', textAlign: 'center', color: '#9ca3af', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                    {t.noPosts}
-                  </td>
-                </tr>
-              ) : (
-                filteredPosts.map((post) => (
-                  <tr
-                    key={post.id}
-                    style={{ borderBottom: '1px solid #e5e7eb' }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = '#f9fafb';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = '#fff';
-                    }}
-                  >
-                    <td style={{ padding: '16px' }}>
-                      <div style={{ fontWeight: '600', color: '#1a1a1a', marginBottom: '4px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                        {isArabic && post.title_ar ? post.title_ar : post.title}
-                      </div>
-                      <div style={{ fontSize: '12px', color: '#6b7280' }}>{post.slug}</div>
-                    </td>
-                    <td style={{ padding: '16px', fontSize: '13px', color: '#374151', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                      {post.author_name}
-                    </td>
-                    <td style={{ padding: '16px' }}>
-                      <span
-                        style={{
-                          padding: '4px 12px',
-                          borderRadius: '12px',
-                          fontSize: '11px',
-                          fontWeight: '600',
-                          textTransform: isArabic ? 'none' : 'uppercase',
-                          background: `${getStatusColor(post.status)}20`,
-                          color: getStatusColor(post.status),
-                          fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-                        }}
-                      >
-                        {getStatusLabel(post.status)}
-                      </span>
-                    </td>
-                    <td style={{ padding: '16px', fontSize: '13px', color: '#6b7280' }}>
+      {/* Posts Table/Cards */}
+      {isMobile ? (
+        // Mobile Card View
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          {filteredPosts.length === 0 ? (
+            <div style={{
+              background: '#fff',
+              padding: '40px 20px',
+              borderRadius: '12px',
+              border: '1px solid #e5e7eb',
+              textAlign: 'center',
+              color: '#9ca3af',
+              fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+            }}>
+              {t.noPosts}
+            </div>
+          ) : (
+            filteredPosts.map((post) => (
+              <div
+                key={post.id}
+                style={{
+                  background: '#fff',
+                  borderRadius: '12px',
+                  border: '1px solid #e5e7eb',
+                  padding: '16px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '12px',
+                }}
+              >
+                {/* Title and Slug */}
+                <div>
+                  <div style={{
+                    fontWeight: '600',
+                    color: '#1a1a1a',
+                    marginBottom: '4px',
+                    fontSize: '15px',
+                    fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                  }}>
+                    {isArabic && post.title_ar ? post.title_ar : post.title}
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#6b7280' }}>{post.slug}</div>
+                </div>
+
+                {/* Meta Info Grid */}
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr',
+                  gap: '12px',
+                  paddingTop: '12px',
+                  borderTop: '1px solid #f3f4f6',
+                }}>
+                  <div>
+                    <div style={{
+                      fontSize: '11px',
+                      color: '#6b7280',
+                      marginBottom: '4px',
+                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                      textTransform: isArabic ? 'none' : 'uppercase',
+                    }}>{t.author}</div>
+                    <div style={{
+                      fontSize: '13px',
+                      color: '#374151',
+                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                    }}>{post.author_name}</div>
+                  </div>
+
+                  <div>
+                    <div style={{
+                      fontSize: '11px',
+                      color: '#6b7280',
+                      marginBottom: '4px',
+                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                      textTransform: isArabic ? 'none' : 'uppercase',
+                    }}>{t.status}</div>
+                    <span
+                      style={{
+                        padding: '4px 12px',
+                        borderRadius: '12px',
+                        fontSize: '11px',
+                        fontWeight: '600',
+                        textTransform: isArabic ? 'none' : 'uppercase',
+                        background: `${getStatusColor(post.status)}20`,
+                        color: getStatusColor(post.status),
+                        fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                        display: 'inline-block',
+                      }}
+                    >
+                      {getStatusLabel(post.status)}
+                    </span>
+                  </div>
+
+                  <div>
+                    <div style={{
+                      fontSize: '11px',
+                      color: '#6b7280',
+                      marginBottom: '4px',
+                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                      textTransform: isArabic ? 'none' : 'uppercase',
+                    }}>{t.views}</div>
+                    <div style={{ fontSize: '13px', color: '#6b7280' }}>
                       <i className="bx bx-show" style={{ [isArabic ? 'marginLeft' : 'marginRight']: '4px' }}></i>
                       {post.views}
-                    </td>
-                    <td style={{ padding: '16px', fontSize: '13px', color: '#6b7280' }}>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div style={{
+                      fontSize: '11px',
+                      color: '#6b7280',
+                      marginBottom: '4px',
+                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                      textTransform: isArabic ? 'none' : 'uppercase',
+                    }}>{t.date}</div>
+                    <div style={{ fontSize: '13px', color: '#6b7280' }}>
                       {formatDate(post.created_at)}
-                    </td>
-                    <td style={{ padding: '16px' }}>
-                      <div style={{ display: 'flex', gap: '8px' }}>
-                        <Link
-                          href={`/admin/blog/${post.id}`}
-                          style={{
-                            padding: '6px 12px',
-                            background: '#0A4D8C',
-                            color: '#fff',
-                            border: 'none',
-                            borderRadius: '6px',
-                            fontSize: '12px',
-                            textDecoration: 'none',
-                            fontWeight: '500',
-                            fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-                          }}
-                        >
-                          {t.edit}
-                        </Link>
-                        <button
-                          onClick={() => handleDelete(post.id)}
-                          style={{
-                            padding: '6px 12px',
-                            background: '#ef4444',
-                            color: '#fff',
-                            border: 'none',
-                            borderRadius: '6px',
-                            fontSize: '12px',
-                            cursor: 'pointer',
-                            fontWeight: '500',
-                            fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-                          }}
-                        >
-                          {t.delete}
-                        </button>
-                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div style={{
+                  display: 'flex',
+                  gap: '8px',
+                  paddingTop: '12px',
+                  borderTop: '1px solid #f3f4f6',
+                }}>
+                  <Link
+                    href={`/admin/blog/${post.id}`}
+                    style={{
+                      flex: 1,
+                      padding: '10px 16px',
+                      background: '#0A4D8C',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontSize: '13px',
+                      textDecoration: 'none',
+                      fontWeight: '500',
+                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                      textAlign: 'center',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '6px',
+                    }}
+                  >
+                    <i className="bx bx-edit"></i>
+                    {t.edit}
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(post.id)}
+                    style={{
+                      flex: 1,
+                      padding: '10px 16px',
+                      background: '#ef4444',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontSize: '13px',
+                      cursor: 'pointer',
+                      fontWeight: '500',
+                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '6px',
+                    }}
+                  >
+                    <i className="bx bx-trash"></i>
+                    {t.delete}
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      ) : (
+        // Desktop Table View
+        <div
+          style={{
+            background: '#fff',
+            borderRadius: '12px',
+            border: '1px solid #e5e7eb',
+            overflow: 'hidden',
+          }}
+        >
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead style={{ background: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
+                <tr>
+                  <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                    {t.title}
+                  </th>
+                  <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                    {t.author}
+                  </th>
+                  <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                    {t.status}
+                  </th>
+                  <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                    {t.views}
+                  </th>
+                  <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                    {t.date}
+                  </th>
+                  <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                    {t.actions}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredPosts.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} style={{ padding: '40px', textAlign: 'center', color: '#9ca3af', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                      {t.noPosts}
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  filteredPosts.map((post) => (
+                    <tr
+                      key={post.id}
+                      style={{ borderBottom: '1px solid #e5e7eb' }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#f9fafb';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = '#fff';
+                      }}
+                    >
+                      <td style={{ padding: '16px' }}>
+                        <div style={{ fontWeight: '600', color: '#1a1a1a', marginBottom: '4px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                          {isArabic && post.title_ar ? post.title_ar : post.title}
+                        </div>
+                        <div style={{ fontSize: '12px', color: '#6b7280' }}>{post.slug}</div>
+                      </td>
+                      <td style={{ padding: '16px', fontSize: '13px', color: '#374151', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                        {post.author_name}
+                      </td>
+                      <td style={{ padding: '16px' }}>
+                        <span
+                          style={{
+                            padding: '4px 12px',
+                            borderRadius: '12px',
+                            fontSize: '11px',
+                            fontWeight: '600',
+                            textTransform: isArabic ? 'none' : 'uppercase',
+                            background: `${getStatusColor(post.status)}20`,
+                            color: getStatusColor(post.status),
+                            fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                          }}
+                        >
+                          {getStatusLabel(post.status)}
+                        </span>
+                      </td>
+                      <td style={{ padding: '16px', fontSize: '13px', color: '#6b7280' }}>
+                        <i className="bx bx-show" style={{ [isArabic ? 'marginLeft' : 'marginRight']: '4px' }}></i>
+                        {post.views}
+                      </td>
+                      <td style={{ padding: '16px', fontSize: '13px', color: '#6b7280' }}>
+                        {formatDate(post.created_at)}
+                      </td>
+                      <td style={{ padding: '16px' }}>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                          <Link
+                            href={`/admin/blog/${post.id}`}
+                            style={{
+                              padding: '6px 12px',
+                              background: '#0A4D8C',
+                              color: '#fff',
+                              border: 'none',
+                              borderRadius: '6px',
+                              fontSize: '12px',
+                              textDecoration: 'none',
+                              fontWeight: '500',
+                              fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                            }}
+                          >
+                            {t.edit}
+                          </Link>
+                          <button
+                            onClick={() => handleDelete(post.id)}
+                            style={{
+                              padding: '6px 12px',
+                              background: '#ef4444',
+                              color: '#fff',
+                              border: 'none',
+                              borderRadius: '6px',
+                              fontSize: '12px',
+                              cursor: 'pointer',
+                              fontWeight: '500',
+                              fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                            }}
+                          >
+                            {t.delete}
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

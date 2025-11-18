@@ -1,14 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useLang } from "@/context/LangContext";
 
 interface SignInFormProps {
   lang: string;
 }
 
-const SignInForm: React.FC<SignInFormProps> = ({ lang }) => {
+const SignInForm: React.FC<SignInFormProps> = ({ lang: initialLang }) => {
+  const { lang } = useLang();
   const isArabic = lang === "ar";
   const router = useRouter();
 
@@ -98,23 +100,12 @@ const SignInForm: React.FC<SignInFormProps> = ({ lang }) => {
         localStorage.setItem("user_email", formData.email);
       }
 
-      // Check user role and redirect accordingly
-      const userRole = data.data?.role;
-      const isAdminOrModerator = userRole === 'admin' || userRole === 'moderator';
-
       // Show success message
       setSuccess(isArabic ? "تم تسجيل الدخول بنجاح!" : "Login successful!");
 
-      // Redirect immediately for admins/moderators, with delay for regular users
-      if (isAdminOrModerator) {
-        router.push("/admin");
-        router.refresh();
-      } else {
-        setTimeout(() => {
-          router.push("/");
-          router.refresh();
-        }, 1000);
-      }
+      // Redirect immediately for all users after successful login
+      router.push("/admin");
+      router.refresh();
 
     } catch (err: any) {
       setError(err.message || (isArabic ? "حدث خطأ ما" : "Something went wrong"));
@@ -134,14 +125,14 @@ const SignInForm: React.FC<SignInFormProps> = ({ lang }) => {
               textAlign: isArabic ? 'right' : 'left'
             }}
           >
-            <h2>
+            <h2 style={{ fontSize: '2rem', fontWeight: 'bold' }}>
               {isArabic
                 ? "تسجيل الدخول إلى حسابك!"
                 : "Log In to your account!"}
             </h2>
             <p>
               {isArabic
-                ? "الوصول الآمن إلى خدمات الأمن السيبراني والذكاء الاصطناعي المتقدمة لدينا"
+                ? ""
                 : "Secure access to our advanced cybersecurity and AI services"}
             </p>
           </div>
