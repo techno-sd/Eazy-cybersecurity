@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
     // Rate limiting for public endpoint
     const rateLimitCheck = checkRateLimit(request, RATE_LIMITS.API_CONSULTATION, 'consultation');
     if (!rateLimitCheck.allowed) {
-      return rateLimitCheck.response;
+      return rateLimitCheck.response!;
     }
 
     const body = await request.json();

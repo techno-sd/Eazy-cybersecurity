@@ -8,6 +8,8 @@
  * - CSRF protection helpers
  */
 
+import { NextResponse } from 'next/server';
+
 // Rate Limiting Implementation
 interface RateLimitEntry {
   count: number;
@@ -435,7 +437,7 @@ export function checkRateLimit(
   request: Request,
   limitConfig: { maxRequests: number; windowMs: number },
   prefix: string = ''
-): { allowed: boolean; response?: Response } {
+): { allowed: boolean; response?: NextResponse } {
   const ip = getClientIp(request);
   const key = `${prefix}:${ip}`;
   const result = rateLimit(key, limitConfig);
@@ -444,16 +446,15 @@ export function checkRateLimit(
     const retryAfter = Math.ceil((result.resetTime - Date.now()) / 1000);
     return {
       allowed: false,
-      response: new Response(
-        JSON.stringify({
+      response: NextResponse.json(
+        {
           success: false,
           message: 'Too many requests. Please try again later.',
           retryAfter,
-        }),
+        },
         {
           status: 429,
           headers: {
-            'Content-Type': 'application/json',
             'Retry-After': String(retryAfter),
             ...getSecurityHeaders(),
           },
