@@ -6,23 +6,32 @@ import { RowDataPacket } from 'mysql2';
 
 const JWT_SECRET_ENV = process.env.JWT_SECRET;
 
-// Strict JWT secret validation
-if (!JWT_SECRET_ENV) {
-  if (process.env.NODE_ENV === 'production') {
-    throw new Error('SECURITY ERROR: JWT_SECRET environment variable is required in production');
-  }
+// Log warnings during module load (non-blocking for build)
+if (!JWT_SECRET_ENV && process.env.NODE_ENV !== 'production') {
   console.warn('⚠️  SECURITY WARNING: Using random fallback JWT_SECRET for development only');
   console.warn('⚠️  Set JWT_SECRET in .env.local for proper security');
   console.warn('⚠️  Generate with: openssl rand -base64 32');
-} else if (JWT_SECRET_ENV.length < 32) {
-  if (process.env.NODE_ENV === 'production') {
-    throw new Error('SECURITY ERROR: JWT_SECRET must be at least 32 characters long');
-  }
+} else if (JWT_SECRET_ENV && JWT_SECRET_ENV.length < 32 && process.env.NODE_ENV !== 'production') {
   console.warn('⚠️  SECURITY WARNING: JWT_SECRET should be at least 32 characters long');
 }
 
 // Use random secret for dev if not provided (safer than static fallback)
 const JWT_SECRET = JWT_SECRET_ENV || crypto.randomBytes(32).toString('hex');
+
+/**
+ * Validate JWT secret at runtime (called when actually using JWT functions)
+ * This ensures proper secrets in production without breaking build
+ */
+function validateJwtSecret(): void {
+  if (process.env.NODE_ENV === 'production') {
+    if (!JWT_SECRET_ENV) {
+      throw new Error('SECURITY ERROR: JWT_SECRET environment variable is required in production');
+    }
+    if (JWT_SECRET_ENV.length < 32) {
+      throw new Error('SECURITY ERROR: JWT_SECRET must be at least 32 characters long');
+    }
+  }
+}
 const JWT_EXPIRES_IN = '7d'; // Token expires in 7 days
 const MAX_LOGIN_ATTEMPTS = 5;
 const LOCK_TIME = 15 * 60 * 1000; // 15 minutes
@@ -71,6 +80,7 @@ export async function comparePassword(password: string, hash: string): Promise<b
  * Generate JWT token
  */
 export function generateToken(payload: TokenPayload): string {
+  validateJwtSecret();
   return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
 }
 
@@ -78,6 +88,7 @@ export function generateToken(payload: TokenPayload): string {
  * Verify JWT token
  */
 export function verifyToken(token: string): TokenPayload | null {
+  validateJwtSecret();
   try {
     return jwt.verify(token, JWT_SECRET) as TokenPayload;
   } catch (error) {
