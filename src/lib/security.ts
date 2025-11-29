@@ -382,3 +382,85 @@ export function getSecurityHeaders(): Record<string, string> {
     'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
   };
 }
+
+/**
+ * Sanitize user input to prevent XSS attacks
+ * Removes or escapes dangerous characters and patterns
+ */
+export function sanitizeInput(input: string): string {
+  if (typeof input !== 'string') return '';
+
+  return input
+    // Remove null bytes
+    .replace(/\0/g, '')
+    // Escape HTML entities
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+    // Remove javascript: and other dangerous protocols
+    .replace(/javascript:/gi, '')
+    .replace(/vbscript:/gi, '')
+    .replace(/data:/gi, '')
+    // Remove event handlers
+    .replace(/on\w+\s*=/gi, '')
+    // Trim whitespace
+    .trim();
+}
+
+/**
+ * Validate and sanitize a slug parameter
+ * Only allows alphanumeric characters, hyphens, and underscores
+ */
+export function sanitizeSlug(slug: string): string {
+  if (typeof slug !== 'string') return '';
+  return slug.replace(/[^a-zA-Z0-9\-_]/g, '').substring(0, 200);
+}
+
+/**
+ * Validate phone number format
+ */
+export function isValidPhone(phone: string): boolean {
+  // Allow digits, spaces, hyphens, parentheses, and plus sign
+  const phoneRegex = /^[\d\s\-\(\)\+]{7,20}$/;
+  return phoneRegex.test(phone);
+}
+
+/**
+ * Rate limit check helper for API routes
+ * Returns NextResponse if rate limited, null if allowed
+ */
+export function checkRateLimit(
+  request: Request,
+  limitConfig: { maxRequests: number; windowMs: number },
+  prefix: string = ''
+): { allowed: boolean; response?: Response } {
+  const ip = getClientIp(request);
+  const key = `${prefix}:${ip}`;
+  const result = rateLimit(key, limitConfig);
+
+  if (!result.allowed) {
+    const retryAfter = Math.ceil((result.resetTime - Date.now()) / 1000);
+    return {
+      allowed: false,
+      response: new Response(
+        JSON.stringify({
+          success: false,
+          message: 'Too many requests. Please try again later.',
+          retryAfter,
+        }),
+        {
+          status: 429,
+          headers: {
+            'Content-Type': 'application/json',
+            'Retry-After': String(retryAfter),
+            ...getSecurityHeaders(),
+          },
+        }
+      ),
+    };
+  }
+
+  return { allowed: true };
+}

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db";
 import { getCacheControlHeader, CACHE_CONFIG } from "@/lib/performance";
-import { getSecurityHeaders } from "@/lib/security";
+import { getSecurityHeaders, sanitizeSlug } from "@/lib/security";
 
 // GET - Get single published blog post by slug
 export async function GET(
@@ -9,12 +9,22 @@ export async function GET(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const { slug } = await params;
+    const { slug: rawSlug } = await params;
 
-    if (!slug) {
+    if (!rawSlug) {
       return NextResponse.json(
         { success: false, message: 'Slug is required' },
-        { status: 400 }
+        { status: 400, headers: getSecurityHeaders() }
+      );
+    }
+
+    // Sanitize slug to prevent injection attacks
+    const slug = sanitizeSlug(rawSlug);
+
+    if (!slug || slug.length < 1) {
+      return NextResponse.json(
+        { success: false, message: 'Invalid slug format' },
+        { status: 400, headers: getSecurityHeaders() }
       );
     }
 
@@ -35,7 +45,7 @@ export async function GET(
     if (!post) {
       return NextResponse.json(
         { success: false, message: 'Blog post not found' },
-        { status: 404 }
+        { status: 404, headers: getSecurityHeaders() }
       );
     }
 
@@ -65,15 +75,21 @@ export async function GET(
       }
     );
   } catch (error: any) {
-    console.error('Error fetching blog post:', error);
-    console.error('Error details:', {
-      message: error.message,
-      code: error.code,
-      errno: error.errno,
-      sql: error.sql
-    });
+    // Only log detailed errors in development
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error fetching blog post:', error);
+      console.error('Error details:', {
+        message: error.message,
+        code: error.code,
+        errno: error.errno,
+      });
+    } else {
+      // In production, log minimal info without SQL details
+      console.error('Error fetching blog post:', error.message);
+    }
+
     return NextResponse.json(
-      { success: false, message: 'Failed to fetch blog post', error: process.env.NODE_ENV === 'development' ? error.message : undefined },
+      { success: false, message: 'Failed to fetch blog post' },
       {
         status: 500,
         headers: {

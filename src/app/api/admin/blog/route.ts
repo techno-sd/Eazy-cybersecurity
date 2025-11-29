@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin, logActivity } from '@/lib/adminAuth';
 import { prisma } from '@/lib/prisma';
+import { sanitizeInput, sanitizeSlug, getSecurityHeaders } from '@/lib/security';
 
 // Get all blog posts
 export async function GET(request: NextRequest) {
@@ -70,8 +71,8 @@ export async function GET(request: NextRequest) {
   } catch (error: any) {
     console.error('Error fetching blog posts:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to fetch blog posts', error: error.message },
-      { status: 500 }
+      { success: false, message: 'Failed to fetch blog posts' },
+      { status: 500, headers: getSecurityHeaders() }
     );
   }
 }
@@ -100,37 +101,54 @@ export async function POST(request: NextRequest) {
     if (!title || !title_ar || !slug || !content || !content_ar) {
       return NextResponse.json(
         { success: false, message: 'Missing required fields' },
-        { status: 400 }
+        { status: 400, headers: getSecurityHeaders() }
       );
     }
 
+    // Sanitize inputs
+    const sanitizedSlugValue = sanitizeSlug(slug);
+    const sanitizedTitle = sanitizeInput(title);
+    const sanitizedTitleAr = sanitizeInput(title_ar);
+
+    // Validate slug format
+    if (!sanitizedSlugValue || sanitizedSlugValue.length < 3) {
+      return NextResponse.json(
+        { success: false, message: 'Invalid slug format. Use only letters, numbers, and hyphens.' },
+        { status: 400, headers: getSecurityHeaders() }
+      );
+    }
+
+    // Validate status
+    const validStatuses = ['draft', 'published', 'archived'];
+    const sanitizedStatus = status && validStatuses.includes(status) ? status : 'draft';
+
     // Check if slug exists
     const existing = await prisma.blog_posts.findFirst({
-      where: { slug },
+      where: { slug: sanitizedSlugValue },
       select: { id: true },
     });
 
     if (existing) {
       return NextResponse.json(
         { success: false, message: 'Slug already exists' },
-        { status: 409 }
+        { status: 409, headers: getSecurityHeaders() }
       );
     }
 
-    // Create post with Prisma
+    // Create post with Prisma (content is not sanitized as it may contain markdown)
     const post = await prisma.blog_posts.create({
       data: {
-        title,
-        title_ar,
-        slug,
-        excerpt: excerpt || null,
-        excerpt_ar: excerpt_ar || null,
+        title: sanitizedTitle,
+        title_ar: sanitizedTitleAr,
+        slug: sanitizedSlugValue,
+        excerpt: excerpt ? sanitizeInput(excerpt) : null,
+        excerpt_ar: excerpt_ar ? sanitizeInput(excerpt_ar) : null,
         content,
         content_ar,
         featured_image: featured_image || null,
         author_id: user?.id || 0,
-        status: status || 'draft',
-        published_at: status === 'published' ? new Date() : null,
+        status: sanitizedStatus,
+        published_at: sanitizedStatus === 'published' ? new Date() : null,
       },
     });
 
@@ -153,13 +171,13 @@ export async function POST(request: NextRequest) {
         message: 'Blog post created successfully',
         data: { id: post.id },
       },
-      { status: 201 }
+      { status: 201, headers: getSecurityHeaders() }
     );
   } catch (error: any) {
     console.error('Error creating blog post:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to create blog post', error: error.message },
-      { status: 500 }
+      { success: false, message: 'Failed to create blog post' },
+      { status: 500, headers: getSecurityHeaders() }
     );
   }
 }

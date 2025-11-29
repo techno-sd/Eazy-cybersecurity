@@ -37,21 +37,41 @@ const nextConfig = {
             value: 'camera=(), microphone=(), geolocation=()'
           },
           {
+            key: 'Server',
+            value: ''  // Remove server version disclosure
+          },
+          {
             key: 'Content-Security-Policy',
-            value: [
-              "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.google-analytics.com https://www.googletagmanager.com",
-              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-              "font-src 'self' https://fonts.gstatic.com data:",
-              "img-src 'self' data: https: blob:",
-              "connect-src 'self' https://www.google-analytics.com https://*.aivencloud.com",
-              "frame-src 'self' https://www.google.com",
-              "object-src 'none'",
-              "base-uri 'self'",
-              "form-action 'self'",
-              "frame-ancestors 'self'",
-              "upgrade-insecure-requests"
-            ].join('; ')
+            value: process.env.NODE_ENV === 'production'
+              ? [
+                  "default-src 'self'",
+                  "script-src 'self' 'unsafe-inline' https://www.google-analytics.com https://www.googletagmanager.com",
+                  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+                  "font-src 'self' https://fonts.gstatic.com data:",
+                  "img-src 'self' data: https: blob:",
+                  "connect-src 'self' https://www.google-analytics.com https://*.aivencloud.com",
+                  "frame-src 'self' https://www.google.com",
+                  "object-src 'none'",
+                  "base-uri 'self'",
+                  "form-action 'self'",
+                  "frame-ancestors 'self'",
+                  "block-all-mixed-content",
+                  "upgrade-insecure-requests"
+                ].join('; ')
+              : [
+                  // Development mode requires unsafe-eval for Next.js hot reloading
+                  "default-src 'self'",
+                  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com https://www.googletagmanager.com",
+                  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+                  "font-src 'self' https://fonts.gstatic.com data:",
+                  "img-src 'self' data: https: blob:",
+                  "connect-src 'self' ws: wss: https://www.google-analytics.com https://*.aivencloud.com",
+                  "frame-src 'self' https://www.google.com",
+                  "object-src 'none'",
+                  "base-uri 'self'",
+                  "form-action 'self'",
+                  "frame-ancestors 'self'"
+                ].join('; ')
           }
         ]
       }

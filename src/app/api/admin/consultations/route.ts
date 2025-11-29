@@ -1,6 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin, logActivity } from '@/lib/adminAuth';
 import { query } from '@/lib/db';
+import {
+  sanitizeInput,
+  isValidEmail,
+  isValidPhone,
+  checkRateLimit,
+  RATE_LIMITS,
+  getSecurityHeaders
+} from '@/lib/security';
 
 // Get all consultations
 export async function GET(request: NextRequest) {
@@ -82,6 +90,12 @@ export async function GET(request: NextRequest) {
 // Create new consultation (from public form)
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting for public endpoint
+    const rateLimitCheck = checkRateLimit(request, RATE_LIMITS.API_CONSULTATION, 'consultation');
+    if (!rateLimitCheck.allowed) {
+      return rateLimitCheck.response;
+    }
+
     const body = await request.json();
     const { name, email, phone, company, service_type, message, budget, preferred_date } = body;
 
@@ -89,37 +103,79 @@ export async function POST(request: NextRequest) {
     if (!name || !email || !message) {
       return NextResponse.json(
         { success: false, message: 'Name, email, and message are required' },
-        { status: 400 }
+        { status: 400, headers: getSecurityHeaders() }
+      );
+    }
+
+    // Sanitize all text inputs to prevent XSS
+    const sanitizedName = sanitizeInput(name);
+    const sanitizedEmail = email.trim().toLowerCase();
+    const sanitizedPhone = phone ? sanitizeInput(phone) : null;
+    const sanitizedCompany = company ? sanitizeInput(company) : null;
+    const sanitizedServiceType = service_type ? sanitizeInput(service_type) : null;
+    const sanitizedMessage = sanitizeInput(message);
+    const sanitizedBudget = budget ? sanitizeInput(budget) : null;
+
+    // Validate sanitized name length
+    if (sanitizedName.length < 2 || sanitizedName.length > 100) {
+      return NextResponse.json(
+        { success: false, message: 'Name must be between 2 and 100 characters' },
+        { status: 400, headers: getSecurityHeaders() }
       );
     }
 
     // Email validation
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (!isValidEmail(sanitizedEmail)) {
       return NextResponse.json(
         { success: false, message: 'Invalid email format' },
-        { status: 400 }
+        { status: 400, headers: getSecurityHeaders() }
+      );
+    }
+
+    // Phone validation (if provided)
+    if (sanitizedPhone && !isValidPhone(sanitizedPhone)) {
+      return NextResponse.json(
+        { success: false, message: 'Invalid phone number format' },
+        { status: 400, headers: getSecurityHeaders() }
+      );
+    }
+
+    // Message length validation
+    if (sanitizedMessage.length < 10 || sanitizedMessage.length > 5000) {
+      return NextResponse.json(
+        { success: false, message: 'Message must be between 10 and 5000 characters' },
+        { status: 400, headers: getSecurityHeaders() }
       );
     }
 
     // Get client IP address
-    const ip_address = request.headers.get('x-forwarded-for') ||
+    const ip_address = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
                        request.headers.get('x-real-ip') ||
                        'unknown';
 
-    // Insert consultation - map to correct database column names
+    // Validate preferred_date if provided
+    let validPreferredDate = null;
+    if (preferred_date) {
+      const dateObj = new Date(preferred_date);
+      if (!isNaN(dateObj.getTime()) && dateObj > new Date()) {
+        validPreferredDate = dateObj.toISOString().split('T')[0];
+      }
+    }
+
+    // Insert consultation with sanitized data
     const result = await query<any>(
       `INSERT INTO consultations
        (contact_person, company_name, email, phone, service_type, description, budget, preferred_date, status, ip_address)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?)`,
       [
-        name,
-        company || null,
-        email,
-        phone || null,
-        service_type || null,
-        message,
-        budget || null,
-        preferred_date || null,
+        sanitizedName,
+        sanitizedCompany,
+        sanitizedEmail,
+        sanitizedPhone,
+        sanitizedServiceType,
+        sanitizedMessage,
+        sanitizedBudget,
+        validPreferredDate,
         ip_address
       ]
     );
@@ -130,13 +186,13 @@ export async function POST(request: NextRequest) {
         message: 'Consultation request submitted successfully',
         data: { id: result.insertId },
       },
-      { status: 201 }
+      { status: 201, headers: getSecurityHeaders() }
     );
   } catch (error: any) {
     console.error('Error creating consultation:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to submit consultation request', error: error.message },
-      { status: 500 }
+      { success: false, message: 'Failed to submit consultation request' },
+      { status: 500, headers: getSecurityHeaders() }
     );
   }
 }

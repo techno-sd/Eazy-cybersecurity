@@ -5,15 +5,24 @@ import { query, queryOne } from './db';
 import { RowDataPacket } from 'mysql2';
 
 const JWT_SECRET_ENV = process.env.JWT_SECRET;
+
+// Strict JWT secret validation
 if (!JWT_SECRET_ENV) {
   if (process.env.NODE_ENV === 'production') {
     throw new Error('SECURITY ERROR: JWT_SECRET environment variable is required in production');
   }
-  console.warn('⚠️  SECURITY WARNING: Using fallback JWT_SECRET for development');
+  console.warn('⚠️  SECURITY WARNING: Using random fallback JWT_SECRET for development only');
   console.warn('⚠️  Set JWT_SECRET in .env.local for proper security');
   console.warn('⚠️  Generate with: openssl rand -base64 32');
+} else if (JWT_SECRET_ENV.length < 32) {
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('SECURITY ERROR: JWT_SECRET must be at least 32 characters long');
+  }
+  console.warn('⚠️  SECURITY WARNING: JWT_SECRET should be at least 32 characters long');
 }
-const JWT_SECRET = JWT_SECRET_ENV || 'dev-secret-change-me';
+
+// Use random secret for dev if not provided (safer than static fallback)
+const JWT_SECRET = JWT_SECRET_ENV || crypto.randomBytes(32).toString('hex');
 const JWT_EXPIRES_IN = '7d'; // Token expires in 7 days
 const MAX_LOGIN_ATTEMPTS = 5;
 const LOCK_TIME = 15 * 60 * 1000; // 15 minutes

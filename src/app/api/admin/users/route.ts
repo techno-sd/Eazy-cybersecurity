@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin, logActivity } from '@/lib/adminAuth';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
+import { isValidPassword } from '@/lib/auth';
+import { sanitizeInput, isValidEmail, getSecurityHeaders } from '@/lib/security';
 
 // GET - Get all users
 export async function GET(request: NextRequest) {
@@ -92,33 +94,65 @@ export async function POST(request: NextRequest) {
     if (!email || !full_name || !password || !role) {
       return NextResponse.json(
         { success: false, message: 'Email, full name, password, and role are required' },
-        { status: 400 }
+        { status: 400, headers: getSecurityHeaders() }
+      );
+    }
+
+    // Sanitize inputs
+    const sanitizedEmail = email.trim().toLowerCase();
+    const sanitizedFullName = sanitizeInput(full_name);
+    const sanitizedPhone = phone ? sanitizeInput(phone) : null;
+    const sanitizedCompany = company ? sanitizeInput(company) : null;
+
+    // Validate email format
+    if (!isValidEmail(sanitizedEmail)) {
+      return NextResponse.json(
+        { success: false, message: 'Invalid email format' },
+        { status: 400, headers: getSecurityHeaders() }
+      );
+    }
+
+    // Validate role
+    const validRoles = ['admin', 'moderator', 'user'];
+    if (!validRoles.includes(role)) {
+      return NextResponse.json(
+        { success: false, message: 'Invalid role. Must be admin, moderator, or user' },
+        { status: 400, headers: getSecurityHeaders() }
+      );
+    }
+
+    // Validate password strength
+    const passwordValidation = isValidPassword(password);
+    if (!passwordValidation.valid) {
+      return NextResponse.json(
+        { success: false, message: passwordValidation.message },
+        { status: 400, headers: getSecurityHeaders() }
       );
     }
 
     // Check if user with email already exists
     const existingUser = await prisma.users.findFirst({
-      where: { email },
+      where: { email: sanitizedEmail },
     });
 
     if (existingUser) {
       return NextResponse.json(
         { success: false, message: 'User with this email already exists' },
-        { status: 409 }
+        { status: 409, headers: getSecurityHeaders() }
       );
     }
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Hash password with stronger salt rounds
+    const hashedPassword = await bcrypt.hash(password, 12);
 
-    // Create user
+    // Create user with sanitized data
     const newUser = await prisma.users.create({
       data: {
-        email,
-        full_name,
+        email: sanitizedEmail,
+        full_name: sanitizedFullName,
         password_hash: hashedPassword,
-        phone: phone || null,
-        company: company || null,
+        phone: sanitizedPhone,
+        company: sanitizedCompany,
         role: role as 'admin' | 'moderator' | 'user',
         is_active: is_active !== undefined ? is_active : true,
       },
@@ -147,12 +181,12 @@ export async function POST(request: NextRequest) {
       success: true,
       message: 'User created successfully',
       data: newUser,
-    });
+    }, { headers: getSecurityHeaders() });
   } catch (error: any) {
     console.error('Error creating user:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to create user', error: error.message },
-      { status: 500 }
+      { success: false, message: 'Failed to create user' },
+      { status: 500, headers: getSecurityHeaders() }
     );
   }
 }
