@@ -21,6 +21,7 @@ const ServiceConsultationForm: React.FC<ServiceConsultationFormProps> = ({ preSe
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Services matching the header menu (5 main services)
   const serviceTypes = {
     en: [
       { value: '', label: 'Select Service Type' },
@@ -29,10 +30,6 @@ const ServiceConsultationForm: React.FC<ServiceConsultationFormProps> = ({ preSe
       { value: 'big-data', label: 'Big Data & Analytics' },
       { value: 'cloud-computing', label: 'Cloud Computing & Hosting' },
       { value: 'sme-eazy', label: 'SME-EAZY Program' },
-      { value: 'digital-transformation', label: 'Digital Transformation' },
-      { value: 'vision-2030', label: 'Vision 2030 Initiatives' },
-      { value: 'security-training', label: 'Security Training & Awareness' },
-      { value: 'other', label: 'Other' },
     ],
     ar: [
       { value: '', label: 'اختر نوع الخدمة' },
@@ -41,10 +38,6 @@ const ServiceConsultationForm: React.FC<ServiceConsultationFormProps> = ({ preSe
       { value: 'big-data', label: 'البيانات الضخمة والتحليلات' },
       { value: 'cloud-computing', label: 'الحوسبة السحابية والاستضافة' },
       { value: 'sme-eazy', label: 'برنامج SME-EAZY' },
-      { value: 'digital-transformation', label: 'التحول الرقمي' },
-      { value: 'vision-2030', label: 'مبادرات رؤية 2030' },
-      { value: 'security-training', label: 'التدريب والتوعية الأمنية' },
-      { value: 'other', label: 'أخرى' },
     ]
   };
 
