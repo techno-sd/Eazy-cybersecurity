@@ -19,9 +19,9 @@ const dbConfig = {
   queueLimit: 0,
   maxIdle: 15, // Maximum idle connections
   idleTimeout: 60000, // Close idle connections after 60 seconds
-  connectTimeout: 10000, // Connection timeout 10 seconds
+  connectTimeout: 30000, // Connection timeout 30 seconds (increased for cloud DB)
   enableKeepAlive: true,
-  keepAliveInitialDelay: 0
+  keepAliveInitialDelay: 10000 // Start keepalive after 10 seconds
 };
 
 // Create a connection pool
@@ -55,11 +55,40 @@ export async function getConnection() {
   return await pool.getConnection();
 }
 
-// Execute a query
-export async function query<T = any>(sql: string, params?: any[]): Promise<T> {
-  const pool = getPool();
-  const [results] = await pool.execute(sql, params);
-  return results as T;
+// Execute a query with retry logic for transient failures
+export async function query<T = any>(sql: string, params?: any[], retries = 2): Promise<T> {
+  let lastError: any;
+
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const pool = getPool();
+      const [results] = await pool.execute(sql, params);
+      return results as T;
+    } catch (error: any) {
+      lastError = error;
+
+      // Retry on connection errors
+      const isRetryable = ['ETIMEDOUT', 'ECONNREFUSED', 'ECONNRESET', 'PROTOCOL_CONNECTION_LOST'].includes(error.code);
+
+      if (isRetryable && attempt < retries) {
+        console.warn(`Database connection failed (attempt ${attempt + 1}/${retries + 1}), retrying...`);
+        // Reset pool on connection errors
+        resetPool();
+        // Wait before retry (exponential backoff)
+        await new Promise(resolve => setTimeout(resolve, 1000 * (attempt + 1)));
+        continue;
+      }
+
+      // Re-throw with error code preserved for proper handling in API routes
+      const dbError = new Error(error.message) as any;
+      dbError.code = error.code;
+      dbError.errno = error.errno;
+      dbError.sql = error.sql;
+      throw dbError;
+    }
+  }
+
+  throw lastError;
 }
 
 // Execute a query and return a single row

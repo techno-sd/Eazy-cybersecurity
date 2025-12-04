@@ -63,10 +63,17 @@ export async function GET(request: NextRequest) {
       errno: error.errno,
       sql: error.sql
     });
+
+    // Provide meaningful error messages
+    let message = 'Failed to fetch blog posts';
+    if (error.code === 'ETIMEDOUT' || error.code === 'ECONNREFUSED') {
+      message = 'Database connection failed. Please check if the database server is running.';
+    }
+
     return NextResponse.json(
       {
         success: false,
-        message: 'Failed to fetch blog posts',
+        message,
         error: process.env.NODE_ENV === 'development' ? error.message : undefined
       },
       {

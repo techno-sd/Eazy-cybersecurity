@@ -60,7 +60,14 @@ const BlogGridFromDB: React.FC = () => {
     try {
       const response = await fetch('/api/blog/public');
 
-      const data = await response.json();
+      let data;
+      try {
+        const text = await response.text();
+        data = text ? JSON.parse(text) : {};
+      } catch (parseError) {
+        console.error('JSON Parse Error:', parseError);
+        throw new Error('Server returned invalid response');
+      }
 
       if (!response.ok) {
         console.error('API Error:', data);
