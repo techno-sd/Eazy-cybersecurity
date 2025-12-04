@@ -1,5 +1,10 @@
+const path = require('path');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Set the root directory explicitly to avoid lockfile detection issues
+  outputFileTracingRoot: path.join(__dirname),
+
   // Security Headers
   async headers() {
     return [
