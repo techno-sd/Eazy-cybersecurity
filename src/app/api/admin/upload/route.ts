@@ -3,6 +3,16 @@ import { requireAdmin } from '@/lib/adminAuth';
 import { writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
+import crypto from 'crypto';
+
+// Allowed extensions mapped to MIME types for security validation
+const ALLOWED_EXTENSIONS: Record<string, string[]> = {
+  'jpg': ['image/jpeg', 'image/jpg'],
+  'jpeg': ['image/jpeg', 'image/jpg'],
+  'png': ['image/png'],
+  'gif': ['image/gif'],
+  'webp': ['image/webp'],
+};
 
 // POST - Upload image
 export async function POST(request: NextRequest) {
@@ -20,7 +30,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate file type
+    // Validate file type by MIME type
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
     if (!allowedTypes.includes(file.type)) {
       return NextResponse.json(
@@ -38,11 +48,34 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Generate unique filename
+    // SECURITY: Validate and sanitize file extension
+    // Get extension from filename and validate it matches the MIME type
+    const originalName = file.name.toLowerCase();
+    const lastDotIndex = originalName.lastIndexOf('.');
+    const extractedExt = lastDotIndex > 0 ? originalName.substring(lastDotIndex + 1) : '';
+
+    // Validate extension is in allowed list
+    if (!extractedExt || !ALLOWED_EXTENSIONS[extractedExt]) {
+      return NextResponse.json(
+        { success: false, message: 'Invalid file extension. Only jpg, jpeg, png, gif, and webp are allowed.' },
+        { status: 400 }
+      );
+    }
+
+    // SECURITY: Verify MIME type matches the extension to prevent extension spoofing
+    if (!ALLOWED_EXTENSIONS[extractedExt].includes(file.type)) {
+      return NextResponse.json(
+        { success: false, message: 'File extension does not match file type.' },
+        { status: 400 }
+      );
+    }
+
+    // SECURITY: Generate secure filename using crypto (not Math.random)
     const timestamp = Date.now();
-    const randomStr = Math.random().toString(36).substring(2, 8);
-    const extension = file.name.split('.').pop();
-    const filename = `blog-${timestamp}-${randomStr}.${extension}`;
+    const randomStr = crypto.randomBytes(8).toString('hex');
+    // Use validated extension only
+    const safeExtension = extractedExt === 'jpeg' ? 'jpg' : extractedExt;
+    const filename = `blog-${timestamp}-${randomStr}.${safeExtension}`;
 
     // Create upload directory if it doesn't exist
     const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'blog');

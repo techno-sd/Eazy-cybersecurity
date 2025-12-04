@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin, logActivity } from '@/lib/adminAuth';
 import { prisma } from '@/lib/prisma';
+import { sanitizeInput, isValidEmail, getSecurityHeaders } from '@/lib/security';
 
 // GET - Get single user by ID
 export async function GET(
@@ -17,7 +18,7 @@ export async function GET(
     if (isNaN(userId)) {
       return NextResponse.json(
         { success: false, message: 'Invalid user ID' },
-        { status: 400 }
+        { status: 400, headers: getSecurityHeaders() }
       );
     }
 
@@ -41,19 +42,19 @@ export async function GET(
     if (!targetUser) {
       return NextResponse.json(
         { success: false, message: 'User not found' },
-        { status: 404 }
+        { status: 404, headers: getSecurityHeaders() }
       );
     }
 
     return NextResponse.json({
       success: true,
       data: targetUser,
-    });
+    }, { headers: getSecurityHeaders() });
   } catch (error: any) {
     console.error('Error fetching user:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to fetch user', error: error.message },
-      { status: 500 }
+      { success: false, message: 'Failed to fetch user' },
+      { status: 500, headers: getSecurityHeaders() }
     );
   }
 }
@@ -73,7 +74,7 @@ export async function PUT(
     if (isNaN(userId)) {
       return NextResponse.json(
         { success: false, message: 'Invalid user ID' },
-        { status: 400 }
+        { status: 400, headers: getSecurityHeaders() }
       );
     }
 
@@ -84,9 +85,27 @@ export async function PUT(
     if (!full_name || !email) {
       return NextResponse.json(
         { success: false, message: 'Name and email are required' },
-        { status: 400 }
+        { status: 400, headers: getSecurityHeaders() }
       );
     }
+
+    // SECURITY: Sanitize all inputs
+    const sanitizedFullName = sanitizeInput(full_name);
+    const sanitizedEmail = email.trim().toLowerCase();
+    const sanitizedPhone = phone ? sanitizeInput(phone) : null;
+    const sanitizedCompany = company ? sanitizeInput(company) : null;
+
+    // Validate email format
+    if (!isValidEmail(sanitizedEmail)) {
+      return NextResponse.json(
+        { success: false, message: 'Invalid email format' },
+        { status: 400, headers: getSecurityHeaders() }
+      );
+    }
+
+    // Validate role if provided
+    const validRoles = ['admin', 'moderator', 'user'];
+    const sanitizedRole = role && validRoles.includes(role) ? role : 'user';
 
     // Check if user exists
     const existingUser = await prisma.users.findUnique({
@@ -97,15 +116,15 @@ export async function PUT(
     if (!existingUser) {
       return NextResponse.json(
         { success: false, message: 'User not found' },
-        { status: 404 }
+        { status: 404, headers: getSecurityHeaders() }
       );
     }
 
     // Check if email is already used by another user
-    if (email !== existingUser.email) {
+    if (sanitizedEmail !== existingUser.email) {
       const emailCheck = await prisma.users.findFirst({
         where: {
-          email,
+          email: sanitizedEmail,
           id: { not: userId },
         },
         select: { id: true },
@@ -114,20 +133,20 @@ export async function PUT(
       if (emailCheck) {
         return NextResponse.json(
           { success: false, message: 'Email already exists' },
-          { status: 409 }
+          { status: 409, headers: getSecurityHeaders() }
         );
       }
     }
 
-    // Update user with Prisma
+    // Update user with sanitized data
     await prisma.users.update({
       where: { id: userId },
       data: {
-        full_name,
-        email,
-        phone: phone || null,
-        company: company || null,
-        role: role || 'user',
+        full_name: sanitizedFullName,
+        email: sanitizedEmail,
+        phone: sanitizedPhone,
+        company: sanitizedCompany,
+        role: sanitizedRole,
         is_active: is_active !== undefined ? is_active : true,
         updated_at: new Date(),
       },
@@ -139,7 +158,7 @@ export async function PUT(
       'update_user',
       'user',
       userId,
-      `Updated user: ${full_name} (${email})`,
+      `Updated user: ${sanitizedFullName} (${sanitizedEmail})`,
       request.headers.get('x-forwarded-for') || 'unknown',
       request.headers.get('user-agent') || 'unknown'
     );
@@ -147,12 +166,12 @@ export async function PUT(
     return NextResponse.json({
       success: true,
       message: 'User updated successfully',
-    });
+    }, { headers: getSecurityHeaders() });
   } catch (error: any) {
     console.error('Error updating user:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to update user', error: error.message },
-      { status: 500 }
+      { success: false, message: 'Failed to update user' },
+      { status: 500, headers: getSecurityHeaders() }
     );
   }
 }
@@ -172,7 +191,7 @@ export async function DELETE(
     if (isNaN(userId)) {
       return NextResponse.json(
         { success: false, message: 'Invalid user ID' },
-        { status: 400 }
+        { status: 400, headers: getSecurityHeaders() }
       );
     }
 
@@ -180,7 +199,7 @@ export async function DELETE(
     if (userId === user.id) {
       return NextResponse.json(
         { success: false, message: 'Cannot delete your own account' },
-        { status: 403 }
+        { status: 403, headers: getSecurityHeaders() }
       );
     }
 
@@ -193,7 +212,7 @@ export async function DELETE(
     if (!existingUser) {
       return NextResponse.json(
         { success: false, message: 'User not found' },
-        { status: 404 }
+        { status: 404, headers: getSecurityHeaders() }
       );
     }
 
@@ -216,12 +235,12 @@ export async function DELETE(
     return NextResponse.json({
       success: true,
       message: 'User deleted successfully',
-    });
+    }, { headers: getSecurityHeaders() });
   } catch (error: any) {
     console.error('Error deleting user:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to delete user', error: error.message },
-      { status: 500 }
+      { success: false, message: 'Failed to delete user' },
+      { status: 500, headers: getSecurityHeaders() }
     );
   }
 }

@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { verifyToken } from '@/lib/auth';
 import { query } from '@/lib/db';
 import { Role } from '@/types/roles';
+import { sanitizeInput, getSecurityHeaders } from '@/lib/security';
 
 export const dynamic = 'force-dynamic';
 
@@ -100,27 +101,39 @@ export async function POST(request: NextRequest) {
     if (!name || !description || !menu_access) {
       return NextResponse.json(
         { success: false, message: 'Name, description, and menu_access are required' },
-        { status: 400 }
+        { status: 400, headers: getSecurityHeaders() }
+      );
+    }
+
+    // SECURITY: Sanitize inputs
+    const sanitizedName = sanitizeInput(name);
+    const sanitizedDescription = sanitizeInput(description);
+
+    // Validate sanitized name length
+    if (!sanitizedName || sanitizedName.length < 2) {
+      return NextResponse.json(
+        { success: false, message: 'Role name must be at least 2 characters' },
+        { status: 400, headers: getSecurityHeaders() }
       );
     }
 
     // Check if role name already exists
     const existingRoles = await query<any[]>(
       'SELECT id FROM roles WHERE name = ?',
-      [name]
+      [sanitizedName]
     );
 
     if (existingRoles.length > 0) {
       return NextResponse.json(
         { success: false, message: 'Role name already exists' },
-        { status: 409 }
+        { status: 409, headers: getSecurityHeaders() }
       );
     }
 
-    // Create new role
+    // Create new role with sanitized data
     const result = await query<any>(
       'INSERT INTO roles (name, description, menu_access) VALUES (?, ?, ?)',
-      [name, description, JSON.stringify(menu_access)]
+      [sanitizedName, sanitizedDescription, JSON.stringify(menu_access)]
     );
 
     return NextResponse.json({
@@ -128,11 +141,11 @@ export async function POST(request: NextRequest) {
       message: 'Role created successfully',
       data: {
         id: result.insertId,
-        name,
-        description,
+        name: sanitizedName,
+        description: sanitizedDescription,
         menu_access,
       },
-    });
+    }, { headers: getSecurityHeaders() });
 
   } catch (error: any) {
     console.error('Error creating role:', error);

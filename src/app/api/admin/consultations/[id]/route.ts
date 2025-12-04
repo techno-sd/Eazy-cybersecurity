@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db";
 import { verifyToken } from "@/lib/auth";
 import { cookies } from "next/headers";
+import { getSecurityHeaders } from "@/lib/security";
 
 // Update consultation status
 export async function PATCH(
@@ -69,8 +70,8 @@ export async function PATCH(
   } catch (error: any) {
     console.error('Error updating consultation:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to update consultation', error: error.message },
-      { status: 500 }
+      { success: false, message: 'Failed to update consultation' },
+      { status: 500, headers: getSecurityHeaders() }
     );
   }
 }
@@ -128,8 +129,8 @@ export async function DELETE(
   } catch (error: any) {
     console.error('Error deleting consultation:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to delete consultation', error: error.message },
-      { status: 500 }
+      { success: false, message: 'Failed to delete consultation' },
+      { status: 500, headers: getSecurityHeaders() }
     );
   }
 }

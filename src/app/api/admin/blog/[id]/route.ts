@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin, logActivity } from '@/lib/adminAuth';
 import { prisma } from '@/lib/prisma';
+import { sanitizeInput, sanitizeSlug, getSecurityHeaders } from '@/lib/security';
 
 // Get single blog post by ID
 export async function GET(
@@ -17,7 +18,7 @@ export async function GET(
     if (isNaN(postId)) {
       return NextResponse.json(
         { success: false, message: 'Invalid post ID' },
-        { status: 400 }
+        { status: 400, headers: getSecurityHeaders() }
       );
     }
 
@@ -28,7 +29,7 @@ export async function GET(
     if (!post) {
       return NextResponse.json(
         { success: false, message: 'Blog post not found' },
-        { status: 404 }
+        { status: 404, headers: getSecurityHeaders() }
       );
     }
 
@@ -44,12 +45,12 @@ export async function GET(
         ...post,
         author_name: author?.full_name || null,
       },
-    });
+    }, { headers: getSecurityHeaders() });
   } catch (error: any) {
     console.error('Error fetching blog post:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to fetch blog post', error: error.message },
-      { status: 500 }
+      { success: false, message: 'Failed to fetch blog post' },
+      { status: 500, headers: getSecurityHeaders() }
     );
   }
 }
@@ -70,7 +71,7 @@ export async function PUT(
     if (isNaN(postId)) {
       return NextResponse.json(
         { success: false, message: 'Invalid post ID' },
-        { status: 400 }
+        { status: 400, headers: getSecurityHeaders() }
       );
     }
 
@@ -91,9 +92,28 @@ export async function PUT(
     if (!title || !title_ar || !slug || !content || !content_ar) {
       return NextResponse.json(
         { success: false, message: 'Missing required fields' },
-        { status: 400 }
+        { status: 400, headers: getSecurityHeaders() }
       );
     }
+
+    // SECURITY: Sanitize inputs
+    const sanitizedTitle = sanitizeInput(title);
+    const sanitizedTitleAr = sanitizeInput(title_ar);
+    const sanitizedSlugValue = sanitizeSlug(slug);
+    const sanitizedExcerpt = excerpt ? sanitizeInput(excerpt) : null;
+    const sanitizedExcerptAr = excerpt_ar ? sanitizeInput(excerpt_ar) : null;
+
+    // Validate slug format
+    if (!sanitizedSlugValue || sanitizedSlugValue.length < 1) {
+      return NextResponse.json(
+        { success: false, message: 'Invalid slug format' },
+        { status: 400, headers: getSecurityHeaders() }
+      );
+    }
+
+    // Validate status
+    const validStatuses = ['draft', 'published', 'archived'];
+    const sanitizedStatus = status && validStatuses.includes(status) ? status : 'draft';
 
     // Check if post exists
     const existingPost = await prisma.blog_posts.findUnique({
@@ -104,14 +124,14 @@ export async function PUT(
     if (!existingPost) {
       return NextResponse.json(
         { success: false, message: 'Blog post not found' },
-        { status: 404 }
+        { status: 404, headers: getSecurityHeaders() }
       );
     }
 
     // Check if slug is already used by another post
     const slugCheck = await prisma.blog_posts.findFirst({
       where: {
-        slug,
+        slug: sanitizedSlugValue,
         id: { not: postId },
       },
       select: { id: true },
@@ -120,13 +140,13 @@ export async function PUT(
     if (slugCheck) {
       return NextResponse.json(
         { success: false, message: 'Slug already exists' },
-        { status: 409 }
+        { status: 409, headers: getSecurityHeaders() }
       );
     }
 
     // Determine if we need to update published_at
     let publishedAtValue: Date | null = null;
-    if (status === 'published') {
+    if (sanitizedStatus === 'published') {
       if (existingPost.status === 'published' && existingPost.published_at) {
         // Keep existing published date
         publishedAtValue = existingPost.published_at;
@@ -136,19 +156,19 @@ export async function PUT(
       }
     }
 
-    // Update post with Prisma
+    // Update post with sanitized data
     await prisma.blog_posts.update({
       where: { id: postId },
       data: {
-        title,
-        title_ar,
-        slug,
-        excerpt: excerpt || null,
-        excerpt_ar: excerpt_ar || null,
-        content,
-        content_ar,
+        title: sanitizedTitle,
+        title_ar: sanitizedTitleAr,
+        slug: sanitizedSlugValue,
+        excerpt: sanitizedExcerpt,
+        excerpt_ar: sanitizedExcerptAr,
+        content, // Content not sanitized for markdown support
+        content_ar, // Content not sanitized for markdown support
         featured_image: featured_image || null,
-        status: status || 'draft',
+        status: sanitizedStatus,
         published_at: publishedAtValue,
         updated_at: new Date(),
       },
@@ -161,7 +181,7 @@ export async function PUT(
         'update_post',
         'blog_post',
         postId,
-        `Updated blog post: ${title}`,
+        `Updated blog post: ${sanitizedTitle}`,
         request.headers.get('x-forwarded-for') || 'unknown',
         request.headers.get('user-agent') || 'unknown'
       );
@@ -170,12 +190,12 @@ export async function PUT(
     return NextResponse.json({
       success: true,
       message: 'Blog post updated successfully',
-    });
+    }, { headers: getSecurityHeaders() });
   } catch (error: any) {
     console.error('Error updating blog post:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to update blog post', error: error.message },
-      { status: 500 }
+      { success: false, message: 'Failed to update blog post' },
+      { status: 500, headers: getSecurityHeaders() }
     );
   }
 }
@@ -196,7 +216,7 @@ export async function DELETE(
     if (isNaN(postId)) {
       return NextResponse.json(
         { success: false, message: 'Invalid post ID' },
-        { status: 400 }
+        { status: 400, headers: getSecurityHeaders() }
       );
     }
 
@@ -209,7 +229,7 @@ export async function DELETE(
     if (!existingPost) {
       return NextResponse.json(
         { success: false, message: 'Blog post not found' },
-        { status: 404 }
+        { status: 404, headers: getSecurityHeaders() }
       );
     }
 
@@ -234,12 +254,12 @@ export async function DELETE(
     return NextResponse.json({
       success: true,
       message: 'Blog post deleted successfully',
-    });
+    }, { headers: getSecurityHeaders() });
   } catch (error: any) {
     console.error('Error deleting blog post:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to delete blog post', error: error.message },
-      { status: 500 }
+      { success: false, message: 'Failed to delete blog post' },
+      { status: 500, headers: getSecurityHeaders() }
     );
   }
 }

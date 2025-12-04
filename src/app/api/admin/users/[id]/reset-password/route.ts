@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin, logActivity } from '@/lib/adminAuth';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
+import { isValidPassword } from '@/lib/auth';
+import { getSecurityHeaders } from '@/lib/security';
 
 // POST - Reset user password
 export async function POST(
@@ -18,18 +20,19 @@ export async function POST(
     if (isNaN(userId)) {
       return NextResponse.json(
         { success: false, message: 'Invalid user ID' },
-        { status: 400 }
+        { status: 400, headers: getSecurityHeaders() }
       );
     }
 
     const body = await request.json();
     const { new_password } = body;
 
-    // Validation
-    if (!new_password || new_password.length < 8) {
+    // SECURITY: Validate password strength using the same rules as registration
+    const passwordValidation = isValidPassword(new_password);
+    if (!passwordValidation.valid) {
       return NextResponse.json(
-        { success: false, message: 'Password must be at least 8 characters long' },
-        { status: 400 }
+        { success: false, message: passwordValidation.message },
+        { status: 400, headers: getSecurityHeaders() }
       );
     }
 
@@ -42,12 +45,12 @@ export async function POST(
     if (!targetUser) {
       return NextResponse.json(
         { success: false, message: 'User not found' },
-        { status: 404 }
+        { status: 404, headers: getSecurityHeaders() }
       );
     }
 
-    // Hash the new password
-    const password_hash = await bcrypt.hash(new_password, 10);
+    // SECURITY: Hash the new password with 12 rounds (consistent with user creation)
+    const password_hash = await bcrypt.hash(new_password, 12);
 
     // Update password
     await prisma.users.update({
@@ -72,12 +75,12 @@ export async function POST(
     return NextResponse.json({
       success: true,
       message: 'Password reset successfully',
-    });
+    }, { headers: getSecurityHeaders() });
   } catch (error: any) {
     console.error('Error resetting password:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to reset password', error: error.message },
-      { status: 500 }
+      { success: false, message: 'Failed to reset password' },
+      { status: 500, headers: getSecurityHeaders() }
     );
   }
 }

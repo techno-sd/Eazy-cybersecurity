@@ -1,7 +1,32 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getConnection } from '@/lib/db';
+import { requireAdmin } from '@/lib/adminAuth';
 
-export async function GET() {
+/**
+ * SECURITY: Database setup endpoint
+ * This endpoint is protected and only available:
+ * 1. In development environment, OR
+ * 2. To authenticated admin users in production
+ *
+ * WARNING: This should only be used for initial setup.
+ * For production deployments, use proper database migrations.
+ */
+
+export async function GET(request: NextRequest) {
+  // SECURITY: Block in production unless admin authenticated
+  if (process.env.NODE_ENV === 'production') {
+    const user = await requireAdmin(request);
+    if (user instanceof NextResponse) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Database setup is disabled in production. Use database migrations instead.',
+        },
+        { status: 403 }
+      );
+    }
+  }
+
   let connection;
 
   try {
@@ -69,7 +94,7 @@ export async function GET() {
       {
         success: false,
         message: 'Failed to create database schema',
-        error: error.message
+        error: process.env.NODE_ENV === 'development' ? error.message : undefined
       },
       { status: 500 }
     );
