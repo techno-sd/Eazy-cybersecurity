@@ -85,7 +85,7 @@ const nextConfig = {
 
   // Image optimization
   images: {
-    domains: ['eazycyber.sa', 'localhost', '127.0.0.1', 'ui-avatars.com'],
+    // Note: 'domains' is deprecated, use 'remotePatterns' instead
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
@@ -96,13 +96,17 @@ const nextConfig = {
       {
         protocol: 'http',
         hostname: 'localhost',
-        port: '3000',
-        pathname: '/img/**',
+        pathname: '/**',
+      },
+      {
+        protocol: 'http',
+        hostname: '127.0.0.1',
+        pathname: '/**',
       },
       {
         protocol: 'https',
         hostname: 'eazycyber.sa',
-        pathname: '/img/**',
+        pathname: '/**',
       },
       {
         protocol: 'https',
@@ -132,7 +136,10 @@ const nextConfig = {
     SITE_URL: process.env.SITE_URL || 'https://eazycyber.sa',
   },
 
-  // Webpack configuration to fix Windows permission issues
+  // Turbopack configuration (Next.js 16+ default bundler)
+  turbopack: {},
+
+  // Webpack configuration to fix Windows permission issues (fallback)
   webpack: (config, { isServer, webpack }) => {
     // Only apply cache disabling on Windows
     if (process.platform === 'win32') {
