@@ -1431,3 +1431,281 @@ html {
 .icon-pulse {
   animation: pulse 2s ease-in-out infinite;
 }
+
+// ==============================================
+// NAVBAR ANIMATIONS
+// ==============================================
+
+// Logo hover effect
+.navbar-logo-hover {
+  transition: all 0.4s $ease-smooth;
+
+  &:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+  }
+}
+
+// Animated quote button
+.animated-quote-btn {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      120deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transition: left 0.6s ease;
+  }
+
+  &:hover::before {
+    left: 100%;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(10, 77, 140, 0.35);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 15px rgba(10, 77, 140, 0.25);
+  }
+}
+
+// Menu item underline animation
+.nav-link-animated {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #0A4D8C, #607EAC);
+    transition: width 0.4s $ease-smooth;
+    border-radius: 2px;
+  }
+
+  &:hover::after,
+  &.active::after {
+    width: 100%;
+  }
+}
+
+// RTL support for menu underline
+[dir="rtl"] .nav-link-animated {
+  &::after {
+    left: auto;
+    right: 0;
+  }
+}
+
+// Dropdown menu animation
+.dropdown-menu-animated {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.4s $ease-smooth;
+
+  &.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+
+// Mobile menu slide animation
+.mobile-menu-animated {
+  transition: all 0.5s $ease-smooth;
+
+  &.closed {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+  }
+
+  &.open {
+    max-height: 80vh;
+    opacity: 1;
+  }
+}
+
+// Hamburger icon animation
+.hamburger-animated {
+  .icon-bar {
+    transition: all 0.4s $ease-smooth;
+  }
+
+  &.active {
+    .icon-bar.top-bar {
+      transform: rotate(45deg) translateY(6px);
+    }
+
+    .icon-bar.middle-bar {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    .icon-bar.bottom-bar {
+      transform: rotate(-45deg) translateY(-6px);
+    }
+  }
+}
+
+// Sticky navbar glass effect
+.navbar-glass {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(10, 77, 140, 0.1);
+  box-shadow: 0 4px 30px rgba(10, 77, 140, 0.1);
+  transition: all 0.4s $ease-smooth;
+}
+
+// ==============================================
+// TESTIMONIALS SECTION ANIMATIONS
+// ==============================================
+
+// Custom Swiper pagination for testimonials
+.testimonials-swiper {
+  .swiper-pagination {
+    bottom: 0 !important;
+
+    .swiper-pagination-bullet {
+      width: 12px;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.4);
+      opacity: 1;
+      transition: all 0.4s $ease-smooth;
+      margin: 0 6px !important;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.7);
+        transform: scale(1.2);
+      }
+
+      &-active {
+        background: #FFD700;
+        width: 30px;
+        border-radius: 6px;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+      }
+
+      // Mobile responsive pagination
+      @media (max-width: 576px) {
+        width: 8px;
+        height: 8px;
+        margin: 0 4px !important;
+
+        &-active {
+          width: 20px;
+          border-radius: 4px;
+        }
+      }
+    }
+  }
+
+  .swiper-slide {
+    height: auto;
+
+    > div {
+      height: 100%;
+    }
+  }
+}
+
+// Mobile responsive testimonials section
+@media (max-width: 576px) {
+  .client-area.ptb-100 {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .client-area.ptb-100 {
+    padding-top: 70px;
+    padding-bottom: 70px;
+  }
+}
+
+// Testimonial card glass effect
+.testimonial-card-glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  transition: all 0.5s $ease-smooth;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-10px);
+  }
+}
+
+// Quote icon animation
+.quote-icon-animated {
+  transition: all 0.4s $ease-smooth;
+
+  &:hover {
+    transform: scale(1.3) rotate(-10deg);
+    color: #FFD700;
+  }
+}
+
+// Star rating animation
+.star-rating-animated {
+  li {
+    transition: all 0.3s $ease-smooth;
+
+    i {
+      transition: all 0.3s ease;
+    }
+
+    &:hover {
+      transform: scale(1.3) rotate(10deg);
+
+      i {
+        filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.6));
+      }
+    }
+  }
+}
+
+// Client avatar animation
+.client-avatar-animated {
+  transition: all 0.4s $ease-smooth;
+
+  &:hover {
+    transform: scale(1.1);
+    border-color: #FFD700;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 215, 0, 0.3);
+  }
+}
+
+// Online indicator pulse
+.online-indicator {
+  width: 14px;
+  height: 14px;
+  background: #22c55e;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+
+  &.active {
+    animation: pulse 2s ease-in-out infinite;
+  }
+}

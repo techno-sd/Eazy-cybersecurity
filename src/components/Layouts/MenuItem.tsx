@@ -17,6 +17,8 @@ interface MenuItemProps {
 const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu, onNavigate }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [isLinkHovered, setIsLinkHovered] = useState(false);
+  const [hoveredSubItem, setHoveredSubItem] = useState<number | null>(null);
   const pathname = usePathname();
   const normalize = (p: string) => (p || "/").replace(/^\/(en|ar)(?=\/|$)/, "") || "/";
   const current = normalize(pathname || "/");
@@ -78,17 +80,27 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu, onNavigate })
     const showSubmenu = isExpanded || isHovered;
 
     return (
-      <li 
-        className={`nav-item ${isActive ? "active" : ""} ${isExpanded ? "expanded" : ""}`} 
+      <li
+        className={`nav-item ${isActive ? "active" : ""} ${isExpanded ? "expanded" : ""}`}
         key={label}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        style={{
+          position: 'relative',
+        }}
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
           <Link
             href={link}
             className="nav-link"
-            style={{ color: isActive ? '#0A4D8C' : '#333', flex: 1 }}
+            style={{
+              color: isActive || isLinkHovered ? '#0A4D8C' : '#333',
+              flex: 1,
+              transition: 'all 0.3s cubic-bezier(0.23, 1, 0.32, 1)',
+              position: 'relative',
+            }}
+            onMouseEnter={() => setIsLinkHovered(true)}
+            onMouseLeave={() => setIsLinkHovered(false)}
             onClick={(e) => {
               if (link === "#") {
                 e.preventDefault();
@@ -96,6 +108,17 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu, onNavigate })
             }}
           >
             {tLabel}
+            <span style={{
+              position: 'absolute',
+              bottom: '0',
+              left: isAR ? 'auto' : '0',
+              right: isAR ? '0' : 'auto',
+              width: isLinkHovered || isActive ? '100%' : '0%',
+              height: '2px',
+              background: 'linear-gradient(90deg, #0A4D8C, #607EAC)',
+              transition: 'width 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
+              borderRadius: '2px',
+            }}></span>
           </Link>
           <button
             type="button"
@@ -114,7 +137,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu, onNavigate })
               justifyContent: 'center',
               color: isActive ? '#0A4D8C' : '#666',
               fontSize: '18px',
-              transition: 'all 0.3s ease',
+              transition: 'all 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
               transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
             }}
             aria-expanded={isExpanded}
@@ -131,12 +154,16 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu, onNavigate })
             textAlign: isAR ? 'right' : undefined,
             maxHeight: showSubmenu ? '500px' : '0',
             overflow: 'hidden',
-            transition: 'all 0.3s ease',
+            transition: 'all 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
             opacity: showSubmenu ? 1 : 0,
             visibility: showSubmenu ? 'visible' : 'hidden',
+            transform: showSubmenu ? 'translateY(0)' : 'translateY(-10px)',
+            boxShadow: showSubmenu ? '0 10px 40px rgba(10, 77, 140, 0.12)' : 'none',
+            border: showSubmenu ? '1px solid rgba(10, 77, 140, 0.08)' : 'none',
+            borderRadius: '12px',
           }}
         >
-          {submenu.map((subItem) => {
+          {submenu.map((subItem, index) => {
             const subTarget = normalize(subItem.link);
             const hash = extractHash(subItem.link);
 
@@ -146,14 +173,32 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu, onNavigate })
             const isPathActive = current === subTarget || current.startsWith(subTarget);
             const isScrollActive = hash && activeSection === hash;
             const isSubActive = isPathActive || isScrollActive;
+            const isSubHovered = hoveredSubItem === index;
 
             const subLabel = translate(subItem.label);
             return (
-              <li className={`nav-item ${isSubActive ? "active" : ""}`} key={subItem.label}>
+              <li
+                className={`nav-item ${isSubActive ? "active" : ""}`}
+                key={subItem.label}
+                style={{
+                  opacity: showSubmenu ? 1 : 0,
+                  transform: showSubmenu ? 'translateX(0)' : `translateX(${isAR ? '10px' : '-10px'})`,
+                  transition: `all 0.4s cubic-bezier(0.23, 1, 0.32, 1) ${index * 0.05}s`,
+                }}
+              >
                 <Link
                   href={subItem.link}
                   className={`nav-link ${isSubActive ? "active" : ""}`}
-                  style={{ color: isSubActive ? '#0A4D8C' : '#333' }}
+                  style={{
+                    color: isSubActive || isSubHovered ? '#0A4D8C' : '#333',
+                    transition: 'all 0.3s cubic-bezier(0.23, 1, 0.32, 1)',
+                    background: isSubHovered ? 'rgba(10, 77, 140, 0.05)' : 'transparent',
+                    borderRadius: '8px',
+                    paddingLeft: isSubHovered && !isAR ? '20px' : undefined,
+                    paddingRight: isSubHovered && isAR ? '20px' : undefined,
+                  }}
+                  onMouseEnter={() => setHoveredSubItem(index)}
+                  onMouseLeave={() => setHoveredSubItem(null)}
                   onClick={(e) => {
                     handleClick(e, subItem.link);
                   }}
@@ -173,10 +218,27 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, link, submenu, onNavigate })
       <Link
         href={link}
         className={`nav-link ${isActive ? "active" : ""}`}
-        style={{ color: isActive ? '#0A4D8C' : '#333' }}
+        style={{
+          color: isActive || isLinkHovered ? '#0A4D8C' : '#333',
+          transition: 'all 0.3s cubic-bezier(0.23, 1, 0.32, 1)',
+          position: 'relative',
+        }}
+        onMouseEnter={() => setIsLinkHovered(true)}
+        onMouseLeave={() => setIsLinkHovered(false)}
         onClick={(e) => handleClick(e, link)}
       >
         {tLabel}
+        <span style={{
+          position: 'absolute',
+          bottom: '0',
+          left: isAR ? 'auto' : '0',
+          right: isAR ? '0' : 'auto',
+          width: isLinkHovered || isActive ? '100%' : '0%',
+          height: '2px',
+          background: 'linear-gradient(90deg, #0A4D8C, #607EAC)',
+          transition: 'width 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
+          borderRadius: '2px',
+        }}></span>
       </Link>
     </li>
   );

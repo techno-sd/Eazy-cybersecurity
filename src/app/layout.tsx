@@ -28,23 +28,6 @@ import "../../styles/_ui-enhancements.scss";
 import type { Metadata } from "next";
 import Providers from "./providers";
 import { cookies } from "next/headers";
-import { Rubik, Barlow_Condensed } from "next/font/google";
-
-// For all body text font
-const rubik = Rubik({
-  weight: ["300", "400", "500", "600", "700", "800"],
-  subsets: ["latin"],
-  variable: "--font-rubik",
-  display: "swap",
-});
-
-// For all heading font
-const barlow_condensed = Barlow_Condensed({
-  weight: ["200", "300", "400", "500", "600", "700", "800"],
-  subsets: ["latin"],
-  variable: "--font-barlow-condensed",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Eazy Cyber Agent - Cybersecurity & Digital Transformation Solutions",
@@ -154,7 +137,6 @@ export default async function RootLayout({
         <meta name="apple-mobile-web-app-title" content="Eazy Cyber" />
 
         {/* DNS Prefetch for Performance */}
-        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
 
         {/* Favicon & App Icons */}
@@ -176,7 +158,7 @@ export default async function RootLayout({
         <link rel="alternate" hrefLang="en" href="https://eazycyber.sa/en" />
         <link rel="alternate" hrefLang="x-default" href="https://eazycyber.sa" />
       </head>
-      <body className={`${rubik.variable} ${barlow_condensed.variable}`}>
+      <body>
         <Providers initialLang={lang}>
           {children}
         </Providers>

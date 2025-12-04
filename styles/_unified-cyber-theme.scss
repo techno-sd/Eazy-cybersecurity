@@ -131,7 +131,7 @@ $light-bg: #f8f9fa;
 			line-height: 1.2;
 			text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5),
 						 0 0 40px rgba(63, 160, 255, 0.4);
-			font-family: var(--font-barlow-condensed);
+			font-family: inherit;
 			animation: fadeInDown 0.8s ease-out;
 		}
 
