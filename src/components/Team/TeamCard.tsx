@@ -1,6 +1,6 @@
 "use client";
-  
-import React, { useState } from "react";
+
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useLang } from "@/context/LangContext";
@@ -16,6 +16,25 @@ const TeamCard: React.FC = () => {
   const { lang } = useLang();
   const isArabic = lang === "ar";
   const [hoveredMember, setHoveredMember] = useState<number | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const teamMembers: TeamMember[] = [
     {
@@ -71,12 +90,36 @@ const TeamCard: React.FC = () => {
   return (
     <>
       <section
+        ref={sectionRef}
         style={{
           background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)',
           padding: '100px 0',
-          direction: isArabic ? 'rtl' : 'ltr'
+          direction: isArabic ? 'rtl' : 'ltr',
+          position: 'relative',
+          overflow: 'hidden'
         }}
       >
+        {/* Animated Background Elements */}
+        <div style={{
+          position: 'absolute',
+          top: '10%',
+          left: '-100px',
+          width: '300px',
+          height: '300px',
+          background: 'radial-gradient(circle, rgba(10, 77, 140, 0.05) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 8s ease-in-out infinite'
+        }}></div>
+        <div style={{
+          position: 'absolute',
+          bottom: '10%',
+          right: '-100px',
+          width: '400px',
+          height: '400px',
+          background: 'radial-gradient(circle, rgba(96, 126, 172, 0.05) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 10s ease-in-out infinite 2s'
+        }}></div>
         <div className="container">
           {/* Section Header */}
           <div style={{ textAlign: 'center', marginBottom: '80px' }}>
@@ -125,28 +168,37 @@ const TeamCard: React.FC = () => {
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
             gap: '30px',
-            marginBottom: '60px'
+            marginBottom: '60px',
+            position: 'relative',
+            zIndex: 1
           }}>
             {teamMembers.map((member, index) => (
               <div
                 key={index}
                 style={{
                   position: 'relative',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
+                  transition: `all 0.6s cubic-bezier(0.23, 1, 0.32, 1) ${index * 0.1}s`
                 }}
                 onMouseEnter={() => setHoveredMember(index)}
                 onMouseLeave={() => setHoveredMember(null)}
               >
                 {/* Team Card */}
                 <div
+                  className="card-modern"
                   style={{
                     background: 'white',
-                    borderRadius: '16px',
+                    borderRadius: '20px',
                     overflow: 'hidden',
-                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.08)',
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    transform: hoveredMember === index ? 'translateY(-12px)' : 'translateY(0)',
-                    border: '1px solid rgba(10, 77, 140, 0.08)'
+                    boxShadow: hoveredMember === index
+                      ? '0 25px 50px rgba(10, 77, 140, 0.15)'
+                      : '0 8px 24px rgba(0, 0, 0, 0.08)',
+                    transition: 'all 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
+                    transform: hoveredMember === index ? 'translateY(-15px) scale(1.02)' : 'translateY(0) scale(1)',
+                    border: '1px solid rgba(10, 77, 140, 0.08)',
+                    padding: 0
                   }}
                 >
                   {/* Image Container */}
@@ -166,7 +218,9 @@ const TeamCard: React.FC = () => {
                         width: '100%',
                         height: '100%',
                         objectFit: 'cover',
-                        transition: 'transform 0.3s ease'
+                        transition: 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), filter 0.4s ease',
+                        transform: hoveredMember === index ? 'scale(1.1)' : 'scale(1)',
+                        filter: hoveredMember === index ? 'brightness(0.85)' : 'brightness(1)'
                       }}
                     />
 

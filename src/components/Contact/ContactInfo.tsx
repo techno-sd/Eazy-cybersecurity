@@ -1,11 +1,39 @@
 "use client";
-  
-import React from "react";
+
+import React, { useState, useRef, useEffect } from "react";
 import { useLang } from "@/context/LangContext";
+
+// Custom hook for scroll-triggered animations
+const useInView = (threshold = 0.2) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        }
+      },
+      { threshold, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return { ref, isInView };
+};
 
 const ContactInfo: React.FC = () => {
   const { lang } = useLang();
   const isArabic = lang === "ar";
+
+  // Scroll reveal
+  const sectionRef = useInView(0.1);
 
   const content = {
     en: {
@@ -32,14 +60,40 @@ const ContactInfo: React.FC = () => {
 
   return (
     <>
-      <div id="location" className={`contact-info-area ${isArabic ? 'rtl' : ''}`} style={{
-        background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.02) 0%, rgba(14, 165, 233, 0.02) 100%)',
-        padding: '80px 0'
-      }}>
+      <div
+        ref={sectionRef.ref}
+        id="location"
+        className={`contact-info-area ${isArabic ? 'rtl' : ''}`}
+        style={{
+          background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.02) 0%, rgba(14, 165, 233, 0.02) 100%)',
+          padding: '80px 0',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
+        {/* Animated Background Elements */}
+        <div style={{
+          position: 'absolute',
+          top: '20%',
+          left: '-100px',
+          width: '300px',
+          height: '300px',
+          background: 'radial-gradient(circle, rgba(10, 77, 140, 0.04) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 10s ease-in-out infinite'
+        }}></div>
+
         <div className="container">
           <div className="row align-items-stretch">
             {/* Contact Information Cards */}
-            <div className="col-lg-6 mb-4 mb-lg-0">
+            <div
+              className="col-lg-6 mb-4 mb-lg-0"
+              style={{
+                opacity: sectionRef.isInView ? 1 : 0,
+                transform: sectionRef.isInView ? 'translateX(0)' : `translateX(${isArabic ? '40px' : '-40px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
+              }}
+            >
               <div style={{
                 background: 'white',
                 borderRadius: '20px',
@@ -234,7 +288,14 @@ const ContactInfo: React.FC = () => {
             </div>
 
             {/* Map Section */}
-            <div className="col-lg-6">
+            <div
+              className="col-lg-6"
+              style={{
+                opacity: sectionRef.isInView ? 1 : 0,
+                transform: sectionRef.isInView ? 'translateX(0)' : `translateX(${isArabic ? '-40px' : '40px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.2s'
+              }}
+            >
               <div style={{
                 borderRadius: '20px',
                 overflow: 'hidden',

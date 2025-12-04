@@ -1,11 +1,40 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useLang } from "@/context/LangContext";
+
+// Custom hook for scroll-triggered animations
+const useInView = (threshold = 0.2) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        }
+      },
+      { threshold, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return { ref, isInView };
+};
 
 const ContactForm: React.FC = () => {
   const { lang } = useLang();
   const isArabic = lang === "ar";
+
+  // Scroll reveal
+  const sectionRef = useInView(0.1);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -80,16 +109,47 @@ const ContactForm: React.FC = () => {
 
   return (
     <>
-      <div className={`faq-contact-area ptb-100 ${isArabic ? 'rtl' : ''}`} style={{
-        background: 'white'
-      }}>
+      <div
+        ref={sectionRef.ref}
+        className={`faq-contact-area ptb-100 ${isArabic ? 'rtl' : ''}`}
+        style={{
+          background: 'white',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
+        {/* Animated Background Elements */}
+        <div style={{
+          position: 'absolute',
+          top: '10%',
+          right: '-100px',
+          width: '300px',
+          height: '300px',
+          background: 'radial-gradient(circle, rgba(10, 77, 140, 0.05) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 8s ease-in-out infinite'
+        }}></div>
+        <div style={{
+          position: 'absolute',
+          bottom: '20%',
+          left: '-100px',
+          width: '400px',
+          height: '400px',
+          background: 'radial-gradient(circle, rgba(96, 126, 172, 0.05) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 10s ease-in-out infinite 2s'
+        }}></div>
+
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-lg-10">
               {/* Section Header */}
               <div style={{
                 textAlign: 'center',
-                marginBottom: '50px'
+                marginBottom: '50px',
+                opacity: sectionRef.isInView ? 1 : 0,
+                transform: sectionRef.isInView ? 'translateY(0)' : 'translateY(40px)',
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
               }}>
                 <span style={{
                   display: 'inline-block',

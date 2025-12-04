@@ -1,7 +1,6 @@
 "use client";
-  
 
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import Image from "next/image";
@@ -92,16 +91,65 @@ const Testimonials: React.FC = () => {
     ? 'نفتخر بثقة عملائنا في المملكة العربية السعودية، ونلتزم بتقديم حلول رقمية وأمنية مبتكرة تدعم نجاحهم.'
     : "We are proud to earn the trust of leading organizations across Saudi Arabia. Here's what our clients say about working with Eazy Cyber Agent.";
   const isArabic = lang === 'ar';
+
+  const [isVisible, setIsVisible] = useState(false);
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <>
-      <section className="client-area ptb-100">
-        <div className="container">
-          <div className="section-title white-title" style={{
-            direction: isArabic ? 'rtl' : 'ltr',
-            textAlign: isArabic ? 'right' : 'left',
-            maxWidth: '900px',
-            margin: '0 auto 60px'
-          }}>
+      <section ref={sectionRef} className="client-area ptb-100" style={{ position: 'relative', overflow: 'hidden' }}>
+        {/* Animated Background */}
+        <div style={{
+          position: 'absolute',
+          top: '20%',
+          left: '-150px',
+          width: '400px',
+          height: '400px',
+          background: 'radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 10s ease-in-out infinite'
+        }}></div>
+        <div style={{
+          position: 'absolute',
+          bottom: '10%',
+          right: '-100px',
+          width: '300px',
+          height: '300px',
+          background: 'radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 8s ease-in-out infinite 2s'
+        }}></div>
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          <div
+            className="section-title white-title"
+            style={{
+              direction: isArabic ? 'rtl' : 'ltr',
+              textAlign: isArabic ? 'right' : 'left',
+              maxWidth: '900px',
+              margin: '0 auto 60px',
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+              transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
+            }}
+          >
             <span style={{
               display: 'block',
               width: '70px',
@@ -149,12 +197,34 @@ const Testimonials: React.FC = () => {
           >
             {t.map((item, idx) => (
               <SwiperSlide key={idx}>
-                <div className="single-client">
-                  <i className="quotes bx bxs-quote-alt-left"></i>
+                <div
+                  className="single-client glass"
+                  onMouseEnter={() => setHoveredCard(idx)}
+                  onMouseLeave={() => setHoveredCard(null)}
+                  style={{
+                    transition: 'all 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
+                    transform: hoveredCard === idx ? 'translateY(-10px) scale(1.02)' : 'translateY(0) scale(1)',
+                    boxShadow: hoveredCard === idx
+                      ? '0 25px 50px rgba(0, 0, 0, 0.25)'
+                      : '0 10px 30px rgba(0, 0, 0, 0.15)',
+                    opacity: isVisible ? 1 : 0,
+                    animation: isVisible ? `fadeInUp 0.6s ease-out ${idx * 0.1}s both` : 'none'
+                  }}
+                >
+                  <i
+                    className="quotes bx bxs-quote-alt-left"
+                    style={{
+                      transition: 'transform 0.4s ease',
+                      transform: hoveredCard === idx ? 'scale(1.2) rotate(-5deg)' : 'scale(1) rotate(0)'
+                    }}
+                  ></i>
                   <p>{item.text}</p>
                   <ul>
                     {[...Array(5)].map((_, i) => (
-                      <li key={i}>
+                      <li key={i} style={{
+                        transition: `all 0.3s ease ${i * 0.05}s`,
+                        transform: hoveredCard === idx ? 'scale(1.2)' : 'scale(1)'
+                      }}>
                         <i className="bx bxs-star"></i>
                       </li>
                     ))}
@@ -167,7 +237,10 @@ const Testimonials: React.FC = () => {
                       height={70}
                       style={{
                         borderRadius: '50%',
-                        border: '3px solid rgba(10, 77, 140, 0.2)'
+                        border: '3px solid rgba(10, 77, 140, 0.2)',
+                        transition: 'all 0.4s ease',
+                        transform: hoveredCard === idx ? 'scale(1.1)' : 'scale(1)',
+                        boxShadow: hoveredCard === idx ? '0 8px 20px rgba(10, 77, 140, 0.3)' : 'none'
                       }}
                     />
                     <h3>{item.name}</h3>

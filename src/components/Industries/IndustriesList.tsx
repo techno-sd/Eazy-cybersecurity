@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -9,8 +9,41 @@ interface IndustriesListProps {
   t: any;
 }
 
+// Custom hook for scroll-triggered animations
+const useInView = (threshold = 0.2) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        }
+      },
+      { threshold, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return { ref, isInView };
+};
+
 const IndustriesList: React.FC<IndustriesListProps> = ({ lang, t }) => {
   const isArabic = lang === "ar";
+
+  // Scroll reveal for sections
+  const heroSection = useInView(0.1);
+  const listSection = useInView(0.1);
+  const ctaSection = useInView(0.2);
+
+  // Hover state for industry cards
+  const [hoveredIndustry, setHoveredIndustry] = useState<number | null>(null);
 
   // Industry data with platform brand colors and enhanced styling
   const industries = [
@@ -73,8 +106,9 @@ const IndustriesList: React.FC<IndustriesListProps> = ({ lang, t }) => {
   return (
     <>
       {/* Enhanced Hero Section */}
-      <section 
-        className="industries-hero-section" 
+      <section
+        ref={heroSection.ref}
+        className="industries-hero-section"
         style={{
           background: 'linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%)',
           padding: '80px 0',
@@ -82,10 +116,39 @@ const IndustriesList: React.FC<IndustriesListProps> = ({ lang, t }) => {
           overflow: 'hidden'
         }}
       >
+        {/* Animated Background Elements */}
+        <div style={{
+          position: 'absolute',
+          top: '10%',
+          left: '-100px',
+          width: '300px',
+          height: '300px',
+          background: 'radial-gradient(circle, rgba(10, 77, 140, 0.05) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 8s ease-in-out infinite'
+        }}></div>
+        <div style={{
+          position: 'absolute',
+          bottom: '10%',
+          right: '-100px',
+          width: '400px',
+          height: '400px',
+          background: 'radial-gradient(circle, rgba(96, 126, 172, 0.05) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 10s ease-in-out infinite 2s'
+        }}></div>
+
         <div className="container" style={{ direction: isArabic ? "rtl" : "ltr" }}>
           <div className="row justify-content-center">
             <div className="col-lg-10">
-              <div className="text-center" data-aos="fade-up">
+              <div
+                className="text-center"
+                style={{
+                  opacity: heroSection.isInView ? 1 : 0,
+                  transform: heroSection.isInView ? 'translateY(0)' : 'translateY(40px)',
+                  transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
+                }}
+              >
                 {/* Main Title */}
                 <h2 style={{
                   fontSize: 'clamp(36px, 7vw, 56px)',
@@ -143,31 +206,44 @@ const IndustriesList: React.FC<IndustriesListProps> = ({ lang, t }) => {
       </section>
 
       {/* Enhanced Industries List Section */}
-      <section className="industries-list-section" style={{ padding: '100px 0', background: '#ffffff' }}>
+      <section
+        ref={listSection.ref}
+        className="industries-list-section"
+        style={{ padding: '100px 0', background: '#ffffff' }}
+      >
         <div className="container">
           <div className="row g-5" style={{ direction: isArabic ? "rtl" : "ltr" }}>
             {t.industries.industries_list.map((industry: any, index: number) => {
               const industryData = industries[index];
               const isEven = index % 2 === 0;
+              const isHovered = hoveredIndustry === index;
 
               return (
                 <div
                   key={index}
-                  id={industryData.id}
+                  id={industryData?.id}
                   className="col-12"
-                  data-aos="fade-up"
-                  data-aos-delay={index * 100}
+                  style={{
+                    opacity: listSection.isInView ? 1 : 0,
+                    transform: listSection.isInView ? 'translateY(0)' : 'translateY(50px)',
+                    transition: `all 0.7s cubic-bezier(0.23, 1, 0.32, 1) ${index * 0.15}s`
+                  }}
                 >
-                  <div 
+                  <div
                     className="industry-card-enhanced"
                     style={{
                       background: '#fff',
                       borderRadius: '20px',
                       overflow: 'hidden',
-                      boxShadow: '0 10px 40px rgba(0, 0, 0, 0.08)',
-                      transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                      boxShadow: isHovered
+                        ? '0 30px 60px rgba(10, 77, 140, 0.15)'
+                        : '0 10px 40px rgba(0, 0, 0, 0.08)',
+                      transition: 'all 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
                       border: '1px solid rgba(0, 0, 0, 0.05)',
+                      transform: isHovered ? 'translateY(-10px) scale(1.01)' : 'translateY(0) scale(1)',
                     }}
+                    onMouseEnter={() => setHoveredIndustry(index)}
+                    onMouseLeave={() => setHoveredIndustry(null)}
                   >
                     <div className="row g-0 align-items-center">
                       {/* Image Section */}
@@ -378,7 +454,8 @@ const IndustriesList: React.FC<IndustriesListProps> = ({ lang, t }) => {
       </section>
 
       {/* Consultation CTA Section */}
-      <section 
+      <section
+        ref={ctaSection.ref}
         style={{
           padding: '80px 0',
           background: 'linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%)',
@@ -387,7 +464,14 @@ const IndustriesList: React.FC<IndustriesListProps> = ({ lang, t }) => {
         <div className="container">
           <div style={{ direction: isArabic ? "rtl" : "ltr", textAlign: 'center' }}>
             <div className="row justify-content-center">
-              <div className="col-lg-8" data-aos="fade-up">
+              <div
+                className="col-lg-8"
+                style={{
+                  opacity: ctaSection.isInView ? 1 : 0,
+                  transform: ctaSection.isInView ? 'translateY(0) scale(1)' : 'translateY(40px) scale(0.95)',
+                  transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
+                }}
+              >
                 <div style={{
                   padding: '60px 40px',
                   background: 'linear-gradient(135deg, #0A4D8C 0%, #073D6C 100%)',

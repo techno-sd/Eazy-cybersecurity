@@ -50,6 +50,9 @@ $transition: all 0.5s;
 $border-radius: 4px;
 $main-gradient-color: linear-gradient(136.1deg, #607EAC 1.84%, #0A4D8C 100%);
 
+// Modern Animation Utilities
+@import 'modern-animations';
+
 body {
 	padding: 0;
     margin: 0;

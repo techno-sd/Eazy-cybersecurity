@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -8,8 +8,40 @@ interface Vision2030Props {
   lang: string;
 }
 
+// Custom hook for scroll-triggered animations
+const useInView = (threshold = 0.2) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        }
+      },
+      { threshold, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return { ref, isInView };
+};
+
 const Vision2030Content: React.FC<Vision2030Props> = ({ lang }) => {
   const isArabic = lang === "ar";
+
+  // Scroll reveal for sections
+  const headerSection = useInView(0.15);
+  const pointsSection = useInView(0.1);
+
+  // Hover state for cards
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   const content = {
     en: {
@@ -103,6 +135,7 @@ const Vision2030Content: React.FC<Vision2030Props> = ({ lang }) => {
   return (
     <>
       <section
+        ref={headerSection.ref}
         className="vision-2030-area ptb-100"
         style={{
           background: 'linear-gradient(to bottom, #f8f9fa 0%, #ffffff 50%, #f8f9fa 100%)',
@@ -110,10 +143,39 @@ const Vision2030Content: React.FC<Vision2030Props> = ({ lang }) => {
           overflow: 'hidden'
         }}
       >
+        {/* Animated Background Elements */}
+        <div style={{
+          position: 'absolute',
+          top: '10%',
+          left: '-100px',
+          width: '300px',
+          height: '300px',
+          background: 'radial-gradient(circle, rgba(10, 77, 140, 0.05) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 8s ease-in-out infinite'
+        }}></div>
+        <div style={{
+          position: 'absolute',
+          bottom: '20%',
+          right: '-100px',
+          width: '400px',
+          height: '400px',
+          background: 'radial-gradient(circle, rgba(96, 126, 172, 0.05) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 10s ease-in-out infinite 2s'
+        }}></div>
+
         <div className="container" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
           {/* Header Section with Image */}
           <div className="row align-items-center mb-5">
-            <div className="col-lg-6" data-aos="fade-up">
+            <div
+              className="col-lg-6"
+              style={{
+                opacity: headerSection.isInView ? 1 : 0,
+                transform: headerSection.isInView ? 'translateX(0)' : `translateX(${isArabic ? '50px' : '-50px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
+              }}
+            >
               <div style={{ position: 'relative' }}>
                 <Image
                   src="/img/vision-2020.jpg"
@@ -153,7 +215,14 @@ const Vision2030Content: React.FC<Vision2030Props> = ({ lang }) => {
               </div>
             </div>
 
-            <div className="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <div
+              className="col-lg-6"
+              style={{
+                opacity: headerSection.isInView ? 1 : 0,
+                transform: headerSection.isInView ? 'translateX(0)' : `translateX(${isArabic ? '-50px' : '50px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.2s'
+              }}
+            >
               <div style={{ textAlign: isArabic ? 'right' : 'left' }}>
                 <span style={{
                   display: 'inline-flex',
@@ -198,19 +267,38 @@ const Vision2030Content: React.FC<Vision2030Props> = ({ lang }) => {
             </div>
           </div>
 
-          <div className="row g-4 mt-4">
-            {currentContent.mainPoints.map((point, index) => (
-              <div key={index} className="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay={index * 100}>
-                <div style={{
-                  background: '#fff',
-                  borderRadius: '16px',
-                  padding: '30px',
-                  height: '100%',
-                  border: `2px solid ${point.color}20`,
-                  transition: 'all 0.4s ease',
-                  position: 'relative',
-                  overflow: 'hidden'
-                }} className="vision-point-card">
+          <div ref={pointsSection.ref} className="row g-4 mt-4">
+            {currentContent.mainPoints.map((point, index) => {
+              const isHovered = hoveredCard === index;
+              return (
+              <div
+                key={index}
+                className="col-lg-6 col-md-6"
+                style={{
+                  opacity: pointsSection.isInView ? 1 : 0,
+                  transform: pointsSection.isInView ? 'translateY(0)' : 'translateY(40px)',
+                  transition: `all 0.6s cubic-bezier(0.23, 1, 0.32, 1) ${index * 0.1}s`
+                }}
+              >
+                <div
+                  style={{
+                    background: '#fff',
+                    borderRadius: '16px',
+                    padding: '30px',
+                    height: '100%',
+                    border: `2px solid ${point.color}20`,
+                    transition: 'all 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    transform: isHovered ? 'translateY(-12px) scale(1.02)' : 'translateY(0) scale(1)',
+                    boxShadow: isHovered
+                      ? `0 25px 50px ${point.color}25`
+                      : '0 5px 20px rgba(0, 0, 0, 0.05)'
+                  }}
+                  className="vision-point-card"
+                  onMouseEnter={() => setHoveredCard(index)}
+                  onMouseLeave={() => setHoveredCard(null)}
+                >
                   <div style={{
                     position: 'absolute',
                     top: '-20px',
@@ -254,7 +342,8 @@ const Vision2030Content: React.FC<Vision2030Props> = ({ lang }) => {
                   </div>
                 </div>
               </div>
-            ))}
+            );
+            })}
           </div>
         </div>
       </section>

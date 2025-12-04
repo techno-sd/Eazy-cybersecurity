@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -9,13 +9,52 @@ interface VisionProps {
   t: any;
 }
 
+// Custom hook for scroll-triggered animations
+const useInView = (threshold = 0.2) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        }
+      },
+      { threshold, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return { ref, isInView };
+};
+
 const Vision: React.FC<VisionProps> = ({ lang, t }) => {
   const isArabic = lang === "ar";
+
+  // Scroll reveal for each section
+  const heroSection = useInView(0.1);
+  const visionMissionSection = useInView(0.15);
+  const coreValuesSection = useInView(0.1);
+  const teamSection = useInView(0.15);
+  const whyUsSection = useInView(0.1);
+  const ctaSection = useInView(0.2);
+
+  // Hover states
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const [hoveredValue, setHoveredValue] = useState<number | null>(null);
+  const [hoveredHighlight, setHoveredHighlight] = useState<number | null>(null);
 
   return (
     <>
       {/* Enhanced Hero / Introduction Section */}
       <section
+        ref={heroSection.ref}
         id="introduction"
         className="about-hero-section"
         style={{
@@ -25,9 +64,38 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
           overflow: 'hidden'
         }}
       >
+        {/* Animated Background Elements */}
+        <div style={{
+          position: 'absolute',
+          top: '10%',
+          left: '-100px',
+          width: '300px',
+          height: '300px',
+          background: 'radial-gradient(circle, rgba(10, 77, 140, 0.06) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 8s ease-in-out infinite'
+        }}></div>
+        <div style={{
+          position: 'absolute',
+          bottom: '10%',
+          right: '-100px',
+          width: '400px',
+          height: '400px',
+          background: 'radial-gradient(circle, rgba(96, 126, 172, 0.06) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 10s ease-in-out infinite 2s'
+        }}></div>
+
         <div className="container" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
           <div className="row align-items-center">
-            <div className="col-lg-12" data-aos="fade-up">
+            <div
+              className="col-lg-12"
+              style={{
+                opacity: heroSection.isInView ? 1 : 0,
+                transform: heroSection.isInView ? 'translateY(0)' : 'translateY(40px)',
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
+              }}
+            >
               <div style={{ textAlign: isArabic ? 'right' : 'left', maxWidth: '900px', margin: '0 auto' }}>
                 <span
                   style={{
@@ -104,11 +172,25 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
       </section>
 
       {/* Enhanced Vision & Mission Section - Side by Side */}
-      <section id="vision-mission" className="vision-mission-section" style={{ padding: 'clamp(60px, 12vw, 100px) 0', background: '#fff' }}>
+      <section
+        ref={visionMissionSection.ref}
+        id="vision-mission"
+        className="vision-mission-section"
+        style={{ padding: 'clamp(60px, 12vw, 100px) 0', background: '#fff' }}
+      >
         <div className="container">
           <div className="row g-3 g-md-4" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
             {/* Vision Card */}
-            <div className="col-lg-6" data-aos="fade-up">
+            <div
+              className="col-lg-6"
+              style={{
+                opacity: visionMissionSection.isInView ? 1 : 0,
+                transform: visionMissionSection.isInView
+                  ? 'translateX(0)'
+                  : `translateX(${isArabic ? '40px' : '-40px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
+              }}
+            >
               <div
                 style={{
                   background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.05), rgba(96, 126, 172, 0.05))',
@@ -116,11 +198,17 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
                   padding: 'clamp(35px, 6vw, 50px) clamp(25px, 5vw, 40px)',
                   height: '100%',
                   border: '2px solid rgba(10, 77, 140, 0.1)',
-                  transition: 'all 0.4s ease',
+                  transition: 'all 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
                   position: 'relative',
-                  overflow: 'hidden'
+                  overflow: 'hidden',
+                  transform: hoveredCard === 'vision' ? 'translateY(-10px) scale(1.02)' : 'translateY(0) scale(1)',
+                  boxShadow: hoveredCard === 'vision'
+                    ? '0 25px 50px rgba(10, 77, 140, 0.15)'
+                    : '0 5px 20px rgba(0, 0, 0, 0.05)'
                 }}
                 className="about-card"
+                onMouseEnter={() => setHoveredCard('vision')}
+                onMouseLeave={() => setHoveredCard(null)}
               >
                 <div style={{
                   position: 'absolute',
@@ -177,7 +265,16 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
             </div>
 
             {/* Mission Card */}
-            <div className="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <div
+              className="col-lg-6"
+              style={{
+                opacity: visionMissionSection.isInView ? 1 : 0,
+                transform: visionMissionSection.isInView
+                  ? 'translateX(0)'
+                  : `translateX(${isArabic ? '-40px' : '40px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.15s'
+              }}
+            >
               <div
                 style={{
                   background: 'linear-gradient(135deg, rgba(96, 126, 172, 0.05), rgba(10, 77, 140, 0.05))',
@@ -185,11 +282,17 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
                   padding: 'clamp(35px, 6vw, 50px) clamp(25px, 5vw, 40px)',
                   height: '100%',
                   border: '2px solid rgba(96, 126, 172, 0.1)',
-                  transition: 'all 0.4s ease',
+                  transition: 'all 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
                   position: 'relative',
-                  overflow: 'hidden'
+                  overflow: 'hidden',
+                  transform: hoveredCard === 'mission' ? 'translateY(-10px) scale(1.02)' : 'translateY(0) scale(1)',
+                  boxShadow: hoveredCard === 'mission'
+                    ? '0 25px 50px rgba(96, 126, 172, 0.15)'
+                    : '0 5px 20px rgba(0, 0, 0, 0.05)'
                 }}
                 className="about-card"
+                onMouseEnter={() => setHoveredCard('mission')}
+                onMouseLeave={() => setHoveredCard(null)}
               >
                 <div style={{
                   position: 'absolute',
@@ -250,20 +353,38 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
 
       {/* Enhanced Core Values Section */}
       <section
+        ref={coreValuesSection.ref}
         id="values"
         className="core-values-section"
         style={{
           padding: 'clamp(60px, 12vw, 100px) 0',
-          background: 'linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%)'
+          background: 'linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%)',
+          position: 'relative',
+          overflow: 'hidden'
         }}
       >
+        {/* Floating Background Elements */}
+        <div style={{
+          position: 'absolute',
+          top: '20%',
+          right: '-150px',
+          width: '350px',
+          height: '350px',
+          background: 'radial-gradient(circle, rgba(10, 77, 140, 0.04) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 12s ease-in-out infinite'
+        }}></div>
+
         <div className="container">
-          <div 
-            className="section-title" 
-            style={{ 
-              direction: isArabic ? 'rtl' : 'ltr', 
+          <div
+            className="section-title"
+            style={{
+              direction: isArabic ? 'rtl' : 'ltr',
               textAlign: 'center',
-              marginBottom: '60px'
+              marginBottom: '60px',
+              opacity: coreValuesSection.isInView ? 1 : 0,
+              transform: coreValuesSection.isInView ? 'translateY(0)' : 'translateY(30px)',
+              transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
             }}
           >
             <h2
@@ -285,9 +406,18 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
             {t.about.core_values.map((value: any, index: number) => {
               const colors = ['#0A4D8C', '#607EAC', '#0A4D8C', '#607EAC'];
               const icons = ['bx bx-shield-quarter', 'bx bx-bulb', 'bx bx-lock-alt', 'bx bx-user-check'];
-              
+              const isHovered = hoveredValue === index;
+
               return (
-                <div key={index} className="col-lg-3 col-md-6 col-sm-6" data-aos="fade-up" data-aos-delay={index * 100}>
+                <div
+                  key={index}
+                  className="col-lg-3 col-md-6 col-sm-6"
+                  style={{
+                    opacity: coreValuesSection.isInView ? 1 : 0,
+                    transform: coreValuesSection.isInView ? 'translateY(0)' : 'translateY(40px)',
+                    transition: `all 0.6s cubic-bezier(0.23, 1, 0.32, 1) ${index * 0.1}s`
+                  }}
+                >
                   <div
                     style={{
                       background: '#fff',
@@ -295,13 +425,19 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
                       padding: '40px 30px',
                       height: '100%',
                       border: `2px solid ${colors[index]}20`,
-                      transition: 'all 0.4s ease',
+                      transition: 'all 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
                       textAlign: 'center',
                       position: 'relative',
                       overflow: 'hidden',
-                      ['--value-color' as any]: colors[index]
+                      ['--value-color' as any]: colors[index],
+                      transform: isHovered ? 'translateY(-12px) scale(1.03)' : 'translateY(0) scale(1)',
+                      boxShadow: isHovered
+                        ? `0 25px 50px ${colors[index]}25`
+                        : '0 5px 20px rgba(0, 0, 0, 0.05)'
                     }}
                     className="value-card"
+                    onMouseEnter={() => setHoveredValue(index)}
+                    onMouseLeave={() => setHoveredValue(null)}
                   >
                     {/* Number Badge */}
                     <span className="value-number">{String(index + 1).padStart(2, '0')}</span>
@@ -355,14 +491,22 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
       </section>
 
       {/* Enhanced Team Section */}
-      <section id="team" className="team-section" style={{ padding: 'clamp(60px, 12vw, 100px) 0', background: '#fff' }}>
+      <section
+        ref={teamSection.ref}
+        id="team"
+        className="team-section"
+        style={{ padding: 'clamp(60px, 12vw, 100px) 0', background: '#fff' }}
+      >
         <div className="container">
           <div
             className="section-title"
             style={{
               direction: isArabic ? 'rtl' : 'ltr',
               textAlign: 'center',
-              marginBottom: '60px'
+              marginBottom: '60px',
+              opacity: teamSection.isInView ? 1 : 0,
+              transform: teamSection.isInView ? 'translateY(0)' : 'translateY(30px)',
+              transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
             }}
           >
             <h2
@@ -395,18 +539,30 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
           </div>
 
           <div className="row justify-content-center" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
-            <div className="col-lg-4 col-md-6 col-sm-8" data-aos="fade-up">
+            <div
+              className="col-lg-4 col-md-6 col-sm-8"
+              style={{
+                opacity: teamSection.isInView ? 1 : 0,
+                transform: teamSection.isInView ? 'translateY(0) scale(1)' : 'translateY(40px) scale(0.95)',
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.2s'
+              }}
+            >
               <div
                 style={{
                   background: '#fff',
                   borderRadius: '20px',
                   overflow: 'hidden',
-                  boxShadow: '0 10px 40px rgba(0, 0, 0, 0.08)',
-                  transition: 'all 0.4s ease',
+                  boxShadow: hoveredCard === 'team'
+                    ? '0 30px 60px rgba(10, 77, 140, 0.2)'
+                    : '0 10px 40px rgba(0, 0, 0, 0.08)',
+                  transition: 'all 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
                   border: '1px solid rgba(0, 0, 0, 0.05)',
-                  height: '100%'
+                  height: '100%',
+                  transform: hoveredCard === 'team' ? 'translateY(-15px) scale(1.02)' : 'translateY(0) scale(1)'
                 }}
                 className="team-card"
+                onMouseEnter={() => setHoveredCard('team')}
+                onMouseLeave={() => setHoveredCard(null)}
               >
                 <div className="team-img-wrapper" style={{ position: 'relative', overflow: 'hidden', height: '450px', width: '100%', backgroundColor: '#f8f9fa', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {/* CEO Badge */}
@@ -509,20 +665,38 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
 
       {/* Enhanced Why Choose Us Section */}
       <section
+        ref={whyUsSection.ref}
         id="why-us"
         className="why-choose-section"
         style={{
           padding: 'clamp(60px, 12vw, 100px) 0',
-          background: 'linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%)'
+          background: 'linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%)',
+          position: 'relative',
+          overflow: 'hidden'
         }}
       >
+        {/* Floating Background Element */}
+        <div style={{
+          position: 'absolute',
+          bottom: '10%',
+          left: '-120px',
+          width: '280px',
+          height: '280px',
+          background: 'radial-gradient(circle, rgba(96, 126, 172, 0.05) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 10s ease-in-out infinite 1s'
+        }}></div>
+
         <div className="container">
-          <div 
-            className="section-title" 
-            style={{ 
-              direction: isArabic ? 'rtl' : 'ltr', 
+          <div
+            className="section-title"
+            style={{
+              direction: isArabic ? 'rtl' : 'ltr',
               textAlign: 'center',
-              marginBottom: '60px'
+              marginBottom: '60px',
+              opacity: whyUsSection.isInView ? 1 : 0,
+              transform: whyUsSection.isInView ? 'translateY(0)' : 'translateY(30px)',
+              transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
             }}
           >
             <h2
@@ -543,10 +717,18 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
           <div className="row g-4" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
             {t.about.why_choose_highlights.map((highlight: string, index: number) => {
               const icons = ['bx bx-shield', 'bx bx-star', 'bx bx-rocket', 'bx bx-trophy', 'bx bx-brain', 'bx bx-hand-right'];
-              const colors = ['#0A4D8C', '#607EAC', '#0A4D8C', '#607EAC', '#0A4D8C', '#607EAC'];
-              
+              const isHighlightHovered = hoveredHighlight === index;
+
               return (
-                <div key={index} className="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay={index * 100}>
+                <div
+                  key={index}
+                  className="col-lg-6 col-md-6"
+                  style={{
+                    opacity: whyUsSection.isInView ? 1 : 0,
+                    transform: whyUsSection.isInView ? 'translateY(0)' : 'translateY(30px)',
+                    transition: `all 0.6s cubic-bezier(0.23, 1, 0.32, 1) ${index * 0.08}s`
+                  }}
+                >
                   <div
                     style={{
                       display: 'flex',
@@ -556,12 +738,18 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
                       padding: '25px',
                       borderRadius: '12px',
                       border: `1px solid rgba(0, 0, 0, 0.06)`,
-                      transition: 'all 0.4s ease',
+                      transition: 'all 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
                       flexDirection: isArabic ? 'row-reverse' : 'row',
                       position: 'relative',
-                      overflow: 'hidden'
+                      overflow: 'hidden',
+                      transform: isHighlightHovered ? 'translateY(-8px) scale(1.02)' : 'translateY(0) scale(1)',
+                      boxShadow: isHighlightHovered
+                        ? '0 20px 40px rgba(10, 77, 140, 0.12)'
+                        : '0 4px 15px rgba(0, 0, 0, 0.04)'
                     }}
                     className="why-choose-item"
+                    onMouseEnter={() => setHoveredHighlight(index)}
+                    onMouseLeave={() => setHoveredHighlight(null)}
                   >
                     {/* Check Mark */}
                     <div className="check-mark">
@@ -605,6 +793,7 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
 
       {/* Enhanced Call to Action Section */}
       <section
+        ref={ctaSection.ref}
         className="cta-section"
         style={{
           padding: 'clamp(60px, 12vw, 100px) 0',
@@ -627,11 +816,20 @@ const Vision: React.FC<VisionProps> = ({ lang, t }) => {
         <div className="cta-shape"></div>
         <div className="cta-shape"></div>
 
-        <div className="container cta-content" style={{ position: 'relative', zIndex: 1 }}>
-          <div 
-            style={{ 
-              direction: isArabic ? 'rtl' : 'ltr', 
-              textAlign: 'center' 
+        <div
+          className="container cta-content"
+          style={{
+            position: 'relative',
+            zIndex: 1,
+            opacity: ctaSection.isInView ? 1 : 0,
+            transform: ctaSection.isInView ? 'translateY(0) scale(1)' : 'translateY(40px) scale(0.95)',
+            transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
+          }}
+        >
+          <div
+            style={{
+              direction: isArabic ? 'rtl' : 'ltr',
+              textAlign: 'center'
             }}
           >
             <h2

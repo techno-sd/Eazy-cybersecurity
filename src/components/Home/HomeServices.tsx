@@ -1,25 +1,62 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useLang } from "@/context/LangContext";
 import { getMessages } from "@/i18n";
+
+// Custom hook for intersection observer animations
+const useInView = (threshold = 0.2) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        }
+      },
+      { threshold, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return { ref, isInView };
+};
 
 const HomeServices: React.FC = () => {
   const { lang } = useLang();
   const t = getMessages(lang);
   const isArabic = lang === "ar";
 
+  // Animation refs for each section
+  const section1 = useInView();
+  const section2 = useInView();
+  const section3 = useInView();
+  const section4 = useInView();
+  const section5 = useInView();
+
   return (
     <>
       {/* Section 1: AI Solutions */}
-      <section id="ai" className="approach-area pb-100 pt-70" style={{
-        background: 'linear-gradient(135deg, #f8f9fa 0%, #e8f0f7 50%, #f0f5f9 100%)',
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
-        {/* Decorative element */}
+      <section
+        ref={section1.ref}
+        id="ai"
+        className="approach-area pb-100 pt-70"
+        style={{
+          background: 'linear-gradient(135deg, #f8f9fa 0%, #e8f0f7 50%, #f0f5f9 100%)',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
+        {/* Decorative element with animation */}
         <div style={{
           position: 'absolute',
           top: '50%',
@@ -29,23 +66,39 @@ const HomeServices: React.FC = () => {
           height: '400px',
           background: 'radial-gradient(circle, rgba(10, 77, 140, 0.05) 0%, transparent 70%)',
           borderRadius: '50%',
-          transform: 'translateY(-50%)'
+          transform: 'translateY(-50%)',
+          animation: 'float 8s ease-in-out infinite'
         }}></div>
 
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div className="row align-items-center">
-            <div className="col-lg-6 reveal-animation" style={{ animationDelay: '0.2s' }}>
-              <div className="approach-img">
+            <div
+              className="col-lg-6"
+              style={{
+                opacity: section1.isInView ? 1 : 0,
+                transform: section1.isInView ? 'translateX(0)' : `translateX(${isArabic ? '40px' : '-40px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
+              }}
+            >
+              <div className="approach-img hover-zoom" style={{ borderRadius: '16px', overflow: 'hidden', boxShadow: '0 20px 60px rgba(10, 77, 140, 0.15)' }}>
                 <Image
                   src="/img/services/ai.jpg"
                   alt="AI Solutions"
                   width={660}
                   height={700}
+                  style={{ transition: 'transform 0.5s ease' }}
                 />
               </div>
             </div>
 
-            <div className="col-lg-6 reveal-animation" style={{ animationDelay: '0.3s' }}>
+            <div
+              className="col-lg-6"
+              style={{
+                opacity: section1.isInView ? 1 : 0,
+                transform: section1.isInView ? 'translateX(0)' : `translateX(${isArabic ? '-40px' : '40px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.2s'
+              }}
+            >
               <div className="approach-content" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
                 <span style={{
                   display: 'block',
@@ -92,12 +145,17 @@ const HomeServices: React.FC = () => {
       </section>
 
       {/* Section 2: Cybersecurity Services */}
-      <section id="cybersecurity" className="approach-area pb-100 pt-70" style={{
-        background: 'linear-gradient(135deg, #f0f5f9 0%, #e8f0f7 50%, #f8f9fa 100%)',
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
-        {/* Decorative element */}
+      <section
+        ref={section2.ref}
+        id="cybersecurity"
+        className="approach-area pb-100 pt-70"
+        style={{
+          background: 'linear-gradient(135deg, #f0f5f9 0%, #e8f0f7 50%, #f8f9fa 100%)',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
+        {/* Decorative element with animation */}
         <div style={{
           position: 'absolute',
           top: '50%',
@@ -107,12 +165,21 @@ const HomeServices: React.FC = () => {
           height: '400px',
           background: 'radial-gradient(circle, rgba(96, 126, 172, 0.05) 0%, transparent 70%)',
           borderRadius: '50%',
-          transform: 'translateY(-50%)'
+          transform: 'translateY(-50%)',
+          animation: 'float 10s ease-in-out infinite 2s'
         }}></div>
 
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div className="row align-items-center">
-            <div className="col-lg-6 reveal-animation" style={{ order: isArabic ? 2 : 1, animationDelay: '0.2s' }}>
+            <div
+              className="col-lg-6"
+              style={{
+                order: isArabic ? 2 : 1,
+                opacity: section2.isInView ? 1 : 0,
+                transform: section2.isInView ? 'translateX(0)' : `translateX(${isArabic ? '40px' : '-40px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
+              }}
+            >
               <div className="approach-content" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
                 <span style={{
                   display: 'block',
@@ -160,13 +227,22 @@ const HomeServices: React.FC = () => {
               </div>
             </div>
 
-            <div className="col-lg-6 reveal-animation" style={{ order: isArabic ? 1 : 2, animationDelay: '0.3s' }}>
-              <div className="approach-img">
+            <div
+              className="col-lg-6"
+              style={{
+                order: isArabic ? 1 : 2,
+                opacity: section2.isInView ? 1 : 0,
+                transform: section2.isInView ? 'translateX(0)' : `translateX(${isArabic ? '-40px' : '40px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.2s'
+              }}
+            >
+              <div className="approach-img hover-zoom" style={{ borderRadius: '16px', overflow: 'hidden', boxShadow: '0 20px 60px rgba(10, 77, 140, 0.15)' }}>
                 <Image
                   src="/img/services/sec.jpg"
                   alt="Cybersecurity Services"
                   width={660}
                   height={700}
+                  style={{ transition: 'transform 0.5s ease' }}
                 />
               </div>
             </div>
@@ -175,21 +251,45 @@ const HomeServices: React.FC = () => {
       </section>
 
       {/* Section 3: Big Data & Analytics */}
-      <section id="bigdata" className="approach-area pb-100 pt-70" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #e8f0f7 50%, #f0f5f9 100%)', position: 'relative', overflow: 'hidden' }}>
+      <section
+        ref={section3.ref}
+        id="bigdata"
+        className="approach-area pb-100 pt-70"
+        style={{
+          background: 'linear-gradient(135deg, #f8f9fa 0%, #e8f0f7 50%, #f0f5f9 100%)',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
         <div className="container">
           <div className="row align-items-center">
-            <div className="col-lg-6">
-              <div className="approach-img">
+            <div
+              className="col-lg-6"
+              style={{
+                opacity: section3.isInView ? 1 : 0,
+                transform: section3.isInView ? 'translateX(0)' : `translateX(${isArabic ? '40px' : '-40px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
+              }}
+            >
+              <div className="approach-img hover-zoom" style={{ borderRadius: '16px', overflow: 'hidden', boxShadow: '0 20px 60px rgba(10, 77, 140, 0.15)' }}>
                 <Image
                   src="/img/services/bigdata.jpg"
                   alt="Big Data & Analytics"
                   width={660}
                   height={700}
+                  style={{ transition: 'transform 0.5s ease' }}
                 />
               </div>
             </div>
 
-            <div className="col-lg-6">
+            <div
+              className="col-lg-6"
+              style={{
+                opacity: section3.isInView ? 1 : 0,
+                transform: section3.isInView ? 'translateX(0)' : `translateX(${isArabic ? '-40px' : '40px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.2s'
+              }}
+            >
               <div className="approach-content" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
                 <span style={{ 
                   display: 'block', 
@@ -234,10 +334,27 @@ const HomeServices: React.FC = () => {
       </section>
 
       {/* Section 4: Cloud Computing & Hosting */}
-      <section id="cloud" className="approach-area pb-100 pt-70" style={{ background: 'linear-gradient(135deg, #f0f5f9 0%, #e8f0f7 50%, #f8f9fa 100%)', position: 'relative', overflow: 'hidden' }}>
+      <section
+        ref={section4.ref}
+        id="cloud"
+        className="approach-area pb-100 pt-70"
+        style={{
+          background: 'linear-gradient(135deg, #f0f5f9 0%, #e8f0f7 50%, #f8f9fa 100%)',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
         <div className="container">
           <div className="row align-items-center">
-            <div className="col-lg-6" style={{ order: isArabic ? 2 : 1 }}>
+            <div
+              className="col-lg-6"
+              style={{
+                order: isArabic ? 2 : 1,
+                opacity: section4.isInView ? 1 : 0,
+                transform: section4.isInView ? 'translateX(0)' : `translateX(${isArabic ? '40px' : '-40px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
+              }}
+            >
               <div className="approach-content" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
                 <span style={{ 
                   display: 'block', 
@@ -278,13 +395,22 @@ const HomeServices: React.FC = () => {
               </div>
             </div>
 
-            <div className="col-lg-6" style={{ order: isArabic ? 1 : 2 }}>
-              <div className="approach-img">
+            <div
+              className="col-lg-6"
+              style={{
+                order: isArabic ? 1 : 2,
+                opacity: section4.isInView ? 1 : 0,
+                transform: section4.isInView ? 'translateX(0)' : `translateX(${isArabic ? '-40px' : '40px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.2s'
+              }}
+            >
+              <div className="approach-img hover-zoom" style={{ borderRadius: '16px', overflow: 'hidden', boxShadow: '0 20px 60px rgba(10, 77, 140, 0.15)' }}>
                 <Image
                   src="/img/services/hosting.jpg"
                   alt="Cloud Computing & Hosting"
                   width={660}
                   height={700}
+                  style={{ transition: 'transform 0.5s ease' }}
                 />
               </div>
             </div>
@@ -293,21 +419,45 @@ const HomeServices: React.FC = () => {
       </section>
 
       {/* Section 5: SME-EAZY Program */}
-      <section id="sme" className="approach-area pb-100 pt-70" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #e8f0f7 50%, #f0f5f9 100%)', position: 'relative', overflow: 'hidden' }}>
+      <section
+        ref={section5.ref}
+        id="sme"
+        className="approach-area pb-100 pt-70"
+        style={{
+          background: 'linear-gradient(135deg, #f8f9fa 0%, #e8f0f7 50%, #f0f5f9 100%)',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
         <div className="container">
           <div className="row align-items-center">
-            <div className="col-lg-6">
-              <div className="approach-img">
+            <div
+              className="col-lg-6"
+              style={{
+                opacity: section5.isInView ? 1 : 0,
+                transform: section5.isInView ? 'translateX(0)' : `translateX(${isArabic ? '40px' : '-40px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
+              }}
+            >
+              <div className="approach-img hover-zoom" style={{ borderRadius: '16px', overflow: 'hidden', boxShadow: '0 20px 60px rgba(10, 77, 140, 0.15)' }}>
                 <Image
                   src="/img/services/sme.jpg"
                   alt="SME-EAZY Program"
                   width={660}
                   height={700}
+                  style={{ transition: 'transform 0.5s ease' }}
                 />
               </div>
             </div>
 
-            <div className="col-lg-6">
+            <div
+              className="col-lg-6"
+              style={{
+                opacity: section5.isInView ? 1 : 0,
+                transform: section5.isInView ? 'translateX(0)' : `translateX(${isArabic ? '-40px' : '40px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.2s'
+              }}
+            >
               <div className="approach-content" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
                 <span style={{ 
                   display: 'block', 

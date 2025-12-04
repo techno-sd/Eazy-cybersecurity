@@ -124,6 +124,7 @@ const nextConfig = {
   // Experimental features for better performance
   experimental: {
     optimizePackageImports: ['boxicons', 'fslightbox-react'],
+    turbopackUseSystemTlsCerts: true,
   },
 
   // Production optimizations

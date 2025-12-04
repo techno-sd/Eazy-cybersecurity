@@ -1,9 +1,34 @@
 "use client";
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useLang } from "@/context/LangContext";
 import { getMessages } from "@/i18n";
+
+// Custom hook for scroll-triggered animations
+const useInView = (threshold = 0.2) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        }
+      },
+      { threshold, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return { ref, isInView };
+};
 
 const blogPosts = {
   en: [
@@ -90,11 +115,58 @@ const BlogGrid: React.FC = () => {
   const posts = blogPosts[lang] || blogPosts.en;
   const isArabic = lang === 'ar';
 
+  // Scroll reveal
+  const headerSection = useInView(0.1);
+  const gridSection = useInView(0.1);
+
+  // Hover state
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+
   return (
     <>
-      <section className="blog-area ptb-100" style={{ background: 'linear-gradient(to bottom, #f8f9fa 0%, #ffffff 50%, #f8f9fa 100%)' }}>
+      <section
+        ref={headerSection.ref}
+        className="blog-area ptb-100"
+        style={{
+          background: 'linear-gradient(to bottom, #f8f9fa 0%, #ffffff 50%, #f8f9fa 100%)',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
+        {/* Animated Background Elements */}
+        <div style={{
+          position: 'absolute',
+          top: '10%',
+          right: '-100px',
+          width: '300px',
+          height: '300px',
+          background: 'radial-gradient(circle, rgba(10, 77, 140, 0.05) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 8s ease-in-out infinite'
+        }}></div>
+        <div style={{
+          position: 'absolute',
+          bottom: '20%',
+          left: '-100px',
+          width: '400px',
+          height: '400px',
+          background: 'radial-gradient(circle, rgba(96, 126, 172, 0.05) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 10s ease-in-out infinite 2s'
+        }}></div>
+
         <div className="container">
-          <div className="section-title" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: 'center', marginBottom: '60px' }}>
+          <div
+            className="section-title"
+            style={{
+              direction: isArabic ? 'rtl' : 'ltr',
+              textAlign: 'center',
+              marginBottom: '60px',
+              opacity: headerSection.isInView ? 1 : 0,
+              transform: headerSection.isInView ? 'translateY(0)' : 'translateY(40px)',
+              transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
+            }}
+          >
             <h2 style={{
               fontSize: 'clamp(36px, 7vw, 56px)',
               fontWeight: '800',
@@ -115,20 +187,38 @@ const BlogGrid: React.FC = () => {
             </p>
           </div>
 
-          <div className="row g-4" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
-            {posts.map((post, idx) => (
-              <div className="col-lg-4 col-sm-6 reveal-animation" key={idx} style={{ animationDelay: `${idx * 0.1}s` }}>
-                <div className="modern-card hover-lift" style={{
-                  borderRadius: '16px',
-                  overflow: 'hidden',
-                  transition: 'all 0.5s cubic-bezier(0.23, 1, 0.320, 1)',
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  background: '#fff',
-                  boxShadow: '0 5px 25px rgba(10, 77, 140, 0.08)',
-                  border: '1px solid rgba(10, 77, 140, 0.08)'
-                }}>
+          <div ref={gridSection.ref} className="row g-4" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
+            {posts.map((post, idx) => {
+              const isHovered = hoveredCard === idx;
+              return (
+              <div
+                className="col-lg-4 col-sm-6"
+                key={idx}
+                style={{
+                  opacity: gridSection.isInView ? 1 : 0,
+                  transform: gridSection.isInView ? 'translateY(0)' : 'translateY(40px)',
+                  transition: `all 0.6s cubic-bezier(0.23, 1, 0.32, 1) ${idx * 0.1}s`
+                }}
+              >
+                <div
+                  className="modern-card"
+                  style={{
+                    borderRadius: '16px',
+                    overflow: 'hidden',
+                    transition: 'all 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    background: '#fff',
+                    boxShadow: isHovered
+                      ? '0 25px 50px rgba(10, 77, 140, 0.15)'
+                      : '0 5px 25px rgba(10, 77, 140, 0.08)',
+                    border: '1px solid rgba(10, 77, 140, 0.08)',
+                    transform: isHovered ? 'translateY(-12px) scale(1.02)' : 'translateY(0) scale(1)'
+                  }}
+                  onMouseEnter={() => setHoveredCard(idx)}
+                  onMouseLeave={() => setHoveredCard(null)}
+                >
                   <div style={{ position: 'relative', overflow: 'hidden', height: '240px' }}>
                     <Image
                       src={post.img}
@@ -248,7 +338,8 @@ const BlogGrid: React.FC = () => {
                   </div>
                 </div>
               </div>
-            ))}
+            );
+            })}
 
             {/* Pagination */}
             <div className="col-lg-12">

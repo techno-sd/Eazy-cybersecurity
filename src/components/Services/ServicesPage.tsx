@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ServiceConsultationCTA from "@/components/Consultation/ServiceConsultationCTA";
@@ -10,15 +10,79 @@ interface ServicesPageProps {
   t: any;
 }
 
+// Custom hook for scroll-triggered animations
+const useInView = (threshold = 0.2) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        }
+      },
+      { threshold, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return { ref, isInView };
+};
+
 const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
   const isArabic = lang === "ar";
+
+  // Scroll reveal for each section
+  const heroSection = useInView(0.1);
+  const aiSection = useInView(0.15);
+  const cyberSection = useInView(0.15);
+  const bigdataSection = useInView(0.15);
+  const cloudSection = useInView(0.15);
+  const smeSection = useInView(0.15);
+  const ctaSection = useInView(0.2);
 
   return (
     <>
       {/* Hero Section */}
-      <section id="hero" className="security-area pb-70 pt-100" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)' }}>
+      <section
+        ref={heroSection.ref}
+        id="hero"
+        className="security-area pb-70 pt-100"
+        style={{
+          background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
+        {/* Animated Background Elements */}
+        <div style={{
+          position: 'absolute',
+          top: '10%',
+          right: '-100px',
+          width: '300px',
+          height: '300px',
+          background: 'radial-gradient(circle, rgba(10, 77, 140, 0.05) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 8s ease-in-out infinite'
+        }}></div>
+
         <div className="container">
-          <div className="section-title" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
+          <div
+            className="section-title"
+            style={{
+              direction: isArabic ? 'rtl' : 'ltr',
+              textAlign: isArabic ? 'right' : 'left',
+              opacity: heroSection.isInView ? 1 : 0,
+              transform: heroSection.isInView ? 'translateY(0)' : 'translateY(40px)',
+              transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
+            }}
+          >
             <h2 style={{
               fontSize: 'clamp(36px, 7vw, 56px)',
               fontWeight: '800',
@@ -40,10 +104,22 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
       </section>
 
       {/* Section 1: AI Solutions */}
-      <section id="ai" className="approach-area pb-100" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)' }}>
+      <section
+        ref={aiSection.ref}
+        id="ai"
+        className="approach-area pb-100"
+        style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)' }}
+      >
         <div className="container">
           <div className="row align-items-center">
-            <div className="col-lg-6">
+            <div
+              className="col-lg-6"
+              style={{
+                opacity: aiSection.isInView ? 1 : 0,
+                transform: aiSection.isInView ? 'translateX(0)' : `translateX(${isArabic ? '50px' : '-50px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
+              }}
+            >
               <div className="approach-img">
                 <Image
                   src="/img/services/ai.jpg"
@@ -55,7 +131,14 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
               </div>
             </div>
 
-            <div className="col-lg-6">
+            <div
+              className="col-lg-6"
+              style={{
+                opacity: aiSection.isInView ? 1 : 0,
+                transform: aiSection.isInView ? 'translateX(0)' : `translateX(${isArabic ? '-50px' : '50px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.2s'
+              }}
+            >
               <div className="approach-content" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
                 <span style={{
                   display: 'block',
@@ -96,10 +179,23 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
 
 
       {/* Section 2: Cybersecurity Services */}
-      <section id="cybersecurity" className="approach-area pb-100" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)' }}>
+      <section
+        ref={cyberSection.ref}
+        id="cybersecurity"
+        className="approach-area pb-100"
+        style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)' }}
+      >
         <div className="container">
           <div className="row align-items-center">
-            <div className="col-lg-6" style={{ order: isArabic ? 2 : 1 }}>
+            <div
+              className="col-lg-6"
+              style={{
+                order: isArabic ? 2 : 1,
+                opacity: cyberSection.isInView ? 1 : 0,
+                transform: cyberSection.isInView ? 'translateX(0)' : `translateX(${isArabic ? '50px' : '-50px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
+              }}
+            >
               <div className="approach-content" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
                 <span style={{
                   display: 'block',
@@ -140,7 +236,15 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
               </div>
             </div>
 
-            <div className="col-lg-6" style={{ order: isArabic ? 1 : 2 }}>
+            <div
+              className="col-lg-6"
+              style={{
+                order: isArabic ? 1 : 2,
+                opacity: cyberSection.isInView ? 1 : 0,
+                transform: cyberSection.isInView ? 'translateX(0)' : `translateX(${isArabic ? '-50px' : '50px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.2s'
+              }}
+            >
               <div className="approach-img">
                 <Image
                   src="/img/services/sec.jpg"
@@ -157,10 +261,22 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
 
 
       {/* Section 3: Big Data & Analytics */}
-      <section id="bigdata" className="approach-area pb-100" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)' }}>
+      <section
+        ref={bigdataSection.ref}
+        id="bigdata"
+        className="approach-area pb-100"
+        style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)' }}
+      >
         <div className="container">
           <div className="row align-items-center">
-            <div className="col-lg-6">
+            <div
+              className="col-lg-6"
+              style={{
+                opacity: bigdataSection.isInView ? 1 : 0,
+                transform: bigdataSection.isInView ? 'translateX(0)' : `translateX(${isArabic ? '50px' : '-50px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
+              }}
+            >
               <div className="approach-img">
                 <Image
                   src="/img/services/bigdata.jpg"
@@ -172,7 +288,14 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
               </div>
             </div>
 
-            <div className="col-lg-6">
+            <div
+              className="col-lg-6"
+              style={{
+                opacity: bigdataSection.isInView ? 1 : 0,
+                transform: bigdataSection.isInView ? 'translateX(0)' : `translateX(${isArabic ? '-50px' : '50px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.2s'
+              }}
+            >
               <div className="approach-content" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
                 <span style={{
                   display: 'block',
@@ -218,10 +341,23 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
 
 
       {/* Section 4: Cloud Computing & Hosting */}
-      <section id="cloud" className="approach-area pb-100" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)' }}>
+      <section
+        ref={cloudSection.ref}
+        id="cloud"
+        className="approach-area pb-100"
+        style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)' }}
+      >
         <div className="container">
           <div className="row align-items-center">
-            <div className="col-lg-6" style={{ order: isArabic ? 2 : 1 }}>
+            <div
+              className="col-lg-6"
+              style={{
+                order: isArabic ? 2 : 1,
+                opacity: cloudSection.isInView ? 1 : 0,
+                transform: cloudSection.isInView ? 'translateX(0)' : `translateX(${isArabic ? '50px' : '-50px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
+              }}
+            >
               <div className="approach-content" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
                 <span style={{
                   display: 'block',
@@ -262,7 +398,15 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
               </div>
             </div>
 
-            <div className="col-lg-6" style={{ order: isArabic ? 1 : 2 }}>
+            <div
+              className="col-lg-6"
+              style={{
+                order: isArabic ? 1 : 2,
+                opacity: cloudSection.isInView ? 1 : 0,
+                transform: cloudSection.isInView ? 'translateX(0)' : `translateX(${isArabic ? '-50px' : '50px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.2s'
+              }}
+            >
               <div className="approach-img">
                 <Image
                   src="/img/services/hosting.jpg"
@@ -279,10 +423,22 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
 
 
       {/* Section 5: SME-EAZY Program */}
-      <section id="sme" className="approach-area pb-100" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)' }}>
+      <section
+        ref={smeSection.ref}
+        id="sme"
+        className="approach-area pb-100"
+        style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #f0f5f9 100%)' }}
+      >
         <div className="container">
           <div className="row align-items-center">
-            <div className="col-lg-6">
+            <div
+              className="col-lg-6"
+              style={{
+                opacity: smeSection.isInView ? 1 : 0,
+                transform: smeSection.isInView ? 'translateX(0)' : `translateX(${isArabic ? '50px' : '-50px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
+              }}
+            >
               <div className="approach-img">
                 <Image
                   src="/img/services/sme.jpg"
@@ -294,7 +450,14 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
               </div>
             </div>
 
-            <div className="col-lg-6">
+            <div
+              className="col-lg-6"
+              style={{
+                opacity: smeSection.isInView ? 1 : 0,
+                transform: smeSection.isInView ? 'translateX(0)' : `translateX(${isArabic ? '-50px' : '50px'})`,
+                transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.2s'
+              }}
+            >
               <div className="approach-content" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
                 <span style={{
                   display: 'block',
@@ -340,9 +503,48 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ lang, t }) => {
 
 
       {/* CTA Section */}
-      <section id="cta" className="security-area pb-100 pt-100">
+      <section
+        ref={ctaSection.ref}
+        id="cta"
+        className="security-area pb-100 pt-100"
+        style={{
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
+        {/* Floating Background Elements */}
+        <div style={{
+          position: 'absolute',
+          top: '20%',
+          left: '-80px',
+          width: '200px',
+          height: '200px',
+          background: 'radial-gradient(circle, rgba(10, 77, 140, 0.05) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 8s ease-in-out infinite'
+        }}></div>
+        <div style={{
+          position: 'absolute',
+          bottom: '20%',
+          right: '-80px',
+          width: '250px',
+          height: '250px',
+          background: 'radial-gradient(circle, rgba(96, 126, 172, 0.05) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 10s ease-in-out infinite 2s'
+        }}></div>
+
         <div className="container">
-          <div className="section-title" style={{ direction: isArabic ? 'rtl' : 'ltr', textAlign: 'center' }}>
+          <div
+            className="section-title"
+            style={{
+              direction: isArabic ? 'rtl' : 'ltr',
+              textAlign: 'center',
+              opacity: ctaSection.isInView ? 1 : 0,
+              transform: ctaSection.isInView ? 'translateY(0) scale(1)' : 'translateY(40px) scale(0.95)',
+              transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
+            }}
+          >
             <h2>{t.services.cta_title}</h2>
 
             <div style={{ marginTop: '30px', display: 'flex', gap: '15px', justifyContent: 'center', flexWrap: 'wrap' }}>
