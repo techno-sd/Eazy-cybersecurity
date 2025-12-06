@@ -517,3 +517,325 @@
 		}
 	}
 }
+
+// ===============================================
+// BLOG & TESTIMONIALS MOBILE FIXES
+// ===============================================
+@media only screen and (max-width: 767px) {
+	// Blog grid cards
+	.blog-area {
+		.modern-card {
+			margin-bottom: 20px;
+		}
+
+		.section-title {
+			h2 {
+				font-size: clamp(28px, 6vw, 36px) !important;
+			}
+		}
+	}
+
+	// Testimonial cards
+	.testimonials-area,
+	.testimonial-section {
+		.testimonial-card,
+		.testimonial-item {
+			padding: 20px;
+			margin-bottom: 20px;
+		}
+
+		.testimonial-content {
+			font-size: 14px;
+			line-height: 1.7;
+		}
+	}
+
+	// FAQ Section
+	.faq-area {
+		.accordion-item {
+			margin-bottom: 12px;
+
+			.accordion-button {
+				padding: 15px;
+				font-size: 15px;
+			}
+
+			.accordion-body {
+				padding: 15px;
+				font-size: 14px;
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 575px) {
+	.blog-area {
+		.section-title {
+			h2 {
+				font-size: clamp(24px, 5vw, 30px) !important;
+			}
+		}
+	}
+}
+
+// ===============================================
+// AUTH PAGES MOBILE FIXES
+// ===============================================
+@media only screen and (max-width: 767px) {
+	.auth-area,
+	.login-area,
+	.sign-in-area,
+	.sign-up-area {
+		padding: 60px 0;
+
+		.auth-form,
+		.login-form {
+			padding: 25px;
+			border-radius: 12px;
+
+			h3 {
+				font-size: 24px;
+				margin-bottom: 20px;
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 575px) {
+	.auth-area,
+	.login-area,
+	.sign-in-area,
+	.sign-up-area {
+		padding: 40px 0;
+
+		.auth-form,
+		.login-form {
+			padding: 20px 15px;
+
+			h3 {
+				font-size: 20px;
+			}
+		}
+	}
+}
+
+// ===============================================
+// ADMIN PANEL MOBILE OVERRIDES
+// ===============================================
+@media only screen and (max-width: 768px) {
+	.admin-layout {
+		.admin-content {
+			padding: 10px;
+		}
+
+		// Tables in admin
+		table {
+			display: block;
+			overflow-x: auto;
+			-webkit-overflow-scrolling: touch;
+
+			th, td {
+				white-space: nowrap;
+				padding: 10px 12px;
+				font-size: 13px;
+			}
+		}
+
+		// Card grids in admin dashboard
+		.stats-card,
+		.dashboard-card {
+			margin-bottom: 15px;
+		}
+	}
+}
+
+// ===============================================
+// SERVICES PAGE MOBILE FIXES
+// ===============================================
+@media only screen and (max-width: 767px) {
+	.approach-area {
+		.approach-content {
+			ul {
+				li {
+					padding: 15px;
+					margin-bottom: 15px;
+
+					i {
+						font-size: 28px;
+						margin-bottom: 10px;
+					}
+
+					h3 {
+						font-size: 16px;
+						margin-bottom: 8px;
+					}
+
+					p {
+						font-size: 13px;
+					}
+				}
+			}
+		}
+
+		.approach-img {
+			margin-bottom: 30px;
+		}
+	}
+}
+
+// ===============================================
+// CONTACT PAGE MOBILE FIXES
+// ===============================================
+@media only screen and (max-width: 767px) {
+	.contact-area,
+	.faq-contact-area {
+		.contact-form {
+			padding: 25px;
+		}
+
+		.contact-info-box {
+			padding: 20px;
+			margin-bottom: 20px;
+
+			i {
+				font-size: 36px;
+			}
+
+			h4 {
+				font-size: 16px;
+			}
+
+			p, a {
+				font-size: 14px;
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 575px) {
+	.contact-area,
+	.faq-contact-area {
+		.contact-form {
+			padding: 15px;
+		}
+	}
+}
+
+// ===============================================
+// PAGE BANNER MOBILE FIXES
+// ===============================================
+@media only screen and (max-width: 767px) {
+	.page-banner-area {
+		padding: 80px 0 50px;
+
+		h1 {
+			font-size: clamp(24px, 5vw, 32px);
+			margin-bottom: 10px;
+		}
+
+		.breadcrumb {
+			justify-content: center;
+
+			li {
+				font-size: 13px;
+
+				&::before {
+					padding: 0 8px;
+				}
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 575px) {
+	.page-banner-area {
+		padding: 70px 0 40px;
+
+		h1 {
+			font-size: clamp(20px, 4.5vw, 28px);
+		}
+
+		.breadcrumb {
+			li {
+				font-size: 12px;
+			}
+		}
+	}
+}
+
+// ===============================================
+// PRICING SECTION MOBILE FIXES
+// ===============================================
+@media only screen and (max-width: 767px) {
+	.pricing-area {
+		.pricing-card,
+		.single-pricing {
+			padding: 25px 20px;
+			margin-bottom: 25px;
+
+			h3 {
+				font-size: 20px;
+			}
+
+			.price {
+				font-size: 36px;
+			}
+
+			ul {
+				li {
+					font-size: 14px;
+					padding: 8px 0;
+				}
+			}
+		}
+	}
+}
+
+// ===============================================
+// TEAM SECTION MOBILE FIXES
+// ===============================================
+@media only screen and (max-width: 767px) {
+	.team-area {
+		.team-card,
+		.single-team {
+			margin-bottom: 25px;
+
+			.team-content {
+				padding: 15px;
+
+				h3 {
+					font-size: 18px;
+				}
+
+				span {
+					font-size: 13px;
+				}
+			}
+		}
+	}
+}
+
+// ===============================================
+// RTL MOBILE SPECIFIC FIXES
+// ===============================================
+@media only screen and (max-width: 767px) {
+	[dir="rtl"],
+	.rtl {
+		.banner-btn {
+			flex-direction: column;
+		}
+
+		.breadcrumb {
+			li {
+				&::before {
+					content: "\\";
+				}
+			}
+		}
+
+		// Form label alignment for RTL
+		label {
+			text-align: right;
+		}
+	}
+}

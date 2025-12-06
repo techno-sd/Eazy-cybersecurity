@@ -17,9 +17,9 @@ const Footer: React.FC = () => {
         <div className="container">
           <div className="row" style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
             {/* Contact Us Column */}
-            <div className="col-lg-3 col-md-6">
-              <div className="single-widget contact" style={{ textAlign: isArabic ? 'right' : 'left' }}>
-                <h3 style={{ fontSize: '22px', fontWeight: '700' }}>{isArabic ? 'اتصل بنا' : 'Contact Us'}</h3>
+            <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div className="single-widget contact" style={{ textAlign: isArabic ? 'right' : 'left', marginBottom: '30px' }}>
+                <h3 style={{ fontSize: 'clamp(18px, 3vw, 22px)', fontWeight: '700', marginBottom: 'clamp(15px, 2vw, 20px)' }}>{isArabic ? 'اتصل بنا' : 'Contact Us'}</h3>
 
                 <ul className="contact-info" style={{ textAlign: isArabic ? 'right' : 'left' }}>
                   <li>
@@ -43,9 +43,9 @@ const Footer: React.FC = () => {
             </div>
 
             {/* Services Column */}
-            <div className="col-lg-3 col-md-6">
-              <div className="single-widget" style={{ textAlign: isArabic ? 'right' : 'left' }}>
-                <h3 style={{ fontSize: '22px', fontWeight: '700' }}>{isArabic ? 'خدماتنا' : 'Our Services'}</h3>
+            <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div className="single-widget" style={{ textAlign: isArabic ? 'right' : 'left', marginBottom: '30px' }}>
+                <h3 style={{ fontSize: 'clamp(18px, 3vw, 22px)', fontWeight: '700', marginBottom: 'clamp(15px, 2vw, 20px)' }}>{isArabic ? 'خدماتنا' : 'Our Services'}</h3>
 
                 <ul>
                   <li>
@@ -83,9 +83,9 @@ const Footer: React.FC = () => {
             </div>
 
             {/* Industries Column */}
-            <div className="col-lg-3 col-md-6">
-              <div className="single-widget" style={{ textAlign: isArabic ? 'right' : 'left' }}>
-                <h3 style={{ fontSize: '22px', fontWeight: '700' }}>{isArabic ? 'القطاعات' : 'Industries'}</h3>
+            <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div className="single-widget" style={{ textAlign: isArabic ? 'right' : 'left', marginBottom: '30px' }}>
+                <h3 style={{ fontSize: 'clamp(18px, 3vw, 22px)', fontWeight: '700', marginBottom: 'clamp(15px, 2vw, 20px)' }}>{isArabic ? 'القطاعات' : 'Industries'}</h3>
 
                 <ul>
                   <li>
@@ -129,9 +129,9 @@ const Footer: React.FC = () => {
             </div>
 
             {/* Quick Links Column */}
-            <div className="col-lg-3 col-md-6">
-              <div className="single-widget" style={{ textAlign: isArabic ? 'right' : 'left' }}>
-                <h3 style={{ fontSize: '22px', fontWeight: '700' }}>{isArabic ? 'روابط سريعة' : 'Quick Links'}</h3>
+            <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div className="single-widget" style={{ textAlign: isArabic ? 'right' : 'left', marginBottom: '30px' }}>
+                <h3 style={{ fontSize: 'clamp(18px, 3vw, 22px)', fontWeight: '700', marginBottom: 'clamp(15px, 2vw, 20px)' }}>{isArabic ? 'روابط سريعة' : 'Quick Links'}</h3>
 
                 <ul>
                   <li>
@@ -187,8 +187,8 @@ const Footer: React.FC = () => {
         <div className="container">
           <div className="row align-items-center justify-content-center">
             <div className="col-lg-12">
-              <div className="copy-right" style={{ textAlign: 'center', direction: isArabic ? 'rtl' : 'ltr', width: '100%' }}>
-                <p style={{ margin: '0 auto', textAlign: 'center' }}>
+              <div className="copy-right" style={{ textAlign: 'center', direction: isArabic ? 'rtl' : 'ltr', width: '100%', padding: 'clamp(15px, 3vw, 20px) 0' }}>
+                <p style={{ margin: '0 auto', textAlign: 'center', fontSize: 'clamp(12px, 2vw, 14px)' }}>
                   {isArabic
                     ? `جميع الحقوق محفوظة © ${currentYear} Eazy Cyber Agent`
                     : `Copyright © ${currentYear} Eazy Cyber Agent`}

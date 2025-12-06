@@ -146,7 +146,7 @@ const ContactForm: React.FC = () => {
               {/* Section Header */}
               <div style={{
                 textAlign: 'center',
-                marginBottom: '50px',
+                marginBottom: 'clamp(30px, 5vw, 50px)',
                 opacity: sectionRef.isInView ? 1 : 0,
                 transform: sectionRef.isInView ? 'translateY(0)' : 'translateY(40px)',
                 transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
@@ -155,27 +155,30 @@ const ContactForm: React.FC = () => {
                   display: 'inline-block',
                   background: 'linear-gradient(135deg, #0A4D8C 0%, #0EA5E9 100%)',
                   color: 'white',
-                  padding: '8px 20px',
+                  padding: 'clamp(6px, 1.5vw, 8px) clamp(14px, 3vw, 20px)',
                   borderRadius: '50px',
-                  fontSize: '14px',
+                  fontSize: 'clamp(12px, 2vw, 14px)',
                   fontWeight: '600',
-                  marginBottom: '15px'
+                  marginBottom: 'clamp(10px, 2vw, 15px)'
                 }}>
                   {isArabic ? "نموذج الاتصال" : "Contact Form"}
                 </span>
                 <h2 style={{
-                  fontSize: '42px',
+                  fontSize: 'clamp(24px, 6vw, 42px)',
                   fontWeight: '800',
                   color: '#0A4D8C',
-                  marginBottom: '15px'
+                  marginBottom: 'clamp(10px, 2vw, 15px)',
+                  lineHeight: '1.2'
                 }}>
                   {currentContent.title}
                 </h2>
                 <p style={{
-                  fontSize: '18px',
+                  fontSize: 'clamp(14px, 2.5vw, 18px)',
                   color: '#666',
                   maxWidth: '600px',
-                  margin: '0 auto'
+                  margin: '0 auto',
+                  lineHeight: '1.6',
+                  padding: '0 10px'
                 }}>
                   {currentContent.subtitle}
                 </p>
@@ -184,8 +187,8 @@ const ContactForm: React.FC = () => {
               {/* Contact Form */}
               <div style={{
                 background: 'white',
-                borderRadius: '20px',
-                padding: '50px',
+                borderRadius: 'clamp(12px, 3vw, 20px)',
+                padding: 'clamp(20px, 5vw, 50px)',
                 boxShadow: '0 10px 50px rgba(0, 0, 0, 0.1)',
                 border: '1px solid rgba(10, 77, 140, 0.1)'
               }}>
@@ -400,22 +403,26 @@ const ContactForm: React.FC = () => {
                     {/* Submit Button */}
                     <div className="col-lg-12 col-sm-12">
                       <div style={{ textAlign: 'center' }}>
-                        <button 
-                          type="submit" 
+                        <button
+                          type="submit"
                           disabled={isSubmitting}
                           style={{
-                            display: 'inline-block',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
                             background: isSubmitting ? '#999' : 'linear-gradient(135deg, #0A4D8C 0%, #0EA5E9 100%)',
                             color: 'white',
-                            padding: '18px 60px',
+                            padding: 'clamp(14px, 2.5vw, 18px) clamp(30px, 8vw, 60px)',
                             borderRadius: '50px',
                             fontWeight: '700',
-                            fontSize: '18px',
+                            fontSize: 'clamp(14px, 2.5vw, 18px)',
                             border: 'none',
                             cursor: isSubmitting ? 'not-allowed' : 'pointer',
                             transition: 'all 0.3s ease',
                             boxShadow: '0 10px 30px rgba(10, 77, 140, 0.3)',
-                            minWidth: '200px'
+                            minWidth: 'clamp(160px, 40vw, 200px)',
+                            width: 'auto',
+                            maxWidth: '100%'
                           }}
                           onMouseEnter={(e) => {
                             if (!isSubmitting) {

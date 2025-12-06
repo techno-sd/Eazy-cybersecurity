@@ -180,7 +180,7 @@ const BlogGrid: React.FC = () => {
             }}>
               {isArabic ? 'آخر الأخبار' : 'Latest News'}
             </h2>
-            <p style={{ fontSize: '18px', maxWidth: '700px', margin: '0 auto', lineHeight: '1.8', color: '#555' }}>
+            <p style={{ fontSize: 'clamp(14px, 2.5vw, 18px)', maxWidth: '700px', margin: '0 auto', lineHeight: '1.8', color: '#555', padding: '0 15px' }}>
               {isArabic
                 ? 'تابع أحدث المقالات والأخبار حول الأمن السيبراني والتحول الرقمي'
                 : 'Expert insights, industry trends, and best practices in cybersecurity'}
@@ -219,7 +219,7 @@ const BlogGrid: React.FC = () => {
                   onMouseEnter={() => setHoveredCard(idx)}
                   onMouseLeave={() => setHoveredCard(null)}
                 >
-                  <div style={{ position: 'relative', overflow: 'hidden', height: '240px' }}>
+                  <div style={{ position: 'relative', overflow: 'hidden', height: 'clamp(180px, 30vw, 240px)' }}>
                     <Image
                       src={post.img}
                       alt={post.title}
@@ -262,13 +262,13 @@ const BlogGrid: React.FC = () => {
                       {post.category}
                     </span>
                   </div>
-                  <div className="blog-content" style={{ 
-                    padding: '28px', 
-                    textAlign: isArabic ? 'right' : 'left', 
-                    flex: 1, 
-                    display: 'flex', 
+                  <div className="blog-content" style={{
+                    padding: 'clamp(16px, 4vw, 28px)',
+                    textAlign: isArabic ? 'right' : 'left',
+                    flex: 1,
+                    display: 'flex',
                     flexDirection: 'column',
-                    gap: '12px'
+                    gap: 'clamp(8px, 2vw, 12px)'
                   }}>
                     <div style={{ 
                       fontSize: '13px', 
@@ -282,13 +282,13 @@ const BlogGrid: React.FC = () => {
                       <i className="bx bx-calendar" style={{ fontSize: '16px' }}></i>
                       {post.date}
                     </div>
-                    <h3 style={{ 
-                      fontSize: '20px', 
-                      marginBottom: '0', 
-                      lineHeight: '1.5', 
+                    <h3 style={{
+                      fontSize: 'clamp(16px, 3vw, 20px)',
+                      marginBottom: '0',
+                      lineHeight: '1.5',
                       fontWeight: '700',
                       flex: 1,
-                      minHeight: '60px'
+                      minHeight: 'clamp(40px, 8vw, 60px)'
                     }}>
                       <Link 
                         href={post.link} 
@@ -343,21 +343,21 @@ const BlogGrid: React.FC = () => {
 
             {/* Pagination */}
             <div className="col-lg-12">
-              <div className="page-navigation-area" style={{ marginTop: '50px' }}>
-                <ul className="pagination" style={{ 
-                  justifyContent: 'center', 
-                  gap: '10px',
+              <div className="page-navigation-area" style={{ marginTop: 'clamp(30px, 6vw, 50px)' }}>
+                <ul className="pagination" style={{
+                  justifyContent: 'center',
+                  gap: 'clamp(6px, 2vw, 10px)',
                   direction: isArabic ? 'rtl' : 'ltr',
                   display: 'flex',
                   flexWrap: 'wrap',
-                  padding: '0',
+                  padding: '0 10px',
                   margin: '0',
                   listStyle: 'none'
                 }}>
                   <li className="page-item">
                     <Link href="#" className="page-link page-links" style={{
-                      padding: '12px 16px',
-                      borderRadius: '10px',
+                      padding: 'clamp(10px, 2vw, 12px) clamp(12px, 2.5vw, 16px)',
+                      borderRadius: 'clamp(8px, 2vw, 10px)',
                       background: '#fff',
                       border: '2px solid #e0e0e0',
                       transition: 'all 0.3s ease',
@@ -366,16 +366,17 @@ const BlogGrid: React.FC = () => {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      minWidth: '48px',
-                      boxShadow: '0 2px 8px rgba(10, 77, 140, 0.08)'
+                      minWidth: 'clamp(40px, 10vw, 48px)',
+                      boxShadow: '0 2px 8px rgba(10, 77, 140, 0.08)',
+                      fontSize: 'clamp(14px, 2.5vw, 16px)'
                     }}>
                       <i className="bx bx-chevrons-left"></i>
                     </Link>
                   </li>
                   <li className="page-item active">
                     <Link href="#" className="page-link" style={{
-                      padding: '12px 16px',
-                      borderRadius: '10px',
+                      padding: 'clamp(10px, 2vw, 12px) clamp(12px, 2.5vw, 16px)',
+                      borderRadius: 'clamp(8px, 2vw, 10px)',
                       background: 'linear-gradient(135deg, #0A4D8C, #607EAC)',
                       border: '2px solid #0A4D8C',
                       color: '#fff',
@@ -384,16 +385,17 @@ const BlogGrid: React.FC = () => {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      minWidth: '48px',
-                      boxShadow: '0 4px 15px rgba(10, 77, 140, 0.25)'
+                      minWidth: 'clamp(40px, 10vw, 48px)',
+                      boxShadow: '0 4px 15px rgba(10, 77, 140, 0.25)',
+                      fontSize: 'clamp(14px, 2.5vw, 16px)'
                     }}>
                       1
                     </Link>
                   </li>
                   <li className="page-item">
                     <Link href="#" className="page-link" style={{
-                      padding: '12px 16px',
-                      borderRadius: '10px',
+                      padding: 'clamp(10px, 2vw, 12px) clamp(12px, 2.5vw, 16px)',
+                      borderRadius: 'clamp(8px, 2vw, 10px)',
                       background: '#fff',
                       border: '2px solid #e0e0e0',
                       transition: 'all 0.3s ease',
@@ -402,16 +404,17 @@ const BlogGrid: React.FC = () => {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      minWidth: '48px',
-                      boxShadow: '0 2px 8px rgba(10, 77, 140, 0.08)'
+                      minWidth: 'clamp(40px, 10vw, 48px)',
+                      boxShadow: '0 2px 8px rgba(10, 77, 140, 0.08)',
+                      fontSize: 'clamp(14px, 2.5vw, 16px)'
                     }}>
                       2
                     </Link>
                   </li>
                   <li className="page-item">
                     <Link href="#" className="page-link" style={{
-                      padding: '12px 16px',
-                      borderRadius: '10px',
+                      padding: 'clamp(10px, 2vw, 12px) clamp(12px, 2.5vw, 16px)',
+                      borderRadius: 'clamp(8px, 2vw, 10px)',
                       background: '#fff',
                       border: '2px solid #e0e0e0',
                       transition: 'all 0.3s ease',
@@ -420,16 +423,17 @@ const BlogGrid: React.FC = () => {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      minWidth: '48px',
-                      boxShadow: '0 2px 8px rgba(10, 77, 140, 0.08)'
+                      minWidth: 'clamp(40px, 10vw, 48px)',
+                      boxShadow: '0 2px 8px rgba(10, 77, 140, 0.08)',
+                      fontSize: 'clamp(14px, 2.5vw, 16px)'
                     }}>
                       3
                     </Link>
                   </li>
                   <li className="page-item">
                     <Link href="#" className="page-link" style={{
-                      padding: '12px 16px',
-                      borderRadius: '10px',
+                      padding: 'clamp(10px, 2vw, 12px) clamp(12px, 2.5vw, 16px)',
+                      borderRadius: 'clamp(8px, 2vw, 10px)',
                       background: '#fff',
                       border: '2px solid #e0e0e0',
                       transition: 'all 0.3s ease',
@@ -438,8 +442,9 @@ const BlogGrid: React.FC = () => {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      minWidth: '48px',
-                      boxShadow: '0 2px 8px rgba(10, 77, 140, 0.08)'
+                      minWidth: 'clamp(40px, 10vw, 48px)',
+                      boxShadow: '0 2px 8px rgba(10, 77, 140, 0.08)',
+                      fontSize: 'clamp(14px, 2.5vw, 16px)'
                     }}>
                       <i className="bx bx-chevrons-right"></i>
                     </Link>
