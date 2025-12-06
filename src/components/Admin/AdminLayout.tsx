@@ -3,6 +3,7 @@
 import React, { useState, useMemo, memo, useCallback, useTransition } from "react";
 import { useAdminLang } from "@/hooks/useAdminLang";
 import AdminLanguageSelector from "./AdminLanguageSelector";
+import { ToastProvider } from "./Toast";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -148,6 +149,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
   }, [pathname]);
 
   return (
+    <ToastProvider>
     <div className={`admin-layout ${isMobile ? 'mobile' : ''}`} style={{ display: "flex", minHeight: "100vh", background: "linear-gradient(135deg, #f0f7ff 0%, #e8f4f8 100%)", direction: isArabic ? 'rtl' : 'ltr' }}>
       {/* Sidebar */}
       <aside
@@ -672,6 +674,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
         />
       )}
     </div>
+    </ToastProvider>
   );
 };
 

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Role, MenuPermissions, ADMIN_MENUS } from "@/types/roles";
 import { useAdminLang } from "@/hooks/useAdminLang";
+import Button, { IconButton } from "./Button";
 
 interface RolesManagementProps {
   isArabic?: boolean;
@@ -287,65 +288,23 @@ const RolesManagement: React.FC<RolesManagementProps> = () => {
                 gap: "12px",
                 paddingTop: "16px",
                 borderTop: "1px solid rgba(14, 165, 233, 0.2)",
+                justifyContent: "center",
               }}>
-                <button
+                <IconButton
+                  icon="bx-edit"
+                  variant="info"
+                  size="md"
+                  tooltip={t.edit}
                   onClick={() => handleEditRole(role)}
-                  style={{
-                    flex: 1,
-                    padding: "10px 16px",
-                    backgroundColor: "rgba(14, 165, 233, 0.1)",
-                    color: "#0EA5E9",
-                    border: "1px solid rgba(14, 165, 233, 0.3)",
-                    borderRadius: "8px",
-                    fontSize: "14px",
-                    fontWeight: "600",
-                    cursor: "pointer",
-                    transition: "all 0.3s ease",
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.backgroundColor = "rgba(14, 165, 233, 0.2)";
-                    e.currentTarget.style.borderColor = "#0EA5E9";
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.backgroundColor = "rgba(14, 165, 233, 0.1)";
-                    e.currentTarget.style.borderColor = "rgba(14, 165, 233, 0.3)";
-                  }}
-                >
-                  <i className="bx bx-edit" style={{ marginRight: isArabic ? "0" : "6px", marginLeft: isArabic ? "6px" : "0" }}></i>
-                  {t.edit}
-                </button>
-                <button
+                />
+                <IconButton
+                  icon="bx-trash"
+                  variant="danger"
+                  size="md"
+                  tooltip={t.delete}
                   onClick={() => handleDeleteRole(role.id)}
                   disabled={['admin', 'moderator'].includes(role.name)}
-                  style={{
-                    flex: 1,
-                    padding: "10px 16px",
-                    backgroundColor: "rgba(239, 68, 68, 0.1)",
-                    color: "#ef4444",
-                    border: "1px solid rgba(239, 68, 68, 0.3)",
-                    borderRadius: "8px",
-                    fontSize: "14px",
-                    fontWeight: "600",
-                    cursor: ['admin', 'moderator'].includes(role.name) ? "not-allowed" : "pointer",
-                    opacity: ['admin', 'moderator'].includes(role.name) ? 0.5 : 1,
-                    transition: "all 0.3s ease",
-                  }}
-                  onMouseOver={(e) => {
-                    if (!['admin', 'moderator'].includes(role.name)) {
-                      e.currentTarget.style.backgroundColor = "rgba(239, 68, 68, 0.2)";
-                      e.currentTarget.style.borderColor = "#ef4444";
-                    }
-                  }}
-                  onMouseOut={(e) => {
-                    if (!['admin', 'moderator'].includes(role.name)) {
-                      e.currentTarget.style.backgroundColor = "rgba(239, 68, 68, 0.1)";
-                      e.currentTarget.style.borderColor = "rgba(239, 68, 68, 0.3)";
-                    }
-                  }}
-                >
-                  <i className="bx bx-trash" style={{ marginRight: isArabic ? "0" : "6px", marginLeft: isArabic ? "6px" : "0" }}></i>
-                  {t.delete}
-                </button>
+                />
               </div>
             </div>
           ))}
@@ -626,43 +585,29 @@ const RoleEditModal: React.FC<RoleEditModalProps> = ({ role, isArabic, isMobile,
             borderTop: '1px solid rgba(14, 165, 233, 0.2)',
             flexDirection: isMobile ? 'column' : 'row',
           }}>
-            <button
-              type="button"
+            <Button
+              variant="outline"
+              size={isMobile ? 'sm' : 'md'}
               onClick={onClose}
               disabled={loading}
-              style={{
-                padding: '12px 24px',
-                borderRadius: '8px',
-                border: '1px solid rgba(14, 165, 233, 0.3)',
-                backgroundColor: 'transparent',
-                color: '#e2e8f0',
-                fontSize: '14px',
-                fontWeight: '600',
-                cursor: loading ? 'not-allowed' : 'pointer',
-              }}>
+              fullWidth={isMobile}
+            >
               {t.cancel}
-            </button>
-            <button
-              type="submit"
+            </Button>
+            <Button
+              variant="info"
+              size={isMobile ? 'sm' : 'md'}
+              icon="bx-save"
+              onClick={(e) => {
+                e.preventDefault();
+                handleSubmit(e as unknown as React.FormEvent);
+              }}
+              loading={loading}
               disabled={loading}
-              style={{
-                padding: '12px 24px',
-                borderRadius: '8px',
-                border: 'none',
-                backgroundColor: loading ? '#9ca3af' : '#0EA5E9',
-                color: '#fff',
-                fontSize: '14px',
-                fontWeight: '600',
-                cursor: loading ? 'not-allowed' : 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                opacity: loading ? 0.7 : 1,
-              }}>
-              {loading && <i className="bx bx-loader-alt bx-spin" style={{ fontSize: '18px' }}></i>}
-              {loading ? t.saving : t.save}
-            </button>
+              fullWidth={isMobile}
+            >
+              {t.save}
+            </Button>
           </div>
         </form>
       </div>

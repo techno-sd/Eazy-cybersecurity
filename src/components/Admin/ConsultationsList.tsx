@@ -2,6 +2,8 @@
 
 import React, { useState, useMemo, memo, useCallback } from "react";
 import { useAdminLang } from "@/hooks/useAdminLang";
+import { useToast } from "./Toast";
+import Button, { IconButton } from "./Button";
 
 interface Consultation {
   id: number;
@@ -34,6 +36,7 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
   const [tempStatus, setTempStatus] = useState<Consultation['status'] | null>(null);
   const { lang, isArabic } = useAdminLang();
   const [isMobile, setIsMobile] = useState(false);
+  const { showToast } = useToast();
 
   React.useEffect(() => {
     const handleResize = () => {
@@ -219,14 +222,14 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
       setSelectedConsultation({ ...selectedConsultation, status: tempStatus });
       setTempStatus(null);
 
-      alert(t.updateSuccess);
+      showToast(t.updateSuccess, 'success');
     } catch (error) {
       console.error('Error updating status:', error);
-      alert(t.updateError);
+      showToast(t.updateError, 'error');
     } finally {
       setIsUpdating(false);
     }
-  }, [selectedConsultation, tempStatus, t]);
+  }, [selectedConsultation, tempStatus, t, showToast]);
 
   const handleDelete = useCallback(async (id: number) => {
     if (deleteConfirm !== id) {
@@ -245,14 +248,14 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
       setConsultations(prev => prev.filter(c => c.id !== id));
       setSelectedConsultation(null);
       setDeleteConfirm(null);
-      alert(t.deleteSuccess);
+      showToast(t.deleteSuccess, 'success');
     } catch (error) {
       console.error('Error deleting consultation:', error);
-      alert(t.deleteError);
+      showToast(t.deleteError, 'error');
     } finally {
       setIsUpdating(false);
     }
-  }, [deleteConfirm, t]);
+  }, [deleteConfirm, t, showToast]);
 
   const filteredConsultations = useMemo(() => consultations.filter((consultation) => {
     const matchesStatus = filterStatus === 'all' || consultation.status === filterStatus;
@@ -512,28 +515,15 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
                   paddingTop: '12px',
                   borderTop: '1px solid #f3f4f6',
                 }}>
-                  <button
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    icon="bx-show"
                     onClick={() => setSelectedConsultation(consultation)}
-                    style={{
-                      width: '100%',
-                      padding: '10px 16px',
-                      background: '#0A4D8C',
-                      color: '#fff',
-                      border: 'none',
-                      borderRadius: '8px',
-                      fontSize: '13px',
-                      cursor: 'pointer',
-                      fontWeight: '500',
-                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '6px',
-                    }}
+                    fullWidth
                   >
-                    <i className="bx bx-show"></i>
                     {t.view}
-                  </button>
+                  </Button>
                 </div>
               </div>
             ))
@@ -635,22 +625,13 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
                         {formatDate(consultation.created_at)}
                       </td>
                       <td style={{ padding: '16px' }}>
-                        <button
+                        <IconButton
+                          icon="bx-show"
+                          variant="primary"
+                          size="sm"
+                          tooltip={t.view}
                           onClick={() => setSelectedConsultation(consultation)}
-                          style={{
-                            padding: '8px 16px',
-                            background: '#0A4D8C',
-                            color: '#fff',
-                            border: 'none',
-                            borderRadius: '6px',
-                            fontSize: '13px',
-                            cursor: 'pointer',
-                            fontWeight: '500',
-                            fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-                          }}
-                        >
-                          {t.view}
-                        </button>
+                        />
                       </td>
                     </tr>
                   ))
@@ -848,43 +829,16 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
                   </select>
 
                   {tempStatus && tempStatus !== selectedConsultation.status && (
-                    <button
+                    <Button
+                      variant="success"
+                      size="sm"
+                      icon="bx-check"
                       onClick={handleStatusUpdate}
+                      loading={isUpdating}
                       disabled={isUpdating}
-                      style={{
-                        padding: '10px 20px',
-                        background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                        border: 'none',
-                        borderRadius: '8px',
-                        fontSize: '14px',
-                        fontWeight: '600',
-                        cursor: isUpdating ? 'not-allowed' : 'pointer',
-                        color: '#fff',
-                        fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-                        opacity: isUpdating ? 0.6 : 1,
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        whiteSpace: 'nowrap',
-                        boxShadow: '0 2px 8px rgba(16, 185, 129, 0.3)',
-                        transition: 'all 0.3s ease',
-                      }}
-                      onMouseEnter={(e) => {
-                        if (!isUpdating) {
-                          e.currentTarget.style.background = 'linear-gradient(135deg, #059669 0%, #047857 100%)';
-                          e.currentTarget.style.transform = 'translateY(-2px)';
-                          e.currentTarget.style.boxShadow = '0 4px 12px rgba(16, 185, 129, 0.4)';
-                        }
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
-                        e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(16, 185, 129, 0.3)';
-                      }}
                     >
-                      <i className="bx bx-check"></i>
-                      {isUpdating ? t.updating : t.updateStatus}
-                    </button>
+                      {t.updateStatus}
+                    </Button>
                   )}
                 </div>
               </div>
@@ -897,71 +851,40 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
               marginTop: isMobile ? '16px' : '20px',
               flexDirection: isMobile ? 'column' : 'row',
             }}>
-              <button
-                onClick={() => handleDelete(selectedConsultation.id)}
-                disabled={isUpdating}
-                style={{
-                  padding: isMobile ? '12px 20px' : '10px 24px',
-                  background: deleteConfirm === selectedConsultation.id
-                    ? 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)'
-                    : '#ef4444',
-                  border: 'none',
-                  borderRadius: '8px',
-                  fontSize: isMobile ? '13px' : '14px',
-                  fontWeight: '600',
-                  cursor: isUpdating ? 'not-allowed' : 'pointer',
-                  color: '#fff',
-                  fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-                  opacity: isUpdating ? 0.6 : 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px',
-                  order: isMobile ? 2 : 1,
-                }}
-              >
-                <i className="bx bx-trash"></i>
-                {deleteConfirm === selectedConsultation.id ? t.confirmDelete : t.delete}
-              </button>
+              <div style={{ order: isMobile ? 2 : 1 }}>
+                <Button
+                  variant="danger"
+                  size={isMobile ? 'sm' : 'md'}
+                  icon="bx-trash"
+                  onClick={() => handleDelete(selectedConsultation.id)}
+                  disabled={isUpdating}
+                  fullWidth={isMobile}
+                >
+                  {deleteConfirm === selectedConsultation.id ? t.confirmDelete : t.delete}
+                </Button>
+              </div>
 
               <div style={{ display: 'flex', gap: '12px', order: isMobile ? 1 : 2, flexDirection: isMobile ? 'column' : 'row' }}>
                 {deleteConfirm === selectedConsultation.id && (
-                  <button
+                  <Button
+                    variant="secondary"
+                    size={isMobile ? 'sm' : 'md'}
                     onClick={() => setDeleteConfirm(null)}
                     disabled={isUpdating}
-                    style={{
-                      padding: isMobile ? '12px 20px' : '10px 24px',
-                      background: '#f3f4f6',
-                      border: 'none',
-                      borderRadius: '8px',
-                      fontSize: isMobile ? '13px' : '14px',
-                      fontWeight: '600',
-                      cursor: isUpdating ? 'not-allowed' : 'pointer',
-                      color: '#374151',
-                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-                    }}
+                    fullWidth={isMobile}
                   >
                     {t.cancel}
-                  </button>
+                  </Button>
                 )}
-                <button
+                <Button
+                  variant="primary"
+                  size={isMobile ? 'sm' : 'md'}
                   onClick={() => setSelectedConsultation(null)}
                   disabled={isUpdating}
-                  style={{
-                    padding: isMobile ? '12px 20px' : '10px 24px',
-                    background: '#0A4D8C',
-                    border: 'none',
-                    borderRadius: '8px',
-                    fontSize: isMobile ? '13px' : '14px',
-                    fontWeight: '600',
-                    cursor: isUpdating ? 'not-allowed' : 'pointer',
-                    color: '#fff',
-                    fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-                    opacity: isUpdating ? 0.6 : 1,
-                  }}
+                  fullWidth={isMobile}
                 >
                   {t.close}
-                </button>
+                </Button>
               </div>
             </div>
           </div>

@@ -2,6 +2,11 @@
 
 import React, { useState, useMemo, memo, useCallback, useEffect } from "react";
 import { useAdminLang } from "@/hooks/useAdminLang";
+import { useToast } from "./Toast";
+import { StatsGridSkeleton, FiltersSkeleton, TableSkeleton, CardsListSkeleton } from "./Skeleton";
+import Pagination from "./Pagination";
+import ExportButton from "./ExportButton";
+import Button, { ActionButtons, IconButton } from "./Button";
 
 interface User {
   id: number;
@@ -49,6 +54,9 @@ const UsersList: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const { lang, isArabic } = useAdminLang();
   const [isMobile, setIsMobile] = useState(false);
+  const { showToast } = useToast();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
     const handleResize = () => {
@@ -205,6 +213,18 @@ const UsersList: React.FC = () => {
     inactive: users.filter(u => !u.is_active).length,
   }), [users]);
 
+  // Paginated users for display
+  const paginatedUsers = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return users.slice(startIndex, endIndex);
+  }, [users, currentPage, itemsPerPage]);
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filterRole, filterStatus, searchTerm]);
+
   const handleDelete = useCallback(async (id: number) => {
     if (!confirm(t.confirmDelete)) return;
 
@@ -218,14 +238,15 @@ const UsersList: React.FC = () => {
       if (data.success) {
         fetchUsers();
         setSelectedUser(null);
+        showToast(isArabic ? 'تم حذف المستخدم بنجاح' : 'User deleted successfully', 'success');
       } else {
-        alert(data.message);
+        showToast(data.message, 'error');
       }
     } catch (error) {
       console.error('Error deleting user:', error);
-      alert('Failed to delete user');
+      showToast(isArabic ? 'فشل في حذف المستخدم' : 'Failed to delete user', 'error');
     }
-  }, [t.confirmDelete, fetchUsers]);
+  }, [t.confirmDelete, fetchUsers, showToast, isArabic]);
 
   const handleSaveEdit = useCallback(async () => {
     if (!editingUser) return;
@@ -244,20 +265,21 @@ const UsersList: React.FC = () => {
         fetchUsers();
         setEditingUser(null);
         setSelectedUser(null);
+        showToast(isArabic ? 'تم تحديث المستخدم بنجاح' : 'User updated successfully', 'success');
       } else {
-        alert(data.message);
+        showToast(data.message, 'error');
       }
     } catch (error) {
       console.error('Error updating user:', error);
-      alert('Failed to update user');
+      showToast(isArabic ? 'فشل في تحديث المستخدم' : 'Failed to update user', 'error');
     } finally {
       setIsSaving(false);
     }
-  }, [editingUser, fetchUsers]);
+  }, [editingUser, fetchUsers, showToast, isArabic]);
 
   const handleCreateUser = useCallback(async () => {
     if (!newUser.email || !newUser.full_name || !newUser.password || !newUser.role) {
-      alert(isArabic ? 'يرجى ملء جميع الحقول المطلوبة' : 'Please fill all required fields');
+      showToast(isArabic ? 'يرجى ملء جميع الحقول المطلوبة' : 'Please fill all required fields', 'warning');
       return;
     }
 
@@ -283,29 +305,29 @@ const UsersList: React.FC = () => {
           role: 'user',
           is_active: true,
         });
-        alert(data.message);
+        showToast(isArabic ? 'تم إنشاء المستخدم بنجاح' : 'User created successfully', 'success');
       } else {
-        alert(data.message);
+        showToast(data.message, 'error');
       }
     } catch (error) {
       console.error('Error creating user:', error);
-      alert('Failed to create user');
+      showToast(isArabic ? 'فشل في إنشاء المستخدم' : 'Failed to create user', 'error');
     } finally {
       setIsCreating(false);
     }
-  }, [newUser, fetchUsers, isArabic]);
+  }, [newUser, fetchUsers, isArabic, showToast]);
 
   const handleResetPassword = useCallback(async () => {
     if (!resettingPassword) return;
 
     // Validation
     if (!newPassword || newPassword.length < 8) {
-      alert(t.passwordTooShort);
+      showToast(t.passwordTooShort, 'warning');
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      alert(t.passwordMismatch);
+      showToast(t.passwordMismatch, 'warning');
       return;
     }
 
@@ -320,20 +342,20 @@ const UsersList: React.FC = () => {
       const data = await response.json();
 
       if (data.success) {
-        alert(t.passwordResetSuccess);
+        showToast(t.passwordResetSuccess, 'success');
         setResettingPassword(null);
         setNewPassword('');
         setConfirmPassword('');
       } else {
-        alert(data.message);
+        showToast(data.message, 'error');
       }
     } catch (error) {
       console.error('Error resetting password:', error);
-      alert('Failed to reset password');
+      showToast(isArabic ? 'فشل في إعادة تعيين كلمة المرور' : 'Failed to reset password', 'error');
     } finally {
       setIsResetting(false);
     }
-  }, [resettingPassword, newPassword, confirmPassword, t]);
+  }, [resettingPassword, newPassword, confirmPassword, t, showToast, isArabic]);
 
   const formatDate = (dateString: string | undefined) => {
     if (!dateString) return t.never;
@@ -408,31 +430,35 @@ const UsersList: React.FC = () => {
         marginBottom: '20px',
         border: '1px solid rgba(0,0,0,0.05)',
       }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-          <button
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '12px' }}>
+          <Button
+            variant="success"
+            size={isMobile ? 'sm' : 'md'}
+            icon="bx-plus"
             onClick={() => {
-              fetchRoles(); // Refresh roles when opening modal
+              fetchRoles();
               setCreatingUser(true);
             }}
-            style={{
-              padding: isMobile ? '10px 16px' : '12px 24px',
-              background: '#27ae60',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '10px',
-              cursor: 'pointer',
-              fontSize: isMobile ? '13px' : '14px',
-              fontWeight: '600',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              width: isMobile ? '100%' : 'auto',
-              justifyContent: 'center',
-            }}
+            fullWidth={isMobile}
           >
-            <i className="bx bx-plus" style={{ fontSize: isMobile ? '18px' : '20px' }}></i>
             {t.addNewUser}
-          </button>
+          </Button>
+          <ExportButton
+            data={users}
+            filename="users_export"
+            columns={[
+              { key: 'full_name', label: t.name },
+              { key: 'email', label: t.email },
+              { key: 'phone', label: t.phone },
+              { key: 'company', label: t.company },
+              { key: 'role', label: t.role },
+              { key: 'is_active', label: t.status },
+              { key: 'last_login', label: t.lastLogin },
+              { key: 'created_at', label: t.createdAt },
+            ]}
+            isArabic={isArabic}
+            isMobile={isMobile}
+          />
         </div>
         <div style={{
           display: 'grid',
@@ -491,18 +517,7 @@ const UsersList: React.FC = () => {
 
       {/* Users Table/Cards */}
       {loading ? (
-        <div style={{
-          background: '#fff',
-          borderRadius: isMobile ? '12px' : '16px',
-          padding: '40px',
-          textAlign: 'center',
-          color: '#6c757d',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-          border: '1px solid rgba(0,0,0,0.05)',
-        }}>
-          <i className="bx bx-loader-alt bx-spin" style={{ fontSize: '32px' }}></i>
-          <p>Loading users...</p>
-        </div>
+        isMobile ? <CardsListSkeleton count={4} /> : <TableSkeleton rows={5} columns={7} />
       ) : users.length === 0 ? (
         <div style={{
           background: '#fff',
@@ -519,7 +534,7 @@ const UsersList: React.FC = () => {
       ) : isMobile ? (
         // Mobile Card View
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {users.map((user) => (
+          {paginatedUsers.map((user) => (
             <div
               key={user.id}
               style={{
@@ -606,95 +621,21 @@ const UsersList: React.FC = () => {
 
               {/* Actions */}
               <div style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: '8px',
                 paddingTop: '12px',
                 borderTop: '1px solid #f3f4f6',
               }}>
-                <button
-                  onClick={() => setSelectedUser(user)}
-                  style={{
-                    padding: '10px 12px',
-                    background: '#0A4D8C',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    fontSize: '12px',
-                    fontWeight: '500',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '4px',
-                  }}
-                >
-                  <i className="bx bx-show"></i>
-                  {t.view}
-                </button>
-                <button
-                  onClick={() => {
+                <ActionButtons
+                  onView={() => setSelectedUser(user)}
+                  onEdit={() => {
                     fetchRoles();
                     setEditingUser({...user});
                   }}
-                  style={{
-                    padding: '10px 12px',
-                    background: '#f39c12',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    fontSize: '12px',
-                    fontWeight: '500',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '4px',
-                  }}
-                >
-                  <i className="bx bx-edit"></i>
-                  {t.edit}
-                </button>
-                <button
-                  onClick={() => setResettingPassword(user)}
-                  style={{
-                    padding: '10px 12px',
-                    background: '#9b59b6',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    fontSize: '12px',
-                    fontWeight: '500',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '4px',
-                  }}
-                >
-                  <i className="bx bx-key"></i>
-                  {t.resetPassword}
-                </button>
-                <button
-                  onClick={() => handleDelete(user.id)}
-                  style={{
-                    padding: '10px 12px',
-                    background: '#e74c3c',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    fontSize: '12px',
-                    fontWeight: '500',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '4px',
-                  }}
-                >
-                  <i className="bx bx-trash"></i>
-                  {t.delete}
-                </button>
+                  onReset={() => setResettingPassword(user)}
+                  onDelete={() => handleDelete(user.id)}
+                  size="sm"
+                  isArabic={isArabic}
+                  isMobile={true}
+                />
               </div>
             </div>
           ))}
@@ -727,7 +668,7 @@ const UsersList: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user) => (
+                {paginatedUsers.map((user) => (
                   <tr key={user.id} style={{
                     borderBottom: '1px solid #f0f0f0',
                     transition: 'background 0.2s',
@@ -765,66 +706,38 @@ const UsersList: React.FC = () => {
                     </td>
                     <td style={{ padding: '16px', color: '#6c757d', fontSize: '13px' }}>{formatDate(user.last_login)}</td>
                     <td style={{ padding: '16px' }}>
-                      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                        <button
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        <IconButton
+                          icon="bx-show"
+                          variant="primary"
+                          size="sm"
+                          tooltip={t.view}
                           onClick={() => setSelectedUser(user)}
-                          style={{
-                            padding: '8px 16px',
-                            background: '#0A4D8C',
-                            color: '#fff',
-                            border: 'none',
-                            borderRadius: '8px',
-                            cursor: 'pointer',
-                            fontSize: '13px',
-                          }}
-                        >
-                          {t.view}
-                        </button>
-                        <button
+                        />
+                        <IconButton
+                          icon="bx-edit"
+                          variant="warning"
+                          size="sm"
+                          tooltip={t.edit}
                           onClick={() => {
-                            fetchRoles(); // Refresh roles when opening edit modal
+                            fetchRoles();
                             setEditingUser({...user});
                           }}
-                          style={{
-                            padding: '8px 16px',
-                            background: '#f39c12',
-                            color: '#fff',
-                            border: 'none',
-                            borderRadius: '8px',
-                            cursor: 'pointer',
-                            fontSize: '13px',
-                          }}
-                        >
-                          {t.edit}
-                        </button>
-                        <button
+                        />
+                        <IconButton
+                          icon="bx-key"
+                          variant="info"
+                          size="sm"
+                          tooltip={t.resetPassword}
                           onClick={() => setResettingPassword(user)}
-                          style={{
-                            padding: '8px 16px',
-                            background: '#9b59b6',
-                            color: '#fff',
-                            border: 'none',
-                            borderRadius: '8px',
-                            cursor: 'pointer',
-                            fontSize: '13px',
-                          }}
-                        >
-                          {t.resetPassword}
-                        </button>
-                        <button
+                        />
+                        <IconButton
+                          icon="bx-trash"
+                          variant="danger"
+                          size="sm"
+                          tooltip={t.delete}
                           onClick={() => handleDelete(user.id)}
-                          style={{
-                            padding: '8px 16px',
-                            background: '#e74c3c',
-                            color: '#fff',
-                            border: 'none',
-                            borderRadius: '8px',
-                            cursor: 'pointer',
-                            fontSize: '13px',
-                          }}
-                        >
-                          {t.delete}
-                        </button>
+                        />
                       </div>
                     </td>
                   </tr>
@@ -833,6 +746,19 @@ const UsersList: React.FC = () => {
             </table>
           </div>
         </div>
+      )}
+
+      {/* Pagination */}
+      {!loading && users.length > 0 && (
+        <Pagination
+          currentPage={currentPage}
+          totalItems={users.length}
+          itemsPerPage={itemsPerPage}
+          onPageChange={setCurrentPage}
+          onItemsPerPageChange={setItemsPerPage}
+          isArabic={isArabic}
+          isMobile={isMobile}
+        />
       )}
 
       {/* View User Modal */}
@@ -881,23 +807,16 @@ const UsersList: React.FC = () => {
                 </div>
               ))}
             </div>
-            <button
-              onClick={() => setSelectedUser(null)}
-              style={{
-                marginTop: isMobile ? '16px' : '24px',
-                padding: isMobile ? '12px 24px' : '12px 32px',
-                background: '#0A4D8C',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '10px',
-                cursor: 'pointer',
-                fontSize: isMobile ? '13px' : '14px',
-                fontWeight: '600',
-                width: '100%',
-              }}
-            >
-              {t.close}
-            </button>
+            <div style={{ marginTop: isMobile ? '16px' : '24px' }}>
+              <Button
+                variant="primary"
+                size={isMobile ? 'sm' : 'md'}
+                onClick={() => setSelectedUser(null)}
+                fullWidth
+              >
+                {t.close}
+              </Button>
+            </div>
           </div>
         </div>
       )}
@@ -1038,46 +957,26 @@ const UsersList: React.FC = () => {
               </div>
             </div>
             <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
-              <button
+              <Button
+                variant="success"
+                size={isMobile ? 'sm' : 'md'}
+                icon="bx-save"
                 onClick={handleSaveEdit}
+                loading={isSaving}
                 disabled={isSaving}
-                style={{
-                  flex: 1,
-                  padding: '12px',
-                  background: isSaving ? '#9ca3af' : '#27ae60',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '10px',
-                  cursor: isSaving ? 'not-allowed' : 'pointer',
-                  fontSize: '14px',
-                  fontWeight: '600',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px',
-                  opacity: isSaving ? 0.7 : 1,
-                }}
+                style={{ flex: 1 }}
               >
-                {isSaving && <i className="bx bx-loader-alt bx-spin" style={{ fontSize: '18px' }}></i>}
-                {isSaving ? (isArabic ? 'جاري الحفظ...' : 'Saving...') : t.save}
-              </button>
-              <button
+                {t.save}
+              </Button>
+              <Button
+                variant="secondary"
+                size={isMobile ? 'sm' : 'md'}
                 onClick={() => setEditingUser(null)}
                 disabled={isSaving}
-                style={{
-                  flex: 1,
-                  padding: '12px',
-                  background: '#95a5a6',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '10px',
-                  cursor: isSaving ? 'not-allowed' : 'pointer',
-                  fontSize: '14px',
-                  fontWeight: '600',
-                }}
+                style={{ flex: 1 }}
               >
                 {t.cancel}
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -1236,46 +1135,26 @@ const UsersList: React.FC = () => {
               </div>
             </div>
             <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
-              <button
+              <Button
+                variant="success"
+                size={isMobile ? 'sm' : 'md'}
+                icon="bx-plus"
                 onClick={handleCreateUser}
+                loading={isCreating}
                 disabled={isCreating}
-                style={{
-                  flex: 1,
-                  padding: '12px',
-                  background: isCreating ? '#9ca3af' : '#27ae60',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '10px',
-                  cursor: isCreating ? 'not-allowed' : 'pointer',
-                  fontSize: '14px',
-                  fontWeight: '600',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px',
-                  opacity: isCreating ? 0.7 : 1,
-                }}
+                style={{ flex: 1 }}
               >
-                {isCreating && <i className="bx bx-loader-alt bx-spin" style={{ fontSize: '18px' }}></i>}
-                {isCreating ? (isArabic ? 'جاري الإنشاء...' : 'Creating...') : t.create}
-              </button>
-              <button
+                {t.create}
+              </Button>
+              <Button
+                variant="secondary"
+                size={isMobile ? 'sm' : 'md'}
                 onClick={() => setCreatingUser(false)}
                 disabled={isCreating}
-                style={{
-                  flex: 1,
-                  padding: '12px',
-                  background: '#95a5a6',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '10px',
-                  cursor: isCreating ? 'not-allowed' : 'pointer',
-                  fontSize: '14px',
-                  fontWeight: '600',
-                }}
+                style={{ flex: 1 }}
               >
                 {t.cancel}
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -1354,50 +1233,30 @@ const UsersList: React.FC = () => {
               </div>
             </div>
             <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
-              <button
+              <Button
+                variant="info"
+                size={isMobile ? 'sm' : 'md'}
+                icon="bx-key"
                 onClick={handleResetPassword}
+                loading={isResetting}
                 disabled={isResetting}
-                style={{
-                  flex: 1,
-                  padding: '12px',
-                  background: isResetting ? '#9ca3af' : '#9b59b6',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '10px',
-                  cursor: isResetting ? 'not-allowed' : 'pointer',
-                  fontSize: '14px',
-                  fontWeight: '600',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px',
-                  opacity: isResetting ? 0.7 : 1,
-                }}
+                style={{ flex: 1 }}
               >
-                {isResetting && <i className="bx bx-loader-alt bx-spin" style={{ fontSize: '18px' }}></i>}
-                {isResetting ? (isArabic ? 'جاري إعادة التعيين...' : 'Resetting...') : t.resetPassword}
-              </button>
-              <button
+                {t.resetPassword}
+              </Button>
+              <Button
+                variant="secondary"
+                size={isMobile ? 'sm' : 'md'}
                 onClick={() => {
                   setResettingPassword(null);
                   setNewPassword('');
                   setConfirmPassword('');
                 }}
                 disabled={isResetting}
-                style={{
-                  flex: 1,
-                  padding: '12px',
-                  background: '#95a5a6',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '10px',
-                  cursor: isResetting ? 'not-allowed' : 'pointer',
-                  fontSize: '14px',
-                  fontWeight: '600',
-                }}
+                style={{ flex: 1 }}
               >
                 {t.cancel}
-              </button>
+              </Button>
             </div>
           </div>
         </div>
