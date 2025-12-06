@@ -48,6 +48,16 @@ const UsersList: React.FC = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const { lang, isArabic } = useAdminLang();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Fetch users
   const fetchUsers = useCallback(async () => {
@@ -349,9 +359,9 @@ const UsersList: React.FC = () => {
       {/* Stats Cards */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-        gap: '20px',
-        marginBottom: '30px'
+        gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(auto-fit, minmax(200px, 1fr))',
+        gap: isMobile ? '12px' : '20px',
+        marginBottom: isMobile ? '20px' : '30px'
       }}>
         {[
           { label: t.total, value: stats.total, color: '#0A4D8C', icon: 'bx-group' },
@@ -361,28 +371,28 @@ const UsersList: React.FC = () => {
         ].map((stat, index) => (
           <div key={index} style={{
             background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)',
-            padding: '24px',
-            borderRadius: '16px',
+            padding: isMobile ? '16px' : '24px',
+            borderRadius: isMobile ? '12px' : '16px',
             boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
             border: '1px solid rgba(0,0,0,0.05)',
             transition: 'all 0.3s ease',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
-                <p style={{ margin: 0, color: '#6c757d', fontSize: '14px', marginBottom: '8px' }}>{stat.label}</p>
-                <h3 style={{ margin: 0, fontSize: '32px', color: '#2c3e50', fontWeight: 'bold' }}>{stat.value}</h3>
+                <p style={{ margin: 0, color: '#6c757d', fontSize: isMobile ? '12px' : '14px', marginBottom: isMobile ? '4px' : '8px' }}>{stat.label}</p>
+                <h3 style={{ margin: 0, fontSize: isMobile ? '24px' : '32px', color: '#2c3e50', fontWeight: 'bold' }}>{stat.value}</h3>
               </div>
               <div style={{
-                width: '56px',
-                height: '56px',
-                borderRadius: '14px',
+                width: isMobile ? '44px' : '56px',
+                height: isMobile ? '44px' : '56px',
+                borderRadius: isMobile ? '10px' : '14px',
                 background: `linear-gradient(135deg, ${stat.color} 0%, ${stat.color}dd 100%)`,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 boxShadow: `0 6px 16px ${stat.color}40`,
               }}>
-                <i className={`bx ${stat.icon}`} style={{ fontSize: '28px', color: '#fff' }}></i>
+                <i className={`bx ${stat.icon}`} style={{ fontSize: isMobile ? '20px' : '28px', color: '#fff' }}></i>
               </div>
             </div>
           </div>
@@ -392,8 +402,8 @@ const UsersList: React.FC = () => {
       {/* Filters and Add Button */}
       <div style={{
         background: '#fff',
-        padding: '20px',
-        borderRadius: '16px',
+        padding: isMobile ? '16px' : '20px',
+        borderRadius: isMobile ? '12px' : '16px',
         boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
         marginBottom: '20px',
         border: '1px solid rgba(0,0,0,0.05)',
@@ -405,24 +415,30 @@ const UsersList: React.FC = () => {
               setCreatingUser(true);
             }}
             style={{
-              padding: '12px 24px',
+              padding: isMobile ? '10px 16px' : '12px 24px',
               background: '#27ae60',
               color: '#fff',
               border: 'none',
               borderRadius: '10px',
               cursor: 'pointer',
-              fontSize: '14px',
+              fontSize: isMobile ? '13px' : '14px',
               fontWeight: '600',
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
+              width: isMobile ? '100%' : 'auto',
+              justifyContent: 'center',
             }}
           >
-            <i className="bx bx-plus" style={{ fontSize: '20px' }}></i>
+            <i className="bx bx-plus" style={{ fontSize: isMobile ? '18px' : '20px' }}></i>
             {t.addNewUser}
           </button>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px' }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(250px, 1fr))',
+          gap: isMobile ? '12px' : '16px'
+        }}>
           <input
             type="text"
             placeholder={t.searchPlaceholder}
@@ -432,8 +448,9 @@ const UsersList: React.FC = () => {
               padding: '12px 16px',
               border: '1px solid #ddd',
               borderRadius: '10px',
-              fontSize: '14px',
+              fontSize: isMobile ? '15px' : '14px',
               fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+              width: '100%',
             }}
           />
           <select
@@ -443,8 +460,9 @@ const UsersList: React.FC = () => {
               padding: '12px 16px',
               border: '1px solid #ddd',
               borderRadius: '10px',
-              fontSize: '14px',
+              fontSize: isMobile ? '15px' : '14px',
               fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+              width: '100%',
             }}
           >
             <option value="all">{t.allRoles}</option>
@@ -459,8 +477,9 @@ const UsersList: React.FC = () => {
               padding: '12px 16px',
               border: '1px solid #ddd',
               borderRadius: '10px',
-              fontSize: '14px',
+              fontSize: isMobile ? '15px' : '14px',
               fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+              width: '100%',
             }}
           >
             <option value="all">{t.allStatuses}</option>
@@ -470,25 +489,225 @@ const UsersList: React.FC = () => {
         </div>
       </div>
 
-      {/* Users Table */}
-      <div style={{
-        background: '#fff',
-        borderRadius: '16px',
-        boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-        overflow: 'hidden',
-        border: '1px solid rgba(0,0,0,0.05)',
-      }}>
-        {loading ? (
-          <div style={{ padding: '40px', textAlign: 'center', color: '#6c757d' }}>
-            <i className="bx bx-loader-alt bx-spin" style={{ fontSize: '32px' }}></i>
-            <p>Loading users...</p>
-          </div>
-        ) : users.length === 0 ? (
-          <div style={{ padding: '40px', textAlign: 'center', color: '#6c757d' }}>
-            <i className="bx bx-user-x" style={{ fontSize: '48px', marginBottom: '16px' }}></i>
-            <p>{t.noUsers}</p>
-          </div>
-        ) : (
+      {/* Users Table/Cards */}
+      {loading ? (
+        <div style={{
+          background: '#fff',
+          borderRadius: isMobile ? '12px' : '16px',
+          padding: '40px',
+          textAlign: 'center',
+          color: '#6c757d',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+          border: '1px solid rgba(0,0,0,0.05)',
+        }}>
+          <i className="bx bx-loader-alt bx-spin" style={{ fontSize: '32px' }}></i>
+          <p>Loading users...</p>
+        </div>
+      ) : users.length === 0 ? (
+        <div style={{
+          background: '#fff',
+          borderRadius: isMobile ? '12px' : '16px',
+          padding: '40px',
+          textAlign: 'center',
+          color: '#6c757d',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+          border: '1px solid rgba(0,0,0,0.05)',
+        }}>
+          <i className="bx bx-user-x" style={{ fontSize: '48px', marginBottom: '16px' }}></i>
+          <p>{t.noUsers}</p>
+        </div>
+      ) : isMobile ? (
+        // Mobile Card View
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          {users.map((user) => (
+            <div
+              key={user.id}
+              style={{
+                background: '#fff',
+                borderRadius: '12px',
+                border: '1px solid rgba(0,0,0,0.05)',
+                padding: '16px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+              }}
+            >
+              {/* Name and Role/Status Badges */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '8px' }}>
+                <div>
+                  <div style={{
+                    fontWeight: '600',
+                    color: '#1a1a1a',
+                    fontSize: '15px',
+                    marginBottom: '4px',
+                  }}>
+                    {user.full_name}
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#6c757d' }}>
+                    {user.email}
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                  <span style={{
+                    padding: '4px 10px',
+                    borderRadius: '6px',
+                    fontSize: '11px',
+                    fontWeight: '600',
+                    background: getRoleBadgeColor(user.role) + '20',
+                    color: getRoleBadgeColor(user.role),
+                  }}>
+                    {user.role === 'admin' ? t.roleAdmin : user.role === 'moderator' ? t.roleModerator : t.roleUser}
+                  </span>
+                  <span style={{
+                    padding: '4px 10px',
+                    borderRadius: '6px',
+                    fontSize: '11px',
+                    fontWeight: '600',
+                    background: user.is_active ? '#27ae6020' : '#95a5a620',
+                    color: user.is_active ? '#27ae60' : '#95a5a6',
+                  }}>
+                    {user.is_active ? t.activeStatus : t.inactiveStatus}
+                  </span>
+                </div>
+              </div>
+
+              {/* Meta Info */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '12px',
+                paddingTop: '12px',
+                borderTop: '1px solid #f3f4f6',
+              }}>
+                <div>
+                  <div style={{
+                    fontSize: '11px',
+                    color: '#6b7280',
+                    marginBottom: '4px',
+                    textTransform: isArabic ? 'none' : 'uppercase',
+                  }}>{t.company}</div>
+                  <div style={{ fontSize: '13px', color: '#374151' }}>
+                    {user.company || '-'}
+                  </div>
+                </div>
+                <div>
+                  <div style={{
+                    fontSize: '11px',
+                    color: '#6b7280',
+                    marginBottom: '4px',
+                    textTransform: isArabic ? 'none' : 'uppercase',
+                  }}>{t.lastLogin}</div>
+                  <div style={{ fontSize: '13px', color: '#6b7280' }}>
+                    {formatDate(user.last_login)}
+                  </div>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '8px',
+                paddingTop: '12px',
+                borderTop: '1px solid #f3f4f6',
+              }}>
+                <button
+                  onClick={() => setSelectedUser(user)}
+                  style={{
+                    padding: '10px 12px',
+                    background: '#0A4D8C',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontSize: '12px',
+                    fontWeight: '500',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '4px',
+                  }}
+                >
+                  <i className="bx bx-show"></i>
+                  {t.view}
+                </button>
+                <button
+                  onClick={() => {
+                    fetchRoles();
+                    setEditingUser({...user});
+                  }}
+                  style={{
+                    padding: '10px 12px',
+                    background: '#f39c12',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontSize: '12px',
+                    fontWeight: '500',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '4px',
+                  }}
+                >
+                  <i className="bx bx-edit"></i>
+                  {t.edit}
+                </button>
+                <button
+                  onClick={() => setResettingPassword(user)}
+                  style={{
+                    padding: '10px 12px',
+                    background: '#9b59b6',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontSize: '12px',
+                    fontWeight: '500',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '4px',
+                  }}
+                >
+                  <i className="bx bx-key"></i>
+                  {t.resetPassword}
+                </button>
+                <button
+                  onClick={() => handleDelete(user.id)}
+                  style={{
+                    padding: '10px 12px',
+                    background: '#e74c3c',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontSize: '12px',
+                    fontWeight: '500',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '4px',
+                  }}
+                >
+                  <i className="bx bx-trash"></i>
+                  {t.delete}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        // Desktop Table View
+        <div style={{
+          background: '#fff',
+          borderRadius: '16px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+          overflow: 'hidden',
+          border: '1px solid rgba(0,0,0,0.05)',
+        }}>
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
@@ -613,8 +832,8 @@ const UsersList: React.FC = () => {
               </tbody>
             </table>
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* View User Modal */}
       {selectedUser && !editingUser && (
@@ -630,21 +849,22 @@ const UsersList: React.FC = () => {
           justifyContent: 'center',
           zIndex: 1000,
           backdropFilter: 'blur(4px)',
+          padding: isMobile ? '12px' : '20px',
         }} onClick={() => setSelectedUser(null)}>
           <div style={{
             background: '#fff',
-            padding: '32px',
-            borderRadius: '20px',
+            padding: isMobile ? '20px' : '32px',
+            borderRadius: isMobile ? '12px' : '20px',
             maxWidth: '600px',
-            width: '90%',
-            maxHeight: '80vh',
+            width: '100%',
+            maxHeight: isMobile ? '95vh' : '80vh',
             overflowY: 'auto',
             boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
           }} onClick={(e) => e.stopPropagation()}>
-            <h2 style={{ margin: '0 0 24px 0', color: '#2c3e50', fontSize: '24px', fontWeight: 'bold' }}>
+            <h2 style={{ margin: '0 0 20px 0', color: '#2c3e50', fontSize: isMobile ? '18px' : '24px', fontWeight: 'bold' }}>
               {t.userDetails}
             </h2>
-            <div style={{ display: 'grid', gap: '16px' }}>
+            <div style={{ display: 'grid', gap: isMobile ? '12px' : '16px' }}>
               {[
                 { label: t.fullName, value: selectedUser.full_name },
                 { label: t.email, value: selectedUser.email },
@@ -656,22 +876,22 @@ const UsersList: React.FC = () => {
                 { label: t.createdAt, value: formatDate(selectedUser.created_at) },
               ].map((field, i) => (
                 <div key={i}>
-                  <strong style={{ color: '#6c757d', fontSize: '14px' }}>{field.label}:</strong>
-                  <p style={{ margin: '4px 0 0 0', fontSize: '16px' }}>{field.value}</p>
+                  <strong style={{ color: '#6c757d', fontSize: isMobile ? '12px' : '14px' }}>{field.label}:</strong>
+                  <p style={{ margin: '4px 0 0 0', fontSize: isMobile ? '14px' : '16px' }}>{field.value}</p>
                 </div>
               ))}
             </div>
             <button
               onClick={() => setSelectedUser(null)}
               style={{
-                marginTop: '24px',
-                padding: '12px 32px',
+                marginTop: isMobile ? '16px' : '24px',
+                padding: isMobile ? '12px 24px' : '12px 32px',
                 background: '#0A4D8C',
                 color: '#fff',
                 border: 'none',
                 borderRadius: '10px',
                 cursor: 'pointer',
-                fontSize: '14px',
+                fontSize: isMobile ? '13px' : '14px',
                 fontWeight: '600',
                 width: '100%',
               }}
@@ -696,18 +916,19 @@ const UsersList: React.FC = () => {
           justifyContent: 'center',
           zIndex: 1000,
           backdropFilter: 'blur(4px)',
+          padding: isMobile ? '12px' : '20px',
         }} onClick={() => setEditingUser(null)}>
           <div style={{
             background: '#fff',
-            padding: '32px',
-            borderRadius: '20px',
+            padding: isMobile ? '20px' : '32px',
+            borderRadius: isMobile ? '12px' : '20px',
             maxWidth: '600px',
-            width: '90%',
-            maxHeight: '80vh',
+            width: '100%',
+            maxHeight: isMobile ? '95vh' : '80vh',
             overflowY: 'auto',
             boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
           }} onClick={(e) => e.stopPropagation()}>
-            <h2 style={{ margin: '0 0 24px 0', color: '#2c3e50', fontSize: '24px', fontWeight: 'bold' }}>
+            <h2 style={{ margin: '0 0 20px 0', color: '#2c3e50', fontSize: isMobile ? '18px' : '24px', fontWeight: 'bold' }}>
               {t.editUser}
             </h2>
             <div style={{ display: 'grid', gap: '16px' }}>
@@ -876,18 +1097,19 @@ const UsersList: React.FC = () => {
           justifyContent: 'center',
           zIndex: 1000,
           backdropFilter: 'blur(4px)',
+          padding: isMobile ? '12px' : '20px',
         }} onClick={() => setCreatingUser(false)}>
           <div style={{
             background: '#fff',
-            padding: '32px',
-            borderRadius: '20px',
+            padding: isMobile ? '20px' : '32px',
+            borderRadius: isMobile ? '12px' : '20px',
             maxWidth: '600px',
-            width: '90%',
-            maxHeight: '80vh',
+            width: '100%',
+            maxHeight: isMobile ? '95vh' : '80vh',
             overflowY: 'auto',
             boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
           }} onClick={(e) => e.stopPropagation()}>
-            <h2 style={{ margin: '0 0 24px 0', color: '#2c3e50', fontSize: '24px', fontWeight: 'bold' }}>
+            <h2 style={{ margin: '0 0 20px 0', color: '#2c3e50', fontSize: isMobile ? '18px' : '24px', fontWeight: 'bold' }}>
               {t.createUser}
             </h2>
             <div style={{ display: 'grid', gap: '16px' }}>
@@ -1073,6 +1295,7 @@ const UsersList: React.FC = () => {
           justifyContent: 'center',
           zIndex: 1000,
           backdropFilter: 'blur(4px)',
+          padding: isMobile ? '12px' : '20px',
         }} onClick={() => {
           setResettingPassword(null);
           setNewPassword('');
@@ -1080,16 +1303,16 @@ const UsersList: React.FC = () => {
         }}>
           <div style={{
             background: '#fff',
-            padding: '32px',
-            borderRadius: '20px',
+            padding: isMobile ? '20px' : '32px',
+            borderRadius: isMobile ? '12px' : '20px',
             maxWidth: '500px',
-            width: '90%',
+            width: '100%',
             boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
           }} onClick={(e) => e.stopPropagation()}>
-            <h2 style={{ margin: '0 0 8px 0', color: '#2c3e50', fontSize: '24px', fontWeight: 'bold' }}>
+            <h2 style={{ margin: '0 0 8px 0', color: '#2c3e50', fontSize: isMobile ? '18px' : '24px', fontWeight: 'bold' }}>
               {t.resetPassword}
             </h2>
-            <p style={{ margin: '0 0 24px 0', color: '#6c757d', fontSize: '14px' }}>
+            <p style={{ margin: '0 0 20px 0', color: '#6c757d', fontSize: isMobile ? '13px' : '14px' }}>
               {t.resetPasswordFor}: <strong>{resettingPassword.full_name}</strong>
             </p>
             <div style={{ display: 'grid', gap: '16px' }}>

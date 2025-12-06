@@ -33,6 +33,16 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
   const [deleteConfirm, setDeleteConfirm] = useState<number | null>(null);
   const [tempStatus, setTempStatus] = useState<Consultation['status'] | null>(null);
   const { lang, isArabic } = useAdminLang();
+  const [isMobile, setIsMobile] = useState(false);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Service type mapping to match website consultation form
   const serviceTypeMap = {
@@ -268,7 +278,12 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
   return (
     <div style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
       {/* Stats */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px' }}>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)',
+        gap: isMobile ? '12px' : '16px',
+        marginBottom: '24px'
+      }}>
         {[
           { label: t.total, value: stats.total, color: '#0A4D8C' },
           { label: t.pending, value: stats.pending, color: '#f59e0b' },
@@ -279,13 +294,13 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
             key={index}
             style={{
               background: '#fff',
-              padding: '20px',
+              padding: isMobile ? '16px' : '20px',
               borderRadius: '12px',
               border: '1px solid #e5e7eb',
             }}
           >
-            <div style={{ fontSize: '28px', fontWeight: '700', color: stat.color }}>{stat.value}</div>
-            <div style={{ fontSize: '14px', color: '#6b7280', marginTop: '4px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>{stat.label}</div>
+            <div style={{ fontSize: isMobile ? '24px' : '28px', fontWeight: '700', color: stat.color }}>{stat.value}</div>
+            <div style={{ fontSize: isMobile ? '12px' : '14px', color: '#6b7280', marginTop: '4px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>{stat.label}</div>
           </div>
         ))}
       </div>
@@ -294,14 +309,15 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
       <div
         style={{
           background: '#fff',
-          padding: '20px',
+          padding: isMobile ? '16px' : '20px',
           borderRadius: '12px',
           marginBottom: '20px',
           border: '1px solid #e5e7eb',
           display: 'flex',
-          gap: '16px',
+          gap: isMobile ? '12px' : '16px',
           flexWrap: 'wrap',
           alignItems: 'center',
+          flexDirection: isMobile ? 'column' : 'row',
         }}
       >
         <input
@@ -310,12 +326,13 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           style={{
-            flex: 1,
-            minWidth: '250px',
-            padding: '10px 16px',
+            flex: isMobile ? 'unset' : 1,
+            width: isMobile ? '100%' : 'auto',
+            minWidth: isMobile ? 'unset' : '250px',
+            padding: isMobile ? '12px 16px' : '10px 16px',
             border: '1px solid #e5e7eb',
             borderRadius: '8px',
-            fontSize: '14px',
+            fontSize: isMobile ? '15px' : '14px',
             direction: isArabic ? 'rtl' : 'ltr',
             fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
           }}
@@ -325,10 +342,11 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
           value={filterStatus}
           onChange={(e) => setFilterStatus(e.target.value)}
           style={{
-            padding: '10px 16px',
+            width: isMobile ? '100%' : 'auto',
+            padding: isMobile ? '12px 16px' : '10px 16px',
             border: '1px solid #e5e7eb',
             borderRadius: '8px',
-            fontSize: '14px',
+            fontSize: isMobile ? '15px' : '14px',
             fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
           }}
         >
@@ -343,12 +361,13 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
           value={filterService}
           onChange={(e) => setFilterService(e.target.value)}
           style={{
-            padding: '10px 16px',
+            width: isMobile ? '100%' : 'auto',
+            padding: isMobile ? '12px 16px' : '10px 16px',
             border: '1px solid #e5e7eb',
             borderRadius: '8px',
-            fontSize: '14px',
+            fontSize: isMobile ? '15px' : '14px',
             fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-            minWidth: '180px',
+            minWidth: isMobile ? 'unset' : '180px',
           }}
         >
           <option value="all">{t.allServices}</option>
@@ -364,125 +383,283 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
         </select>
       </div>
 
-      {/* Consultations Table */}
-      <div
-        style={{
-          background: '#fff',
-          borderRadius: '12px',
-          border: '1px solid #e5e7eb',
-          overflow: 'hidden',
-        }}
-      >
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead style={{ background: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
-              <tr>
-                <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                  {t.name}
-                </th>
-                <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                  {t.contact}
-                </th>
-                <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                  {t.service}
-                </th>
-                <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                  {t.status}
-                </th>
-                <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                  {t.date}
-                </th>
-                <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                  {t.actions}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredConsultations.length === 0 ? (
-                <tr>
-                  <td colSpan={6} style={{ padding: '40px', textAlign: 'center', color: '#9ca3af', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                    {t.noConsultations}
-                  </td>
-                </tr>
-              ) : (
-                filteredConsultations.map((consultation) => (
-                  <tr
-                    key={consultation.id}
-                    style={{ borderBottom: '1px solid #e5e7eb' }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = '#f9fafb';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = '#fff';
+      {/* Consultations Table/Cards */}
+      {isMobile ? (
+        // Mobile Card View
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          {filteredConsultations.length === 0 ? (
+            <div style={{
+              background: '#fff',
+              padding: '40px 20px',
+              borderRadius: '12px',
+              border: '1px solid #e5e7eb',
+              textAlign: 'center',
+              color: '#9ca3af',
+              fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+            }}>
+              {t.noConsultations}
+            </div>
+          ) : (
+            filteredConsultations.map((consultation) => (
+              <div
+                key={consultation.id}
+                style={{
+                  background: '#fff',
+                  borderRadius: '12px',
+                  border: '1px solid #e5e7eb',
+                  padding: '16px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '12px',
+                }}
+              >
+                {/* Name and Status */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <div>
+                    <div style={{
+                      fontWeight: '600',
+                      color: '#1a1a1a',
+                      marginBottom: '4px',
+                      fontSize: '15px',
+                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                    }}>
+                      {consultation.contact_person}
+                    </div>
+                    {consultation.company_name && (
+                      <div style={{ fontSize: '12px', color: '#6b7280', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                        {consultation.company_name}
+                      </div>
+                    )}
+                  </div>
+                  <span
+                    style={{
+                      padding: '4px 12px',
+                      borderRadius: '12px',
+                      fontSize: '11px',
+                      fontWeight: '600',
+                      textTransform: isArabic ? 'none' : 'uppercase',
+                      background: `${getStatusColor(consultation.status)}20`,
+                      color: getStatusColor(consultation.status),
+                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                      whiteSpace: 'nowrap',
                     }}
                   >
-                    <td style={{ padding: '16px' }}>
-                      <div style={{ fontWeight: '600', color: '#1a1a1a', marginBottom: '4px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                        {consultation.contact_person}
-                      </div>
-                      {consultation.company_name && (
-                        <div style={{ fontSize: '12px', color: '#6b7280', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>{consultation.company_name}</div>
-                      )}
-                    </td>
-                    <td style={{ padding: '16px' }}>
-                      <div style={{ fontSize: '13px', color: '#374151', marginBottom: '2px', direction: 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
+                    {getStatusLabel(consultation.status)}
+                  </span>
+                </div>
+
+                {/* Meta Info Grid */}
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr',
+                  gap: '12px',
+                  paddingTop: '12px',
+                  borderTop: '1px solid #f3f4f6',
+                }}>
+                  <div>
+                    <div style={{
+                      fontSize: '11px',
+                      color: '#6b7280',
+                      marginBottom: '4px',
+                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                      textTransform: isArabic ? 'none' : 'uppercase',
+                    }}>{t.service}</div>
+                    <div style={{
+                      fontSize: '13px',
+                      color: '#374151',
+                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                    }}>{getServiceName(consultation.service_type)}</div>
+                  </div>
+
+                  <div>
+                    <div style={{
+                      fontSize: '11px',
+                      color: '#6b7280',
+                      marginBottom: '4px',
+                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                      textTransform: isArabic ? 'none' : 'uppercase',
+                    }}>{t.date}</div>
+                    <div style={{ fontSize: '13px', color: '#6b7280' }}>
+                      {formatDate(consultation.created_at)}
+                    </div>
+                  </div>
+
+                  <div style={{ gridColumn: '1 / -1' }}>
+                    <div style={{
+                      fontSize: '11px',
+                      color: '#6b7280',
+                      marginBottom: '4px',
+                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                      textTransform: isArabic ? 'none' : 'uppercase',
+                    }}>{t.contact}</div>
+                    <div style={{ fontSize: '13px', color: '#374151', direction: 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
+                      <div style={{ marginBottom: '2px' }}>
                         <i className="bx bx-envelope" style={{ [isArabic ? 'marginLeft' : 'marginRight']: '6px' }}></i>
                         {consultation.email}
                       </div>
                       {consultation.phone && (
-                        <div style={{ fontSize: '13px', color: '#374151', direction: 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
+                        <div>
                           <i className="bx bx-phone" style={{ [isArabic ? 'marginLeft' : 'marginRight']: '6px' }}></i>
                           {consultation.phone}
                         </div>
                       )}
-                    </td>
-                    <td style={{ padding: '16px', fontSize: '13px', color: '#374151', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                      {getServiceName(consultation.service_type)}
-                    </td>
-                    <td style={{ padding: '16px' }}>
-                      <span
-                        style={{
-                          padding: '4px 12px',
-                          borderRadius: '12px',
-                          fontSize: '11px',
-                          fontWeight: '600',
-                          textTransform: isArabic ? 'none' : 'uppercase',
-                          background: `${getStatusColor(consultation.status)}20`,
-                          color: getStatusColor(consultation.status),
-                          fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-                        }}
-                      >
-                        {getStatusLabel(consultation.status)}
-                      </span>
-                    </td>
-                    <td style={{ padding: '16px', fontSize: '13px', color: '#6b7280' }}>
-                      {formatDate(consultation.created_at)}
-                    </td>
-                    <td style={{ padding: '16px' }}>
-                      <button
-                        onClick={() => setSelectedConsultation(consultation)}
-                        style={{
-                          padding: '8px 16px',
-                          background: '#0A4D8C',
-                          color: '#fff',
-                          border: 'none',
-                          borderRadius: '6px',
-                          fontSize: '13px',
-                          cursor: 'pointer',
-                          fontWeight: '500',
-                          fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-                        }}
-                      >
-                        {t.view}
-                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Button */}
+                <div style={{
+                  paddingTop: '12px',
+                  borderTop: '1px solid #f3f4f6',
+                }}>
+                  <button
+                    onClick={() => setSelectedConsultation(consultation)}
+                    style={{
+                      width: '100%',
+                      padding: '10px 16px',
+                      background: '#0A4D8C',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontSize: '13px',
+                      cursor: 'pointer',
+                      fontWeight: '500',
+                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '6px',
+                    }}
+                  >
+                    <i className="bx bx-show"></i>
+                    {t.view}
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      ) : (
+        // Desktop Table View
+        <div
+          style={{
+            background: '#fff',
+            borderRadius: '12px',
+            border: '1px solid #e5e7eb',
+            overflow: 'hidden',
+          }}
+        >
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead style={{ background: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
+                <tr>
+                  <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                    {t.name}
+                  </th>
+                  <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                    {t.contact}
+                  </th>
+                  <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                    {t.service}
+                  </th>
+                  <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                    {t.status}
+                  </th>
+                  <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                    {t.date}
+                  </th>
+                  <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                    {t.actions}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredConsultations.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} style={{ padding: '40px', textAlign: 'center', color: '#9ca3af', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                      {t.noConsultations}
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  filteredConsultations.map((consultation) => (
+                    <tr
+                      key={consultation.id}
+                      style={{ borderBottom: '1px solid #e5e7eb' }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#f9fafb';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = '#fff';
+                      }}
+                    >
+                      <td style={{ padding: '16px' }}>
+                        <div style={{ fontWeight: '600', color: '#1a1a1a', marginBottom: '4px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                          {consultation.contact_person}
+                        </div>
+                        {consultation.company_name && (
+                          <div style={{ fontSize: '12px', color: '#6b7280', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>{consultation.company_name}</div>
+                        )}
+                      </td>
+                      <td style={{ padding: '16px' }}>
+                        <div style={{ fontSize: '13px', color: '#374151', marginBottom: '2px', direction: 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
+                          <i className="bx bx-envelope" style={{ [isArabic ? 'marginLeft' : 'marginRight']: '6px' }}></i>
+                          {consultation.email}
+                        </div>
+                        {consultation.phone && (
+                          <div style={{ fontSize: '13px', color: '#374151', direction: 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
+                            <i className="bx bx-phone" style={{ [isArabic ? 'marginLeft' : 'marginRight']: '6px' }}></i>
+                            {consultation.phone}
+                          </div>
+                        )}
+                      </td>
+                      <td style={{ padding: '16px', fontSize: '13px', color: '#374151', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                        {getServiceName(consultation.service_type)}
+                      </td>
+                      <td style={{ padding: '16px' }}>
+                        <span
+                          style={{
+                            padding: '4px 12px',
+                            borderRadius: '12px',
+                            fontSize: '11px',
+                            fontWeight: '600',
+                            textTransform: isArabic ? 'none' : 'uppercase',
+                            background: `${getStatusColor(consultation.status)}20`,
+                            color: getStatusColor(consultation.status),
+                            fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                          }}
+                        >
+                          {getStatusLabel(consultation.status)}
+                        </span>
+                      </td>
+                      <td style={{ padding: '16px', fontSize: '13px', color: '#6b7280' }}>
+                        {formatDate(consultation.created_at)}
+                      </td>
+                      <td style={{ padding: '16px' }}>
+                        <button
+                          onClick={() => setSelectedConsultation(consultation)}
+                          style={{
+                            padding: '8px 16px',
+                            background: '#0A4D8C',
+                            color: '#fff',
+                            border: 'none',
+                            borderRadius: '6px',
+                            fontSize: '13px',
+                            cursor: 'pointer',
+                            fontWeight: '500',
+                            fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                          }}
+                        >
+                          {t.view}
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Consultation Detail Modal */}
       {selectedConsultation && (
@@ -498,25 +675,25 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
             alignItems: 'center',
             justifyContent: 'center',
             zIndex: 9999,
-            padding: '20px',
+            padding: isMobile ? '12px' : '20px',
           }}
           onClick={() => setSelectedConsultation(null)}
         >
           <div
             style={{
               background: '#fff',
-              borderRadius: '16px',
+              borderRadius: isMobile ? '12px' : '16px',
               maxWidth: '700px',
               width: '100%',
-              maxHeight: '90vh',
+              maxHeight: isMobile ? '95vh' : '90vh',
               overflow: 'auto',
-              padding: '32px',
+              padding: isMobile ? '20px' : '32px',
               direction: isArabic ? 'rtl' : 'ltr',
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '24px' }}>
-              <h2 style={{ margin: 0, fontSize: '24px', fontWeight: '700', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: isMobile ? '16px' : '24px' }}>
+              <h2 style={{ margin: 0, fontSize: isMobile ? '18px' : '24px', fontWeight: '700', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
                 {t.consultationDetails}
               </h2>
               <button
@@ -532,14 +709,15 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
+                  flexShrink: 0,
                 }}
               >
                 <i className="bx bx-x"></i>
               </button>
             </div>
 
-            <div style={{ marginBottom: '24px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '20px' }}>
+            <div style={{ marginBottom: isMobile ? '16px' : '24px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? '12px' : '16px', marginBottom: isMobile ? '16px' : '20px' }}>
                 <div>
                   <label style={{ fontSize: '12px', color: '#6b7280', fontWeight: '600', display: 'block', marginBottom: '6px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
                     {t.name}
@@ -616,7 +794,7 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
               </div>
 
               {(selectedConsultation.budget || selectedConsultation.preferred_date) && (
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '20px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? '12px' : '16px', marginBottom: isMobile ? '16px' : '20px' }}>
                   {selectedConsultation.budget && (
                     <div>
                       <label style={{ fontSize: '12px', color: '#6b7280', fontWeight: '600', display: 'block', marginBottom: '6px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
@@ -712,18 +890,24 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '12px', justifyContent: 'space-between', marginTop: '20px' }}>
+            <div style={{
+              display: 'flex',
+              gap: '12px',
+              justifyContent: 'space-between',
+              marginTop: isMobile ? '16px' : '20px',
+              flexDirection: isMobile ? 'column' : 'row',
+            }}>
               <button
                 onClick={() => handleDelete(selectedConsultation.id)}
                 disabled={isUpdating}
                 style={{
-                  padding: '10px 24px',
+                  padding: isMobile ? '12px 20px' : '10px 24px',
                   background: deleteConfirm === selectedConsultation.id
                     ? 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)'
                     : '#ef4444',
                   border: 'none',
                   borderRadius: '8px',
-                  fontSize: '14px',
+                  fontSize: isMobile ? '13px' : '14px',
                   fontWeight: '600',
                   cursor: isUpdating ? 'not-allowed' : 'pointer',
                   color: '#fff',
@@ -731,24 +915,26 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
                   opacity: isUpdating ? 0.6 : 1,
                   display: 'flex',
                   alignItems: 'center',
+                  justifyContent: 'center',
                   gap: '8px',
+                  order: isMobile ? 2 : 1,
                 }}
               >
                 <i className="bx bx-trash"></i>
                 {deleteConfirm === selectedConsultation.id ? t.confirmDelete : t.delete}
               </button>
 
-              <div style={{ display: 'flex', gap: '12px' }}>
+              <div style={{ display: 'flex', gap: '12px', order: isMobile ? 1 : 2, flexDirection: isMobile ? 'column' : 'row' }}>
                 {deleteConfirm === selectedConsultation.id && (
                   <button
                     onClick={() => setDeleteConfirm(null)}
                     disabled={isUpdating}
                     style={{
-                      padding: '10px 24px',
+                      padding: isMobile ? '12px 20px' : '10px 24px',
                       background: '#f3f4f6',
                       border: 'none',
                       borderRadius: '8px',
-                      fontSize: '14px',
+                      fontSize: isMobile ? '13px' : '14px',
                       fontWeight: '600',
                       cursor: isUpdating ? 'not-allowed' : 'pointer',
                       color: '#374151',
@@ -762,11 +948,11 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
                   onClick={() => setSelectedConsultation(null)}
                   disabled={isUpdating}
                   style={{
-                    padding: '10px 24px',
+                    padding: isMobile ? '12px 20px' : '10px 24px',
                     background: '#0A4D8C',
                     border: 'none',
                     borderRadius: '8px',
-                    fontSize: '14px',
+                    fontSize: isMobile ? '13px' : '14px',
                     fontWeight: '600',
                     cursor: isUpdating ? 'not-allowed' : 'pointer',
                     color: '#fff',

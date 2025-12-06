@@ -16,6 +16,16 @@ const RolesManagement: React.FC<RolesManagementProps> = () => {
   const [success, setSuccess] = useState("");
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const t = {
     title: isArabic ? "إدارة الأدوار والصلاحيات" : "Roles & Permissions Management",
@@ -118,18 +128,18 @@ const RolesManagement: React.FC<RolesManagementProps> = () => {
   }
 
   return (
-    <div style={{ padding: "24px", direction: isArabic ? "rtl" : "ltr" }}>
+    <div style={{ padding: isMobile ? "16px" : "24px", direction: isArabic ? "rtl" : "ltr" }}>
       {/* Header */}
       <div style={{
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        marginBottom: "32px",
+        marginBottom: isMobile ? "20px" : "32px",
         flexWrap: "wrap",
         gap: "16px"
       }}>
         <h1 style={{
-          fontSize: "28px",
+          fontSize: isMobile ? "22px" : "28px",
           fontWeight: "700",
           color: "#0EA5E9",
           margin: 0
@@ -176,8 +186,8 @@ const RolesManagement: React.FC<RolesManagementProps> = () => {
       ) : (
         <div style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
-          gap: "24px",
+          gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fill, minmax(350px, 1fr))",
+          gap: isMobile ? "16px" : "24px",
         }}>
           {roles.map((role) => (
             <div
@@ -186,7 +196,7 @@ const RolesManagement: React.FC<RolesManagementProps> = () => {
                 background: "linear-gradient(135deg, #0a1628 0%, #0d2137 100%)",
                 border: "1px solid rgba(14, 165, 233, 0.2)",
                 borderRadius: "12px",
-                padding: "24px",
+                padding: isMobile ? "16px" : "24px",
                 transition: "all 0.3s ease",
                 position: "relative",
                 overflow: "hidden",
@@ -347,6 +357,7 @@ const RolesManagement: React.FC<RolesManagementProps> = () => {
         <RoleEditModal
           role={selectedRole}
           isArabic={isArabic}
+          isMobile={isMobile}
           onClose={() => {
             setShowEditModal(false);
             setSelectedRole(null);
@@ -368,12 +379,13 @@ const RolesManagement: React.FC<RolesManagementProps> = () => {
 interface RoleEditModalProps {
   role: Role;
   isArabic: boolean;
+  isMobile: boolean;
   onClose: () => void;
   onSuccess: () => void;
   onError: (message: string) => void;
 }
 
-const RoleEditModal: React.FC<RoleEditModalProps> = ({ role, isArabic, onClose, onSuccess, onError }) => {
+const RoleEditModal: React.FC<RoleEditModalProps> = ({ role, isArabic, isMobile, onClose, onSuccess, onError }) => {
   const [formData, setFormData] = useState({
     name: role.name,
     description: role.description,
@@ -460,16 +472,16 @@ const RoleEditModal: React.FC<RoleEditModalProps> = ({ role, isArabic, onClose, 
       alignItems: 'center',
       justifyContent: 'center',
       zIndex: 9999,
-      padding: '20px',
+      padding: isMobile ? '12px' : '20px',
       direction: isArabic ? 'rtl' : 'ltr',
     }}
     onClick={onClose}>
       <div style={{
         backgroundColor: '#0a1628',
-        borderRadius: '16px',
+        borderRadius: isMobile ? '12px' : '16px',
         maxWidth: '600px',
         width: '100%',
-        maxHeight: '90vh',
+        maxHeight: isMobile ? '95vh' : '90vh',
         overflow: 'auto',
         border: '1px solid rgba(14, 165, 233, 0.3)',
         boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
@@ -477,13 +489,13 @@ const RoleEditModal: React.FC<RoleEditModalProps> = ({ role, isArabic, onClose, 
       onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div style={{
-          padding: '24px',
+          padding: isMobile ? '16px' : '24px',
           borderBottom: '1px solid rgba(14, 165, 233, 0.2)',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
         }}>
-          <h2 style={{ margin: 0, fontSize: '24px', fontWeight: '700', color: '#0EA5E9' }}>
+          <h2 style={{ margin: 0, fontSize: isMobile ? '18px' : '24px', fontWeight: '700', color: '#0EA5E9' }}>
             {t.editRole}: {role.name}
           </h2>
           <button
@@ -501,7 +513,7 @@ const RoleEditModal: React.FC<RoleEditModalProps> = ({ role, isArabic, onClose, 
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} style={{ padding: '24px' }}>
+        <form onSubmit={handleSubmit} style={{ padding: isMobile ? '16px' : '24px' }}>
           {/* Role Name */}
           <div style={{ marginBottom: '20px' }}>
             <label style={{ display: 'block', marginBottom: '8px', color: '#e2e8f0', fontSize: '14px', fontWeight: '600' }}>
@@ -561,14 +573,14 @@ const RoleEditModal: React.FC<RoleEditModalProps> = ({ role, isArabic, onClose, 
           </div>
 
           {/* Menu Access - Simplified Grid */}
-          <div style={{ marginBottom: '24px' }}>
-            <h3 style={{ marginBottom: '16px', color: '#0EA5E9', fontSize: '18px', fontWeight: '600' }}>
+          <div style={{ marginBottom: isMobile ? '16px' : '24px' }}>
+            <h3 style={{ marginBottom: '16px', color: '#0EA5E9', fontSize: isMobile ? '16px' : '18px', fontWeight: '600' }}>
               {t.menuAccess}
             </h3>
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(2, 1fr)',
-              gap: '12px',
+              gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
+              gap: isMobile ? '10px' : '12px',
             }}>
               {menuKeys.map(menuKey => (
                 <label
@@ -606,7 +618,14 @@ const RoleEditModal: React.FC<RoleEditModalProps> = ({ role, isArabic, onClose, 
           </div>
 
           {/* Actions */}
-          <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', paddingTop: '20px', borderTop: '1px solid rgba(14, 165, 233, 0.2)' }}>
+          <div style={{
+            display: 'flex',
+            gap: '12px',
+            justifyContent: isMobile ? 'stretch' : 'flex-end',
+            paddingTop: isMobile ? '16px' : '20px',
+            borderTop: '1px solid rgba(14, 165, 233, 0.2)',
+            flexDirection: isMobile ? 'column' : 'row',
+          }}>
             <button
               type="button"
               onClick={onClose}
