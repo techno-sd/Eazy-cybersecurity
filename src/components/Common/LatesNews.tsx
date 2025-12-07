@@ -21,6 +21,217 @@ interface BlogPost {
   created_at: string;
 }
 
+// Skeleton Card Component for loading state
+const BlogCardSkeleton: React.FC<{ index: number; isArabic: boolean }> = ({ index, isArabic }) => {
+  return (
+    <div
+      style={{
+        width: '100%',
+        opacity: 1,
+        animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`
+      }}
+    >
+      <div
+        style={{
+          borderRadius: '20px',
+          overflow: 'hidden',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          background: '#fff',
+          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.08)',
+        }}
+      >
+        {/* Image Skeleton */}
+        <div style={{
+          position: 'relative',
+          height: '240px',
+          width: '100%',
+          background: 'linear-gradient(135deg, #f0f5f9 0%, #e8f0f7 100%)',
+          overflow: 'hidden'
+        }}>
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+              animation: 'shimmer 1.5s infinite',
+            }}
+          />
+          {/* Category Badge Skeleton */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '16px',
+              right: isArabic ? 'auto' : '16px',
+              left: isArabic ? '16px' : 'auto',
+              width: '80px',
+              height: '32px',
+              background: 'rgba(10, 77, 140, 0.2)',
+              borderRadius: '30px',
+            }}
+          />
+        </div>
+
+        {/* Content Skeleton */}
+        <div style={{ padding: '28px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+          {/* Date Skeleton */}
+          <div
+            style={{
+              width: '100px',
+              height: '14px',
+              background: 'linear-gradient(135deg, #f0f5f9 0%, #e8f0f7 100%)',
+              borderRadius: '4px',
+              marginBottom: '14px',
+              marginLeft: isArabic ? 'auto' : '0',
+              marginRight: isArabic ? '0' : 'auto',
+              position: 'relative',
+              overflow: 'hidden',
+            }}
+          >
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)',
+                animation: 'shimmer 1.5s infinite',
+              }}
+            />
+          </div>
+
+          {/* Title Skeleton - 2 lines */}
+          <div style={{ marginBottom: '12px' }}>
+            <div
+              style={{
+                width: '100%',
+                height: '20px',
+                background: 'linear-gradient(135deg, #f0f5f9 0%, #e8f0f7 100%)',
+                borderRadius: '4px',
+                marginBottom: '8px',
+                position: 'relative',
+                overflow: 'hidden',
+              }}
+            >
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)',
+                  animation: 'shimmer 1.5s infinite',
+                }}
+              />
+            </div>
+            <div
+              style={{
+                width: '70%',
+                height: '20px',
+                background: 'linear-gradient(135deg, #f0f5f9 0%, #e8f0f7 100%)',
+                borderRadius: '4px',
+                marginLeft: isArabic ? 'auto' : '0',
+                marginRight: isArabic ? '0' : 'auto',
+                position: 'relative',
+                overflow: 'hidden',
+              }}
+            >
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)',
+                  animation: 'shimmer 1.5s infinite',
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Description Skeleton - 2 lines */}
+          <div style={{ marginBottom: '20px' }}>
+            <div
+              style={{
+                width: '100%',
+                height: '14px',
+                background: 'linear-gradient(135deg, #f0f5f9 0%, #e8f0f7 100%)',
+                borderRadius: '4px',
+                marginBottom: '8px',
+                position: 'relative',
+                overflow: 'hidden',
+              }}
+            >
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)',
+                  animation: 'shimmer 1.5s infinite',
+                }}
+              />
+            </div>
+            <div
+              style={{
+                width: '85%',
+                height: '14px',
+                background: 'linear-gradient(135deg, #f0f5f9 0%, #e8f0f7 100%)',
+                borderRadius: '4px',
+                marginLeft: isArabic ? 'auto' : '0',
+                marginRight: isArabic ? '0' : 'auto',
+                position: 'relative',
+                overflow: 'hidden',
+              }}
+            >
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)',
+                  animation: 'shimmer 1.5s infinite',
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Button Skeleton */}
+          <div
+            style={{
+              width: '140px',
+              height: '46px',
+              background: 'linear-gradient(135deg, rgba(10, 77, 140, 0.15) 0%, rgba(96, 126, 172, 0.15) 100%)',
+              borderRadius: '12px',
+              position: 'relative',
+              overflow: 'hidden',
+            }}
+          >
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+                animation: 'shimmer 1.5s infinite',
+              }}
+            />
+          </div>
+        </div>
+      </div>
+
+      <style jsx>{`
+        @keyframes shimmer {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
+    </div>
+  );
+};
+
 const LatesNews: React.FC = () => {
   const { lang } = useLang();
   const t = getMessages(lang);
@@ -111,23 +322,15 @@ const LatesNews: React.FC = () => {
           </div>
 
           {loading ? (
-            <div style={{ textAlign: 'center', padding: '60px 0' }}>
-              <div style={{
-                display: 'inline-block',
-                width: '50px',
-                height: '50px',
-                border: '4px solid rgba(10, 77, 140, 0.2)',
-                borderTopColor: '#0A4D8C',
-                borderRadius: '50%',
-                animation: 'spin 1s linear infinite'
-              }}></div>
-              <style jsx>{`
-                @keyframes spin {
-                  0% { transform: rotate(0deg); }
-                  100% { transform: rotate(360deg); }
-                }
-              `}</style>
-            </div>
+            <HorizontalScrollCarousel
+              cardWidth={420}
+              gap={24}
+              showArrows={false}
+            >
+              {[0, 1, 2, 3, 4, 5].map((index) => (
+                <BlogCardSkeleton key={index} index={index} isArabic={isArabic} />
+              ))}
+            </HorizontalScrollCarousel>
           ) : blogPosts.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 0', color: '#666' }}>
               <i className="bx bx-news" style={{ fontSize: '64px', color: '#0A4D8C', opacity: 0.3, marginBottom: '20px' }}></i>
