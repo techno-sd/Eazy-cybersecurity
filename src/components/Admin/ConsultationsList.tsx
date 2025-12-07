@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useMemo, memo, useCallback } from "react";
+import React, { useState, useMemo, memo, useCallback, useEffect } from "react";
 import { useAdminLang } from "@/hooks/useAdminLang";
 import { useToast } from "./Toast";
-import Button, { IconButton } from "./Button";
+import Button, { IconButton, StatusBadge, EmptyState, StatCard } from "./Button";
+import { colors, radius, typography, transitions, spacing, getFontFamily, getDirection } from './theme';
 
 interface Consultation {
   id: number;
@@ -25,6 +26,32 @@ interface ConsultationsListProps {
   consultations: Consultation[];
 }
 
+// Service type mapping - centralized
+const serviceTypeMap = {
+  en: {
+    'ai-solutions': 'AI Solutions',
+    'cybersecurity': 'Cybersecurity',
+    'big-data': 'Big Data & Analytics',
+    'cloud-computing': 'Cloud Computing',
+    'sme-eazy': 'SME-EAZY',
+    'digital-transformation': 'Digital Transformation',
+    'vision-2030': 'Vision 2030',
+    'security-training': 'Security Training',
+    'other': 'Other',
+  },
+  ar: {
+    'ai-solutions': 'حلول الذكاء الاصطناعي',
+    'cybersecurity': 'الأمن السيبراني',
+    'big-data': 'البيانات الضخمة',
+    'cloud-computing': 'الحوسبة السحابية',
+    'sme-eazy': 'SME-EAZY',
+    'digital-transformation': 'التحول الرقمي',
+    'vision-2030': 'رؤية 2030',
+    'security-training': 'التدريب الأمني',
+    'other': 'أخرى',
+  }
+} as const;
+
 const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: initialConsultations }) => {
   const [consultations, setConsultations] = useState(initialConsultations);
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
@@ -38,46 +65,20 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
   const [isMobile, setIsMobile] = useState(false);
   const { showToast } = useToast();
 
-  React.useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
+  const fontFamily = getFontFamily(isArabic);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Service type mapping to match website consultation form
-  const serviceTypeMap = {
-    en: {
-      'ai-solutions': 'AI Solutions',
-      'cybersecurity': 'Cybersecurity Services',
-      'big-data': 'Big Data & Analytics',
-      'cloud-computing': 'Cloud Computing & Hosting',
-      'sme-eazy': 'SME-EAZY Program',
-      'digital-transformation': 'Digital Transformation',
-      'vision-2030': 'Vision 2030 Initiatives',
-      'security-training': 'Security Training & Awareness',
-      'other': 'Other',
-    },
-    ar: {
-      'ai-solutions': 'حلول الذكاء الاصطناعي',
-      'cybersecurity': 'خدمات الأمن السيبراني',
-      'big-data': 'البيانات الضخمة والتحليلات',
-      'cloud-computing': 'الحوسبة السحابية والاستضافة',
-      'sme-eazy': 'برنامج SME-EAZY',
-      'digital-transformation': 'التحول الرقمي',
-      'vision-2030': 'مبادرات رؤية 2030',
-      'security-training': 'التدريب والتوعية الأمنية',
-      'other': 'أخرى',
-    }
-  };
-
-  const getServiceName = (serviceType: string | undefined): string => {
+  const getServiceName = useMemo(() => (serviceType: string | undefined): string => {
     if (!serviceType) return '-';
     const serviceMap = isArabic ? serviceTypeMap.ar : serviceTypeMap.en;
     return serviceMap[serviceType as keyof typeof serviceMap] || serviceType;
-  };
+  }, [isArabic]);
 
   const translations = {
     en: {
@@ -179,26 +180,25 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
     return key ? t[key] : status;
   };
 
-  const getStatusColor = (status: string) => {
-    const colors: Record<string, string> = {
-      pending: '#f59e0b',
-      scheduled: '#3b82f6',
-      completed: '#10b981',
-      cancelled: '#ef4444',
+  const getStatusColor = useMemo(() => (status: string) => {
+    const statusColors: Record<string, string> = {
+      pending: colors.warning,
+      scheduled: colors.info,
+      completed: colors.success,
+      cancelled: colors.danger,
     };
-    return colors[status] || '#6b7280';
-  };
+    return statusColors[status] || colors.textMuted;
+  }, []);
 
-  const formatDate = (dateString: string) => {
+  const formatDate = useMemo(() => (dateString: string) => {
     const date = new Date(dateString);
     return new Intl.DateTimeFormat(isArabic ? "ar-SA" : "en-US", {
       month: "short",
       day: "numeric",
-      year: "numeric",
       hour: "2-digit",
       minute: "2-digit",
     }).format(date);
-  };
+  }, [isArabic]);
 
   const handleStatusUpdate = useCallback(async () => {
     if (!selectedConsultation || !tempStatus || tempStatus === selectedConsultation.status) {
@@ -278,80 +278,75 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
     completed: consultations.filter((c) => c.status === 'completed').length,
   }), [consultations]);
 
+  const inputStyle: React.CSSProperties = {
+    padding: `${spacing.sm} ${spacing.md}`,
+    border: `1px solid ${colors.border}`,
+    borderRadius: radius.lg,
+    fontSize: typography.fontSize.sm,
+    fontFamily,
+    background: colors.surface,
+    color: colors.text,
+    outline: 'none',
+    transition: transitions.fast,
+  };
+
   return (
-    <div style={{ direction: isArabic ? 'rtl' : 'ltr' }}>
+    <div style={{ direction: getDirection(isArabic), fontFamily }}>
       {/* Stats */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)',
-        gap: isMobile ? '12px' : '16px',
-        marginBottom: '24px'
+        gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+        gap: spacing.md,
+        marginBottom: spacing.lg,
       }}>
-        {[
-          { label: t.total, value: stats.total, color: '#0A4D8C' },
-          { label: t.pending, value: stats.pending, color: '#f59e0b' },
-          { label: t.scheduled, value: stats.scheduled, color: '#3b82f6' },
-          { label: t.completed, value: stats.completed, color: '#10b981' },
-        ].map((stat, index) => (
-          <div
-            key={index}
-            style={{
-              background: '#fff',
-              padding: isMobile ? '16px' : '20px',
-              borderRadius: '12px',
-              border: '1px solid #e5e7eb',
-            }}
-          >
-            <div style={{ fontSize: isMobile ? '24px' : '28px', fontWeight: '700', color: stat.color }}>{stat.value}</div>
-            <div style={{ fontSize: isMobile ? '12px' : '14px', color: '#6b7280', marginTop: '4px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>{stat.label}</div>
-          </div>
-        ))}
+        <StatCard label={t.total} value={stats.total} icon="bx-conversation" color={colors.primary} />
+        <StatCard label={t.pending} value={stats.pending} icon="bx-time" color={colors.warning} />
+        <StatCard label={t.scheduled} value={stats.scheduled} icon="bx-calendar-check" color={colors.info} />
+        <StatCard label={t.completed} value={stats.completed} icon="bx-check-circle" color={colors.success} />
       </div>
 
       {/* Filters */}
       <div
         style={{
-          background: '#fff',
-          padding: isMobile ? '16px' : '20px',
-          borderRadius: '12px',
-          marginBottom: '20px',
-          border: '1px solid #e5e7eb',
+          background: colors.surface,
+          padding: spacing.md,
+          borderRadius: radius.xl,
+          marginBottom: spacing.lg,
+          border: `1px solid ${colors.border}`,
           display: 'flex',
-          gap: isMobile ? '12px' : '16px',
+          gap: spacing.sm,
           flexWrap: 'wrap',
           alignItems: 'center',
-          flexDirection: isMobile ? 'column' : 'row',
         }}
       >
-        <input
-          type="text"
-          placeholder={t.searchPlaceholder}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          style={{
-            flex: isMobile ? 'unset' : 1,
-            width: isMobile ? '100%' : 'auto',
-            minWidth: isMobile ? 'unset' : '250px',
-            padding: isMobile ? '12px 16px' : '10px 16px',
-            border: '1px solid #e5e7eb',
-            borderRadius: '8px',
-            fontSize: isMobile ? '15px' : '14px',
-            direction: isArabic ? 'rtl' : 'ltr',
-            fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-          }}
-        />
+        <div style={{ flex: 1, minWidth: '200px', position: 'relative' }}>
+          <i className="bx bx-search" style={{
+            position: 'absolute',
+            left: isArabic ? 'auto' : spacing.sm,
+            right: isArabic ? spacing.sm : 'auto',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            color: colors.textMuted,
+            fontSize: '18px',
+          }} />
+          <input
+            type="text"
+            placeholder={t.searchPlaceholder}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{
+              ...inputStyle,
+              width: '100%',
+              paddingLeft: isArabic ? spacing.md : spacing.xl,
+              paddingRight: isArabic ? spacing.xl : spacing.md,
+            }}
+          />
+        </div>
 
         <select
           value={filterStatus}
           onChange={(e) => setFilterStatus(e.target.value)}
-          style={{
-            width: isMobile ? '100%' : 'auto',
-            padding: isMobile ? '12px 16px' : '10px 16px',
-            border: '1px solid #e5e7eb',
-            borderRadius: '8px',
-            fontSize: isMobile ? '15px' : '14px',
-            fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-          }}
+          style={{ ...inputStyle, minWidth: '140px' }}
         >
           <option value="all">{t.allStatuses}</option>
           <option value="pending">{t.statusPending}</option>
@@ -363,168 +358,84 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
         <select
           value={filterService}
           onChange={(e) => setFilterService(e.target.value)}
-          style={{
-            width: isMobile ? '100%' : 'auto',
-            padding: isMobile ? '12px 16px' : '10px 16px',
-            border: '1px solid #e5e7eb',
-            borderRadius: '8px',
-            fontSize: isMobile ? '15px' : '14px',
-            fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-            minWidth: isMobile ? 'unset' : '180px',
-          }}
+          style={{ ...inputStyle, minWidth: '160px' }}
         >
           <option value="all">{t.allServices}</option>
-          <option value="ai-solutions">{isArabic ? 'حلول الذكاء الاصطناعي' : 'AI Solutions'}</option>
-          <option value="cybersecurity">{isArabic ? 'خدمات الأمن السيبراني' : 'Cybersecurity'}</option>
-          <option value="big-data">{isArabic ? 'البيانات الضخمة' : 'Big Data & Analytics'}</option>
-          <option value="cloud-computing">{isArabic ? 'الحوسبة السحابية' : 'Cloud Computing'}</option>
-          <option value="sme-eazy">{isArabic ? 'برنامج SME-EAZY' : 'SME-EAZY'}</option>
-          <option value="digital-transformation">{isArabic ? 'التحول الرقمي' : 'Digital Transformation'}</option>
-          <option value="vision-2030">{isArabic ? 'رؤية 2030' : 'Vision 2030'}</option>
-          <option value="security-training">{isArabic ? 'التدريب الأمني' : 'Security Training'}</option>
-          <option value="other">{isArabic ? 'أخرى' : 'Other'}</option>
+          {Object.entries(isArabic ? serviceTypeMap.ar : serviceTypeMap.en).map(([key, value]) => (
+            <option key={key} value={key}>{value}</option>
+          ))}
         </select>
       </div>
 
       {/* Consultations Table/Cards */}
       {isMobile ? (
         // Mobile Card View
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: spacing.sm }}>
           {filteredConsultations.length === 0 ? (
             <div style={{
-              background: '#fff',
-              padding: '40px 20px',
-              borderRadius: '12px',
-              border: '1px solid #e5e7eb',
-              textAlign: 'center',
-              color: '#9ca3af',
-              fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+              background: colors.surface,
+              borderRadius: radius.xl,
+              border: `1px solid ${colors.border}`,
+              padding: spacing.xl,
             }}>
-              {t.noConsultations}
+              <EmptyState icon="bx-message-x" title={t.noConsultations} />
             </div>
           ) : (
             filteredConsultations.map((consultation) => (
               <div
                 key={consultation.id}
                 style={{
-                  background: '#fff',
-                  borderRadius: '12px',
-                  border: '1px solid #e5e7eb',
-                  padding: '16px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '12px',
+                  background: colors.surface,
+                  borderRadius: radius.lg,
+                  border: `1px solid ${colors.border}`,
+                  padding: spacing.md,
                 }}
               >
-                {/* Name and Status */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: spacing.sm }}>
                   <div>
                     <div style={{
-                      fontWeight: '600',
-                      color: '#1a1a1a',
-                      marginBottom: '4px',
-                      fontSize: '15px',
-                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                      fontWeight: typography.fontWeight.medium,
+                      color: colors.text,
+                      fontSize: typography.fontSize.base,
                     }}>
                       {consultation.contact_person}
                     </div>
                     {consultation.company_name && (
-                      <div style={{ fontSize: '12px', color: '#6b7280', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                      <div style={{ fontSize: typography.fontSize.sm, color: colors.textMuted }}>
                         {consultation.company_name}
                       </div>
                     )}
                   </div>
-                  <span
-                    style={{
-                      padding: '4px 12px',
-                      borderRadius: '12px',
-                      fontSize: '11px',
-                      fontWeight: '600',
-                      textTransform: isArabic ? 'none' : 'uppercase',
-                      background: `${getStatusColor(consultation.status)}20`,
-                      color: getStatusColor(consultation.status),
-                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    {getStatusLabel(consultation.status)}
-                  </span>
+                  <StatusBadge
+                    status={consultation.status}
+                    customLabels={{ [consultation.status]: getStatusLabel(consultation.status) }}
+                  />
                 </div>
 
-                {/* Meta Info Grid */}
                 <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
-                  gap: '12px',
-                  paddingTop: '12px',
-                  borderTop: '1px solid #f3f4f6',
+                  display: 'flex',
+                  gap: spacing.lg,
+                  fontSize: typography.fontSize.sm,
+                  color: colors.textMuted,
+                  marginBottom: spacing.sm,
                 }}>
-                  <div>
-                    <div style={{
-                      fontSize: '11px',
-                      color: '#6b7280',
-                      marginBottom: '4px',
-                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-                      textTransform: isArabic ? 'none' : 'uppercase',
-                    }}>{t.service}</div>
-                    <div style={{
-                      fontSize: '13px',
-                      color: '#374151',
-                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-                    }}>{getServiceName(consultation.service_type)}</div>
-                  </div>
-
-                  <div>
-                    <div style={{
-                      fontSize: '11px',
-                      color: '#6b7280',
-                      marginBottom: '4px',
-                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-                      textTransform: isArabic ? 'none' : 'uppercase',
-                    }}>{t.date}</div>
-                    <div style={{ fontSize: '13px', color: '#6b7280' }}>
-                      {formatDate(consultation.created_at)}
-                    </div>
-                  </div>
-
-                  <div style={{ gridColumn: '1 / -1' }}>
-                    <div style={{
-                      fontSize: '11px',
-                      color: '#6b7280',
-                      marginBottom: '4px',
-                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-                      textTransform: isArabic ? 'none' : 'uppercase',
-                    }}>{t.contact}</div>
-                    <div style={{ fontSize: '13px', color: '#374151', direction: 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
-                      <div style={{ marginBottom: '2px' }}>
-                        <i className="bx bx-envelope" style={{ [isArabic ? 'marginLeft' : 'marginRight']: '6px' }}></i>
-                        {consultation.email}
-                      </div>
-                      {consultation.phone && (
-                        <div>
-                          <i className="bx bx-phone" style={{ [isArabic ? 'marginLeft' : 'marginRight']: '6px' }}></i>
-                          {consultation.phone}
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                  <span>{getServiceName(consultation.service_type)}</span>
+                  <span>{formatDate(consultation.created_at)}</span>
                 </div>
 
-                {/* Action Button */}
-                <div style={{
-                  paddingTop: '12px',
-                  borderTop: '1px solid #f3f4f6',
-                }}>
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    icon="bx-show"
-                    onClick={() => setSelectedConsultation(consultation)}
-                    fullWidth
-                  >
-                    {t.view}
-                  </Button>
+                <div style={{ fontSize: typography.fontSize.sm, color: colors.textSecondary, marginBottom: spacing.md }}>
+                  {consultation.email}
                 </div>
+
+                <Button
+                  variant="outline"
+                  size="sm"
+                  icon="bx-show"
+                  onClick={() => setSelectedConsultation(consultation)}
+                  fullWidth
+                >
+                  {t.view}
+                </Button>
               </div>
             ))
           )}
@@ -533,98 +444,83 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
         // Desktop Table View
         <div
           style={{
-            background: '#fff',
-            borderRadius: '12px',
-            border: '1px solid #e5e7eb',
+            background: colors.surface,
+            borderRadius: radius.xl,
+            border: `1px solid ${colors.border}`,
             overflow: 'hidden',
           }}
         >
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead style={{ background: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
+              <thead style={{ background: colors.background, borderBottom: `1px solid ${colors.border}` }}>
                 <tr>
-                  <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                    {t.name}
-                  </th>
-                  <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                    {t.contact}
-                  </th>
-                  <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                    {t.service}
-                  </th>
-                  <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                    {t.status}
-                  </th>
-                  <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                    {t.date}
-                  </th>
-                  <th style={{ padding: '16px', textAlign: isArabic ? 'right' : 'left', fontSize: '12px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                    {t.actions}
-                  </th>
+                  {[t.name, t.contact, t.service, t.status, t.date, t.actions].map((header, idx) => (
+                    <th key={idx} style={{
+                      padding: spacing.md,
+                      textAlign: isArabic ? 'right' : 'left',
+                      fontSize: typography.fontSize.xs,
+                      fontWeight: typography.fontWeight.semibold,
+                      color: colors.textMuted,
+                      textTransform: 'uppercase',
+                    }}>
+                      {header}
+                    </th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
                 {filteredConsultations.length === 0 ? (
                   <tr>
-                    <td colSpan={6} style={{ padding: '40px', textAlign: 'center', color: '#9ca3af', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                      {t.noConsultations}
+                    <td colSpan={6} style={{ padding: spacing.xl }}>
+                      <EmptyState icon="bx-message-x" title={t.noConsultations} />
                     </td>
                   </tr>
                 ) : (
                   filteredConsultations.map((consultation) => (
                     <tr
                       key={consultation.id}
-                      style={{ borderBottom: '1px solid #e5e7eb' }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = '#f9fafb';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = '#fff';
+                      style={{
+                        borderBottom: `1px solid ${colors.border}`,
+                        transition: transitions.fast,
                       }}
                     >
-                      <td style={{ padding: '16px' }}>
-                        <div style={{ fontWeight: '600', color: '#1a1a1a', marginBottom: '4px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                      <td style={{ padding: spacing.md }}>
+                        <div style={{
+                          fontWeight: typography.fontWeight.medium,
+                          color: colors.text,
+                          fontSize: typography.fontSize.sm,
+                        }}>
                           {consultation.contact_person}
                         </div>
                         {consultation.company_name && (
-                          <div style={{ fontSize: '12px', color: '#6b7280', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>{consultation.company_name}</div>
+                          <div style={{ fontSize: typography.fontSize.xs, color: colors.textMuted }}>
+                            {consultation.company_name}
+                          </div>
                         )}
                       </td>
-                      <td style={{ padding: '16px' }}>
-                        <div style={{ fontSize: '13px', color: '#374151', marginBottom: '2px', direction: 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
-                          <i className="bx bx-envelope" style={{ [isArabic ? 'marginLeft' : 'marginRight']: '6px' }}></i>
+                      <td style={{ padding: spacing.md }}>
+                        <div style={{ fontSize: typography.fontSize.sm, color: colors.textSecondary }}>
                           {consultation.email}
                         </div>
                         {consultation.phone && (
-                          <div style={{ fontSize: '13px', color: '#374151', direction: 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
-                            <i className="bx bx-phone" style={{ [isArabic ? 'marginLeft' : 'marginRight']: '6px' }}></i>
+                          <div style={{ fontSize: typography.fontSize.xs, color: colors.textMuted }}>
                             {consultation.phone}
                           </div>
                         )}
                       </td>
-                      <td style={{ padding: '16px', fontSize: '13px', color: '#374151', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                      <td style={{ padding: spacing.md, fontSize: typography.fontSize.sm, color: colors.textSecondary }}>
                         {getServiceName(consultation.service_type)}
                       </td>
-                      <td style={{ padding: '16px' }}>
-                        <span
-                          style={{
-                            padding: '4px 12px',
-                            borderRadius: '12px',
-                            fontSize: '11px',
-                            fontWeight: '600',
-                            textTransform: isArabic ? 'none' : 'uppercase',
-                            background: `${getStatusColor(consultation.status)}20`,
-                            color: getStatusColor(consultation.status),
-                            fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-                          }}
-                        >
-                          {getStatusLabel(consultation.status)}
-                        </span>
+                      <td style={{ padding: spacing.md }}>
+                        <StatusBadge
+                          status={consultation.status}
+                          customLabels={{ [consultation.status]: getStatusLabel(consultation.status) }}
+                        />
                       </td>
-                      <td style={{ padding: '16px', fontSize: '13px', color: '#6b7280' }}>
+                      <td style={{ padding: spacing.md, fontSize: typography.fontSize.sm, color: colors.textMuted }}>
                         {formatDate(consultation.created_at)}
                       </td>
-                      <td style={{ padding: '16px' }}>
+                      <td style={{ padding: spacing.md }}>
                         <IconButton
                           icon="bx-show"
                           variant="primary"
@@ -656,232 +552,173 @@ const ConsultationsList: React.FC<ConsultationsListProps> = ({ consultations: in
             alignItems: 'center',
             justifyContent: 'center',
             zIndex: 9999,
-            padding: isMobile ? '12px' : '20px',
+            padding: spacing.lg,
           }}
           onClick={() => setSelectedConsultation(null)}
         >
           <div
             style={{
-              background: '#fff',
-              borderRadius: isMobile ? '12px' : '16px',
-              maxWidth: '700px',
+              background: colors.surface,
+              borderRadius: radius.xl,
+              maxWidth: '640px',
               width: '100%',
-              maxHeight: isMobile ? '95vh' : '90vh',
+              maxHeight: '90vh',
               overflow: 'auto',
-              padding: isMobile ? '20px' : '32px',
-              direction: isArabic ? 'rtl' : 'ltr',
+              padding: spacing.xl,
+              direction: getDirection(isArabic),
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: isMobile ? '16px' : '24px' }}>
-              <h2 style={{ margin: 0, fontSize: isMobile ? '18px' : '24px', fontWeight: '700', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.lg }}>
+              <h2 style={{
+                margin: 0,
+                fontSize: typography.fontSize.xl,
+                fontWeight: typography.fontWeight.semibold,
+                color: colors.text,
+              }}>
                 {t.consultationDetails}
               </h2>
-              <button
+              <IconButton
+                icon="bx-x"
+                variant="default"
                 onClick={() => setSelectedConsultation(null)}
-                style={{
-                  background: '#f3f4f6',
-                  border: 'none',
-                  borderRadius: '8px',
-                  width: '36px',
-                  height: '36px',
-                  cursor: 'pointer',
-                  fontSize: '20px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                }}
-              >
-                <i className="bx bx-x"></i>
-              </button>
+              />
             </div>
 
-            <div style={{ marginBottom: isMobile ? '16px' : '24px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? '12px' : '16px', marginBottom: isMobile ? '16px' : '20px' }}>
-                <div>
-                  <label style={{ fontSize: '12px', color: '#6b7280', fontWeight: '600', display: 'block', marginBottom: '6px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                    {t.name}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: spacing.md, marginBottom: spacing.lg }}>
+              {[
+                { label: t.name, value: selectedConsultation.contact_person },
+                { label: t.company, value: selectedConsultation.company_name || '-' },
+                { label: t.email, value: selectedConsultation.email, isLink: `mailto:${selectedConsultation.email}` },
+                { label: t.phone, value: selectedConsultation.phone || '-', isLink: selectedConsultation.phone ? `tel:${selectedConsultation.phone}` : undefined },
+                { label: t.serviceType, value: getServiceName(selectedConsultation.service_type) },
+                { label: t.createdAt, value: formatDate(selectedConsultation.created_at) },
+              ].map((field, idx) => (
+                <div key={idx}>
+                  <label style={{
+                    fontSize: typography.fontSize.xs,
+                    color: colors.textMuted,
+                    fontWeight: typography.fontWeight.medium,
+                    display: 'block',
+                    marginBottom: spacing.xs,
+                    textTransform: 'uppercase',
+                  }}>
+                    {field.label}
                   </label>
-                  <div style={{ fontSize: '15px', color: '#1a1a1a', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>{selectedConsultation.contact_person}</div>
-                </div>
-                <div>
-                  <label style={{ fontSize: '12px', color: '#6b7280', fontWeight: '600', display: 'block', marginBottom: '6px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                    {t.company}
-                  </label>
-                  <div style={{ fontSize: '15px', color: '#1a1a1a', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                    {selectedConsultation.company_name || '-'}
-                  </div>
-                </div>
-                <div>
-                  <label style={{ fontSize: '12px', color: '#6b7280', fontWeight: '600', display: 'block', marginBottom: '6px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                    {t.email}
-                  </label>
-                  <div style={{ fontSize: '15px', color: '#1a1a1a', direction: 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
-                    <a href={`mailto:${selectedConsultation.email}`} style={{ color: '#0A4D8C' }}>
-                      {selectedConsultation.email}
+                  {field.isLink ? (
+                    <a href={field.isLink} style={{ color: colors.primary, fontSize: typography.fontSize.sm, textDecoration: 'none' }}>
+                      {field.value}
                     </a>
-                  </div>
+                  ) : (
+                    <div style={{ fontSize: typography.fontSize.sm, color: colors.text }}>{field.value}</div>
+                  )}
                 </div>
-                <div>
-                  <label style={{ fontSize: '12px', color: '#6b7280', fontWeight: '600', display: 'block', marginBottom: '6px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                    {t.phone}
-                  </label>
-                  <div style={{ fontSize: '15px', color: '#1a1a1a', direction: 'ltr', textAlign: isArabic ? 'right' : 'left' }}>
-                    {selectedConsultation.phone ? (
-                      <a href={`tel:${selectedConsultation.phone}`} style={{ color: '#0A4D8C' }}>
-                        {selectedConsultation.phone}
-                      </a>
-                    ) : (
-                      '-'
-                    )}
-                  </div>
-                </div>
-                <div>
-                  <label style={{ fontSize: '12px', color: '#6b7280', fontWeight: '600', display: 'block', marginBottom: '6px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                    {t.serviceType}
-                  </label>
-                  <div style={{ fontSize: '15px', color: '#1a1a1a', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                    {selectedConsultation.service_type || '-'}
-                  </div>
-                </div>
-                <div>
-                  <label style={{ fontSize: '12px', color: '#6b7280', fontWeight: '600', display: 'block', marginBottom: '6px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                    {t.createdAt}
-                  </label>
-                  <div style={{ fontSize: '15px', color: '#1a1a1a' }}>
-                    {formatDate(selectedConsultation.created_at)}
-                  </div>
-                </div>
-              </div>
+              ))}
+            </div>
 
-              <div style={{ marginBottom: '20px' }}>
-                <label style={{ fontSize: '12px', color: '#6b7280', fontWeight: '600', display: 'block', marginBottom: '6px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                  {t.description}
-                </label>
-                <div
+            <div style={{ marginBottom: spacing.lg }}>
+              <label style={{
+                fontSize: typography.fontSize.xs,
+                color: colors.textMuted,
+                fontWeight: typography.fontWeight.medium,
+                display: 'block',
+                marginBottom: spacing.xs,
+                textTransform: 'uppercase',
+              }}>
+                {t.description}
+              </label>
+              <div
+                style={{
+                  fontSize: typography.fontSize.sm,
+                  color: colors.text,
+                  padding: spacing.md,
+                  background: colors.background,
+                  borderRadius: radius.lg,
+                  lineHeight: '1.6',
+                  border: `1px solid ${colors.border}`,
+                }}
+              >
+                {selectedConsultation.description}
+              </div>
+            </div>
+
+            <div style={{ marginBottom: spacing.lg }}>
+              <label style={{
+                fontSize: typography.fontSize.xs,
+                color: colors.textMuted,
+                fontWeight: typography.fontWeight.medium,
+                display: 'block',
+                marginBottom: spacing.sm,
+                textTransform: 'uppercase',
+              }}>
+                {t.status}
+              </label>
+              <div style={{ display: 'flex', gap: spacing.sm, alignItems: 'center', flexWrap: 'wrap' }}>
+                <select
+                  value={tempStatus || selectedConsultation.status}
+                  onChange={(e) => setTempStatus(e.target.value as Consultation['status'])}
+                  disabled={isUpdating}
                   style={{
-                    fontSize: '15px',
-                    color: '#1a1a1a',
-                    padding: '16px',
-                    background: '#f9fafb',
-                    borderRadius: '8px',
-                    lineHeight: '1.6',
-                    fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                    ...inputStyle,
+                    color: getStatusColor(tempStatus || selectedConsultation.status),
+                    fontWeight: typography.fontWeight.medium,
+                    minWidth: '160px',
                   }}
                 >
-                  {selectedConsultation.description}
-                </div>
-              </div>
+                  <option value="pending">{t.statusPending}</option>
+                  <option value="scheduled">{t.statusScheduled}</option>
+                  <option value="completed">{t.statusCompleted}</option>
+                  <option value="cancelled">{t.statusCancelled}</option>
+                </select>
 
-              {(selectedConsultation.budget || selectedConsultation.preferred_date) && (
-                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? '12px' : '16px', marginBottom: isMobile ? '16px' : '20px' }}>
-                  {selectedConsultation.budget && (
-                    <div>
-                      <label style={{ fontSize: '12px', color: '#6b7280', fontWeight: '600', display: 'block', marginBottom: '6px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                        {t.budget}
-                      </label>
-                      <div style={{ fontSize: '15px', color: '#1a1a1a', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                        {selectedConsultation.budget}
-                      </div>
-                    </div>
-                  )}
-                  {selectedConsultation.preferred_date && (
-                    <div>
-                      <label style={{ fontSize: '12px', color: '#6b7280', fontWeight: '600', display: 'block', marginBottom: '6px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                        {t.preferredDate}
-                      </label>
-                      <div style={{ fontSize: '15px', color: '#1a1a1a' }}>
-                        {formatDate(selectedConsultation.preferred_date)}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              <div>
-                <label style={{ fontSize: '12px', color: '#6b7280', fontWeight: '600', display: 'block', marginBottom: '8px', fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
-                  {t.status}
-                </label>
-                <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                  <select
-                    value={tempStatus || selectedConsultation.status}
-                    onChange={(e) => setTempStatus(e.target.value as Consultation['status'])}
+                {tempStatus && tempStatus !== selectedConsultation.status && (
+                  <Button
+                    variant="success"
+                    size="sm"
+                    icon="bx-check"
+                    onClick={handleStatusUpdate}
+                    loading={isUpdating}
                     disabled={isUpdating}
-                    style={{
-                      padding: '10px 16px',
-                      borderRadius: '8px',
-                      border: '1px solid #e5e7eb',
-                      fontSize: '14px',
-                      fontWeight: '600',
-                      background: '#fff',
-                      color: getStatusColor(tempStatus || selectedConsultation.status),
-                      cursor: isUpdating ? 'not-allowed' : 'pointer',
-                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-                      flex: 1,
-                      maxWidth: '200px',
-                    }}
                   >
-                    <option value="pending">{t.statusPending}</option>
-                    <option value="scheduled">{t.statusScheduled}</option>
-                    <option value="completed">{t.statusCompleted}</option>
-                    <option value="cancelled">{t.statusCancelled}</option>
-                  </select>
-
-                  {tempStatus && tempStatus !== selectedConsultation.status && (
-                    <Button
-                      variant="success"
-                      size="sm"
-                      icon="bx-check"
-                      onClick={handleStatusUpdate}
-                      loading={isUpdating}
-                      disabled={isUpdating}
-                    >
-                      {t.updateStatus}
-                    </Button>
-                  )}
-                </div>
+                    {t.updateStatus}
+                  </Button>
+                )}
               </div>
             </div>
 
             <div style={{
               display: 'flex',
-              gap: '12px',
+              gap: spacing.sm,
               justifyContent: 'space-between',
-              marginTop: isMobile ? '16px' : '20px',
-              flexDirection: isMobile ? 'column' : 'row',
+              paddingTop: spacing.lg,
+              borderTop: `1px solid ${colors.border}`,
             }}>
-              <div style={{ order: isMobile ? 2 : 1 }}>
-                <Button
-                  variant="danger"
-                  size={isMobile ? 'sm' : 'md'}
-                  icon="bx-trash"
-                  onClick={() => handleDelete(selectedConsultation.id)}
-                  disabled={isUpdating}
-                  fullWidth={isMobile}
-                >
-                  {deleteConfirm === selectedConsultation.id ? t.confirmDelete : t.delete}
-                </Button>
-              </div>
+              <Button
+                variant="danger"
+                size="sm"
+                icon="bx-trash"
+                onClick={() => handleDelete(selectedConsultation.id)}
+                disabled={isUpdating}
+              >
+                {deleteConfirm === selectedConsultation.id ? t.confirmDelete : t.delete}
+              </Button>
 
-              <div style={{ display: 'flex', gap: '12px', order: isMobile ? 1 : 2, flexDirection: isMobile ? 'column' : 'row' }}>
+              <div style={{ display: 'flex', gap: spacing.sm }}>
                 {deleteConfirm === selectedConsultation.id && (
                   <Button
                     variant="secondary"
-                    size={isMobile ? 'sm' : 'md'}
+                    size="sm"
                     onClick={() => setDeleteConfirm(null)}
                     disabled={isUpdating}
-                    fullWidth={isMobile}
                   >
                     {t.cancel}
                   </Button>
                 )}
                 <Button
                   variant="primary"
-                  size={isMobile ? 'sm' : 'md'}
+                  size="sm"
                   onClick={() => setSelectedConsultation(null)}
                   disabled={isUpdating}
-                  fullWidth={isMobile}
                 >
                   {t.close}
                 </Button>

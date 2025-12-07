@@ -321,8 +321,10 @@ const BlogPostsList: React.FC<BlogPostsListProps> = ({ posts: initialPosts, user
             onChange={(e) => setSearchTerm(e.target.value)}
             style={{
               width: '100%',
-              padding: '10px 12px',
-              [isArabic ? 'paddingRight' : 'paddingLeft']: '40px',
+              paddingTop: '10px',
+              paddingBottom: '10px',
+              paddingLeft: isArabic ? '12px' : '40px',
+              paddingRight: isArabic ? '40px' : '12px',
               border: `1px solid ${colors.border}`,
               borderRadius: '6px',
               fontSize: '14px',

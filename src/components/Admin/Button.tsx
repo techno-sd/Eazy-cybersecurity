@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, forwardRef } from 'react';
+import React, { useState, forwardRef, useMemo } from 'react';
+import { colors, radius, transitions, typography } from './theme';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'ghost' | 'outline';
-export type ButtonSize = 'sm' | 'md' | 'lg';
+export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
@@ -16,77 +17,69 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   'aria-label'?: string;
 }
 
+// Minimalist variant styles - flat design with subtle depth
 const variantStyles: Record<ButtonVariant, {
   bg: string;
   hoverBg: string;
+  activeBg: string;
   color: string;
   border: string;
-  shadow: string;
-  hoverShadow: string;
 }> = {
   primary: {
-    bg: 'linear-gradient(135deg, #0A4D8C 0%, #073D6C 100%)',
-    hoverBg: 'linear-gradient(135deg, #073D6C 0%, #052A4F 100%)',
+    bg: colors.primary,
+    hoverBg: colors.primaryHover,
+    activeBg: colors.primaryDark,
     color: '#ffffff',
     border: 'none',
-    shadow: '0 4px 14px rgba(10, 77, 140, 0.35)',
-    hoverShadow: '0 6px 20px rgba(10, 77, 140, 0.45)',
   },
   secondary: {
-    bg: 'linear-gradient(135deg, #607EAC 0%, #4A6489 100%)',
-    hoverBg: 'linear-gradient(135deg, #4A6489 0%, #3D526F 100%)',
-    color: '#ffffff',
+    bg: colors.surfaceHover,
+    hoverBg: colors.borderDark,
+    activeBg: colors.border,
+    color: colors.textSecondary,
     border: 'none',
-    shadow: '0 4px 14px rgba(96, 126, 172, 0.35)',
-    hoverShadow: '0 6px 20px rgba(96, 126, 172, 0.45)',
   },
   success: {
-    bg: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-    hoverBg: 'linear-gradient(135deg, #059669 0%, #047857 100%)',
+    bg: colors.success,
+    hoverBg: colors.successDark,
+    activeBg: '#15803d',
     color: '#ffffff',
     border: 'none',
-    shadow: '0 4px 14px rgba(16, 185, 129, 0.35)',
-    hoverShadow: '0 6px 20px rgba(16, 185, 129, 0.45)',
   },
   danger: {
-    bg: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
-    hoverBg: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)',
+    bg: colors.danger,
+    hoverBg: colors.dangerDark,
+    activeBg: '#b91c1c',
     color: '#ffffff',
     border: 'none',
-    shadow: '0 4px 14px rgba(239, 68, 68, 0.35)',
-    hoverShadow: '0 6px 20px rgba(239, 68, 68, 0.45)',
   },
   warning: {
-    bg: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-    hoverBg: 'linear-gradient(135deg, #d97706 0%, #b45309 100%)',
+    bg: colors.warning,
+    hoverBg: colors.warningDark,
+    activeBg: '#b45309',
     color: '#ffffff',
     border: 'none',
-    shadow: '0 4px 14px rgba(245, 158, 11, 0.35)',
-    hoverShadow: '0 6px 20px rgba(245, 158, 11, 0.45)',
   },
   info: {
-    bg: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
-    hoverBg: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
+    bg: colors.info,
+    hoverBg: colors.infoDark,
+    activeBg: colors.primaryDark,
     color: '#ffffff',
     border: 'none',
-    shadow: '0 4px 14px rgba(59, 130, 246, 0.35)',
-    hoverShadow: '0 6px 20px rgba(59, 130, 246, 0.45)',
   },
   ghost: {
     bg: 'transparent',
-    hoverBg: 'rgba(10, 77, 140, 0.08)',
-    color: '#0A4D8C',
+    hoverBg: colors.primaryLight,
+    activeBg: 'rgba(59, 130, 246, 0.15)',
+    color: colors.primary,
     border: 'none',
-    shadow: 'none',
-    hoverShadow: 'none',
   },
   outline: {
     bg: 'transparent',
-    hoverBg: 'rgba(10, 77, 140, 0.05)',
-    color: '#0A4D8C',
-    border: '2px solid #0A4D8C',
-    shadow: 'none',
-    hoverShadow: '0 4px 14px rgba(10, 77, 140, 0.15)',
+    hoverBg: colors.primaryLight,
+    activeBg: 'rgba(59, 130, 246, 0.15)',
+    color: colors.primary,
+    border: `1px solid ${colors.primary}`,
   },
 };
 
@@ -95,24 +88,35 @@ const sizeStyles: Record<ButtonSize, {
   fontSize: string;
   iconSize: string;
   borderRadius: string;
+  gap: string;
 }> = {
+  xs: {
+    padding: '6px 10px',
+    fontSize: '12px',
+    iconSize: '14px',
+    borderRadius: radius.md,
+    gap: '4px',
+  },
   sm: {
-    padding: '8px 14px',
+    padding: '8px 12px',
     fontSize: '13px',
     iconSize: '16px',
-    borderRadius: '8px',
+    borderRadius: radius.md,
+    gap: '6px',
   },
   md: {
-    padding: '12px 20px',
+    padding: '10px 16px',
     fontSize: '14px',
     iconSize: '18px',
-    borderRadius: '10px',
+    borderRadius: radius.lg,
+    gap: '8px',
   },
   lg: {
-    padding: '14px 28px',
+    padding: '12px 20px',
     fontSize: '15px',
     iconSize: '20px',
-    borderRadius: '12px',
+    borderRadius: radius.lg,
+    gap: '8px',
   },
 };
 
@@ -150,56 +154,41 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     onMouseLeave?.(e);
   };
 
-  // Generate aria-label if icon-only button
   const computedAriaLabel = ariaLabel || (icon && !children ? `${icon.replace('bx-', '')} button` : undefined);
 
-  const buttonStyle: React.CSSProperties = {
+  const buttonStyle = useMemo<React.CSSProperties>(() => ({
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: '8px',
+    gap: sizeStyle.gap,
     padding: sizeStyle.padding,
     fontSize: sizeStyle.fontSize,
-    fontWeight: 600,
+    fontWeight: typography.fontWeight.medium,
     borderRadius: sizeStyle.borderRadius,
     border: variantStyle.border,
     background: isDisabled
-      ? '#e5e7eb'
-      : isHovered
-        ? variantStyle.hoverBg
-        : variantStyle.bg,
-    color: isDisabled ? '#9ca3af' : variantStyle.color,
-    cursor: isDisabled ? 'not-allowed' : 'pointer',
-    transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-    transform: isDisabled
-      ? 'none'
+      ? colors.border
       : isPressed
-        ? 'translateY(1px) scale(0.98)'
+        ? variantStyle.activeBg
         : isHovered
-          ? 'translateY(-2px)'
-          : 'translateY(0)',
-    boxShadow: isDisabled
-      ? 'none'
-      : isHovered
-        ? variantStyle.hoverShadow
-        : variantStyle.shadow,
+          ? variantStyle.hoverBg
+          : variantStyle.bg,
+    color: isDisabled ? colors.textMuted : variantStyle.color,
+    cursor: isDisabled ? 'not-allowed' : 'pointer',
+    transition: transitions.normal,
+    transform: isPressed && !isDisabled ? 'scale(0.98)' : 'scale(1)',
     width: fullWidth ? '100%' : 'auto',
-    opacity: isDisabled ? 0.7 : 1,
-    position: 'relative',
-    overflow: 'hidden',
-    outline: isFocused ? `3px solid ${variant === 'outline' || variant === 'ghost' ? '#0A4D8C' : 'rgba(255, 255, 255, 0.8)'}` : 'none',
-    outlineOffset: '2px',
+    opacity: isDisabled ? 0.6 : 1,
+    outline: 'none',
+    boxShadow: isFocused ? `0 0 0 3px ${colors.primaryLight}` : 'none',
+    whiteSpace: 'nowrap',
     ...style,
-  };
+  }), [isHovered, isPressed, isFocused, isDisabled, variantStyle, sizeStyle, fullWidth, style]);
 
   const iconElement = icon && !loading && (
     <i
       className={`bx ${icon}`}
-      style={{
-        fontSize: sizeStyle.iconSize,
-        transition: 'transform 0.2s ease',
-        transform: isHovered && !isDisabled ? 'scale(1.1)' : 'scale(1)',
-      }}
+      style={{ fontSize: sizeStyle.iconSize }}
       aria-hidden="true"
     />
   );
@@ -213,172 +202,43 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   );
 
   return (
-    <>
-      <style>{`
-        @keyframes buttonRipple {
-          0% {
-            transform: scale(0);
-            opacity: 0.5;
-          }
-          100% {
-            transform: scale(4);
-            opacity: 0;
-          }
-        }
-        .admin-btn::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-        .admin-btn:hover::after {
-          opacity: 1;
-        }
-        .admin-btn:active::after {
-          opacity: 0;
-        }
-      `}</style>
-      <button
-        ref={ref}
-        className="admin-btn"
-        style={buttonStyle}
-        disabled={isDisabled}
-        aria-label={computedAriaLabel}
-        aria-busy={loading}
-        aria-disabled={isDisabled}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onMouseDown={() => setIsPressed(true)}
-        onMouseUp={() => setIsPressed(false)}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        {...props}
-      >
-        {loading && <span className="sr-only">Loading...</span>}
-        {iconPosition === 'left' && (loadingSpinner || iconElement)}
-        {children}
-        {iconPosition === 'right' && (loadingSpinner || iconElement)}
-      </button>
-    </>
+    <button
+      ref={ref}
+      style={buttonStyle}
+      disabled={isDisabled}
+      aria-label={computedAriaLabel}
+      aria-busy={loading}
+      aria-disabled={isDisabled}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onMouseDown={() => setIsPressed(true)}
+      onMouseUp={() => setIsPressed(false)}
+      onFocus={() => setIsFocused(true)}
+      onBlur={() => setIsFocused(false)}
+      {...props}
+    >
+      {loading && <span className="sr-only">Loading...</span>}
+      {iconPosition === 'left' && (loadingSpinner || iconElement)}
+      {children}
+      {iconPosition === 'right' && (loadingSpinner || iconElement)}
+    </button>
   );
 });
 
 Button.displayName = 'Button';
 
-// Action Button Group for consistent table/card actions
-interface ActionButtonProps {
-  onView?: () => void;
-  onEdit?: () => void;
-  onDelete?: () => void;
-  onReset?: () => void;
-  size?: ButtonSize;
-  isArabic?: boolean;
-  isMobile?: boolean;
-  loading?: {
-    view?: boolean;
-    edit?: boolean;
-    delete?: boolean;
-    reset?: boolean;
-  };
-}
-
-export const ActionButtons: React.FC<ActionButtonProps> = ({
-  onView,
-  onEdit,
-  onDelete,
-  onReset,
-  size = 'sm',
-  isArabic = false,
-  isMobile = false,
-  loading = {},
-}) => {
-  const t = {
-    view: isArabic ? 'عرض' : 'View',
-    edit: isArabic ? 'تعديل' : 'Edit',
-    delete: isArabic ? 'حذف' : 'Delete',
-    reset: isArabic ? 'إعادة تعيين' : 'Reset',
-  };
-
-  const containerStyle: React.CSSProperties = isMobile
-    ? {
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: '8px',
-      }
-    : {
-        display: 'flex',
-        gap: '8px',
-        flexWrap: 'wrap',
-      };
-
-  return (
-    <div style={containerStyle}>
-      {onView && (
-        <Button
-          variant="primary"
-          size={size}
-          icon="bx-show"
-          onClick={onView}
-          loading={loading.view}
-          fullWidth={isMobile}
-        >
-          {t.view}
-        </Button>
-      )}
-      {onEdit && (
-        <Button
-          variant="warning"
-          size={size}
-          icon="bx-edit"
-          onClick={onEdit}
-          loading={loading.edit}
-          fullWidth={isMobile}
-        >
-          {t.edit}
-        </Button>
-      )}
-      {onReset && (
-        <Button
-          variant="info"
-          size={size}
-          icon="bx-key"
-          onClick={onReset}
-          loading={loading.reset}
-          fullWidth={isMobile}
-        >
-          {t.reset}
-        </Button>
-      )}
-      {onDelete && (
-        <Button
-          variant="danger"
-          size={size}
-          icon="bx-trash"
-          onClick={onDelete}
-          loading={loading.delete}
-          fullWidth={isMobile}
-        >
-          {t.delete}
-        </Button>
-      )}
-    </div>
-  );
-};
-
-// Icon Button for compact actions
+// Icon Button - compact action buttons
 interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon: string;
-  variant?: ButtonVariant;
-  size?: ButtonSize;
+  variant?: 'default' | 'primary' | 'danger' | 'success' | 'warning' | 'info';
+  size?: 'sm' | 'md' | 'lg';
   tooltip?: string;
   'aria-label'?: string;
 }
 
 export const IconButton: React.FC<IconButtonProps> = ({
   icon,
-  variant = 'ghost',
+  variant = 'default',
   size = 'md',
   tooltip,
   disabled,
@@ -388,39 +248,44 @@ export const IconButton: React.FC<IconButtonProps> = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
-  const variantStyle = variantStyles[variant];
 
-  const sizeMap: Record<ButtonSize, { size: string; iconSize: string }> = {
-    sm: { size: '32px', iconSize: '16px' },
-    md: { size: '40px', iconSize: '20px' },
-    lg: { size: '48px', iconSize: '24px' },
+  const variantConfig = {
+    default: { color: colors.textMuted, hoverColor: colors.textSecondary, hoverBg: colors.surfaceHover },
+    primary: { color: colors.textMuted, hoverColor: colors.primary, hoverBg: colors.primaryLight },
+    danger: { color: colors.textMuted, hoverColor: colors.danger, hoverBg: colors.dangerLight },
+    success: { color: colors.textMuted, hoverColor: colors.success, hoverBg: colors.successLight },
+    warning: { color: colors.textMuted, hoverColor: colors.warning, hoverBg: colors.warningLight },
+    info: { color: colors.textMuted, hoverColor: colors.info, hoverBg: colors.infoLight },
   };
 
-  // Use tooltip as aria-label if not provided
+  const sizeConfig = {
+    sm: { size: '32px', iconSize: '16px' },
+    md: { size: '36px', iconSize: '18px' },
+    lg: { size: '40px', iconSize: '20px' },
+  };
+
+  const config = variantConfig[variant];
+  const sizeInfo = sizeConfig[size];
   const computedAriaLabel = ariaLabel || tooltip || `${icon.replace('bx-', '')} button`;
 
-  const buttonStyle: React.CSSProperties = {
-    width: sizeMap[size].size,
-    height: sizeMap[size].size,
-    borderRadius: '10px',
-    border: variantStyle.border,
-    background: disabled
-      ? '#e5e7eb'
-      : isHovered
-        ? variantStyle.hoverBg
-        : variantStyle.bg,
-    color: disabled ? '#9ca3af' : variantStyle.color,
+  const buttonStyle = useMemo<React.CSSProperties>(() => ({
+    width: sizeInfo.size,
+    height: sizeInfo.size,
+    padding: 0,
+    borderRadius: radius.lg,
+    border: `1px solid ${isHovered && !disabled ? config.hoverColor : colors.border}`,
+    background: disabled ? colors.surfaceHover : isHovered ? config.hoverBg : 'transparent',
+    color: disabled ? colors.textLight : isHovered ? config.hoverColor : config.color,
     cursor: disabled ? 'not-allowed' : 'pointer',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    transition: 'all 0.2s ease',
-    transform: isHovered && !disabled ? 'scale(1.05)' : 'scale(1)',
-    boxShadow: isHovered && !disabled ? variantStyle.hoverShadow : variantStyle.shadow,
-    outline: isFocused ? `3px solid ${variant === 'ghost' ? '#0A4D8C' : 'rgba(255, 255, 255, 0.8)'}` : 'none',
-    outlineOffset: '2px',
+    transition: transitions.normal,
+    outline: 'none',
+    boxShadow: isFocused ? `0 0 0 3px ${colors.primaryLight}` : 'none',
+    opacity: disabled ? 0.5 : 1,
     ...style,
-  };
+  }), [isHovered, isFocused, disabled, config, sizeInfo, style]);
 
   return (
     <button
@@ -435,17 +300,254 @@ export const IconButton: React.FC<IconButtonProps> = ({
       onBlur={() => setIsFocused(false)}
       {...props}
     >
-      <i
-        className={`bx ${icon}`}
-        style={{
-          fontSize: sizeMap[size].iconSize,
-          transition: 'transform 0.2s ease',
-          transform: isHovered && !disabled ? 'rotate(5deg)' : 'rotate(0)',
-        }}
-        aria-hidden="true"
-      />
+      <i className={`bx ${icon}`} style={{ fontSize: sizeInfo.iconSize }} aria-hidden="true" />
     </button>
   );
 };
+
+// Status Badge Component
+interface StatusBadgeProps {
+  status: string;
+  customLabels?: Record<string, string>;
+}
+
+export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, customLabels }) => {
+  const statusConfig: Record<string, { bg: string; color: string; label: string }> = {
+    draft: { bg: colors.surfaceHover, color: colors.textMuted, label: 'Draft' },
+    published: { bg: colors.successLight, color: colors.successDark, label: 'Published' },
+    archived: { bg: colors.surfaceHover, color: colors.textLight, label: 'Archived' },
+    active: { bg: colors.successLight, color: colors.successDark, label: 'Active' },
+    inactive: { bg: colors.dangerLight, color: colors.dangerDark, label: 'Inactive' },
+    pending: { bg: colors.warningLight, color: colors.warningDark, label: 'Pending' },
+    new: { bg: colors.infoLight, color: colors.infoDark, label: 'New' },
+    in_progress: { bg: colors.warningLight, color: colors.warningDark, label: 'In Progress' },
+    resolved: { bg: colors.successLight, color: colors.successDark, label: 'Resolved' },
+    closed: { bg: colors.surfaceHover, color: colors.textMuted, label: 'Closed' },
+    admin: { bg: colors.dangerLight, color: colors.dangerDark, label: 'Admin' },
+    moderator: { bg: colors.infoLight, color: colors.infoDark, label: 'Moderator' },
+    user: { bg: colors.surfaceHover, color: colors.textMuted, label: 'User' },
+  };
+
+  const config = statusConfig[status.toLowerCase()] || statusConfig.draft;
+  const label = customLabels?.[status] || config.label;
+
+  return (
+    <span
+      style={{
+        display: 'inline-block',
+        padding: '4px 10px',
+        borderRadius: radius.sm,
+        fontSize: typography.fontSize.sm,
+        fontWeight: typography.fontWeight.medium,
+        background: config.bg,
+        color: config.color,
+        textTransform: 'capitalize',
+      }}
+    >
+      {label}
+    </span>
+  );
+};
+
+// Empty State Component
+interface EmptyStateProps {
+  icon?: string;
+  title: string;
+  description?: string;
+  action?: React.ReactNode;
+}
+
+export const EmptyState: React.FC<EmptyStateProps> = ({ icon = 'bx-inbox', title, description, action }) => (
+  <div
+    style={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '48px 24px',
+      textAlign: 'center',
+    }}
+  >
+    <i
+      className={`bx ${icon}`}
+      style={{
+        fontSize: '48px',
+        color: colors.textLight,
+        marginBottom: '16px',
+        opacity: 0.5,
+      }}
+    />
+    <h3
+      style={{
+        margin: '0 0 8px',
+        fontSize: typography.fontSize.lg,
+        fontWeight: typography.fontWeight.medium,
+        color: colors.textSecondary,
+      }}
+    >
+      {title}
+    </h3>
+    {description && (
+      <p
+        style={{
+          margin: '0 0 16px',
+          fontSize: typography.fontSize.md,
+          color: colors.textMuted,
+          maxWidth: '300px',
+        }}
+      >
+        {description}
+      </p>
+    )}
+    {action}
+  </div>
+);
+
+// Stat Card Component
+interface StatCardProps {
+  label: string;
+  value: string | number;
+  icon: string;
+  trend?: { value: number; isPositive: boolean };
+  color?: string;
+}
+
+export const StatCard: React.FC<StatCardProps> = ({ label, value, icon, trend, color }) => (
+  <div
+    style={{
+      background: colors.surface,
+      borderRadius: radius.lg,
+      border: `1px solid ${colors.border}`,
+      padding: '16px 20px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '14px',
+    }}
+  >
+    <div
+      style={{
+        width: '44px',
+        height: '44px',
+        borderRadius: radius.lg,
+        background: color ? `${color}15` : colors.background,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexShrink: 0,
+      }}
+    >
+      <i className={`bx ${icon}`} style={{ fontSize: '22px', color: color || colors.textMuted }} />
+    </div>
+    <div style={{ flex: 1, minWidth: 0 }}>
+      <div
+        style={{
+          fontSize: typography.fontSize['2xl'],
+          fontWeight: typography.fontWeight.semibold,
+          color: colors.text,
+          lineHeight: 1.2,
+        }}
+      >
+        {typeof value === 'number' ? value.toLocaleString() : value}
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          marginTop: '2px',
+        }}
+      >
+        <span style={{ fontSize: typography.fontSize.base, color: colors.textMuted }}>{label}</span>
+        {trend && (
+          <span
+            style={{
+              fontSize: typography.fontSize.xs,
+              fontWeight: typography.fontWeight.medium,
+              color: trend.isPositive ? colors.success : colors.danger,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '2px',
+            }}
+          >
+            <i className={`bx ${trend.isPositive ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt'}`} />
+            {Math.abs(trend.value)}%
+          </span>
+        )}
+      </div>
+    </div>
+  </div>
+);
+
+// Action Buttons - group of action buttons for tables
+interface ActionButtonsProps {
+  onView?: () => void;
+  onEdit?: () => void;
+  onDelete?: () => void;
+  onReset?: () => void;
+  viewTooltip?: string;
+  editTooltip?: string;
+  deleteTooltip?: string;
+  resetTooltip?: string;
+  disabled?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  isArabic?: boolean;
+  isMobile?: boolean;
+}
+
+export const ActionButtons: React.FC<ActionButtonsProps> = ({
+  onView,
+  onEdit,
+  onDelete,
+  onReset,
+  viewTooltip = 'View',
+  editTooltip = 'Edit',
+  deleteTooltip = 'Delete',
+  resetTooltip = 'Reset',
+  disabled,
+  size = 'sm',
+}) => (
+  <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+    {onView && (
+      <IconButton
+        icon="bx-show"
+        variant="primary"
+        size={size}
+        tooltip={viewTooltip}
+        onClick={onView}
+        disabled={disabled}
+      />
+    )}
+    {onEdit && (
+      <IconButton
+        icon="bx-edit"
+        variant="info"
+        size={size}
+        tooltip={editTooltip}
+        onClick={onEdit}
+        disabled={disabled}
+      />
+    )}
+    {onReset && (
+      <IconButton
+        icon="bx-refresh"
+        variant="warning"
+        size={size}
+        tooltip={resetTooltip}
+        onClick={onReset}
+        disabled={disabled}
+      />
+    )}
+    {onDelete && (
+      <IconButton
+        icon="bx-trash"
+        variant="danger"
+        size={size}
+        tooltip={deleteTooltip}
+        onClick={onDelete}
+        disabled={disabled}
+      />
+    )}
+  </div>
+);
 
 export default Button;

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { colors, radius, typography, transitions, spacing, shadows, getFontFamily } from './theme';
 
 export type ToastType = 'success' | 'error' | 'warning' | 'info';
 
@@ -36,37 +37,38 @@ const toastIcons: Record<ToastType, string> = {
 
 const toastColors: Record<ToastType, { bg: string; border: string; text: string; icon: string }> = {
   success: {
-    bg: 'linear-gradient(135deg, #d1fae5 0%, #ecfdf5 100%)',
-    border: '#10b981',
-    text: '#065f46',
-    icon: '#10b981',
+    bg: colors.successLight,
+    border: colors.success,
+    text: colors.successDark,
+    icon: colors.success,
   },
   error: {
-    bg: 'linear-gradient(135deg, #fee2e2 0%, #fef2f2 100%)',
-    border: '#ef4444',
-    text: '#991b1b',
-    icon: '#ef4444',
+    bg: colors.dangerLight,
+    border: colors.danger,
+    text: colors.dangerDark,
+    icon: colors.danger,
   },
   warning: {
-    bg: 'linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%)',
-    border: '#f59e0b',
-    text: '#92400e',
-    icon: '#f59e0b',
+    bg: colors.warningLight,
+    border: colors.warning,
+    text: colors.warningDark,
+    icon: colors.warning,
   },
   info: {
-    bg: 'linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%)',
-    border: '#3b82f6',
-    text: '#1e40af',
-    icon: '#3b82f6',
+    bg: colors.infoLight,
+    border: colors.info,
+    text: colors.infoDark,
+    icon: colors.info,
   },
 };
 
 const ToastItem: React.FC<{ toast: Toast; onClose: (id: string) => void }> = ({ toast, onClose }) => {
   const [isExiting, setIsExiting] = useState(false);
   const [progress, setProgress] = useState(100);
-  const colors = toastColors[toast.type];
+  const colorConfig = toastColors[toast.type];
   const duration = toast.duration || 4000;
   const isRTL = toast.isRTL;
+  const fontFamily = getFontFamily(isRTL || false);
 
   useEffect(() => {
     const startTime = Date.now();
@@ -90,32 +92,30 @@ const ToastItem: React.FC<{ toast: Toast; onClose: (id: string) => void }> = ({ 
     setTimeout(() => onClose(toast.id), 300);
   };
 
-  // Use RTL-aware animation names
   const slideInAnimation = isRTL ? 'toastSlideInRTL' : 'toastSlideIn';
   const slideOutAnimation = isRTL ? 'toastSlideOutRTL' : 'toastSlideOut';
 
   return (
     <div
       style={{
-        background: colors.bg,
-        borderRadius: '12px',
-        padding: '16px 20px',
-        boxShadow: '0 10px 40px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.1)',
-        border: `1px solid ${colors.border}30`,
+        background: colorConfig.bg,
+        borderRadius: radius.lg,
+        padding: spacing.md,
+        boxShadow: shadows.lg,
+        border: `1px solid ${colorConfig.border}`,
         display: 'flex',
         flexDirection: isRTL ? 'row-reverse' : 'row',
-        alignItems: 'flex-start',
-        gap: '14px',
-        minWidth: '320px',
-        maxWidth: '420px',
+        alignItems: 'center',
+        gap: spacing.sm,
+        minWidth: '300px',
+        maxWidth: '400px',
         position: 'relative',
         overflow: 'hidden',
         animation: isExiting
           ? `${slideOutAnimation} 0.3s ease-out forwards`
           : `${slideInAnimation} 0.3s ease-out`,
-        transform: 'translateX(0)',
         direction: isRTL ? 'rtl' : 'ltr',
-        fontFamily: isRTL ? 'Cairo, sans-serif' : 'inherit',
+        fontFamily,
       }}
     >
       {/* Progress bar */}
@@ -125,40 +125,32 @@ const ToastItem: React.FC<{ toast: Toast; onClose: (id: string) => void }> = ({ 
           bottom: 0,
           right: isRTL ? 0 : 'auto',
           left: isRTL ? 'auto' : 0,
-          height: '3px',
-          background: colors.border,
+          height: '2px',
+          background: colorConfig.border,
           width: `${progress}%`,
           transition: 'width 50ms linear',
-          borderRadius: '0 0 12px 12px',
         }}
       />
 
       {/* Icon */}
-      <div
+      <i
+        className={`bx ${toastIcons[toast.type]}`}
         style={{
-          width: '28px',
-          height: '28px',
-          borderRadius: '8px',
-          background: `${colors.icon}20`,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          fontSize: '20px',
+          color: colorConfig.icon,
           flexShrink: 0,
         }}
-      >
-        <i className={`bx ${toastIcons[toast.type]}`} style={{ fontSize: '18px', color: colors.icon }} />
-      </div>
+      />
 
       {/* Message */}
       <p
         style={{
           margin: 0,
-          color: colors.text,
-          fontSize: '14px',
-          fontWeight: 500,
+          color: colorConfig.text,
+          fontSize: typography.fontSize.sm,
+          fontWeight: typography.fontWeight.medium,
           lineHeight: 1.5,
           flex: 1,
-          paddingTop: '3px',
         }}
       >
         {toast.message}
@@ -170,12 +162,12 @@ const ToastItem: React.FC<{ toast: Toast; onClose: (id: string) => void }> = ({ 
         style={{
           background: 'none',
           border: 'none',
-          padding: '4px',
+          padding: spacing.xs,
           cursor: 'pointer',
-          color: colors.text,
+          color: colorConfig.text,
           opacity: 0.6,
-          transition: 'all 0.2s ease',
-          borderRadius: '6px',
+          transition: transitions.fast,
+          borderRadius: radius.sm,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -183,14 +175,12 @@ const ToastItem: React.FC<{ toast: Toast; onClose: (id: string) => void }> = ({ 
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.opacity = '1';
-          e.currentTarget.style.background = `${colors.icon}15`;
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.opacity = '0.6';
-          e.currentTarget.style.background = 'none';
         }}
       >
-        <i className="bx bx-x" style={{ fontSize: '20px' }} />
+        <i className="bx bx-x" style={{ fontSize: '18px' }} />
       </button>
     </div>
   );
@@ -237,61 +227,37 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         className="toast-container"
         style={{
           position: 'fixed',
-          top: '20px',
-          right: isRTL ? 'auto' : '20px',
-          left: isRTL ? '20px' : 'auto',
+          top: spacing.lg,
+          right: isRTL ? 'auto' : spacing.lg,
+          left: isRTL ? spacing.lg : 'auto',
           zIndex: 99999,
           display: 'flex',
           flexDirection: 'column',
-          gap: '12px',
+          gap: spacing.sm,
           pointerEvents: 'none',
         }}
       >
         <style>{`
           @keyframes toastSlideIn {
-            from {
-              opacity: 0;
-              transform: translateX(100%);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
           }
           @keyframes toastSlideOut {
-            from {
-              opacity: 1;
-              transform: translateX(0);
-            }
-            to {
-              opacity: 0;
-              transform: translateX(100%);
-            }
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(100%); }
           }
           @keyframes toastSlideInRTL {
-            from {
-              opacity: 0;
-              transform: translateX(-100%);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
+            from { opacity: 0; transform: translateX(-100%); }
+            to { opacity: 1; transform: translateX(0); }
           }
           @keyframes toastSlideOutRTL {
-            from {
-              opacity: 1;
-              transform: translateX(0);
-            }
-            to {
-              opacity: 0;
-              transform: translateX(-100%);
-            }
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(-100%); }
           }
           @media (max-width: 480px) {
             .toast-container {
-              left: 12px !important;
-              right: 12px !important;
+              left: ${spacing.sm} !important;
+              right: ${spacing.sm} !important;
             }
             .toast-container > div {
               min-width: unset !important;
