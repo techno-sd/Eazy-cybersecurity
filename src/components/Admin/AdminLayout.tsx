@@ -70,6 +70,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
       blogManagement: "Blog Management",
       userManagement: "User Management",
       rolesManagement: "Roles & Permissions",
+      profile: "Profile",
+      welcomeBack: "Welcome back",
     },
     ar: {
       adminPanel: "لوحة الإدارة",
@@ -87,6 +89,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
       blogManagement: "إدارة المقالات",
       userManagement: "إدارة المستخدمين",
       rolesManagement: "الأدوار والصلاحيات",
+      profile: "الملف الشخصي",
+      welcomeBack: "مرحباً بعودتك",
     }
   }), []);
 
@@ -148,28 +152,40 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
     }
   }, [pathname]);
 
+  // Minimalist color palette
+  const colors = {
+    sidebar: "#1e293b",
+    sidebarHover: "#334155",
+    sidebarActive: "#0f172a",
+    accent: "#3b82f6",
+    accentLight: "rgba(59, 130, 246, 0.1)",
+    text: "#f8fafc",
+    textMuted: "#94a3b8",
+    border: "rgba(255, 255, 255, 0.08)",
+    danger: "#ef4444",
+  };
+
   return (
     <ToastProvider>
-    <div className={`admin-layout ${isMobile ? 'mobile' : ''}`} style={{ display: "flex", minHeight: "100vh", background: "linear-gradient(135deg, #f0f7ff 0%, #e8f4f8 100%)", direction: isArabic ? 'rtl' : 'ltr' }}>
+    <div className={`admin-layout ${isMobile ? 'mobile' : ''}`} style={{ display: "flex", minHeight: "100vh", background: "#f8fafc", direction: isArabic ? 'rtl' : 'ltr' }}>
       {/* Sidebar */}
       <aside
         className={`admin-sidebar ${sidebarOpen ? 'open' : 'closed'}`}
         style={{
           width: isMobile
-            ? "280px"
+            ? "260px"
             : isTablet
-              ? (sidebarOpen ? "280px" : "70px")
-              : (sidebarOpen ? "300px" : "80px"),
-          color: "#ffffff",
-          transition: "all 0.4s cubic-bezier(.4,0,.2,1)",
+              ? (sidebarOpen ? "260px" : "72px")
+              : (sidebarOpen ? "280px" : "72px"),
+          color: colors.text,
+          transition: "all 0.25s ease",
           position: "fixed",
           height: "100vh",
-          background: "linear-gradient(180deg, #0A4D8C 0%, #073D6C 50%, #052A4F 100%)",
+          background: colors.sidebar,
           zIndex: 1000,
           [isArabic ? 'right' : 'left']: (isMobile || isTablet) ? (sidebarOpen ? 0 : '-100%') : 0,
-          boxShadow: "0 25px 50px -12px rgba(10,77,140,0.25), 0 0 0 1px rgba(255,255,255,0.05) inset",
-          borderRight: isArabic ? undefined : "1px solid rgba(255,255,255,0.08)",
-          borderLeft: isArabic ? "1px solid rgba(255,255,255,0.08)" : undefined,
+          borderRight: isArabic ? undefined : `1px solid ${colors.border}`,
+          borderLeft: isArabic ? `1px solid ${colors.border}` : undefined,
           overflowY: "auto",
           overflowX: "hidden",
         }}
@@ -177,78 +193,229 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
         {/* Logo */}
         <div
           style={{
-            padding: isMobile ? "20px 16px" : "28px 24px",
-            borderBottom: "1px solid rgba(255,255,255,0.12)",
+            padding: "20px",
+            borderBottom: `1px solid ${colors.border}`,
             display: "flex",
             alignItems: "center",
             justifyContent: sidebarOpen ? "space-between" : "center",
             direction: isArabic ? 'rtl' : 'ltr',
-            background: "linear-gradient(90deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.04) 100%)",
+            minHeight: "72px",
           }}
         >
           {sidebarOpen && (
-            <div style={{ display: "flex", alignItems: "center", gap: isMobile ? "8px" : "12px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <div style={{
-                width: isMobile ? "36px" : "40px",
-                height: isMobile ? "36px" : "40px",
-                borderRadius: "12px",
-                background: "linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.9) 100%)",
+                width: "36px",
+                height: "36px",
+                borderRadius: "8px",
+                background: colors.accent,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                boxShadow: "0 4px 12px rgba(10,77,140,0.2)",
               }}>
-                <span style={{ color: "#0A4D8C", fontWeight: 800, fontSize: isMobile ? "18px" : "20px" }}>E</span>
+                <span style={{ color: "#fff", fontWeight: 700, fontSize: "16px" }}>E</span>
               </div>
-              <h2 style={{ margin: 0, fontSize: isMobile ? "18px" : isTablet ? "20px" : "22px", fontWeight: "800", fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit', color: "#fff" }}>
+              <span style={{
+                fontSize: "18px",
+                fontWeight: "600",
+                fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                letterSpacing: "-0.02em",
+              }}>
                 {t.adminPanel}
-              </h2>
+              </span>
             </div>
           )}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
+            aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
             style={{
-              background: "rgba(255,255,255,0.1)",
-              border: "1px solid rgba(255,255,255,0.2)",
-              color: "#fff",
-              width: isMobile ? "36px" : "40px",
-              height: isMobile ? "36px" : "40px",
-              borderRadius: "12px",
+              background: "transparent",
+              border: "none",
+              color: colors.textMuted,
+              width: "36px",
+              height: "36px",
+              borderRadius: "8px",
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: isMobile ? "18px" : "20px",
-              transition: "all 0.3s cubic-bezier(.4,0,.2,1)",
-              backdropFilter: "blur(4px)",
+              fontSize: "20px",
+              transition: "all 0.2s ease",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(255,255,255,0.2)";
-              e.currentTarget.style.transform = "scale(1.05)";
+              e.currentTarget.style.background = colors.sidebarHover;
+              e.currentTarget.style.color = colors.text;
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = "rgba(255,255,255,0.1)";
-              e.currentTarget.style.transform = "scale(1)";
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.color = colors.textMuted;
             }}
           >
-            <i className={`bx ${sidebarOpen ? (isArabic ? "bx-menu-alt-right" : "bx-menu-alt-left") : "bx-menu"}`}></i>
+            <i className={`bx ${sidebarOpen ? (isArabic ? "bx-chevron-right" : "bx-chevron-left") : "bx-menu"}`}></i>
           </button>
         </div>
 
         {/* Navigation */}
-        <nav style={{ padding: isMobile ? "16px 0" : "24px 0" }}>
-          {menuItems.map((item, index) => {
-            // Check menu access from role permissions
-            if (user?.menu_access && item.menuKey) {
-              // If menu_access exists, check if user has permission for this menu
-              if (!user.menu_access[item.menuKey]) {
-                return null;
+        <nav style={{ padding: "12px 0", display: "flex", flexDirection: "column", height: "calc(100vh - 72px)" }}>
+          <div style={{ flex: 1, padding: "0 8px" }}>
+            {/* Menu Label */}
+            {sidebarOpen && (
+              <div style={{
+                padding: "8px 12px",
+                fontSize: "11px",
+                fontWeight: "600",
+                color: colors.textMuted,
+                textTransform: "uppercase",
+                letterSpacing: "0.05em",
+              }}>
+                Menu
+              </div>
+            )}
+
+            {menuItems.map((item, index) => {
+              if (user?.menu_access && item.menuKey) {
+                if (!user.menu_access[item.menuKey]) {
+                  return null;
+                }
               }
-            }
-            return (
-              <div key={index}>
+              const active = isActive(item.path, item.exact);
+              return (
                 <Link
+                  key={index}
                   href={item.path}
+                  prefetch={true}
+                  onClick={() => {
+                    if (isMobile || isTablet) setSidebarOpen(false);
+                  }}
+                  title={!sidebarOpen ? item.title : undefined}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    padding: sidebarOpen ? "10px 12px" : "10px",
+                    margin: "2px 0",
+                    borderRadius: "8px",
+                    color: active ? colors.text : colors.textMuted,
+                    textDecoration: "none",
+                    background: active ? colors.accentLight : "transparent",
+                    transition: "all 0.15s ease",
+                    justifyContent: sidebarOpen ? "flex-start" : "center",
+                    position: "relative",
+                    gap: "12px",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!active) {
+                      e.currentTarget.style.background = colors.sidebarHover;
+                      e.currentTarget.style.color = colors.text;
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!active) {
+                      e.currentTarget.style.background = "transparent";
+                      e.currentTarget.style.color = colors.textMuted;
+                    }
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.outline = `2px solid ${colors.accent}`;
+                    e.currentTarget.style.outlineOffset = "2px";
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.outline = "none";
+                  }}
+                >
+                  {/* Active indicator */}
+                  {active && (
+                    <div style={{
+                      position: "absolute",
+                      [isArabic ? 'right' : 'left']: 0,
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      width: "3px",
+                      height: "20px",
+                      background: colors.accent,
+                      borderRadius: isArabic ? "3px 0 0 3px" : "0 3px 3px 0",
+                    }} />
+                  )}
+                  <i
+                    className={item.icon}
+                    style={{
+                      fontSize: "20px",
+                      color: active ? colors.accent : "inherit",
+                      flexShrink: 0,
+                    }}
+                  ></i>
+                  {sidebarOpen && (
+                    <span style={{
+                      fontSize: "14px",
+                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                      fontWeight: active ? 500 : 400,
+                    }}>
+                      {item.title}
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
+
+            {/* Administration Section */}
+            {sidebarOpen && (
+              <div style={{
+                padding: "16px 12px 8px",
+                fontSize: "11px",
+                fontWeight: "600",
+                color: colors.textMuted,
+                textTransform: "uppercase",
+                letterSpacing: "0.05em",
+              }}>
+                {t.administration}
+              </div>
+            )}
+
+            {/* Administration Toggle (collapsed sidebar) */}
+            {!sidebarOpen && (
+              <div
+                onClick={() => setAdministrationOpen(!administrationOpen)}
+                title={t.administration}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "10px",
+                  margin: "2px 0",
+                  borderRadius: "8px",
+                  color: (pathname?.startsWith('/admin/users') || pathname?.startsWith('/admin/roles')) ? colors.accent : colors.textMuted,
+                  cursor: "pointer",
+                  background: (pathname?.startsWith('/admin/users') || pathname?.startsWith('/admin/roles')) ? colors.accentLight : "transparent",
+                  transition: "all 0.15s ease",
+                }}
+                onMouseEnter={(e) => {
+                  if (!pathname?.startsWith('/admin/users') && !pathname?.startsWith('/admin/roles')) {
+                    e.currentTarget.style.background = colors.sidebarHover;
+                    e.currentTarget.style.color = colors.text;
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!pathname?.startsWith('/admin/users') && !pathname?.startsWith('/admin/roles')) {
+                    e.currentTarget.style.background = "transparent";
+                    e.currentTarget.style.color = colors.textMuted;
+                  }
+                }}
+              >
+                <i className="bx bx-cog" style={{ fontSize: "20px" }}></i>
+              </div>
+            )}
+
+            {/* Administration Items */}
+            {sidebarOpen && administrationItems.map((subItem, subIndex) => {
+              if (user?.menu_access && subItem.menuKey) {
+                if (!user.menu_access[subItem.menuKey]) {
+                  return null;
+                }
+              }
+              const active = isActive(subItem.path);
+              return (
+                <Link
+                  key={subIndex}
+                  href={subItem.path}
                   prefetch={true}
                   onClick={() => {
                     if (isMobile || isTablet) setSidebarOpen(false);
@@ -256,233 +423,174 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    padding: sidebarOpen
-                      ? (isMobile ? "12px 16px" : "16px 24px")
-                      : (isMobile ? "12px" : "16px"),
-                    margin: isMobile ? "4px 12px" : "6px 16px",
-                    borderRadius: isMobile ? "12px" : "14px",
-                    color: "#fff",
+                    padding: "10px 12px",
+                    margin: "2px 0",
+                    borderRadius: "8px",
+                    color: active ? colors.text : colors.textMuted,
                     textDecoration: "none",
-                    background: isActive(item.path, item.exact)
-                      ? "linear-gradient(135deg, rgba(10,77,140,0.2) 0%, rgba(7,61,108,0.15) 100%)"
-                      : "transparent",
-                    transition: "all 0.3s cubic-bezier(.4,0,.2,1)",
-                    justifyContent: sidebarOpen ? "flex-start" : "center",
-                    boxShadow: isActive(item.path, item.exact) ? "0 8px 25px rgba(10,77,140,0.2)" : "none",
-                    border: isActive(item.path, item.exact) ? "1px solid rgba(255,255,255,0.2)" : "1px solid transparent",
+                    background: active ? colors.accentLight : "transparent",
+                    transition: "all 0.15s ease",
+                    gap: "12px",
+                    position: "relative",
                   }}
                   onMouseEnter={(e) => {
-                    if (!isActive(item.path, item.exact)) {
-                      e.currentTarget.style.background = "rgba(255,255,255,0.12)";
-                      e.currentTarget.style.transform = "translateX(4px)";
-                      e.currentTarget.style.boxShadow = "0 4px 15px rgba(10,77,140,0.15)";
+                    if (!active) {
+                      e.currentTarget.style.background = colors.sidebarHover;
+                      e.currentTarget.style.color = colors.text;
                     }
                   }}
                   onMouseLeave={(e) => {
-                    if (!isActive(item.path, item.exact)) {
+                    if (!active) {
                       e.currentTarget.style.background = "transparent";
-                      e.currentTarget.style.transform = "translateX(0)";
-                      e.currentTarget.style.boxShadow = "none";
+                      e.currentTarget.style.color = colors.textMuted;
                     }
                   }}
-                >
-                  <div
-                    style={{
-                      width: isMobile ? "36px" : "40px",
-                      height: isMobile ? "36px" : "40px",
-                      borderRadius: "10px",
-                      background: isActive(item.path, item.exact)
-                        ? "rgba(10,77,140,0.25)"
-                        : "rgba(255,255,255,0.12)",
-                      border: "1px solid rgba(255,255,255,0.15)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      [isArabic ? 'marginLeft' : 'marginRight']: sidebarOpen ? (isMobile ? "10px" : "14px") : "0",
-                      transition: "all 0.3s ease",
-                    }}
-                  >
-                    <i
-                      className={item.icon}
-                      style={{
-                        fontSize: isMobile ? "18px" : "20px",
-                        color: isActive(item.path, item.exact) ? "#fff" : "rgba(255,255,255,0.8)",
-                      }}
-                    ></i>
-                  </div>
-                  {sidebarOpen && <span style={{ fontSize: isMobile ? "14px" : "15px", fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit', fontWeight: 500 }}>{item.title}</span>}
-                </Link>
-              </div>
-            );
-          })}
-
-          {/* Administration Submenu */}
-          <div>
-            <div
-              onClick={() => setAdministrationOpen(!administrationOpen)}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                padding: sidebarOpen ? "16px 24px" : "16px",
-                margin: "6px 16px",
-                borderRadius: "14px",
-                color: "#fff",
-                cursor: "pointer",
-                background: (pathname?.startsWith('/admin/users') || pathname?.startsWith('/admin/roles'))
-                  ? "linear-gradient(135deg, rgba(10,77,140,0.2) 0%, rgba(7,61,108,0.15) 100%)"
-                  : "transparent",
-                transition: "all 0.3s cubic-bezier(.4,0,.2,1)",
-                justifyContent: sidebarOpen ? "space-between" : "center",
-                border: (pathname?.startsWith('/admin/users') || pathname?.startsWith('/admin/roles')) ? "1px solid rgba(255,255,255,0.2)" : "1px solid transparent",
-              }}
-              onMouseEnter={(e) => {
-                if (!pathname?.startsWith('/admin/users') && !pathname?.startsWith('/admin/roles')) {
-                  e.currentTarget.style.background = "rgba(255,255,255,0.12)";
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!pathname?.startsWith('/admin/users') && !pathname?.startsWith('/admin/roles')) {
-                  e.currentTarget.style.background = "transparent";
-                }
-              }}
-            >
-              <div style={{
-                display: "flex",
-                alignItems: "center",
-              }}>
-                <div
-                  style={{
-                    width: "40px",
-                    height: "40px",
-                    borderRadius: "10px",
-                    background: (pathname?.startsWith('/admin/users') || pathname?.startsWith('/admin/roles'))
-                      ? "rgba(10,77,140,0.25)"
-                      : "rgba(255,255,255,0.12)",
-                    border: "1px solid rgba(255,255,255,0.15)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    [isArabic ? 'marginLeft' : 'marginRight']: sidebarOpen ? "14px" : "0",
-                    transition: "all 0.3s ease",
+                  onFocus={(e) => {
+                    e.currentTarget.style.outline = `2px solid ${colors.accent}`;
+                    e.currentTarget.style.outlineOffset = "2px";
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.outline = "none";
                   }}
                 >
+                  {active && (
+                    <div style={{
+                      position: "absolute",
+                      [isArabic ? 'right' : 'left']: 0,
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      width: "3px",
+                      height: "20px",
+                      background: colors.accent,
+                      borderRadius: isArabic ? "3px 0 0 3px" : "0 3px 3px 0",
+                    }} />
+                  )}
                   <i
-                    className="bx bx-cog"
+                    className={subItem.icon}
                     style={{
                       fontSize: "20px",
-                      color: (pathname?.startsWith('/admin/users') || pathname?.startsWith('/admin/roles')) ? "#fff" : "rgba(255,255,255,0.8)",
+                      color: active ? colors.accent : "inherit",
+                      flexShrink: 0,
                     }}
                   ></i>
-                </div>
-                {sidebarOpen && (
-                  <span style={{ fontSize: "15px", fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit', fontWeight: 500 }}>
-                    {t.administration}
+                  <span style={{
+                    fontSize: "14px",
+                    fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                    fontWeight: active ? 500 : 400,
+                  }}>
+                    {subItem.title}
                   </span>
-                )}
-              </div>
-              {sidebarOpen && (
-                <i
-                  className={`bx ${administrationOpen ? 'bx-chevron-up' : 'bx-chevron-down'}`}
-                  style={{
-                    fontSize: "20px",
-                    color: "rgba(255,255,255,0.8)",
-                    transition: "transform 0.3s ease",
-                  }}
-                ></i>
-              )}
-            </div>
+                </Link>
+              );
+            })}
+          </div>
 
-            {/* Submenu Items */}
-            {sidebarOpen && (
+          {/* User Profile Section */}
+          <div style={{
+            borderTop: `1px solid ${colors.border}`,
+            padding: "12px 8px",
+            marginTop: "auto",
+          }}>
+            {user && (
               <div
                 style={{
-                  maxHeight: administrationOpen ? "500px" : "0",
-                  overflow: "hidden",
-                  transition: "max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                  display: "flex",
+                  alignItems: "center",
+                  padding: sidebarOpen ? "10px 12px" : "10px",
+                  borderRadius: "8px",
+                  gap: sidebarOpen ? "12px" : "0",
+                  justifyContent: sidebarOpen ? "flex-start" : "center",
+                  transition: "all 0.2s ease",
                 }}
+                title={!sidebarOpen ? `${user.full_name}\n${user.email}` : undefined}
               >
-                {administrationItems.map((subItem, subIndex) => {
-                  // Check menu access for submenu items
-                  if (user?.menu_access && subItem.menuKey) {
-                    if (!user.menu_access[subItem.menuKey]) {
-                      return null;
-                    }
-                  }
-                  return (
-                    <Link
-                      key={subIndex}
-                      href={subItem.path}
-                      prefetch={true}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        padding: "12px 20px",
-                        margin: "4px 16px",
-                        borderRadius: "10px",
-                        color: "#fff",
-                        textDecoration: "none",
-                        background: isActive(subItem.path)
-                          ? "rgba(10,77,140,0.15)"
-                          : "transparent",
-                        transition: "all 0.2s ease",
-                        [isArabic ? 'borderRight' : 'borderLeft']: isActive(subItem.path) ? "3px solid rgba(255,255,255,0.5)" : "3px solid transparent",
-                      }}
-                      onMouseEnter={(e) => {
-                        if (!isActive(subItem.path)) {
-                          e.currentTarget.style.background = "rgba(255,255,255,0.08)";
-                          if (isArabic) {
-                            e.currentTarget.style.borderRight = "3px solid rgba(255,255,255,0.3)";
-                          } else {
-                            e.currentTarget.style.borderLeft = "3px solid rgba(255,255,255,0.3)";
-                          }
-                        }
-                      }}
-                      onMouseLeave={(e) => {
-                        if (!isActive(subItem.path)) {
-                          e.currentTarget.style.background = "transparent";
-                          if (isArabic) {
-                            e.currentTarget.style.borderRight = "3px solid transparent";
-                          } else {
-                            e.currentTarget.style.borderLeft = "3px solid transparent";
-                          }
-                        }
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: "32px",
-                          height: "32px",
-                          borderRadius: "8px",
-                          background: isActive(subItem.path)
-                            ? "rgba(10,77,140,0.2)"
-                            : "rgba(255,255,255,0.08)",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          [isArabic ? 'marginLeft' : 'marginRight']: "12px",
-                          transition: "all 0.2s ease",
-                        }}
-                      >
-                        <i
-                          className={subItem.icon}
-                          style={{
-                            fontSize: "16px",
-                            color: isActive(subItem.path) ? "#fff" : "rgba(255,255,255,0.7)",
-                          }}
-                        ></i>
-                      </div>
-                      <span style={{ fontSize: "14px", fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit', fontWeight: 400 }}>
-                        {subItem.title}
-                      </span>
-                    </Link>
-                  );
-                })}
+                {/* Avatar */}
+                <div style={{
+                  width: "36px",
+                  height: "36px",
+                  borderRadius: "8px",
+                  background: colors.accent,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "14px",
+                  fontWeight: "600",
+                  color: "#fff",
+                  textTransform: "uppercase",
+                  flexShrink: 0,
+                }}>
+                  {user.full_name?.charAt(0) || "A"}
+                </div>
+
+                {sidebarOpen && (
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{
+                      fontSize: "14px",
+                      fontWeight: "500",
+                      color: colors.text,
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                    }}>
+                      {user.full_name}
+                    </div>
+                    <div style={{
+                      fontSize: "12px",
+                      color: colors.textMuted,
+                      textTransform: "capitalize",
+                    }}>
+                      {user.role}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
+
+            {/* Logout Button */}
+            <button
+              onClick={handleLogout}
+              title={!sidebarOpen ? t.logout : undefined}
+              aria-label={t.logout}
+              style={{
+                width: "100%",
+                marginTop: "8px",
+                padding: sidebarOpen ? "10px 12px" : "10px",
+                background: "transparent",
+                border: "none",
+                borderRadius: "8px",
+                color: colors.textMuted,
+                fontSize: "14px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: sidebarOpen ? "flex-start" : "center",
+                gap: "12px",
+                fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                fontWeight: "400",
+                cursor: "pointer",
+                transition: "all 0.15s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "rgba(239, 68, 68, 0.1)";
+                e.currentTarget.style.color = colors.danger;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "transparent";
+                e.currentTarget.style.color = colors.textMuted;
+              }}
+              onFocus={(e) => {
+                e.currentTarget.style.outline = `2px solid ${colors.danger}`;
+                e.currentTarget.style.outlineOffset = "2px";
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.outline = "none";
+              }}
+            >
+              <i className="bx bx-log-out" style={{ fontSize: "20px" }}></i>
+              {sidebarOpen && <span>{t.logout}</span>}
+            </button>
           </div>
         </nav>
-
-
       </aside>
 
       {/* Main Content */}
@@ -492,127 +600,214 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
           [isArabic ? 'marginRight' : 'marginLeft']:
             (isMobile || isTablet)
               ? "0"
-              : (sidebarOpen ? "300px" : "80px"),
+              : (sidebarOpen ? "280px" : "72px"),
           flex: 1,
-          transition: "all 0.4s cubic-bezier(.4,0,.2,1)",
+          transition: "all 0.25s ease",
           minHeight: "100vh",
         }}
       >
         {/* Top Bar */}
         <header
           style={{
-            background: "rgba(255, 255, 255, 0.95)",
-            backdropFilter: "blur(20px)",
-            padding: isMobile ? "12px 16px" : isTablet ? "16px 24px" : "20px 30px",
-            borderBottom: "1px solid rgba(148,163,184,0.1)",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+            background: "#fff",
+            padding: isMobile ? "12px 16px" : "0 24px",
+            borderBottom: "1px solid #e2e8f0",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
             flexWrap: isMobile ? "wrap" : "nowrap",
-            gap: isMobile ? "10px" : isTablet ? "12px" : "16px",
+            gap: isMobile ? "12px" : "16px",
             position: "sticky",
             top: 0,
             zIndex: 100,
             direction: isArabic ? 'rtl' : 'ltr',
+            minHeight: isMobile ? "auto" : "64px",
           }}
         >
-          <h1 style={{
-            margin: 0,
-            fontSize: isMobile ? "16px" : isTablet ? "20px" : "24px",
-            color: "#0A4D8C",
-            fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-            fontWeight: "700",
-            flex: isMobile ? "1 1 100%" : "0 1 auto",
-            lineHeight: "1.2"
+          {/* Left Section - Title & Breadcrumb */}
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "2px",
+            flex: isMobile ? "1 1 100%" : "1",
+            minWidth: 0,
           }}>
-            {pathname === "/admin" && t.dashboard}
-            {pathname?.startsWith("/admin/blog") && t.blogManagement}
-            {pathname?.startsWith("/admin/consultations") && t.consultations}
-            {pathname?.startsWith("/admin/users") && t.userManagement}
-            {pathname?.startsWith("/admin/roles") && t.rolesManagement}
-          </h1>
+            {/* Breadcrumb */}
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              fontSize: "12px",
+              color: "#94a3b8",
+            }}>
+              <Link
+                href="/admin"
+                style={{
+                  color: "#94a3b8",
+                  textDecoration: "none",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.color = "#3b82f6"}
+                onMouseLeave={(e) => e.currentTarget.style.color = "#94a3b8"}
+              >
+                <i className="bx bx-home-alt" style={{ fontSize: "14px" }}></i>
+              </Link>
+              {pathname !== "/admin" && (
+                <>
+                  <i className={`bx ${isArabic ? 'bx-chevron-left' : 'bx-chevron-right'}`} style={{ fontSize: "14px" }}></i>
+                  <span style={{ fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit' }}>
+                    {pathname?.startsWith("/admin/blog") && t.blogManagement}
+                    {pathname?.startsWith("/admin/consultations") && t.consultations}
+                    {pathname?.startsWith("/admin/users") && t.userManagement}
+                    {pathname?.startsWith("/admin/roles") && t.rolesManagement}
+                  </span>
+                </>
+              )}
+            </div>
 
-          <div style={{ display: "flex", gap: isMobile ? "6px" : "12px", alignItems: "center", flexWrap: "wrap" }}>
-            <AdminLanguageSelector />
+            {/* Page Title */}
+            <h1 style={{
+              margin: 0,
+              fontSize: isMobile ? "18px" : "22px",
+              color: "#0f172a",
+              fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+              fontWeight: "600",
+              letterSpacing: "-0.025em",
+              lineHeight: "1.2",
+            }}>
+              {pathname === "/admin" && t.dashboard}
+              {pathname?.startsWith("/admin/blog") && t.blogManagement}
+              {pathname?.startsWith("/admin/consultations") && t.consultations}
+              {pathname?.startsWith("/admin/users") && t.userManagement}
+              {pathname?.startsWith("/admin/roles") && t.rolesManagement}
+            </h1>
+          </div>
 
+          {/* Right Section - Actions */}
+          <div style={{
+            display: "flex",
+            gap: "8px",
+            alignItems: "center",
+            flexShrink: 0,
+          }}>
+            {/* View Site Button */}
             <Link
               href="/"
               target="_blank"
               title={t.viewSite}
+              aria-label={t.viewSite}
               style={{
-                padding: isMobile ? "8px" : "10px 20px",
+                padding: "8px",
                 background: "transparent",
-                border: "1px solid rgba(10,77,140,0.25)",
+                border: "1px solid #e2e8f0",
                 borderRadius: "8px",
                 textDecoration: "none",
-                color: "#0A4D8C",
-                fontSize: isMobile ? "16px" : "14px",
+                color: "#64748b",
+                fontSize: "18px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                gap: "8px",
-                fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-                fontWeight: "600",
-                transition: "all 0.2s ease",
-                whiteSpace: "nowrap",
-                minWidth: isMobile ? "36px" : "auto",
+                transition: "all 0.15s ease",
+                width: "36px",
+                height: "36px",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = "rgba(10,77,140,0.08)";
-                e.currentTarget.style.borderColor = "rgba(10,77,140,0.4)";
+                e.currentTarget.style.borderColor = "#3b82f6";
+                e.currentTarget.style.color = "#3b82f6";
+                e.currentTarget.style.background = "rgba(59, 130, 246, 0.05)";
               }}
               onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "#e2e8f0";
+                e.currentTarget.style.color = "#64748b";
                 e.currentTarget.style.background = "transparent";
-                e.currentTarget.style.borderColor = "rgba(10,77,140,0.25)";
               }}
             >
-              <i className="bx bx-external-link"></i>
-              {!isMobile && <span>{t.viewSite}</span>}
+              <i className="bx bx-link-external"></i>
             </Link>
 
-            <button
-              onClick={handleLogout}
-              title={t.logout}
-              style={{
-                padding: isMobile ? "8px" : "10px 20px",
-                background: "linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)",
-                border: "1px solid rgba(220, 38, 38, 0.3)",
-                borderRadius: "8px",
-                color: "#fff",
-                fontSize: isMobile ? "16px" : "14px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "8px",
-                fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
-                fontWeight: "600",
-                cursor: "pointer",
-                transition: "all 0.3s ease",
-                boxShadow: "0 2px 8px rgba(220, 38, 38, 0.2)",
-                whiteSpace: "nowrap",
-                minWidth: isMobile ? "36px" : "auto",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = "linear-gradient(135deg, #b91c1c 0%, #991b1b 100%)";
-                e.currentTarget.style.transform = "translateY(-2px)";
-                e.currentTarget.style.boxShadow = "0 4px 12px rgba(220, 38, 38, 0.3)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)";
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 2px 8px rgba(220, 38, 38, 0.2)";
-              }}
-            >
-              <i className="bx bx-log-out"></i>
-              {!isMobile && <span>{t.logout}</span>}
-            </button>
+            {/* Language Selector */}
+            <AdminLanguageSelector />
+
+            {/* Divider - desktop only */}
+            {!isMobile && !isTablet && (
+              <div style={{
+                width: "1px",
+                height: "24px",
+                background: "#e2e8f0",
+                margin: "0 4px",
+              }} />
+            )}
+
+            {/* User Profile - desktop only */}
+            {!isMobile && !isTablet && user && (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  padding: "6px 10px",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                  transition: "all 0.15s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "#f1f5f9";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "transparent";
+                }}
+              >
+                <div style={{
+                  width: "36px",
+                  height: "36px",
+                  borderRadius: "50%",
+                  background: `linear-gradient(135deg, ${colors.accent} 0%, #1d4ed8 100%)`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "14px",
+                  fontWeight: "600",
+                  color: "#fff",
+                  textTransform: "uppercase",
+                }}>
+                  {user.full_name?.charAt(0) || "A"}
+                </div>
+                <div style={{ textAlign: isArabic ? 'right' : 'left' }}>
+                  <div style={{
+                    fontSize: "13px",
+                    fontWeight: "500",
+                    color: "#1e293b",
+                    fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
+                    lineHeight: "1.2",
+                  }}>
+                    {user.full_name}
+                  </div>
+                  <div style={{
+                    fontSize: "11px",
+                    color: "#64748b",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "4px",
+                  }}>
+                    <span style={{
+                      width: "6px",
+                      height: "6px",
+                      borderRadius: "50%",
+                      background: "#22c55e",
+                      display: "inline-block",
+                    }} />
+                    <span style={{ textTransform: "capitalize" }}>{user.role}</span>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </header>
 
         {/* Content */}
         <div style={{
-          padding: isMobile ? "12px" : isTablet ? "20px" : "30px",
+          padding: isMobile ? "16px" : "24px",
           maxWidth: "100%",
           overflowX: "auto"
         }}>
@@ -624,36 +819,33 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
       {(isMobile || isTablet) && (
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
+          aria-label={sidebarOpen ? "Close menu" : "Open menu"}
           style={{
             display: "flex",
             position: "fixed",
-            top: isMobile ? "16px" : "20px",
-            [isArabic ? 'right' : 'left']: isMobile ? "16px" : "20px",
+            top: "16px",
+            [isArabic ? 'right' : 'left']: "16px",
             zIndex: 1001,
-            background: "linear-gradient(135deg, rgba(10,77,140,0.95) 0%, rgba(7,61,108,0.95) 50%, rgba(5,42,79,0.95) 100%)",
-            border: "1px solid rgba(255,255,255,0.2)",
-            borderRadius: "12px",
-            padding: isMobile ? "10px" : "12px",
+            background: colors.sidebar,
+            border: "none",
+            borderRadius: "8px",
+            padding: "10px",
             color: "#fff",
             cursor: "pointer",
-            backdropFilter: "blur(10px)",
-            boxShadow: "0 8px 32px rgba(0,0,0,0.3)",
-            transition: "all 0.3s cubic-bezier(.4,0,.2,1)",
+            transition: "all 0.2s ease",
             alignItems: "center",
             justifyContent: "center",
-            width: isMobile ? "40px" : "44px",
-            height: isMobile ? "40px" : "44px",
+            width: "40px",
+            height: "40px",
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "scale(1.05)";
-            e.currentTarget.style.boxShadow = "0 12px 40px rgba(0,0,0,0.4)";
+            e.currentTarget.style.background = colors.sidebarHover;
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "scale(1)";
-            e.currentTarget.style.boxShadow = "0 8px 32px rgba(0,0,0,0.3)";
+            e.currentTarget.style.background = colors.sidebar;
           }}
         >
-          <i className={sidebarOpen ? "bx bx-x" : "bx bx-menu"} style={{ fontSize: isMobile ? "18px" : "20px" }}></i>
+          <i className={sidebarOpen ? "bx bx-x" : "bx bx-menu"} style={{ fontSize: "20px" }}></i>
         </button>
       )}
 
@@ -666,8 +858,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user }) => {
             left: 0,
             right: 0,
             bottom: 0,
-            background: "rgba(0,0,0,0.5)",
-            backdropFilter: "blur(4px)",
+            background: "rgba(0, 0, 0, 0.4)",
             zIndex: 999,
           }}
           onClick={() => setSidebarOpen(false)}

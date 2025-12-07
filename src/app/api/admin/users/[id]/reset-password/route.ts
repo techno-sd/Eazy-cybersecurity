@@ -1,17 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAdmin, logActivity } from '@/lib/adminAuth';
+import { requireAdminWithCsrf, isErrorResponse, logActivity } from '@/lib/adminAuth';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import { isValidPassword } from '@/lib/auth';
 import { getSecurityHeaders } from '@/lib/security';
 
-// POST - Reset user password
+// POST - Reset user password (requires CSRF token)
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const user = await requireAdmin(request);
-  if (user instanceof NextResponse) return user;
+  const user = await requireAdminWithCsrf(request);
+  if (isErrorResponse(user)) return user;
 
   try {
     const { id } = await params;

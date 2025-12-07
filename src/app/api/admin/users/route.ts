@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAdmin, logActivity } from '@/lib/adminAuth';
+import { requireAdmin, requireAdminWithCsrf, isErrorResponse, logActivity } from '@/lib/adminAuth';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import { isValidPassword } from '@/lib/auth';
@@ -81,10 +81,10 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST - Create new user
+// POST - Create new user (requires CSRF token)
 export async function POST(request: NextRequest) {
-  const admin = await requireAdmin(request);
-  if (admin instanceof NextResponse) return admin;
+  const admin = await requireAdminWithCsrf(request);
+  if (isErrorResponse(admin)) return admin;
 
   try {
     const body = await request.json();

@@ -1,12 +1,15 @@
 "use client";
 
-import React, { useState, useMemo, memo, useCallback, useEffect } from "react";
+import React, { useState, useMemo, memo, useCallback, useEffect, useRef } from "react";
 import { useAdminLang } from "@/hooks/useAdminLang";
+import { useCsrf } from "@/hooks/useCsrf";
 import { useToast } from "./Toast";
 import { StatsGridSkeleton, FiltersSkeleton, TableSkeleton, CardsListSkeleton } from "./Skeleton";
 import Pagination from "./Pagination";
 import ExportButton from "./ExportButton";
 import Button, { ActionButtons, IconButton } from "./Button";
+import ConfirmDialog from "./ConfirmDialog";
+import { validateUserForm, validatePassword, validatePasswordMatch } from "@/utils/validation";
 
 interface User {
   id: number;
@@ -52,9 +55,16 @@ const UsersList: React.FC = () => {
   const [resettingPassword, setResettingPassword] = useState<User | null>(null);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [deleteConfirm, setDeleteConfirm] = useState<{ isOpen: boolean; user: User | null; isLoading: boolean }>({
+    isOpen: false,
+    user: null,
+    isLoading: false,
+  });
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const { lang, isArabic } = useAdminLang();
   const [isMobile, setIsMobile] = useState(false);
   const { showToast } = useToast();
+  const { getCsrfHeaders, isReady: csrfReady } = useCsrf();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
@@ -225,12 +235,23 @@ const UsersList: React.FC = () => {
     setCurrentPage(1);
   }, [filterRole, filterStatus, searchTerm]);
 
-  const handleDelete = useCallback(async (id: number) => {
-    if (!confirm(t.confirmDelete)) return;
+  const handleDeleteClick = useCallback((user: User) => {
+    setDeleteConfirm({ isOpen: true, user, isLoading: false });
+  }, []);
 
+  const handleDeleteConfirm = useCallback(async () => {
+    if (!deleteConfirm.user) return;
+    if (!csrfReady) {
+      showToast(isArabic ? 'يرجى الانتظار...' : 'Please wait...', 'warning');
+      return;
+    }
+
+    setDeleteConfirm(prev => ({ ...prev, isLoading: true }));
     try {
-      const response = await fetch(`/api/admin/users/${id}`, {
+      const response = await fetch(`/api/admin/users/${deleteConfirm.user.id}`, {
         method: 'DELETE',
+        headers: getCsrfHeaders(),
+        credentials: 'include',
       });
 
       const data = await response.json();
@@ -245,17 +266,71 @@ const UsersList: React.FC = () => {
     } catch (error) {
       console.error('Error deleting user:', error);
       showToast(isArabic ? 'فشل في حذف المستخدم' : 'Failed to delete user', 'error');
+    } finally {
+      setDeleteConfirm({ isOpen: false, user: null, isLoading: false });
     }
-  }, [t.confirmDelete, fetchUsers, showToast, isArabic]);
+  }, [deleteConfirm.user, fetchUsers, showToast, isArabic, getCsrfHeaders, csrfReady]);
+
+  const handleDeleteCancel = useCallback(() => {
+    setDeleteConfirm({ isOpen: false, user: null, isLoading: false });
+  }, []);
+
+  // Keyboard navigation - Escape to close modals
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (deleteConfirm.isOpen && !deleteConfirm.isLoading) {
+          handleDeleteCancel();
+        } else if (resettingPassword && !isResetting) {
+          setResettingPassword(null);
+          setNewPassword('');
+          setConfirmPassword('');
+        } else if (creatingUser && !isCreating) {
+          setCreatingUser(false);
+          setFormErrors({});
+        } else if (editingUser && !isSaving) {
+          setEditingUser(null);
+          setFormErrors({});
+        } else if (selectedUser) {
+          setSelectedUser(null);
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [deleteConfirm.isOpen, deleteConfirm.isLoading, resettingPassword, isResetting, creatingUser, isCreating, editingUser, isSaving, selectedUser, handleDeleteCancel]);
 
   const handleSaveEdit = useCallback(async () => {
     if (!editingUser) return;
+    if (!csrfReady) {
+      showToast(isArabic ? 'يرجى الانتظار...' : 'Please wait...', 'warning');
+      return;
+    }
 
+    // Validate form data
+    const validation = validateUserForm({
+      email: editingUser.email,
+      full_name: editingUser.full_name,
+      phone: editingUser.phone,
+      company: editingUser.company,
+      role: editingUser.role,
+    }, { isArabic, isNewUser: false });
+
+    if (!validation.isValid) {
+      setFormErrors(validation.errors);
+      const firstError = Object.values(validation.errors)[0];
+      if (firstError) showToast(firstError, 'warning');
+      return;
+    }
+
+    setFormErrors({});
     setIsSaving(true);
     try {
       const response = await fetch(`/api/admin/users/${editingUser.id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getCsrfHeaders(),
+        credentials: 'include',
         body: JSON.stringify(editingUser),
       });
 
@@ -275,19 +350,38 @@ const UsersList: React.FC = () => {
     } finally {
       setIsSaving(false);
     }
-  }, [editingUser, fetchUsers, showToast, isArabic]);
+  }, [editingUser, fetchUsers, showToast, isArabic, setFormErrors, getCsrfHeaders, csrfReady]);
 
   const handleCreateUser = useCallback(async () => {
-    if (!newUser.email || !newUser.full_name || !newUser.password || !newUser.role) {
-      showToast(isArabic ? 'يرجى ملء جميع الحقول المطلوبة' : 'Please fill all required fields', 'warning');
+    if (!csrfReady) {
+      showToast(isArabic ? 'يرجى الانتظار...' : 'Please wait...', 'warning');
       return;
     }
 
+    // Validate form data with comprehensive validation
+    const validation = validateUserForm({
+      email: newUser.email,
+      full_name: newUser.full_name,
+      password: newUser.password,
+      phone: newUser.phone,
+      company: newUser.company,
+      role: newUser.role,
+    }, { isArabic, isNewUser: true });
+
+    if (!validation.isValid) {
+      setFormErrors(validation.errors);
+      const firstError = Object.values(validation.errors)[0];
+      if (firstError) showToast(firstError, 'warning');
+      return;
+    }
+
+    setFormErrors({});
     setIsCreating(true);
     try {
       const response = await fetch('/api/admin/users', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getCsrfHeaders(),
+        credentials: 'include',
         body: JSON.stringify(newUser),
       });
 
@@ -315,19 +409,25 @@ const UsersList: React.FC = () => {
     } finally {
       setIsCreating(false);
     }
-  }, [newUser, fetchUsers, isArabic, showToast]);
+  }, [newUser, fetchUsers, isArabic, showToast, getCsrfHeaders, csrfReady]);
 
   const handleResetPassword = useCallback(async () => {
     if (!resettingPassword) return;
-
-    // Validation
-    if (!newPassword || newPassword.length < 8) {
-      showToast(t.passwordTooShort, 'warning');
+    if (!csrfReady) {
+      showToast(isArabic ? 'يرجى الانتظار...' : 'Please wait...', 'warning');
       return;
     }
 
-    if (newPassword !== confirmPassword) {
-      showToast(t.passwordMismatch, 'warning');
+    // Validate password with comprehensive validation
+    const passwordValidation = validatePassword(newPassword, { isArabic });
+    if (!passwordValidation.isValid) {
+      showToast(passwordValidation.error || t.passwordTooShort, 'warning');
+      return;
+    }
+
+    const matchValidation = validatePasswordMatch(newPassword, confirmPassword, { isArabic });
+    if (!matchValidation.isValid) {
+      showToast(matchValidation.error || t.passwordMismatch, 'warning');
       return;
     }
 
@@ -335,7 +435,8 @@ const UsersList: React.FC = () => {
     try {
       const response = await fetch(`/api/admin/users/${resettingPassword.id}/reset-password`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getCsrfHeaders(),
+        credentials: 'include',
         body: JSON.stringify({ new_password: newPassword }),
       });
 
@@ -355,7 +456,7 @@ const UsersList: React.FC = () => {
     } finally {
       setIsResetting(false);
     }
-  }, [resettingPassword, newPassword, confirmPassword, t, showToast, isArabic]);
+  }, [resettingPassword, newPassword, confirmPassword, t, showToast, isArabic, getCsrfHeaders, csrfReady]);
 
   const formatDate = (dateString: string | undefined) => {
     if (!dateString) return t.never;
@@ -631,7 +732,7 @@ const UsersList: React.FC = () => {
                     setEditingUser({...user});
                   }}
                   onReset={() => setResettingPassword(user)}
-                  onDelete={() => handleDelete(user.id)}
+                  onDelete={() => handleDeleteClick(user)}
                   size="sm"
                   isArabic={isArabic}
                   isMobile={true}
@@ -736,7 +837,7 @@ const UsersList: React.FC = () => {
                           variant="danger"
                           size="sm"
                           tooltip={t.delete}
-                          onClick={() => handleDelete(user.id)}
+                          onClick={() => handleDeleteClick(user)}
                         />
                       </div>
                     </td>
@@ -763,20 +864,26 @@ const UsersList: React.FC = () => {
 
       {/* View User Modal */}
       {selectedUser && !editingUser && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(0,0,0,0.5)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 1000,
-          backdropFilter: 'blur(4px)',
-          padding: isMobile ? '12px' : '20px',
-        }} onClick={() => setSelectedUser(null)}>
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="view-user-title"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0,0,0,0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+            backdropFilter: 'blur(4px)',
+            padding: isMobile ? '12px' : '20px',
+          }}
+          onClick={() => setSelectedUser(null)}
+        >
           <div style={{
             background: '#fff',
             padding: isMobile ? '20px' : '32px',
@@ -787,7 +894,7 @@ const UsersList: React.FC = () => {
             overflowY: 'auto',
             boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
           }} onClick={(e) => e.stopPropagation()}>
-            <h2 style={{ margin: '0 0 20px 0', color: '#2c3e50', fontSize: isMobile ? '18px' : '24px', fontWeight: 'bold' }}>
+            <h2 id="view-user-title" style={{ margin: '0 0 20px 0', color: '#2c3e50', fontSize: isMobile ? '18px' : '24px', fontWeight: 'bold' }}>
               {t.userDetails}
             </h2>
             <div style={{ display: 'grid', gap: isMobile ? '12px' : '16px' }}>
@@ -823,20 +930,26 @@ const UsersList: React.FC = () => {
 
       {/* Edit User Modal */}
       {editingUser && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(0,0,0,0.5)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 1000,
-          backdropFilter: 'blur(4px)',
-          padding: isMobile ? '12px' : '20px',
-        }} onClick={() => setEditingUser(null)}>
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="edit-user-title"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0,0,0,0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+            backdropFilter: 'blur(4px)',
+            padding: isMobile ? '12px' : '20px',
+          }}
+          onClick={() => setEditingUser(null)}
+        >
           <div style={{
             background: '#fff',
             padding: isMobile ? '20px' : '32px',
@@ -847,22 +960,24 @@ const UsersList: React.FC = () => {
             overflowY: 'auto',
             boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
           }} onClick={(e) => e.stopPropagation()}>
-            <h2 style={{ margin: '0 0 20px 0', color: '#2c3e50', fontSize: isMobile ? '18px' : '24px', fontWeight: 'bold' }}>
+            <h2 id="edit-user-title" style={{ margin: '0 0 20px 0', color: '#2c3e50', fontSize: isMobile ? '18px' : '24px', fontWeight: 'bold' }}>
               {t.editUser}
             </h2>
             <div style={{ display: 'grid', gap: '16px' }}>
               <div>
-                <label style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
+                <label htmlFor="edit-full-name" style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
                   {t.fullName}
                 </label>
                 <input
+                  id="edit-full-name"
                   type="text"
                   value={editingUser.full_name}
                   onChange={(e) => setEditingUser({...editingUser, full_name: e.target.value})}
+                  aria-invalid={!!formErrors.full_name}
                   style={{
                     width: '100%',
                     padding: '12px',
-                    border: '1px solid #ddd',
+                    border: formErrors.full_name ? '1px solid #ef4444' : '1px solid #ddd',
                     borderRadius: '10px',
                     fontSize: '14px',
                     fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
@@ -870,44 +985,49 @@ const UsersList: React.FC = () => {
                 />
               </div>
               <div>
-                <label style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
+                <label htmlFor="edit-email" style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
                   {t.email}
                 </label>
                 <input
+                  id="edit-email"
                   type="email"
                   value={editingUser.email}
                   onChange={(e) => setEditingUser({...editingUser, email: e.target.value})}
+                  aria-invalid={!!formErrors.email}
                   style={{
                     width: '100%',
                     padding: '12px',
-                    border: '1px solid #ddd',
+                    border: formErrors.email ? '1px solid #ef4444' : '1px solid #ddd',
                     borderRadius: '10px',
                     fontSize: '14px',
                   }}
                 />
               </div>
               <div>
-                <label style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
+                <label htmlFor="edit-phone" style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
                   {t.phone}
                 </label>
                 <input
+                  id="edit-phone"
                   type="tel"
                   value={editingUser.phone || ''}
                   onChange={(e) => setEditingUser({...editingUser, phone: e.target.value})}
+                  aria-invalid={!!formErrors.phone}
                   style={{
                     width: '100%',
                     padding: '12px',
-                    border: '1px solid #ddd',
+                    border: formErrors.phone ? '1px solid #ef4444' : '1px solid #ddd',
                     borderRadius: '10px',
                     fontSize: '14px',
                   }}
                 />
               </div>
               <div>
-                <label style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
+                <label htmlFor="edit-company" style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
                   {t.company}
                 </label>
                 <input
+                  id="edit-company"
                   type="text"
                   value={editingUser.company || ''}
                   onChange={(e) => setEditingUser({...editingUser, company: e.target.value})}
@@ -922,10 +1042,11 @@ const UsersList: React.FC = () => {
                 />
               </div>
               <div>
-                <label style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
+                <label htmlFor="edit-role" style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
                   {t.role}
                 </label>
                 <select
+                  id="edit-role"
                   value={editingUser.role}
                   onChange={(e) => setEditingUser({...editingUser, role: e.target.value as any})}
                   style={{
@@ -946,8 +1067,9 @@ const UsersList: React.FC = () => {
                 </select>
               </div>
               <div>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                <label htmlFor="edit-is-active" style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
                   <input
+                    id="edit-is-active"
                     type="checkbox"
                     checked={editingUser.is_active}
                     onChange={(e) => setEditingUser({...editingUser, is_active: e.target.checked})}
@@ -984,20 +1106,26 @@ const UsersList: React.FC = () => {
 
       {/* Create User Modal */}
       {creatingUser && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(0,0,0,0.5)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 1000,
-          backdropFilter: 'blur(4px)',
-          padding: isMobile ? '12px' : '20px',
-        }} onClick={() => setCreatingUser(false)}>
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="create-user-title"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0,0,0,0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+            backdropFilter: 'blur(4px)',
+            padding: isMobile ? '12px' : '20px',
+          }}
+          onClick={() => setCreatingUser(false)}
+        >
           <div style={{
             background: '#fff',
             padding: isMobile ? '20px' : '32px',
@@ -1008,22 +1136,25 @@ const UsersList: React.FC = () => {
             overflowY: 'auto',
             boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
           }} onClick={(e) => e.stopPropagation()}>
-            <h2 style={{ margin: '0 0 20px 0', color: '#2c3e50', fontSize: isMobile ? '18px' : '24px', fontWeight: 'bold' }}>
+            <h2 id="create-user-title" style={{ margin: '0 0 20px 0', color: '#2c3e50', fontSize: isMobile ? '18px' : '24px', fontWeight: 'bold' }}>
               {t.createUser}
             </h2>
             <div style={{ display: 'grid', gap: '16px' }}>
               <div>
-                <label style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
+                <label htmlFor="create-full-name" style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
                   {t.fullName} *
                 </label>
                 <input
+                  id="create-full-name"
                   type="text"
                   value={newUser.full_name}
                   onChange={(e) => setNewUser({...newUser, full_name: e.target.value})}
+                  aria-invalid={!!formErrors.full_name}
+                  aria-required="true"
                   style={{
                     width: '100%',
                     padding: '12px',
-                    border: '1px solid #ddd',
+                    border: formErrors.full_name ? '1px solid #ef4444' : '1px solid #ddd',
                     borderRadius: '10px',
                     fontSize: '14px',
                     fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
@@ -1031,61 +1162,70 @@ const UsersList: React.FC = () => {
                 />
               </div>
               <div>
-                <label style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
+                <label htmlFor="create-email" style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
                   {t.email} *
                 </label>
                 <input
+                  id="create-email"
                   type="email"
                   value={newUser.email}
                   onChange={(e) => setNewUser({...newUser, email: e.target.value})}
+                  aria-invalid={!!formErrors.email}
+                  aria-required="true"
                   style={{
                     width: '100%',
                     padding: '12px',
-                    border: '1px solid #ddd',
+                    border: formErrors.email ? '1px solid #ef4444' : '1px solid #ddd',
                     borderRadius: '10px',
                     fontSize: '14px',
                   }}
                 />
               </div>
               <div>
-                <label style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
+                <label htmlFor="create-password" style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
                   {t.password} *
                 </label>
                 <input
+                  id="create-password"
                   type="password"
                   value={newUser.password}
                   onChange={(e) => setNewUser({...newUser, password: e.target.value})}
+                  aria-invalid={!!formErrors.password}
+                  aria-required="true"
                   style={{
                     width: '100%',
                     padding: '12px',
-                    border: '1px solid #ddd',
+                    border: formErrors.password ? '1px solid #ef4444' : '1px solid #ddd',
                     borderRadius: '10px',
                     fontSize: '14px',
                   }}
                 />
               </div>
               <div>
-                <label style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
+                <label htmlFor="create-phone" style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
                   {t.phone}
                 </label>
                 <input
+                  id="create-phone"
                   type="tel"
                   value={newUser.phone}
                   onChange={(e) => setNewUser({...newUser, phone: e.target.value})}
+                  aria-invalid={!!formErrors.phone}
                   style={{
                     width: '100%',
                     padding: '12px',
-                    border: '1px solid #ddd',
+                    border: formErrors.phone ? '1px solid #ef4444' : '1px solid #ddd',
                     borderRadius: '10px',
                     fontSize: '14px',
                   }}
                 />
               </div>
               <div>
-                <label style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
+                <label htmlFor="create-company" style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
                   {t.company}
                 </label>
                 <input
+                  id="create-company"
                   type="text"
                   value={newUser.company}
                   onChange={(e) => setNewUser({...newUser, company: e.target.value})}
@@ -1100,16 +1240,19 @@ const UsersList: React.FC = () => {
                 />
               </div>
               <div>
-                <label style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
+                <label htmlFor="create-role" style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
                   {t.assignRole} *
                 </label>
                 <select
+                  id="create-role"
                   value={newUser.role}
                   onChange={(e) => setNewUser({...newUser, role: e.target.value})}
+                  aria-invalid={!!formErrors.role}
+                  aria-required="true"
                   style={{
                     width: '100%',
                     padding: '12px',
-                    border: '1px solid #ddd',
+                    border: formErrors.role ? '1px solid #ef4444' : '1px solid #ddd',
                     borderRadius: '10px',
                     fontSize: '14px',
                     fontFamily: isArabic ? 'Cairo, sans-serif' : 'inherit',
@@ -1124,8 +1267,9 @@ const UsersList: React.FC = () => {
                 </select>
               </div>
               <div>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                <label htmlFor="create-is-active" style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
                   <input
+                    id="create-is-active"
                     type="checkbox"
                     checked={newUser.is_active}
                     onChange={(e) => setNewUser({...newUser, is_active: e.target.checked})}
@@ -1162,24 +1306,30 @@ const UsersList: React.FC = () => {
 
       {/* Reset Password Modal */}
       {resettingPassword && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(0,0,0,0.5)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 1000,
-          backdropFilter: 'blur(4px)',
-          padding: isMobile ? '12px' : '20px',
-        }} onClick={() => {
-          setResettingPassword(null);
-          setNewPassword('');
-          setConfirmPassword('');
-        }}>
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="reset-password-title"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0,0,0,0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+            backdropFilter: 'blur(4px)',
+            padding: isMobile ? '12px' : '20px',
+          }}
+          onClick={() => {
+            setResettingPassword(null);
+            setNewPassword('');
+            setConfirmPassword('');
+          }}
+        >
           <div style={{
             background: '#fff',
             padding: isMobile ? '20px' : '32px',
@@ -1188,7 +1338,7 @@ const UsersList: React.FC = () => {
             width: '100%',
             boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
           }} onClick={(e) => e.stopPropagation()}>
-            <h2 style={{ margin: '0 0 8px 0', color: '#2c3e50', fontSize: isMobile ? '18px' : '24px', fontWeight: 'bold' }}>
+            <h2 id="reset-password-title" style={{ margin: '0 0 8px 0', color: '#2c3e50', fontSize: isMobile ? '18px' : '24px', fontWeight: 'bold' }}>
               {t.resetPassword}
             </h2>
             <p style={{ margin: '0 0 20px 0', color: '#6c757d', fontSize: isMobile ? '13px' : '14px' }}>
@@ -1196,14 +1346,17 @@ const UsersList: React.FC = () => {
             </p>
             <div style={{ display: 'grid', gap: '16px' }}>
               <div>
-                <label style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
+                <label htmlFor="reset-new-password" style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
                   {t.newPassword} *
                 </label>
                 <input
+                  id="reset-new-password"
                   type="password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder={t.passwordTooShort}
+                  aria-required="true"
+                  autoComplete="new-password"
                   style={{
                     width: '100%',
                     padding: '12px',
@@ -1214,14 +1367,17 @@ const UsersList: React.FC = () => {
                 />
               </div>
               <div>
-                <label style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
+                <label htmlFor="reset-confirm-password" style={{ display: 'block', marginBottom: '8px', color: '#6c757d', fontSize: '14px', fontWeight: '600' }}>
                   {t.confirmPassword} *
                 </label>
                 <input
+                  id="reset-confirm-password"
                   type="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder={t.confirmPassword}
+                  aria-required="true"
+                  autoComplete="new-password"
                   style={{
                     width: '100%',
                     padding: '12px',
@@ -1261,6 +1417,22 @@ const UsersList: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Delete Confirmation Dialog */}
+      <ConfirmDialog
+        isOpen={deleteConfirm.isOpen}
+        title={isArabic ? 'تأكيد الحذف' : 'Confirm Delete'}
+        message={isArabic
+          ? `هل أنت متأكد من حذف المستخدم "${deleteConfirm.user?.full_name}"؟ لا يمكن التراجع عن هذا الإجراء.`
+          : `Are you sure you want to delete user "${deleteConfirm.user?.full_name}"? This action cannot be undone.`}
+        confirmText={isArabic ? 'حذف' : 'Delete'}
+        cancelText={isArabic ? 'إلغاء' : 'Cancel'}
+        variant="danger"
+        isLoading={deleteConfirm.isLoading}
+        onConfirm={handleDeleteConfirm}
+        onCancel={handleDeleteCancel}
+        isArabic={isArabic}
+      />
     </div>
   );
 };

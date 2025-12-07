@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken } from './auth';
 import { query } from './db';
+import { requireCsrfToken, getSecurityHeaders } from './security';
 
 export interface AdminUser {
   id: number;
@@ -103,4 +104,49 @@ export async function logActivity(
   } catch (error) {
     console.error('Failed to log activity:', error);
   }
+}
+
+/**
+ * Combined middleware for admin routes with CSRF protection
+ * Validates both authentication and CSRF token for state-changing requests
+ *
+ * @param request - The incoming request
+ * @param options - Configuration options
+ * @returns Admin user object if authorized, or NextResponse error
+ */
+export async function requireAdminWithCsrf(
+  request: NextRequest,
+  options: { skipCsrf?: boolean } = {}
+): Promise<NextResponse | AdminUser> {
+  // First validate CSRF token for non-safe methods
+  if (!options.skipCsrf) {
+    const csrfError = requireCsrfToken(request);
+    if (csrfError) {
+      return csrfError;
+    }
+  }
+
+  // Then validate admin authentication
+  const auth = await verifyAdminAuth(request);
+
+  if (!auth.authenticated || !auth.user) {
+    return NextResponse.json(
+      {
+        success: false,
+        message: auth.error || 'Unauthorized',
+      },
+      { status: 401, headers: getSecurityHeaders() }
+    );
+  }
+
+  return auth.user;
+}
+
+/**
+ * Helper type guard to check if result is an error response
+ */
+export function isErrorResponse(
+  result: NextResponse | AdminUser
+): result is NextResponse {
+  return result instanceof NextResponse;
 }

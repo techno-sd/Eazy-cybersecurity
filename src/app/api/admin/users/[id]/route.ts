@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAdmin, logActivity } from '@/lib/adminAuth';
+import { requireAdmin, requireAdminWithCsrf, isErrorResponse, logActivity } from '@/lib/adminAuth';
 import { prisma } from '@/lib/prisma';
 import { sanitizeInput, isValidEmail, getSecurityHeaders } from '@/lib/security';
 
@@ -59,13 +59,13 @@ export async function GET(
   }
 }
 
-// PUT - Update user
+// PUT - Update user (requires CSRF token)
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const user = await requireAdmin(request);
-  if (user instanceof NextResponse) return user;
+  const user = await requireAdminWithCsrf(request);
+  if (isErrorResponse(user)) return user;
 
   try {
     const { id } = await params;
@@ -176,13 +176,13 @@ export async function PUT(
   }
 }
 
-// DELETE - Delete user
+// DELETE - Delete user (requires CSRF token)
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const user = await requireAdmin(request);
-  if (user instanceof NextResponse) return user;
+  const user = await requireAdminWithCsrf(request);
+  if (isErrorResponse(user)) return user;
 
   try {
     const { id } = await params;

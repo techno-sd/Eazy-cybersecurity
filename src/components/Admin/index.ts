@@ -38,3 +38,7 @@ export { default as Pagination } from './Pagination';
 export { default as ExportButton } from './ExportButton';
 export { default as Button, ActionButtons, IconButton } from './Button';
 export type { ButtonVariant, ButtonSize } from './Button';
+
+// Dialogs
+export { default as ConfirmDialog, useConfirmDialog } from './ConfirmDialog';
+export type { ConfirmDialogProps } from './ConfirmDialog';

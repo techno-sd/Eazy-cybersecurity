@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, forwardRef } from 'react';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'ghost' | 'outline';
 export type ButtonSize = 'sm' | 'md' | 'lg';
@@ -13,6 +13,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean;
   fullWidth?: boolean;
   children?: React.ReactNode;
+  'aria-label'?: string;
 }
 
 const variantStyles: Record<ButtonVariant, {
@@ -115,7 +116,7 @@ const sizeStyles: Record<ButtonSize, {
   },
 };
 
-const Button: React.FC<ButtonProps> = ({
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   variant = 'primary',
   size = 'md',
   icon,
@@ -127,10 +128,12 @@ const Button: React.FC<ButtonProps> = ({
   style,
   onMouseEnter,
   onMouseLeave,
+  'aria-label': ariaLabel,
   ...props
-}) => {
+}, ref) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   const variantStyle = variantStyles[variant];
   const sizeStyle = sizeStyles[size];
@@ -146,6 +149,9 @@ const Button: React.FC<ButtonProps> = ({
     setIsPressed(false);
     onMouseLeave?.(e);
   };
+
+  // Generate aria-label if icon-only button
+  const computedAriaLabel = ariaLabel || (icon && !children ? `${icon.replace('bx-', '')} button` : undefined);
 
   const buttonStyle: React.CSSProperties = {
     display: 'inline-flex',
@@ -181,6 +187,8 @@ const Button: React.FC<ButtonProps> = ({
     opacity: isDisabled ? 0.7 : 1,
     position: 'relative',
     overflow: 'hidden',
+    outline: isFocused ? `3px solid ${variant === 'outline' || variant === 'ghost' ? '#0A4D8C' : 'rgba(255, 255, 255, 0.8)'}` : 'none',
+    outlineOffset: '2px',
     ...style,
   };
 
@@ -192,6 +200,7 @@ const Button: React.FC<ButtonProps> = ({
         transition: 'transform 0.2s ease',
         transform: isHovered && !isDisabled ? 'scale(1.1)' : 'scale(1)',
       }}
+      aria-hidden="true"
     />
   );
 
@@ -199,6 +208,7 @@ const Button: React.FC<ButtonProps> = ({
     <i
       className="bx bx-loader-alt bx-spin"
       style={{ fontSize: sizeStyle.iconSize }}
+      aria-hidden="true"
     />
   );
 
@@ -231,22 +241,31 @@ const Button: React.FC<ButtonProps> = ({
         }
       `}</style>
       <button
+        ref={ref}
         className="admin-btn"
         style={buttonStyle}
         disabled={isDisabled}
+        aria-label={computedAriaLabel}
+        aria-busy={loading}
+        aria-disabled={isDisabled}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onMouseDown={() => setIsPressed(true)}
         onMouseUp={() => setIsPressed(false)}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
         {...props}
       >
+        {loading && <span className="sr-only">Loading...</span>}
         {iconPosition === 'left' && (loadingSpinner || iconElement)}
         {children}
         {iconPosition === 'right' && (loadingSpinner || iconElement)}
       </button>
     </>
   );
-};
+});
+
+Button.displayName = 'Button';
 
 // Action Button Group for consistent table/card actions
 interface ActionButtonProps {
@@ -354,6 +373,7 @@ interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
   variant?: ButtonVariant;
   size?: ButtonSize;
   tooltip?: string;
+  'aria-label'?: string;
 }
 
 export const IconButton: React.FC<IconButtonProps> = ({
@@ -363,9 +383,11 @@ export const IconButton: React.FC<IconButtonProps> = ({
   tooltip,
   disabled,
   style,
+  'aria-label': ariaLabel,
   ...props
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const variantStyle = variantStyles[variant];
 
   const sizeMap: Record<ButtonSize, { size: string; iconSize: string }> = {
@@ -373,6 +395,9 @@ export const IconButton: React.FC<IconButtonProps> = ({
     md: { size: '40px', iconSize: '20px' },
     lg: { size: '48px', iconSize: '24px' },
   };
+
+  // Use tooltip as aria-label if not provided
+  const computedAriaLabel = ariaLabel || tooltip || `${icon.replace('bx-', '')} button`;
 
   const buttonStyle: React.CSSProperties = {
     width: sizeMap[size].size,
@@ -392,6 +417,8 @@ export const IconButton: React.FC<IconButtonProps> = ({
     transition: 'all 0.2s ease',
     transform: isHovered && !disabled ? 'scale(1.05)' : 'scale(1)',
     boxShadow: isHovered && !disabled ? variantStyle.hoverShadow : variantStyle.shadow,
+    outline: isFocused ? `3px solid ${variant === 'ghost' ? '#0A4D8C' : 'rgba(255, 255, 255, 0.8)'}` : 'none',
+    outlineOffset: '2px',
     ...style,
   };
 
@@ -400,8 +427,12 @@ export const IconButton: React.FC<IconButtonProps> = ({
       style={buttonStyle}
       disabled={disabled}
       title={tooltip}
+      aria-label={computedAriaLabel}
+      aria-disabled={disabled}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onFocus={() => setIsFocused(true)}
+      onBlur={() => setIsFocused(false)}
       {...props}
     >
       <i
@@ -411,6 +442,7 @@ export const IconButton: React.FC<IconButtonProps> = ({
           transition: 'transform 0.2s ease',
           transform: isHovered && !disabled ? 'rotate(5deg)' : 'rotate(0)',
         }}
+        aria-hidden="true"
       />
     </button>
   );

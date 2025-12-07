@@ -9,6 +9,7 @@ interface Toast {
   message: string;
   type: ToastType;
   duration?: number;
+  isRTL?: boolean;
 }
 
 interface ToastContextType {
@@ -65,6 +66,7 @@ const ToastItem: React.FC<{ toast: Toast; onClose: (id: string) => void }> = ({ 
   const [progress, setProgress] = useState(100);
   const colors = toastColors[toast.type];
   const duration = toast.duration || 4000;
+  const isRTL = toast.isRTL;
 
   useEffect(() => {
     const startTime = Date.now();
@@ -88,6 +90,10 @@ const ToastItem: React.FC<{ toast: Toast; onClose: (id: string) => void }> = ({ 
     setTimeout(() => onClose(toast.id), 300);
   };
 
+  // Use RTL-aware animation names
+  const slideInAnimation = isRTL ? 'toastSlideInRTL' : 'toastSlideIn';
+  const slideOutAnimation = isRTL ? 'toastSlideOutRTL' : 'toastSlideOut';
+
   return (
     <div
       style={{
@@ -97,6 +103,7 @@ const ToastItem: React.FC<{ toast: Toast; onClose: (id: string) => void }> = ({ 
         boxShadow: '0 10px 40px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.1)',
         border: `1px solid ${colors.border}30`,
         display: 'flex',
+        flexDirection: isRTL ? 'row-reverse' : 'row',
         alignItems: 'flex-start',
         gap: '14px',
         minWidth: '320px',
@@ -104,9 +111,11 @@ const ToastItem: React.FC<{ toast: Toast; onClose: (id: string) => void }> = ({ 
         position: 'relative',
         overflow: 'hidden',
         animation: isExiting
-          ? 'toastSlideOut 0.3s ease-out forwards'
-          : 'toastSlideIn 0.3s ease-out',
+          ? `${slideOutAnimation} 0.3s ease-out forwards`
+          : `${slideInAnimation} 0.3s ease-out`,
         transform: 'translateX(0)',
+        direction: isRTL ? 'rtl' : 'ltr',
+        fontFamily: isRTL ? 'Cairo, sans-serif' : 'inherit',
       }}
     >
       {/* Progress bar */}
@@ -114,7 +123,8 @@ const ToastItem: React.FC<{ toast: Toast; onClose: (id: string) => void }> = ({ 
         style={{
           position: 'absolute',
           bottom: 0,
-          left: 0,
+          right: isRTL ? 0 : 'auto',
+          left: isRTL ? 'auto' : 0,
           height: '3px',
           background: colors.border,
           width: `${progress}%`,
@@ -188,11 +198,31 @@ const ToastItem: React.FC<{ toast: Toast; onClose: (id: string) => void }> = ({ 
 
 export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const [isRTL, setIsRTL] = useState(false);
+
+  // Detect RTL from document direction
+  useEffect(() => {
+    const checkRTL = () => {
+      const dir = document.documentElement.dir || document.body.dir;
+      const lang = document.documentElement.lang;
+      setIsRTL(dir === 'rtl' || lang === 'ar');
+    };
+
+    checkRTL();
+
+    // Watch for changes in document direction
+    const observer = new MutationObserver(checkRTL);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['dir', 'lang'] });
+    observer.observe(document.body, { attributes: true, attributeFilter: ['dir'] });
+
+    return () => observer.disconnect();
+  }, []);
 
   const showToast = useCallback((message: string, type: ToastType = 'info', duration: number = 4000) => {
     const id = `toast-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-    setToasts((prev) => [...prev, { id, message, type, duration }]);
-  }, []);
+    // Pass current RTL state to toast
+    setToasts((prev) => [...prev, { id, message, type, duration, isRTL }]);
+  }, [isRTL]);
 
   const hideToast = useCallback((id: string) => {
     setToasts((prev) => prev.filter((toast) => toast.id !== id));
@@ -204,10 +234,12 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
       {/* Toast Container */}
       <div
+        className="toast-container"
         style={{
           position: 'fixed',
           top: '20px',
-          right: '20px',
+          right: isRTL ? 'auto' : '20px',
+          left: isRTL ? '20px' : 'auto',
           zIndex: 99999,
           display: 'flex',
           flexDirection: 'column',
@@ -234,6 +266,26 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             to {
               opacity: 0;
               transform: translateX(100%);
+            }
+          }
+          @keyframes toastSlideInRTL {
+            from {
+              opacity: 0;
+              transform: translateX(-100%);
+            }
+            to {
+              opacity: 1;
+              transform: translateX(0);
+            }
+          }
+          @keyframes toastSlideOutRTL {
+            from {
+              opacity: 1;
+              transform: translateX(0);
+            }
+            to {
+              opacity: 0;
+              transform: translateX(-100%);
             }
           }
           @media (max-width: 480px) {
